@@ -1,42 +1,19 @@
-import React from 'react';
-import './button.css';
+import * as React from 'react';
 
-interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
+interface IButtonProps {
   label: string;
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void;
 }
 
-/**
- * Primary UI component for user interaction
- */
-export const Button = ({ primary = false, size = 'medium', backgroundColor, label, ...props }: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+export default function Button({ label }: IButtonProps) {
   return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
-      {...props}
-    >
-      <div className="bg-yellow-500 rounded-full">{label}</div>
-    </button>
+    <div className="flex space-x-2 justify-center">
+      <button
+        type="button"
+        className="inline-block px-6 py-2.5 bg-primary-red text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-dfxRedBlue-500 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+        onClick={() => {}}
+      >
+        {label}
+      </button>
+    </div>
   );
-};
+}

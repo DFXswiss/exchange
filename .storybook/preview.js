@@ -1,4 +1,5 @@
-import '../src/index.css'
+import '../src/index.css';
+import 'tw-elements';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

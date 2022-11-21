@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background: linear-gradient(215.56deg, #402F4B 20.21%, #072440 85.33%);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -8,5 +9,12 @@ body {
 }
 
 @tailwind base;
+
+@layer base {
+  html {
+    @apply text-white;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;
