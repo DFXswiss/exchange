@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: "16.x"
-  AZURE_ACCOUNT_NAME: "stdfxexcdev"
-  AZURE_CDN_PROFILE: "cdnp-dfx-exc-dev"
-  AZURE_CDN_ENDPOINT: "cdne-dfx-exc-dev"
-  AZURE_RESOURCE_GROUP: "rg-dfx-exc-dev"
+  NODE_VERSION: '16.x'
+  AZURE_ACCOUNT_NAME: 'stdfxmexdev'
+  AZURE_CDN_PROFILE: 'cdnp-dfx-mex-dev'
+  AZURE_CDN_ENDPOINT: 'cdne-dfx-mex-dev'
+  AZURE_RESOURCE_GROUP: 'rg-dfx-mex-dev'
 
 jobs:
   build:

@@ -3,13 +3,12 @@ param location string
 param env string
 
 // --- VARIABLES --- //
-var systemName = 'dfx-exc'
+var systemName = 'dfx-mex'
 
 var cdnProfileName = 'cdnp-${systemName}-${env}'
 var cdnEndpointName = 'cdne-${systemName}-${env}'
 var storageAccountName = replace('st-${systemName}-${env}', '-', '')
 var siteHostName = '${storageAccountName}.z6.web.${environment().suffixes.storage}'
-
 
 // --- RESOURCES --- //
 resource cdnProfile 'Microsoft.Cdn/profiles@2020-09-01' = {
