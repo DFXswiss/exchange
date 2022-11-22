@@ -1,11 +1,7 @@
 import { useState } from 'react';
 
 export function useSession() {
-  const [address, setAddressState] = useState<string>();
-
-  const setAddress = (address: string) => {
-    setAddressState(address);
-  };
+  const [address, setAddress] = useState<string>();
 
   return { address, setAddress };
 }
