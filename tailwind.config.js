@@ -41,6 +41,26 @@ module.exports = {
         1000: '#2D2B47',
       },
     },
+    fontSize: {
+      mini: '0.625rem', // 10px
+      xs: '0.75rem', // 12px
+      sm: '0.875rem', // 14px
+      base: '1rem', // 16px
+      lg: '1.25rem', // 20px
+      xl: '1.5rem', // 24px
+      '2xl': '1.75rem', // 28px
+      '3xl': '2rem', // 32px
+      '4xl': '2.25rem', // 36px
+      '5xl': '2.5rem', // 40px
+    },
+    borderRadius: {
+      none: '0',
+      sm: '0.25rem', // 4px
+      DEFAULT: '0.625rem', // 10px
+      md: '0.75rem', // 12px
+      lg: '0.9375rem', // 15px
+      full: '9999px',
+    },
     extend: {},
   },
   plugins: [require('tw-elements/dist/plugin')],

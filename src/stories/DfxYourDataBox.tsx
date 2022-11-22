@@ -9,7 +9,8 @@ interface IDfxYourDataBoxProps {
 export default function DfxYourDataBox({ heading, isLoggedIn, hasEmail }: IDfxYourDataBoxProps) {
   return (
     <div>
-      <h2 className="text-8xl text-primary-red">{heading}</h2>
+      <h2 className="text-4xl font-black uppercase text-primary-red">{heading}</h2>
+
       {isLoggedIn && (
         <div>
           <p>E-Mail-Adress</p>
