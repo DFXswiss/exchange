@@ -1,7 +1,7 @@
-import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useApi } from '../hooks/api.hook';
-import { useSession } from '../hooks/session.hook';
+import { useSessionContext } from './session.context';
 
 interface WalletInterface {
   address?: string;
@@ -16,8 +16,9 @@ export function useWalletContext(): WalletInterface {
 }
 
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
-  const { address, setAddress } = useSession();
+  const { createSession } = useSessionContext();
   const { getSignMessage } = useApi();
+  const [address, setAddress] = useState<string>();
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
 
@@ -44,12 +45,13 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       if (!account) throw new Error('Permission denied or account not verified');
       setAddress(account);
 
-      const message = await getSignMessage();
+      const message = await getSignMessage(account);
       console.log(message);
 
       const signature = await web3.eth.personal.sign(message, account, '');
 
       console.log(signature);
+      createSession(account, signature);
     } catch (e: any) {
       // TODO (Krysh): real error handling
       // {code: 4001, message: 'User rejected the request.'} = requests accounts cancel

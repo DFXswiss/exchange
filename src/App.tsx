@@ -1,12 +1,15 @@
 import './App.css';
 import { Main } from './components/main';
+import { SessionContextProvider } from './contexts/session.context';
 import { WalletContextProvider } from './contexts/wallet.context';
 
 function App() {
   return (
-    <WalletContextProvider>
-      <Main />
-    </WalletContextProvider>
+    <SessionContextProvider>
+      <WalletContextProvider>
+        <Main />
+      </WalletContextProvider>
+    </SessionContextProvider>
   );
 }
 

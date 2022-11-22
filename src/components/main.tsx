@@ -1,7 +1,10 @@
+import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 
 export function Main() {
   const { address, login, isInstalled } = useWalletContext();
+  const { authenticationToken } = useSessionContext();
+
   return (
     <div className="bg-blue-900 flex flex-col items-center w-screen h-screen gap-4">
       <h1 className="text-white text-3xl pt-8">Welcome to our awesome exchange</h1>
@@ -14,6 +17,7 @@ export function Main() {
         <p className="text-white">Please install MetaMask</p>
       )}
       {address && <p className="text-white">{`Logged in with ${address}`}</p>}
+      {authenticationToken && <p className="text-white">{authenticationToken}</p>}
     </div>
   );
 }
