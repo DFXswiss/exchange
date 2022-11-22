@@ -46,13 +46,9 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       setAddress(account);
 
       const message = await getSignMessage(account);
-      console.log(message);
-
       const signature = await web3.eth.personal.sign(message, account, '');
 
-      console.log(signature);
       const result = await signIn(account, signature);
-      console.log(result);
       setSession(result.accessToken);
     } catch (e: any) {
       // TODO (Krysh): real error handling
