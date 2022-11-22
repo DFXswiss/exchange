@@ -16,8 +16,8 @@ export function useWalletContext(): WalletInterface {
 }
 
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
-  const { createSession } = useSessionContext();
-  const { getSignMessage } = useApi();
+  const { setSession } = useSessionContext();
+  const { getSignMessage, signIn } = useApi();
   const [address, setAddress] = useState<string>();
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
@@ -51,7 +51,9 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       const signature = await web3.eth.personal.sign(message, account, '');
 
       console.log(signature);
-      createSession(account, signature);
+      const result = await signIn(account, signature);
+      console.log(result);
+      setSession(result.accessToken);
     } catch (e: any) {
       // TODO (Krysh): real error handling
       // {code: 4001, message: 'User rejected the request.'} = requests accounts cancel

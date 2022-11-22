@@ -1,8 +1,9 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { useStore } from '../hooks/store.hook';
 
 interface SessionInterface {
   authenticationToken?: string;
-  createSession: (address: string, signature: string) => Promise<string>;
+  setSession(authenticationToken: string): void;
 }
 
 const SessionContext = createContext<SessionInterface>(undefined as any);
@@ -12,15 +13,19 @@ export function useSessionContext(): SessionInterface {
 }
 
 export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
-  const [authenticationToken, setAuthenticationToken] = useState<string>();
+  const [token, setToken] = useState<string>();
+  const { authenticationToken } = useStore();
 
-  const createSession = async (address: string, signature: string): Promise<string> => {
-    console.log('create session', address, signature);
-    setAuthenticationToken('test');
-    return '';
-  };
+  useEffect(() => {
+    setToken(authenticationToken.get());
+  }, []);
 
-  const context: SessionInterface = { authenticationToken, createSession };
+  function setSession(token: string) {
+    authenticationToken.set(token);
+    setToken(token);
+  }
+
+  const context: SessionInterface = { authenticationToken: token, setSession };
 
   return <SessionContext.Provider value={context}>{props.children}</SessionContext.Provider>;
 }

@@ -1,10 +1,11 @@
-import { Auth, SignMessage } from '../api/auth';
+import { Auth, SignIn, SignMessage } from '../api/auth';
 import { FetchConfig, fetchFrom } from '../api/fetch';
 import { useSessionContext } from '../contexts/session.context';
 import { ApiError } from '../dtos/api-error.dto';
 
 export interface ApiInterface {
   getSignMessage: (address: string) => Promise<string>;
+  signIn: (address: string, signature: string) => Promise<SignIn>;
 }
 
 export function useApi(): ApiInterface {
@@ -14,6 +15,10 @@ export function useApi(): ApiInterface {
     return call<SignMessage>({ url: `${Auth.signMessage}?address=${address}`, method: 'GET' }).then(
       (result: SignMessage) => result.message,
     );
+  }
+
+  async function signIn(address: string, signature: string): Promise<SignIn> {
+    return call({ url: Auth.signIn, method: 'POST', data: { address, signature } });
   }
 
   const call = async <T>(config: FetchConfig): Promise<T> => {
@@ -26,5 +31,5 @@ export function useApi(): ApiInterface {
     });
   };
 
-  return { getSignMessage };
+  return { getSignMessage, signIn };
 }
