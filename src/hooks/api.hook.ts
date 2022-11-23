@@ -25,7 +25,7 @@ export function useApi(): ApiInterface {
     });
   }
 
-  const fetchFrom = <T>(config: CallConfig): Promise<T> => {
+  async function fetchFrom<T>(config: CallConfig): Promise<T> {
     return fetch(
       `${process.env.REACT_APP_API_URL}/${config.url}`,
       buildInit(config.method, config.authenticationToken, config.data, config.noJson),
@@ -37,21 +37,23 @@ export function useApi(): ApiInterface {
         throw body;
       });
     });
-  };
+  }
 
-  const buildInit = (
+  function buildInit(
     method: 'GET' | 'PUT' | 'POST' | 'DELETE',
     accessToken?: string,
     data?: any,
     noJson?: boolean,
-  ): RequestInit => ({
-    method: method,
-    headers: {
-      ...(noJson ? undefined : { 'Content-Type': 'application/json' }),
-      Authorization: accessToken ? `Bearer ${accessToken}` : '',
-    },
-    body: noJson ? data : JSON.stringify(data),
-  });
+  ): RequestInit {
+    return {
+      method: method,
+      headers: {
+        ...(noJson ? undefined : { 'Content-Type': 'application/json' }),
+        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+      },
+      body: noJson ? data : JSON.stringify(data),
+    };
+  }
 
   return { call };
 }

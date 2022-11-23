@@ -33,11 +33,11 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     });
   }, []);
 
-  const verifyAccount = (accounts: string[]): string | undefined => {
+  function verifyAccount(accounts: string[]): string | undefined {
     if ((accounts?.length ?? 0) <= 0) return undefined;
     // check if address is valid
     return Web3.utils.toChecksumAddress(accounts[0]);
-  };
+  }
 
   async function login() {
     try {
