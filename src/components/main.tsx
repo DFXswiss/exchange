@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
+import { useAssetContext } from '../contexts/asset.context';
 import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 
 export function Main() {
+  const { isLoggedIn } = useSessionContext();
+  const { assets, loadAssets } = useAssetContext();
   const { address, login, isInstalled } = useWalletContext();
-  const { authenticationToken } = useSessionContext();
+
+  useEffect(() => {
+    loadAssets();
+  }, [isLoggedIn]);
 
   return (
     <div className="bg-blue-900 flex flex-col items-center w-screen h-screen gap-4">
@@ -17,7 +24,11 @@ export function Main() {
         <p className="text-white">Please install MetaMask</p>
       )}
       {address && <p className="text-white">{`Logged in with ${address}`}</p>}
-      {authenticationToken && <p className="text-white">{authenticationToken}</p>}
+      {assets && (
+        <p className="text-white max-w-lg break-words">
+          {assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}
+        </p>
+      )}
     </div>
   );
 }
