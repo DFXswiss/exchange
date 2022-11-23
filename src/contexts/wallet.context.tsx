@@ -21,26 +21,24 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
 
+  const isInstalled = ethereum && ethereum.isMetaMask;
+
   useEffect(() => {
     web3.eth.getAccounts((err, accounts) => {
       setAddress(verifyAccount(accounts));
     });
-    ethereum.on('accountsChanged', (accounts: string[]) => {
+    ethereum?.on('accountsChanged', (accounts: string[]) => {
       setAddress(verifyAccount(accounts));
     });
   }, []);
 
   const verifyAccount = (accounts: string[]): string | undefined => {
-    if (accounts.length <= 0) return undefined;
+    if ((accounts?.length ?? 0) <= 0) return undefined;
     // check if address is valid
     return Web3.utils.toChecksumAddress(accounts[0]);
   };
 
-  const isInstalled = (): boolean => {
-    return ethereum && ethereum.isMetaMask;
-  };
-
-  const login = async () => {
+  async function login() {
     try {
       const account = verifyAccount(await web3.eth.requestAccounts());
       if (!account) throw new Error('Permission denied or account not verified');
@@ -58,12 +56,12 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       // {code: 4001, message: 'MetaMask Message Signature: User denied message signature.'} = login signature cancel
       console.error(e.message, e.code);
     }
-  };
+  }
 
   const context: WalletInterface = {
     address,
     login,
-    isInstalled: isInstalled(),
+    isInstalled,
   };
 
   return <WalletContext.Provider value={context}>{props.children}</WalletContext.Provider>;
