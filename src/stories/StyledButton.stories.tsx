@@ -1,4 +1,4 @@
-import StyledButton from './StyledButton';
+import StyledButton, { StyledButtonSizes, StyledButtonColors, StyledButtonWidths } from './StyledButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
@@ -7,22 +7,43 @@ export default {
 } as ComponentMeta<typeof StyledButton>;
 
 export const BigButton: ComponentStory<typeof StyledButton> = (args) => {
-  return <StyledButton {...args} />;
+  return (
+    <div className="flex space-x-2 justify-center">
+      <StyledButton {...args} />
+    </div>
+  );
 };
 BigButton.args = {
   label: 'connect to Metamask',
-  size: 'BIG',
-  width: 'MD',
-  color: 'RED',
-  noCaps: false,
+  size: StyledButtonSizes.BIG,
+  width: StyledButtonWidths.MD,
+  color: StyledButtonColors.RED,
+  caps: true,
 };
 
-export const LoggedIn: ComponentStory<typeof StyledButton> = (args) => {
-  return <StyledButton {...args} />;
+export const SmallButton: ComponentStory<typeof StyledButton> = (args) => {
+  return (
+    <div className="flex space-x-2 justify-center">
+      <StyledButton {...args} />
+    </div>
+  );
 };
 
-LoggedIn.args = {
-  label: 'Your Data',
-  // isLoggedIn: true,
-  // hasEmail: false,
+SmallButton.args = {
+  label: 'Copy link to share',
+  size: StyledButtonSizes.SMALL,
+  width: StyledButtonWidths.MD,
+  color: StyledButtonColors.WHITE,
+  caps: false,
+};
+
+export const DefaultButton: ComponentStory<typeof StyledButton> = (args) => {
+  return (
+    <div className="flex space-x-2 justify-center">
+      <StyledButton {...args} />
+    </div>
+  );
+};
+DefaultButton.args = {
+  label: 'Default-Style: no Args',
 };
