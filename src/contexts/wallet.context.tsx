@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { useApi } from '../hooks/api.hook';
+import { useAuth } from '../hooks/auth.hook';
 import { useSessionContext } from './session.context';
 
 interface WalletInterface {
@@ -17,7 +17,7 @@ export function useWalletContext(): WalletInterface {
 
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const { setSession } = useSessionContext();
-  const { getSignMessage, signIn } = useApi();
+  const { getSignMessage, signIn } = useAuth();
   const [address, setAddress] = useState<string>();
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);

@@ -1,24 +1,21 @@
-import { Auth, SignIn, SignMessage } from '../api/auth';
-import { FetchConfig, fetchFrom } from '../api/fetch';
 import { ApiError } from '../dtos/api-error.dto';
 
 export interface ApiInterface {
-  getSignMessage: (address: string) => Promise<string>;
-  signIn: (address: string, signature: string) => Promise<SignIn>;
+  call: <T>(config: CallConfig) => Promise<T>;
+}
+
+export interface CallConfig {
+  url: string;
+  method: 'GET' | 'PUT' | 'POST' | 'DELETE';
+  authenticationToken?: string;
+  data?: any;
+  noJson?: boolean;
 }
 
 export function useApi(): ApiInterface {
-  async function getSignMessage(address: string): Promise<string> {
-    return call<SignMessage>({ url: `${Auth.signMessage}?address=${address}`, method: 'GET' }).then(
-      (result: SignMessage) => result.message,
-    );
-  }
+  // TODO (Krysh): add session context here and change if required
 
-  async function signIn(address: string, signature: string): Promise<SignIn> {
-    return call({ url: Auth.signIn, method: 'POST', data: { address, signature } });
-  }
-
-  const call = async <T>(config: FetchConfig): Promise<T> => {
+  async function call<T>(config: CallConfig): Promise<T> {
     return fetchFrom<T>(config).catch((error: ApiError) => {
       if (error.statusCode === 401) {
         // TODO (Krysh): delete session
@@ -26,7 +23,35 @@ export function useApi(): ApiInterface {
 
       throw error;
     });
+  }
+
+  const fetchFrom = <T>(config: CallConfig): Promise<T> => {
+    return fetch(
+      `${process.env.REACT_APP_API_URL}/${config.url}`,
+      buildInit(config.method, config.authenticationToken, config.data, config.noJson),
+    ).then((response) => {
+      if (response.ok) {
+        return response.json().catch(() => undefined);
+      }
+      return response.json().then((body) => {
+        throw body;
+      });
+    });
   };
 
-  return { getSignMessage, signIn };
+  const buildInit = (
+    method: 'GET' | 'PUT' | 'POST' | 'DELETE',
+    accessToken?: string,
+    data?: any,
+    noJson?: boolean,
+  ): RequestInit => ({
+    method: method,
+    headers: {
+      ...(noJson ? undefined : { 'Content-Type': 'application/json' }),
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
+    },
+    body: noJson ? data : JSON.stringify(data),
+  });
+
+  return { call };
 }
