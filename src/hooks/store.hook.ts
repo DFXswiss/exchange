@@ -17,7 +17,7 @@ export function useStore(): StoreInterface {
     localStorage.setItem(key, value);
   }
 
-  function get(key: StoreKey) {
+  function get(key: StoreKey): string | undefined {
     console.log('reading', key);
     return localStorage.getItem(key) ?? undefined;
   }

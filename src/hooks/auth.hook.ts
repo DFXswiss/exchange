@@ -1,4 +1,4 @@
-import { Auth, SignIn, SignMessage } from '../api/auth';
+import { AuthUrl, SignIn, SignMessage } from '../api/auth';
 import { useApi } from './api.hook';
 
 export interface AuthInterface {
@@ -10,13 +10,13 @@ export function useAuth(): AuthInterface {
   const { call } = useApi();
 
   async function getSignMessage(address: string): Promise<string> {
-    return call<SignMessage>({ url: `${Auth.signMessage}?address=${address}`, method: 'GET' }).then(
-      (result: SignMessage) => result.message,
+    return call<SignMessage>({ url: `${AuthUrl.signMessage}?address=${address}`, method: 'GET' }).then(
+      (result) => result.message,
     );
   }
 
   async function signIn(address: string, signature: string): Promise<SignIn> {
-    return call({ url: Auth.signIn, method: 'POST', data: { address, signature } });
+    return call({ url: AuthUrl.signIn, method: 'POST', data: { address, signature } });
   }
 
   return { getSignMessage, signIn };
