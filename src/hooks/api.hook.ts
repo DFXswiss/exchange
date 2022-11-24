@@ -1,4 +1,4 @@
-import { ApiError } from '../dtos/api-error.dto';
+import { ApiError } from '../api/error';
 
 export interface ApiInterface {
   call: <T>(config: CallConfig) => Promise<T>;

@@ -13,7 +13,7 @@ export function useStore(): StoreInterface {
   const { localStorage } = window;
 
   function set(key: StoreKey, value: string) {
-    console.log('storing', key, value);
+    console.log('storing', key);
     localStorage.setItem(key, value);
   }
 
