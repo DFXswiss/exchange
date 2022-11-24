@@ -1,4 +1,4 @@
-export const Asset = { get: 'asset' };
+export const AssetUrl = { get: 'asset' };
 
 export enum Blockchain {
   ETH = 'Ethereum',

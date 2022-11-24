@@ -1,4 +1,4 @@
-import { Asset } from '../api/asset';
+import { AssetUrl, Asset } from '../api/asset';
 import { useSessionContext } from '../contexts/session.context';
 import { useApi } from './api.hook';
 
@@ -12,7 +12,7 @@ export function useAsset(): AssetInterface {
 
   async function getAssets(): Promise<Asset[]> {
     if (!authenticationToken) return [];
-    return call<Asset[]>({ url: Asset.get, method: 'GET', authenticationToken: authenticationToken });
+    return call<Asset[]>({ url: AssetUrl.get, method: 'GET', authenticationToken: authenticationToken });
   }
 
   return { getAssets };
