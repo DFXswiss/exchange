@@ -1,16 +1,9 @@
-import { useEffect } from 'react';
 import { useAssetContext } from '../contexts/asset.context';
-import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 
 export function Main() {
-  const { isLoggedIn } = useSessionContext();
-  const { assets, loadAssets } = useAssetContext();
+  const { assets } = useAssetContext();
   const { address, login, isInstalled } = useWalletContext();
-
-  useEffect(() => {
-    loadAssets();
-  }, [isLoggedIn]);
 
   return (
     <div className="bg-blue-900 flex flex-col items-center w-screen h-screen gap-4">
