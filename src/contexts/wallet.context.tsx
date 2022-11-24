@@ -1,7 +1,7 @@
-import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { useApi } from '../hooks/api.hook';
-import { useSession } from '../hooks/session.hook';
+import { useAuth } from '../hooks/auth.hook';
+import { useSessionContext } from './session.context';
 
 interface WalletInterface {
   address?: string;
@@ -16,8 +16,9 @@ export function useWalletContext(): WalletInterface {
 }
 
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
-  const { address, setAddress } = useSession();
-  const { getSignMessage } = useApi();
+  const { setSession } = useSessionContext();
+  const { getSignMessage, signIn } = useAuth();
+  const [address, setAddress] = useState<string>();
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
 
@@ -32,11 +33,11 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     });
   }, []);
 
-  const verifyAccount = (accounts: string[]): string | undefined => {
+  function verifyAccount(accounts: string[]): string | undefined {
     if ((accounts?.length ?? 0) <= 0) return undefined;
     // check if address is valid
     return Web3.utils.toChecksumAddress(accounts[0]);
-  };
+  }
 
   async function login() {
     try {
@@ -44,12 +45,11 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       if (!account) throw new Error('Permission denied or account not verified');
       setAddress(account);
 
-      const message = await getSignMessage();
-      console.log(message);
-
+      const message = await getSignMessage(account);
       const signature = await web3.eth.personal.sign(message, account, '');
 
-      console.log(signature);
+      const result = await signIn(account, signature);
+      setSession(result.accessToken);
     } catch (e: any) {
       // TODO (Krysh): real error handling
       // {code: 4001, message: 'User rejected the request.'} = requests accounts cancel
