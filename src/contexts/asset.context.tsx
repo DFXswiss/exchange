@@ -6,7 +6,7 @@ import { useSessionContext } from './session.context';
 interface AssetInterface {
   assets: Asset[];
   loadAssets: () => Promise<void>;
-  isLoading: boolean;
+  assetsLoading: boolean;
 }
 
 const AssetContext = createContext<AssetInterface>(undefined as any);
@@ -20,11 +20,11 @@ export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   // TODO (Krysh): add wallet context here to read network
   const { getAssets } = useAsset();
   const [assets, setAssets] = useState<Asset[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [assetsLoading, setAssetsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    loadAssets().finally(() => setIsLoading(false));
+    setAssetsLoading(true);
+    loadAssets().finally(() => setAssetsLoading(false));
   }, [isLoggedIn]);
 
   async function loadAssets(): Promise<void> {
@@ -32,7 +32,7 @@ export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
     setAssets(assets);
   }
 
-  const context: AssetInterface = { assets, loadAssets, isLoading };
+  const context: AssetInterface = { assets, loadAssets, assetsLoading };
 
   return <AssetContext.Provider value={context}>{props.children}</AssetContext.Provider>;
 }
