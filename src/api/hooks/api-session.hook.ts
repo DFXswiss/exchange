@@ -8,7 +8,7 @@ export interface ApiSessionInterface {
 }
 
 export function useApiSession(): ApiSessionInterface {
-  const { setToken } = useAuthContext();
+  const { isLoggedIn, setToken } = useAuthContext();
   const { getSignMessage, signIn } = useAuth();
 
   async function createSession(address: string, signature: string): Promise<void> {
@@ -17,5 +17,5 @@ export function useApiSession(): ApiSessionInterface {
       .catch(console.error); // TODO (Krysh) add real error handling in here
   }
 
-  return { isLoggedIn: false, getSignMessage, createSession };
+  return { isLoggedIn, getSignMessage, createSession };
 }

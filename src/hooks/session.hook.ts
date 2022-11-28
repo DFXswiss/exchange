@@ -17,7 +17,7 @@ export function useSession(): SessionInterface {
     if (!isConnected) {
       connectedAddress = await connect();
     }
-    if (!connectedAddress) return;
+    if (!connectedAddress || isLoggedIn) return;
     const message = await getSignMessage(connectedAddress);
     const signature = await signMessage(message, connectedAddress);
     return createSession(connectedAddress, signature);
