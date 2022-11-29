@@ -1,9 +1,6 @@
-export const AssetUrl = { get: 'asset' };
+import { Blockchain } from './blockchain';
 
-export enum Blockchain {
-  ETH = 'Ethereum',
-  BSC = 'BinanceSmartChain',
-}
+export const AssetUrl = { get: 'asset' };
 
 export interface Asset {
   id: number;
