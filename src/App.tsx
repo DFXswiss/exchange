@@ -1,18 +1,21 @@
 import './App.css';
 import { Main } from './components/main';
-import { AssetContextProvider } from './contexts/asset.context';
-import { SessionContextProvider } from './contexts/session.context';
+import { AssetContextProvider } from './api/contexts/asset.context';
 import { WalletContextProvider } from './contexts/wallet.context';
+import { AuthContextProvider } from './api/contexts/auth.context';
+import { UserContextProvider } from './api/contexts/user.context';
 
 function App() {
   return (
-    <SessionContextProvider>
-      <WalletContextProvider>
-        <AssetContextProvider>
-          <Main />
-        </AssetContextProvider>
-      </WalletContextProvider>
-    </SessionContextProvider>
+    <AuthContextProvider>
+      <UserContextProvider>
+        <WalletContextProvider>
+          <AssetContextProvider>
+            <Main />
+          </AssetContextProvider>
+        </WalletContextProvider>
+      </UserContextProvider>
+    </AuthContextProvider>
   );
 }
 

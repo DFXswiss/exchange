@@ -1,12 +1,12 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { useAuth } from '../hooks/auth.hook';
-import { useSessionContext } from './session.context';
 
 interface WalletInterface {
   address?: string;
-  login: () => Promise<void>;
   isInstalled: boolean;
+  isConnected: boolean;
+  connect: () => Promise<string>;
+  signMessage: (message: string, address: string) => Promise<string>;
 }
 
 const WalletContext = createContext<WalletInterface>(undefined as any);
@@ -16,13 +16,12 @@ export function useWalletContext(): WalletInterface {
 }
 
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
-  const { setToken } = useSessionContext();
-  const { getSignMessage, signIn } = useAuth();
   const [address, setAddress] = useState<string>();
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
 
   const isInstalled = ethereum && ethereum.isMetaMask;
+  const isConnected = address !== undefined;
 
   useEffect(() => {
     web3.eth.getAccounts((err, accounts) => {
@@ -39,29 +38,31 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
-  async function login() {
+  async function connect(): Promise<string> {
+    const account = verifyAccount(await web3.eth.requestAccounts());
+    if (!account) throw new Error('Permission denied or account not verified');
+    setAddress(account);
+    return account;
+  }
+
+  async function signMessage(message: string, address: string): Promise<string> {
     try {
-      const account = verifyAccount(await web3.eth.requestAccounts());
-      if (!account) throw new Error('Permission denied or account not verified');
-      setAddress(account);
-
-      const message = await getSignMessage(account);
-      const signature = await web3.eth.personal.sign(message, account, '');
-
-      const result = await signIn(account, signature);
-      setToken(result.accessToken);
+      return await web3.eth.personal.sign(message, address, '');
     } catch (e: any) {
       // TODO (Krysh): real error handling
       // {code: 4001, message: 'User rejected the request.'} = requests accounts cancel
       // {code: 4001, message: 'MetaMask Message Signature: User denied message signature.'} = login signature cancel
       console.error(e.message, e.code);
+      throw e;
     }
   }
 
   const context: WalletInterface = {
     address,
-    login,
     isInstalled,
+    isConnected,
+    connect,
+    signMessage,
   };
 
   return <WalletContext.Provider value={context}>{props.children}</WalletContext.Provider>;

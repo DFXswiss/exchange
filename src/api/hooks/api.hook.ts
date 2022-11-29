@@ -1,4 +1,5 @@
-import { ApiError } from '../api/error';
+import { useAuthContext } from '../contexts/auth.context';
+import { ApiError } from '../definitions/error';
 
 export interface ApiInterface {
   call: <T>(config: CallConfig) => Promise<T>;
@@ -7,13 +8,13 @@ export interface ApiInterface {
 export interface CallConfig {
   url: string;
   method: 'GET' | 'PUT' | 'POST' | 'DELETE';
-  authenticationToken?: string;
   data?: any;
   noJson?: boolean;
 }
 
 export function useApi(): ApiInterface {
   // TODO (Krysh): add session context here and change if required
+  const { authenticationToken } = useAuthContext();
 
   async function call<T>(config: CallConfig): Promise<T> {
     return fetchFrom<T>(config).catch((error: ApiError) => {
@@ -28,7 +29,7 @@ export function useApi(): ApiInterface {
   async function fetchFrom<T>(config: CallConfig): Promise<T> {
     return fetch(
       `${process.env.REACT_APP_API_URL}/${config.url}`,
-      buildInit(config.method, config.authenticationToken, config.data, config.noJson),
+      buildInit(config.method, authenticationToken, config.data, config.noJson),
     ).then((response) => {
       if (response.ok) {
         return response.json().catch(() => undefined);

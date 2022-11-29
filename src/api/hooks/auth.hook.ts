@@ -1,4 +1,4 @@
-import { AuthUrl, SignIn, SignMessage } from '../api/auth';
+import { AuthUrl, SignIn, SignMessage } from '../definitions/auth';
 import { useApi } from './api.hook';
 
 export interface AuthInterface {
