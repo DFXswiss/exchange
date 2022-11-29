@@ -3,7 +3,7 @@ import { useStore } from '../../hooks/store.hook';
 
 interface AuthInterface {
   authenticationToken?: string;
-  setToken: (authenticationToken: string) => void;
+  setAuthenticationToken: (authenticationToken: string) => void;
   isLoggedIn: boolean;
 }
 
@@ -31,7 +31,7 @@ export function AuthContextProvider(props: PropsWithChildren): JSX.Element {
 
   const context: AuthInterface = {
     authenticationToken: tokenWithFallback,
-    setToken: setAuthenticationToken,
+    setAuthenticationToken,
     isLoggedIn,
   };
 

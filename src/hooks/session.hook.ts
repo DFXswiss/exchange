@@ -17,7 +17,9 @@ export function useSession(): SessionInterface {
     if (!isConnected) {
       connectedAddress = await connect();
     }
-    if (!connectedAddress || isLoggedIn) return;
+    if (!connectedAddress) return; // TODO (Krysh) add real error handling in here
+    // if we are already logged in, do not trigger another signature
+    if (isLoggedIn) return;
     const message = await getSignMessage(connectedAddress);
     const signature = await signMessage(message, connectedAddress);
     return createSession(connectedAddress, signature);
