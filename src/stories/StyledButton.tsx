@@ -54,7 +54,7 @@ export default function StyledButton({
   color = StyledButtonColors.RED,
   caps = true,
 }: IStyledButtonProps) {
-  let buttonClasses: string =
+  let buttonClasses =
     'inline-block leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ';
 
   buttonClasses += [SIZE_MAPS[size], COLOR_MAPS[color], WIDTH_MAPS[width], caps ? 'uppercase' : 'normal-case'].join(

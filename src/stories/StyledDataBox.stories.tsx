@@ -23,6 +23,9 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
         000-802{' '}
         <StyledButton
           caps={false}
+          onClick={() => {
+            console.log('button clicked');
+          }}
           size={StyledButtonSizes.SMALL}
           label="Copy link to share"
           width={StyledButtonWidths.MIN}
