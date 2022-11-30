@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 export enum StyledButtonSizes {
   BIG = 'BIG',
   SMALL = 'SMALL',
@@ -19,7 +17,8 @@ export enum StyledButtonColors {
 }
 
 export interface IStyledButtonProps {
-  label?: string;
+  label: string;
+  onClick: () => void;
   size?: StyledButtonSizes;
   width?: StyledButtonWidths;
   color?: StyledButtonColors;
@@ -49,20 +48,21 @@ const WIDTH_MAPS: Record<StyledButtonWidths, string> = {
 
 export default function StyledButton({
   label,
+  onClick,
   size = StyledButtonSizes.BIG,
   width = StyledButtonWidths.MD,
   color = StyledButtonColors.RED,
   caps = true,
 }: IStyledButtonProps) {
   let buttonClasses: string =
-    'inline-block   leading-tight shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out ';
+    'inline-block leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ';
 
-  caps ? (buttonClasses += ' uppercase') : (buttonClasses += ' normal-case');
-
-  buttonClasses += ' ' + SIZE_MAPS[size] + ' ' + COLOR_MAPS[color] + ' ' + WIDTH_MAPS[width];
+  buttonClasses += [SIZE_MAPS[size], COLOR_MAPS[color], WIDTH_MAPS[width], caps ? 'uppercase' : 'normal-case'].join(
+    ' ',
+  );
 
   return (
-    <button type="button" className={buttonClasses} onClick={() => {}}>
+    <button type="button" className={buttonClasses} onClick={onClick}>
       {label}
     </button>
   );

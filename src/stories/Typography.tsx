@@ -1,10 +1,4 @@
-import * as React from 'react';
-
-interface ITypo {
-  children?: any;
-}
-
-export default function Typography({ children }: ITypo) {
+export default function Typography() {
   return (
     <div>
       <h1>Heading 1 / 28px / "text-2xl font-black"</h1>
