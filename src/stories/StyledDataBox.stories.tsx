@@ -18,6 +18,19 @@ WithoutRows.args = {
 export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
   return (
     <StyledDataBox {...args}>
+      <StyledDataTextRow label="Metamask">Account1: 0x6724...f1436</StyledDataTextRow>
+      <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
+    </StyledDataBox>
+  );
+};
+
+WithRows.args = {
+  heading: 'With Integrated Button',
+};
+
+export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args) => {
+  return (
+    <StyledDataBox {...args}>
       <StyledDataTextRow label="E-mail address">john.doe@gmail.com</StyledDataTextRow>
       <StyledDataTextRow label="Your Referral Code">
         000-802{' '}
@@ -35,11 +48,11 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
   );
 };
 
-WithRows.args = {
+WithIntegratedButton.args = {
   heading: 'Your Data With Rows',
 };
 
-export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args) => {
+export const LoggedIn: ComponentStory<typeof StyledDataBox> = (args) => {
   return (
     <StyledDataBox {...args}>
       <StyledDataTextRow label="Metamask">Account1: 0x6724...f1436</StyledDataTextRow>
@@ -48,6 +61,7 @@ export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args)
   );
 };
 
-WithIntegratedButton.args = {
-  heading: 'With Integrated Button',
+LoggedIn.args = {
+  heading: 'Your wallet',
+  loggedIn: true,
 };
