@@ -6,7 +6,7 @@ interface IStyledDataTextRowProps extends PropsWithChildren {
 
 export default function StyledDataTextRow({ label, children }: IStyledDataTextRowProps) {
   return (
-    <div className="flex">
+    <div className="flex py-1">
       <div className="flex-none w-48">
         <p className="text-dfxGray-600">{label}</p>
       </div>

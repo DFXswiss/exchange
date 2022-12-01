@@ -6,7 +6,6 @@ export default {
   component: DfxLogo,
 } as ComponentMeta<typeof DfxLogo>;
 
-export const DefaultLogo: ComponentStory<typeof DfxLogo> = (args) => {
-  return <DfxLogo {...args} />;
+export const DefaultLogo: ComponentStory<typeof DfxLogo> = () => {
+  return <DfxLogo />;
 };
-DefaultLogo.args = {};

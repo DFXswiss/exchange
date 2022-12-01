@@ -29,8 +29,8 @@ export default function Typography() {
         sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
       </p>
       <br />
-      <p className="text-mini">
-        <strong>Smallest Text, "text-mini" 10px / 0.625rem</strong> , used for Form Labels // Aenean lacinia bibendum
+      <p className="text-2xs">
+        <strong>Smallest Text, "text-2xs" 10px / 0.625rem</strong> , used for Form Labels // Aenean lacinia bibendum
         nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Aenean lacinia bibendum nulla sed
         consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
         sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
