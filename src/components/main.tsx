@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { useAssetContext } from '../api/contexts/asset.context';
 import { useUserContext } from '../api/contexts/user.context';
 import { useSession } from '../hooks/session.hook';
+import DfxLogo from '../stories/DfxLogo';
+import DfxTitleSection from '../stories/DfxTitleSection';
+import StyledButton from '../stories/StyledButton';
 
 export function Main() {
   const { user, changeMail } = useUserContext();
   const { assets } = useAssetContext();
-  const { isMetaMaskInstalled, address, login } = useSession();
+  const { isMetaMaskInstalled, address, blockchain, login } = useSession();
 
   const [mail, setMail] = useState<string>();
 
@@ -16,32 +19,32 @@ export function Main() {
   }
 
   return (
-    <div className="bg-blue-900 flex flex-col items-center w-screen h-screen gap-4">
-      <h1 className="text-white text-3xl pt-8">Welcome to our awesome exchange</h1>
-      <p className="text-white">{`api url from process is ${process.env.REACT_APP_API_URL}`}</p>
+    <div className="flex flex-col items-center w-screen h-screen gap-4">
+      <div className="pt-8">
+        <DfxLogo />
+        <DfxTitleSection heading="DFX Multichain" subheading="BUY • SELL • CONVERT • STAKE" />
+      </div>
+      <p>{`api url from process is ${process.env.REACT_APP_API_URL}`}</p>
       {isMetaMaskInstalled ? (
-        <button className="rounded-full bg-white px-4 py-2 text-blue-900" onClick={login}>
-          Connect to metamask
-        </button>
+        <StyledButton label="Connect to metamask" onClick={login} />
       ) : (
-        <p className="text-white">Please install MetaMask</p>
+        <p>Please install MetaMask</p>
       )}
-      {address && <p className="text-white">{`Logged in with ${address}`}</p>}
+      {address && <p>{`Logged in with ${address}`}</p>}
+      {blockchain && <p>{`Network: ${blockchain}`}</p>}
       {user && (
         <>
-          <p className="text-white">{`${user.mail} (ref ${user.ref})`}</p>
+          <p>{`${user.mail} (ref ${user.ref})`}</p>
           <input
             type="text"
             onChange={(e) => setMail(e.target.value)}
-            className="text-white focus:outline-none px-4 py-2 rounded-full border border-white bg-blue-900"
+            className="focus:outline-none px-4 py-2 rounded-full border border-white bg-blue-900 text-dfxBlue-500"
           />
-          <button className="rounded-full bg-white ml-4 px-4 py-2 text-blue-900" onClick={handleSubmit}>
-            Change
-          </button>
+          <StyledButton label="Change" onClick={handleSubmit} />
         </>
       )}
       {assets && (
-        <p className="text-white max-w-lg break-words">
+        <p className="max-w-lg break-words">
           {assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}
         </p>
       )}
