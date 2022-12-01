@@ -1,9 +1,9 @@
 // --- PARAMETERS --- //
-param location string
-param env string
+param location string = 'westeurope'
+param env string = 'dev'
 
 // --- VARIABLES --- //
-var systemName = 'dfx-mex'
+var systemName = 'dfx-stb'
 
 module staticPage 'static-page.bicep' = {
   name: 'static-page-${systemName}'
