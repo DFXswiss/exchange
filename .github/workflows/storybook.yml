@@ -2,7 +2,7 @@ name: Storybook CI
 
 on:
   push:
-    branches: [feature/ui-components]
+    branches: [ui-components]
   workflow_dispatch:
 
 env:
