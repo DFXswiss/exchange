@@ -6,9 +6,9 @@ interface IStyledDataBoxProps extends PropsWithChildren {
 
 export default function StyledDataBox({ heading, children }: IStyledDataBoxProps) {
   return (
-    <aside className="border border-white/20 rounded py-3 px-4 max-w-lg">
-      <h2 className="">{heading}</h2>
+    <div className="border border-white/20 rounded mb-6 py-3 px-4 sm:max-w-lg md:max-w-none md:w-full mx-auto">
+      <h2 className="mb-2">{heading}</h2>
       <div>{children}</div>
-    </aside>
+    </div>
   );
 }

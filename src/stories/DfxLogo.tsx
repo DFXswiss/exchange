@@ -1,16 +1,12 @@
-interface DfxLogoProps {
-  size?: string;
-}
-
-export default function DfxLogo({ size }: DfxLogoProps) {
+export default function DfxLogo() {
   return (
     <div className="">
-      <svg width="80" height="25" viewBox="0 0 80 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_685_7455)">
-          <g clip-path="url(#clip1_685_7455)">
+      <svg width={80} height={25} viewBox="0 0 80 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clipPath="url(#clip0_685_7455)">
+          <g clipPath="url(#clip1_685_7455)">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M9.04492 0H18.2717C25.0954 0 30.6278 5.37393 30.6278 12.3587C30.6278 19.3435 24.966 25.0026 17.9839 25.0026H9.04492V19.9271H16.7718C20.857 19.9271 24.1976 16.5866 24.1976 12.5013C24.1976 8.41608 20.857 5.07553 16.7718 5.07553H9.04492V0ZM39.1548 4.64244V11.2496H49.7495V15.892H39.1548V25H33.3689V0H52.2635V4.64244H39.1548ZM72.9062 25L66.8695 16.3198L60.941 25H54.2969L63.5474 12.2848L54.7643 0H61.3345L67.086 8.10711L72.7293 0H78.98L70.2655 12.0709L79.5873 25H72.9089H72.9062Z"
               fill="white"
             />
@@ -33,12 +29,12 @@ export default function DfxLogo({ size }: DfxLogoProps) {
             y2="15.2868"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.04" stop-color="#F5516C" />
-            <stop offset="0.14" stop-color="#C74863" />
-            <stop offset="0.31" stop-color="#853B57" />
-            <stop offset="0.44" stop-color="#55324E" />
-            <stop offset="0.55" stop-color="#382D49" />
-            <stop offset="0.61" stop-color="#2D2B47" />
+            <stop offset="0.04" stopColor="#F5516C" />
+            <stop offset="0.14" stopColor="#C74863" />
+            <stop offset="0.31" stopColor="#853B57" />
+            <stop offset="0.44" stopColor="#55324E" />
+            <stop offset="0.55" stopColor="#382D49" />
+            <stop offset="0.61" stopColor="#2D2B47" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_685_7455"
@@ -48,14 +44,14 @@ export default function DfxLogo({ size }: DfxLogoProps) {
             y2="18.0812"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.2" stop-color="#F5516C" />
-            <stop offset="1" stop-color="#6B3753" />
+            <stop offset="0.2" stopColor="#F5516C" />
+            <stop offset={1} stopColor="#6B3753" />
           </linearGradient>
           <clipPath id="clip0_685_7455">
-            <rect width="80" height="25" fill="white" />
+            <rect width={80} height={25} fill="white" />
           </clipPath>
           <clipPath id="clip1_685_7455">
-            <rect width="79.5843" height="25" fill="white" />
+            <rect width="79.5843" height={25} fill="white" />
           </clipPath>
         </defs>
       </svg>
