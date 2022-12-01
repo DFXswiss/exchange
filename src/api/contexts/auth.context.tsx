@@ -1,5 +1,7 @@
+import jwtDecode from 'jwt-decode';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useStore } from '../../hooks/store.hook';
+import { Jwt } from '../definitions/jwt';
 
 interface AuthInterface {
   authenticationToken?: string;
@@ -18,11 +20,17 @@ export function AuthContextProvider(props: PropsWithChildren): JSX.Element {
   const { authenticationToken } = useStore();
 
   const tokenWithFallback = token ?? authenticationToken.get();
-  const isLoggedIn = tokenWithFallback != undefined;
+  const isLoggedIn = tokenWithFallback != undefined && !isExpired();
 
   useEffect(() => {
     setToken(authenticationToken.get());
   }, []);
+
+  function isExpired(): boolean {
+    if (!tokenWithFallback) return true;
+    const jwt = jwtDecode<Jwt>(tokenWithFallback);
+    return jwt?.exp != null && Date.now() > new Date(jwt?.exp * 1000).getTime();
+  }
 
   function setAuthenticationToken(token: string) {
     authenticationToken.set(token);
