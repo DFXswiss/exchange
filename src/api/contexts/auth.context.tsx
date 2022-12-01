@@ -17,25 +17,24 @@ export function useAuthContext(): AuthInterface {
 
 export function AuthContextProvider(props: PropsWithChildren): JSX.Element {
   const [token, setToken] = useState<string>();
-  const [jwt, setJwt] = useState<Jwt>();
   const { authenticationToken } = useStore();
 
   const tokenWithFallback = token ?? authenticationToken.get();
-  const isExpired = jwt?.exp != null && Date.now() > new Date(jwt?.exp * 1000).getTime();
-  const isLoggedIn = tokenWithFallback != undefined && !isExpired;
+  const isLoggedIn = tokenWithFallback != undefined && !isExpired();
 
   useEffect(() => {
-    updateToken(authenticationToken.get());
+    setToken(authenticationToken.get());
   }, []);
 
-  function updateToken(token?: string) {
-    setToken(token);
-    setJwt(token ? jwtDecode(token) : undefined);
+  function isExpired(): boolean {
+    if (!token) return true;
+    const jwt = jwtDecode<Jwt>(token);
+    return jwt?.exp != null && Date.now() > new Date(jwt?.exp * 1000).getTime();
   }
 
   function setAuthenticationToken(token: string) {
     authenticationToken.set(token);
-    updateToken(token);
+    setToken(token);
   }
 
   const context: AuthInterface = {
