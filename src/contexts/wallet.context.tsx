@@ -25,7 +25,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
 
-  const isInstalled = ethereum && ethereum.isMetaMask;
+  const isInstalled = Boolean(ethereum && ethereum.isMetaMask);
   const isConnected = address !== undefined;
 
   useEffect(() => {
