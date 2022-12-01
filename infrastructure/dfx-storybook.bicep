@@ -6,7 +6,7 @@ param env string = 'dev'
 var systemName = 'dfx-stb'
 
 module staticPage 'static-page.bicep' = {
-  name: systemName
+  name: 'static-page-${systemName}'
   params: {
     location: location
     env: env
