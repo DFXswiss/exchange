@@ -1,4 +1,3 @@
-import './App.css';
 import { Main } from './components/main';
 import { AssetContextProvider } from './api/contexts/asset.context';
 import { WalletContextProvider } from './contexts/wallet.context';

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAssetContext } from '../api/contexts/asset.context';
 import { useUserContext } from '../api/contexts/user.context';
 import { useSession } from '../hooks/session.hook';
@@ -9,16 +8,9 @@ import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
 
 export function Main() {
-  const { user, changeMail } = useUserContext();
+  const { user } = useUserContext();
   const { assets } = useAssetContext();
-  const { isMetaMaskInstalled, address, blockchain, login } = useSession();
-
-  const [mail, setMail] = useState<string>();
-
-  async function handleSubmit() {
-    if (!mail) return;
-    await changeMail(mail);
-  }
+  const { address, blockchain, login } = useSession();
 
   return (
     <div className="text-center p-2 h-screen">
