@@ -4,7 +4,9 @@ import { useUserContext } from '../api/contexts/user.context';
 import { useSession } from '../hooks/session.hook';
 import DfxLogo from '../stories/DfxLogo';
 import DfxTitleSection from '../stories/DfxTitleSection';
-import StyledButton from '../stories/StyledButton';
+import StyledButton, { StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
+import StyledDataBox from '../stories/StyledDataBox';
+import StyledDataTextRow from '../stories/StyledDataTextRow';
 
 export function Main() {
   const { user, changeMail } = useUserContext();
@@ -19,35 +21,43 @@ export function Main() {
   }
 
   return (
-    <div className="flex flex-col items-center w-screen h-screen gap-4">
-      <div className="pt-8">
-        <DfxLogo />
-        <DfxTitleSection heading="DFX Multichain" subheading="BUY • SELL • CONVERT • STAKE" />
+    <div className="text-center p-2 h-screen">
+      <div className="max-w-6xl text-left mx-auto ">
+        <div className="flex justify-between">
+          <DfxLogo />
+          <StyledButton label="Connect to Metamask" onClick={login} />
+        </div>
+        <div className="md:flex justify-between mt-6">
+          <div className="basis-3/5 max-w-[50%] px-6 mx-auto md:mx-0">
+            <DfxTitleSection heading="DFX Multichain" subheading="Buy • Sell • Convert • Stake" />
+          </div>
+          <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
+            <StyledDataBox heading="Your wallet">
+              <StyledDataTextRow label="Metamask">{address}</StyledDataTextRow>
+              <StyledDataTextRow label="Connected to">{blockchain}</StyledDataTextRow>
+            </StyledDataBox>
+            <StyledDataBox heading="Your Data">
+              <StyledDataTextRow label="E-Mail address">{user?.mail}</StyledDataTextRow>
+              <StyledDataTextRow label="Your Referral Code">
+                {user?.ref}
+                <StyledButton
+                  label="Copy link to share"
+                  size={StyledButtonSizes.SMALL}
+                  width={StyledButtonWidths.MIN}
+                  caps={false}
+                  onClick={() => {
+                    console.log('ToDo add clipboard');
+                  }}
+                />
+              </StyledDataTextRow>
+            </StyledDataBox>
+          </aside>
+        </div>
+        <div className="bg-white w-full h-96 rounded-lg text-black">
+          <h1>Buy</h1>
+          <p className="break-words">{assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}</p>
+        </div>
       </div>
-      <p>{`api url from process is ${process.env.REACT_APP_API_URL}`}</p>
-      {isMetaMaskInstalled ? (
-        <StyledButton label="Connect to metamask" onClick={login} />
-      ) : (
-        <p>Please install MetaMask</p>
-      )}
-      {address && <p>{`Logged in with ${address}`}</p>}
-      {blockchain && <p>{`Network: ${blockchain}`}</p>}
-      {user && (
-        <>
-          <p>{`${user.mail} (ref ${user.ref})`}</p>
-          <input
-            type="text"
-            onChange={(e) => setMail(e.target.value)}
-            className="focus:outline-none px-4 py-2 rounded-full border border-white bg-blue-900 text-dfxBlue-500"
-          />
-          <StyledButton label="Change" onClick={handleSubmit} />
-        </>
-      )}
-      {assets && (
-        <p className="max-w-lg break-words">
-          {assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}
-        </p>
-      )}
     </div>
   );
 }
