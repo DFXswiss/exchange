@@ -7,8 +7,7 @@ export interface BlockchainInterface {
 // id taken from https://chainlist.org/
 export function useBlockchain(): BlockchainInterface {
   function toBlockchain(chainId: string | number): Blockchain | undefined {
-    const chainIdToCheck = typeof chainId === 'number' ? chainId : parseInt(chainId);
-    switch (chainIdToCheck) {
+    switch (+chainId) {
       case 1:
         return Blockchain.ETH;
       case 56:
