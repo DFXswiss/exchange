@@ -1,50 +1,55 @@
-import { useState } from 'react';
 import { useAssetContext } from '../api/contexts/asset.context';
 import { useUserContext } from '../api/contexts/user.context';
 import { useSession } from '../hooks/session.hook';
+import DfxLogo from '../stories/DfxLogo';
+import DfxTitleSection from '../stories/DfxTitleSection';
+import StyledButton, { StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
+import StyledDataBox from '../stories/StyledDataBox';
+import StyledDataTextRow from '../stories/StyledDataTextRow';
 
 export function Main() {
-  const { user, changeMail } = useUserContext();
+  const { user } = useUserContext();
   const { assets } = useAssetContext();
-  const { isMetaMaskInstalled, address, login } = useSession();
-
-  const [mail, setMail] = useState<string>();
-
-  async function handleSubmit() {
-    if (!mail) return;
-    await changeMail(mail);
-  }
+  const { address, blockchain, login } = useSession();
 
   return (
-    <div className="bg-blue-900 flex flex-col items-center w-screen h-screen gap-4">
-      <h1 className="text-white text-3xl pt-8">Welcome to our awesome exchange</h1>
-      <p className="text-white">{`api url from process is ${process.env.REACT_APP_API_URL}`}</p>
-      {isMetaMaskInstalled ? (
-        <button className="rounded-full bg-white px-4 py-2 text-blue-900" onClick={login}>
-          Connect to metamask
-        </button>
-      ) : (
-        <p className="text-white">Please install MetaMask</p>
-      )}
-      {address && <p className="text-white">{`Logged in with ${address}`}</p>}
-      {user && (
-        <>
-          <p className="text-white">{`${user.mail} (ref ${user.ref})`}</p>
-          <input
-            type="text"
-            onChange={(e) => setMail(e.target.value)}
-            className="text-white focus:outline-none px-4 py-2 rounded-full border border-white bg-blue-900"
-          />
-          <button className="rounded-full bg-white ml-4 px-4 py-2 text-blue-900" onClick={handleSubmit}>
-            Change
-          </button>
-        </>
-      )}
-      {assets && (
-        <p className="text-white max-w-lg break-words">
-          {assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}
-        </p>
-      )}
+    <div className="text-center p-2 h-screen">
+      <div className="max-w-6xl text-left mx-auto ">
+        <div className="flex justify-between">
+          <DfxLogo />
+          <StyledButton label="Connect to Metamask" onClick={login} />
+        </div>
+        <div className="md:flex justify-between mt-6">
+          <div className="basis-3/5 max-w-[50%] px-6 mx-auto md:mx-0">
+            <DfxTitleSection heading="DFX Multichain" subheading="Buy • Sell • Convert • Stake" />
+          </div>
+          <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
+            <StyledDataBox heading="Your wallet">
+              <StyledDataTextRow label="Metamask">{address}</StyledDataTextRow>
+              <StyledDataTextRow label="Connected to">{blockchain}</StyledDataTextRow>
+            </StyledDataBox>
+            <StyledDataBox heading="Your Data">
+              <StyledDataTextRow label="E-Mail address">{user?.mail}</StyledDataTextRow>
+              <StyledDataTextRow label="Your Referral Code">
+                {user?.ref}
+                <StyledButton
+                  label="Copy link to share"
+                  size={StyledButtonSizes.SMALL}
+                  width={StyledButtonWidths.MIN}
+                  caps={false}
+                  onClick={() => {
+                    console.log('ToDo add clipboard');
+                  }}
+                />
+              </StyledDataTextRow>
+            </StyledDataBox>
+          </aside>
+        </div>
+        <div className="bg-white w-full h-96 rounded-lg text-black">
+          <h1>Buy</h1>
+          <p className="break-words">{assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}</p>
+        </div>
+      </div>
     </div>
   );
 }

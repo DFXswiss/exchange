@@ -1,6 +1,6 @@
 import { Blockchain } from './blockchain';
 
-export const AssetUrl = { get: 'asset' };
+export const AssetUrl = { get: 'asset?blockchains=Ethereum,BinanceSmartChain' };
 
 export interface Asset {
   id: number;
