@@ -55,7 +55,7 @@ WithIntegratedButton.args = {
 export const LoggedIn: ComponentStory<typeof StyledDataBox> = (args) => {
   return (
     <StyledDataBox {...args}>
-      <StyledDataTextRow label="Metamask">Account1: 0x6724...f1436</StyledDataTextRow>
+      <StyledDataTextRow label="Metamask">Account1: 0x672424234234234f1436</StyledDataTextRow>
       <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
     </StyledDataBox>
   );

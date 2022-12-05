@@ -16,7 +16,7 @@ export enum StyledButtonColors {
   WHITE = 'WHITE',
 }
 
-export interface IStyledButtonProps {
+export interface StyledButtonProps {
   label: string;
   onClick: () => void;
   size?: StyledButtonSizes;
@@ -53,7 +53,7 @@ export default function StyledButton({
   width = StyledButtonWidths.MD,
   color = StyledButtonColors.RED,
   caps = true,
-}: IStyledButtonProps) {
+}: StyledButtonProps) {
   let buttonClasses =
     'inline-block leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ';
 
