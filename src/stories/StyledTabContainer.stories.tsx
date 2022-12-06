@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import StyledTabContainer, { TabType } from './StyledTabContainer';
+import { TabType } from './StyledTab';
+import StyledTabContainer from './StyledTabContainer';
 
 export default {
   title: 'Composites/StyledTabContainer',

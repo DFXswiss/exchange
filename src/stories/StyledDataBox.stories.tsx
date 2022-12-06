@@ -3,7 +3,8 @@ import StyledDataTextRow from './StyledDataTextRow';
 import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { IconButton } from './StyledIconButton.stories';
-import { IconVariant } from './DfxIcon';
+import { IconVariant, IconColors, IconSizes } from './DfxIcon';
+import StyledIconButton from './StyledIconButton';
 
 export default {
   title: 'Composites/DataBox',
@@ -46,7 +47,16 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
 
 WithRows.args = {
   heading: 'With Rows and Settings',
-  hasSettings: true,
+  rightIconButton: (
+    <StyledIconButton
+      icon={IconVariant.SETTINGS}
+      color={IconColors.RED}
+      size={IconSizes.LG}
+      onClick={() => {
+        console.log('clicked');
+      }}
+    />
+  ),
 };
 
 export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args) => {
@@ -84,5 +94,8 @@ export const LoggedIn: ComponentStory<typeof StyledDataBox> = (args) => {
 
 LoggedIn.args = {
   heading: 'Your wallet',
-  loggedIn: true,
+  boxButtonLabel: 'Log Out',
+  boxButtonOnClick() {
+    console.log('Logged out.');
+  },
 };

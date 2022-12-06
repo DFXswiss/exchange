@@ -1,6 +1,15 @@
 import { PropsWithChildren, ReactElement } from 'react';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
-import { TabType } from './StyledTabContainer';
+
+export enum TabType {
+  BUY = 'BUY',
+  SOON = 'COMING SOON',
+}
+
+const TABTYPE_MAP: Record<TabType, ReactElement> = {
+  [TabType.BUY]: <IconTab icon={IconVariant.BANK} />,
+  [TabType.SOON]: <ComingSoon />,
+};
 
 interface StyledTabProps extends PropsWithChildren {
   tabId: number;
@@ -9,11 +18,6 @@ interface StyledTabProps extends PropsWithChildren {
   deactivated?: boolean;
   type?: TabType;
 }
-
-const TABTYPE_MAP: Record<TabType, ReactElement> = {
-  [TabType.BUY]: <IconTab icon={IconVariant.BANK} />,
-  [TabType.SOON]: <ComingSoon />,
-};
 
 export default function StyledTab({
   tabId,

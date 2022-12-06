@@ -13,7 +13,7 @@ interface StyledModalProps extends PropsWithChildren {
   heading?: string;
 }
 
-export default function StyledModal({ setShowModalFunc, closeWithX, heading }: StyledModalProps) {
+export default function StyledModal({ setShowModalFunc, heading }: StyledModalProps) {
   function setShowModal(modalState: boolean) {
     setShowModalFunc(modalState);
   }

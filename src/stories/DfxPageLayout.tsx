@@ -3,7 +3,8 @@ import DfxTitleSection from './DfxTitleSection';
 import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
 import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
-import StyledTabContainer, { TabType } from './StyledTabContainer';
+import StyledTabContainer from './StyledTabContainer';
+import { TabType } from './StyledTab';
 
 export default function DfxPageLayout() {
   return (
@@ -23,7 +24,7 @@ export default function DfxPageLayout() {
             <DfxTitleSection heading="DFX Multichain" subheading="Buy • Sell • Convert • Stake" />
           </div>
           <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
-            <StyledDataBox heading="Your wallet" loggedIn>
+            <StyledDataBox heading="Your wallet" boxButtonLabel="Log out">
               <StyledDataTextRow label="Metamask">Account1: 0x672423423423423423423423423f1436</StyledDataTextRow>
               <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
             </StyledDataBox>

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import StyledTab from './StyledTab';
+import StyledTab, { TabType } from './StyledTab';
 
 interface StyledTabContainerProps {
   tabs: Array<TabProps>;
@@ -12,11 +12,6 @@ type TabProps = {
   content: ReactNode | undefined;
   type?: TabType;
 };
-
-export enum TabType {
-  BUY = 'BUY',
-  SOON = 'COMING SOON',
-}
 
 export default function StyledTabContainer({ tabs, openTabOnLoad = 0 }: StyledTabContainerProps) {
   const [openTab, setOpenTab] = React.useState(openTabOnLoad);
