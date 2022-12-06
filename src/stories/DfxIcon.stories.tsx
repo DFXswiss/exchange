@@ -1,8 +1,8 @@
-import DfxIcon, { IconColors, IconVariant, VARIANT_MAPS } from './DfxIcon';
+import DfxIcon, { IconColors, IconVariant } from './DfxIcon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/DfxIcons',
+  title: 'Building Blocks/DfxIcons',
   component: DfxIcon,
 } as ComponentMeta<typeof DfxIcon>;
 

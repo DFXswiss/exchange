@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import DfxPageLayout from './DfxPageLayout';
 
 export default {
-  title: 'DFX/PageLayout',
+  title: 'Layout/PageLayout',
   component: DfxPageLayout,
 } as ComponentMeta<typeof DfxPageLayout>;
 

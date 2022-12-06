@@ -2,7 +2,7 @@ import DfxLogo from './DfxLogo';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/DfxLogo',
+  title: 'Building Blocks/DfxLogo',
   component: DfxLogo,
 } as ComponentMeta<typeof DfxLogo>;
 

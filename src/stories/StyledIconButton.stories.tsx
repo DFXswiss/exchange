@@ -2,7 +2,7 @@ import StyledIconButton, { StyledIconButtonSizes } from './StyledIconButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/StyledIconButton',
+  title: 'Building Blocks/StyledIconButton',
   component: StyledIconButton,
 } as ComponentMeta<typeof StyledIconButton>;
 

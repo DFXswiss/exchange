@@ -4,7 +4,7 @@ import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledBut
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/DataBox',
+  title: 'Composites/DataBox',
   component: StyledDataBox,
 } as ComponentMeta<typeof StyledDataBox>;
 

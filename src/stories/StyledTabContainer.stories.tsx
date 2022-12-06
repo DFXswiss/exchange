@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import StyledTabContainer from './StyledTabContainer';
 
 export default {
-  title: 'DFX/StyledTabContainer',
+  title: 'Composites/StyledTabContainer',
   component: StyledTabContainer,
 } as ComponentMeta<typeof StyledTabContainer>;
 

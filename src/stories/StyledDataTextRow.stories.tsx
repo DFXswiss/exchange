@@ -2,7 +2,7 @@ import StyledDataTextRow from './StyledDataTextRow';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/DataTextRow',
+  title: 'Building Blocks/DataTextRow',
   component: StyledDataTextRow,
 } as ComponentMeta<typeof StyledDataTextRow>;
 

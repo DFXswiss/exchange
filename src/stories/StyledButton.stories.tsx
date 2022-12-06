@@ -2,7 +2,7 @@ import StyledButton, { StyledButtonSizes, StyledButtonColors, StyledButtonWidths
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/StyledButton',
+  title: 'Building Blocks/StyledButton',
   component: StyledButton,
 } as ComponentMeta<typeof StyledButton>;
 

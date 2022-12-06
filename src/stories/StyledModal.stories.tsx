@@ -5,7 +5,7 @@ import StyledButton from './StyledButton';
 import StyledModal from './StyledModal';
 
 export default {
-  title: 'DFX/StyledModal',
+  title: 'Building Blocks/StyledModal',
   component: StyledModal,
 } as ComponentMeta<typeof StyledModal>;
 

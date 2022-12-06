@@ -2,7 +2,7 @@ import DfxTitleSection from './DfxTitleSection';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
-  title: 'DFX/DfxTitleSection',
+  title: 'Composites/DfxTitleSection',
   component: DfxTitleSection,
 } as ComponentMeta<typeof DfxTitleSection>;
 
