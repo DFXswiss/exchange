@@ -8,14 +8,14 @@ export enum StyledModalColors {
 }
 
 interface StyledModalProps extends PropsWithChildren {
-  setShowModalFunc: (showModal: boolean) => any;
+  onClose: (showModal: boolean) => any;
   closeWithX?: boolean;
   heading?: string;
 }
 
-export default function StyledModal({ setShowModalFunc, heading }: StyledModalProps) {
+export default function StyledModal({ onClose, heading }: StyledModalProps) {
   function setShowModal(modalState: boolean) {
-    setShowModalFunc(modalState);
+    onClose(modalState);
   }
 
   return (

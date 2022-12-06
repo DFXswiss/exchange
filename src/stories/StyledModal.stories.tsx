@@ -14,7 +14,7 @@ export const Primary: ComponentStory<typeof StyledModal> = () => {
   return (
     <>
       <StyledButton label="Open Modal" onClick={() => setShowModal(true)}></StyledButton>
-      {showModal ? <StyledModal setShowModalFunc={setShowModal}></StyledModal> : null}
+      {showModal ? <StyledModal onClose={setShowModal}></StyledModal> : null}
     </>
   );
 };

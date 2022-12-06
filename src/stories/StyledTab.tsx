@@ -1,42 +1,36 @@
-import { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren } from 'react';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
-
-export enum TabType {
-  BUY = 'BUY',
-  SOON = 'COMING SOON',
-}
-
-const TABTYPE_MAP: Record<TabType, ReactElement> = {
-  [TabType.BUY]: <IconTab icon={IconVariant.BANK} />,
-  [TabType.SOON]: <ComingSoon />,
-};
 
 interface StyledTabProps extends PropsWithChildren {
   tabId: number;
-  updateActiveTab: (tId: number) => any;
-  openTab: number;
+  setActive: (tId: number) => any;
+  active: number;
   deactivated?: boolean;
-  type?: TabType;
+  icon?: IconVariant;
+  flagWord1?: string;
+  flagWord2?: string;
 }
 
 export default function StyledTab({
   tabId,
   children,
-  type,
-  openTab,
-  updateActiveTab,
+  active,
+  setActive,
   deactivated = false,
+  icon,
+  flagWord1,
+  flagWord2,
 }: StyledTabProps) {
   const hrefLink = '#link' + tabId;
   let tabClasses = 'text-2xl font-black px-12 py-2 rounded-t-lg block flex gap-2 ';
-  if (deactivated === false) {
-    openTab === tabId ? (tabClasses += 'bg-white') : (tabClasses += 'hover:bg-white/10 focus:bg-white/10');
+  if (!deactivated) {
+    active === tabId ? (tabClasses += 'bg-white') : (tabClasses += 'hover:bg-white/10 focus:bg-white/10');
   } else {
     tabClasses += 'cursor-default text-dfxBlue-800/70';
   }
 
   function setCurrentTab() {
-    updateActiveTab(tabId);
+    setActive(tabId);
   }
 
   return (
@@ -45,7 +39,7 @@ export default function StyledTab({
         className={tabClasses}
         onClick={(e) => {
           e.preventDefault();
-          if (deactivated === false) {
+          if (!deactivated) {
             setCurrentTab();
           }
         }}
@@ -54,27 +48,43 @@ export default function StyledTab({
         role="tablist"
       >
         {children}
-        {type && TABTYPE_MAP[type]}
+
+        {icon !== undefined && <IconFlag icon={icon} />}
+
+        {flagWord1 !== undefined && <TwoWordFlag word1={flagWord1} word2={flagWord2} />}
       </a>
     </li>
   );
 }
 
-function ComingSoon() {
+type TwoWordFlagProps = {
+  word1: string | undefined;
+  word2?: string;
+};
+
+function TwoWordFlag({ word1, word2 }: TwoWordFlagProps) {
+  let flagClasses = 'text-2xs uppercase font-normal text-left leading-tight ';
+
+  if (word2 !== undefined) {
+    flagClasses += ' place-self-center';
+  } else {
+    flagClasses += ' place-self-start mt-2';
+  }
+
   return (
-    <div className="text-2xs uppercase font-normal text-left leading-tight place-self-center">
-      coming
-      <br />
-      soon
+    <div className={flagClasses}>
+      {word1}
+      {word2 !== undefined ? <br /> : null}
+      {word2}
     </div>
   );
 }
 
-type IconTabProps = {
-  icon: IconVariant;
+type IconFlagProps = {
+  icon: IconVariant | undefined;
 };
 
-function IconTab({ icon }: IconTabProps) {
+function IconFlag({ icon }: IconFlagProps) {
   return (
     <div className="place-self-center ml-1">
       <DfxIcon icon={icon} color={IconColors.BLUE} size={IconSizes.LG} />

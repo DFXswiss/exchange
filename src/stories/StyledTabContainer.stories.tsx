@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TabType } from './StyledTab';
+import { IconVariant } from './DfxIcon';
 import StyledTabContainer from './StyledTabContainer';
 
 export default {
@@ -12,11 +12,11 @@ export const Default: ComponentStory<typeof StyledTabContainer> = (args) => {
 };
 
 Default.args = {
-  openTabOnLoad: 0,
+  activeTab: 0,
   tabs: [
     {
       title: 'Buy',
-      type: TabType.BUY,
+      icon: IconVariant.BANK,
       deactivated: false,
       content: (
         <>
@@ -31,7 +31,7 @@ Default.args = {
     },
     {
       title: 'Sell',
-      type: TabType.SOON,
+      icon: IconVariant.WALLET,
       deactivated: false,
       content: (
         <>
@@ -47,6 +47,8 @@ Default.args = {
     {
       title: 'Convert',
       deactivated: false,
+      flagWord1: 'Coming',
+      flagWord2: 'soon',
       content: (
         <>
           <h2>Tab 3: Convert</h2>
@@ -58,6 +60,6 @@ Default.args = {
         </>
       ),
     },
-    { title: 'Stake', deactivated: true, type: TabType.SOON, content: 'null' },
+    { title: 'Stake', deactivated: true, flagWord1: 'Beta', content: 'null' },
   ],
 };
