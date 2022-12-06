@@ -1,18 +1,20 @@
-import StyledIconButton, { StyledIconButtonSizes } from './StyledIconButton';
+import StyledIconButton from './StyledIconButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { IconColors, IconSizes, IconVariant } from './DfxIcon';
 
 export default {
   title: 'Building Blocks/StyledIconButton',
   component: StyledIconButton,
 } as ComponentMeta<typeof StyledIconButton>;
 
-export const BigButton: ComponentStory<typeof StyledIconButton> = (args) => {
-  return (
-    <div className="flex space-x-2 justify-center">
-      <StyledIconButton {...args} />
-    </div>
-  );
+export const IconButton: ComponentStory<typeof StyledIconButton> = (args) => {
+  return <StyledIconButton {...args} />;
 };
-BigButton.args = {
-  size: StyledIconButtonSizes.BIG,
+IconButton.args = {
+  icon: IconVariant.BANK,
+  color: IconColors.RED,
+  size: IconSizes.MD,
+  onClick: () => {
+    alert('button clicked.');
+  },
 };

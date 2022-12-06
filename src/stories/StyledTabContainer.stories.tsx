@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import StyledTabContainer from './StyledTabContainer';
+import StyledTabContainer, { TabType } from './StyledTabContainer';
 
 export default {
   title: 'Composites/StyledTabContainer',
@@ -16,6 +16,7 @@ Default.args = {
   tabs: [
     {
       title: 'Buy',
+      type: TabType.BUY,
       deactivated: false,
       content: (
         <>
@@ -30,6 +31,7 @@ Default.args = {
     },
     {
       title: 'Sell',
+      type: TabType.SOON,
       deactivated: false,
       content: (
         <>
@@ -56,6 +58,6 @@ Default.args = {
         </>
       ),
     },
-    { title: 'Inactive', deactivated: true, content: 'null' },
+    { title: 'Stake', deactivated: true, type: TabType.SOON, content: 'null' },
   ],
 };

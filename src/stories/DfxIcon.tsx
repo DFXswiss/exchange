@@ -19,6 +19,12 @@ import {
 } from 'react-icons/md';
 import React, { ReactElement, useContext } from 'react';
 
+interface DfxIconProps {
+  icon: IconVariant;
+  color?: IconColors;
+  size?: IconSizes;
+}
+
 export enum IconVariant {
   ARROWRIGHT = 'ARROWRIGHT',
   ARROWLEFT = 'ARROWLEFT',
@@ -60,12 +66,6 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.WALLET]: <DfxWalletIcon />,
   [IconVariant.BANK]: <DfxBankIcon />,
 };
-
-interface DfxIconProps {
-  icon: IconVariant;
-  color: IconColors;
-  size: IconSizes;
-}
 
 export enum IconSizes {
   XS = 'EXTRA SMALL',

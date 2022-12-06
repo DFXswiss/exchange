@@ -10,7 +10,13 @@ type TabProps = {
   title: string;
   deactivated: boolean;
   content: ReactNode | undefined;
+  type?: TabType;
 };
+
+export enum TabType {
+  BUY = 'BUY',
+  SOON = 'COMING SOON',
+}
 
 export default function StyledTabContainer({ tabs, openTabOnLoad = 0 }: StyledTabContainerProps) {
   const [openTab, setOpenTab] = React.useState(openTabOnLoad);
@@ -28,6 +34,7 @@ export default function StyledTabContainer({ tabs, openTabOnLoad = 0 }: StyledTa
                   openTab={openTab}
                   deactivated={tab.deactivated}
                   key={index}
+                  type={tab.type}
                 >
                   {tab.title}
                 </StyledTab>

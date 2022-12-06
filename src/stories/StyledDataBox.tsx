@@ -1,8 +1,11 @@
 import { PropsWithChildren } from 'react';
+import { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import StyledIconButton from './StyledIconButton';
 
-interface IStyledDataBoxProps extends PropsWithChildren {
+interface StyledDataBoxProps extends PropsWithChildren {
   heading: string;
   loggedIn?: boolean;
+  hasSettings?: boolean;
   boxButtonLabel?: string;
   boxButtonOnClick?: () => void;
 }
@@ -11,11 +14,12 @@ export default function StyledDataBox({
   heading,
   children,
   loggedIn = false,
+  hasSettings = false,
   boxButtonLabel = 'Log Out',
   boxButtonOnClick,
-}: IStyledDataBoxProps) {
+}: StyledDataBoxProps) {
   let headingClasses = 'mb-2';
-  let containerClasses = ' border-white/20  py-3 px-4';
+  let containerClasses = ' border-white/20  p-3';
 
   loggedIn ? (containerClasses += ' rounded-t border-x border-t') : (containerClasses += ' border rounded');
 
@@ -26,7 +30,19 @@ export default function StyledDataBox({
   return (
     <div className="mb-6 sm:max-w-lg md:max-w-none md:w-full mx-auto">
       <div className={containerClasses}>
-        <h2 className={headingClasses}>{heading}</h2>
+        <div className="flex justify-between content-start">
+          <h2 className={headingClasses}>{heading}</h2>
+          {hasSettings && (
+            <StyledIconButton
+              icon={IconVariant.SETTINGS}
+              color={IconColors.RED}
+              size={IconSizes.LG}
+              onClick={() => {
+                console.log('clicked');
+              }}
+            />
+          )}
+        </div>
         <div>{children}</div>
       </div>
       {loggedIn && (

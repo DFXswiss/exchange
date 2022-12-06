@@ -3,7 +3,7 @@ import DfxTitleSection from './DfxTitleSection';
 import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
 import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
-import StyledTabContainer from './StyledTabContainer';
+import StyledTabContainer, { TabType } from './StyledTabContainer';
 
 export default function DfxPageLayout() {
   return (
@@ -49,6 +49,7 @@ export default function DfxPageLayout() {
             {
               title: 'Buy',
               deactivated: false,
+              type: TabType.BUY,
               content: (
                 <>
                   <h2>Tab 1: Buy</h2>{' '}
@@ -60,8 +61,8 @@ export default function DfxPageLayout() {
                 </>
               ),
             },
-            { title: 'Sell', deactivated: false, content: <h2>Tab2 : sell</h2> },
-            { title: 'Convert', deactivated: false, content: <h2>Tab 3: convert</h2> },
+            { title: 'Sell', deactivated: false, type: TabType.SOON, content: <h2>Tab2 : sell</h2> },
+            { title: 'Convert', deactivated: false, type: TabType.SOON, content: <h2>Tab 3: convert</h2> },
           ]}
         ></StyledTabContainer>
       </div>
