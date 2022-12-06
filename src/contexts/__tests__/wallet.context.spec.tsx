@@ -16,13 +16,19 @@ const TestingComponent = (): JSX.Element => {
       <p data-testid="is-connected">{isConnected?.toString()}</p>
       <p data-testid="address">{address}</p>
       <p data-testid="blockchain">{blockchain}</p>
-      <button data-testid="sign-message" onClick={() => signMessage('a-test-sign-message', 'a-test-address')} />
+      <button
+        data-testid="sign-message"
+        onClick={() =>
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          signMessage('a-test-sign-message', 'a-test-address').catch(() => {})
+        }
+      />
       <button
         data-testid="connect"
-        onClick={() => {
+        onClick={() =>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          connect().catch(() => {});
-        }}
+          connect().catch(() => {})
+        }
       />
     </>
   );
