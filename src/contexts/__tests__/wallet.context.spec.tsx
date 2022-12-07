@@ -86,7 +86,7 @@ describe('WalletContextProvider', () => {
     };
   }
 
-  function createMock({ isInstalled, address, blockchain }: MockInput): Mock {
+  function createMock({ isInstalled, address, blockchain }: MockInput = {}): Mock {
     return {
       isInstalled: isInstalled ?? true,
       register: jest.fn(),
@@ -107,10 +107,10 @@ describe('WalletContextProvider', () => {
       return mockAndRenderTestElements(createMock({ address: 'test-address', blockchain: Blockchain.ETH }));
     },
     connectFail: (): Setup => {
-      return mockAndRenderTestElements(createMock({}));
+      return mockAndRenderTestElements(createMock());
     },
     connected: (): Setup => {
-      return mockAndRenderTestElements(createMock({}));
+      return mockAndRenderTestElements(createMock());
     },
   };
 

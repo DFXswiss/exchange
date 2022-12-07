@@ -5,7 +5,7 @@ import { useBlockchain } from './blockchain.hook';
 export interface MetaMaskInterface {
   isInstalled: boolean;
   register: (
-    onAddressChanged: (address?: string) => void,
+    onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
   ) => void;
   requestAccount: () => Promise<string | undefined>;
@@ -21,17 +21,17 @@ export function useMetaMask(): MetaMaskInterface {
   const isInstalled = Boolean(ethereum && ethereum.isMetaMask);
 
   function register(
-    onAddressChanged: (address?: string) => void,
+    onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
   ) {
     web3.eth.getAccounts((_err, accounts) => {
-      onAddressChanged(verifyAccount(accounts));
+      onAccountChanged(verifyAccount(accounts));
     });
     web3.eth.getChainId((_err, chainId) => {
       onBlockchainChanged(toBlockchain(chainId));
     });
     ethereum?.on('accountsChanged', (accounts: string[]) => {
-      onAddressChanged(verifyAccount(accounts));
+      onAccountChanged(verifyAccount(accounts));
     });
     ethereum?.on('chainChanged', (chainId: string) => {
       onBlockchainChanged(toBlockchain(chainId));
