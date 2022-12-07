@@ -34,6 +34,12 @@ const TestingComponent = (): JSX.Element => {
   );
 };
 
+interface MockInput {
+  isInstalled?: boolean;
+  address?: string;
+  blockchain?: Blockchain;
+}
+
 interface Mock {
   isInstalled: boolean;
   register: jest.Mock<any, any>;
@@ -80,9 +86,9 @@ describe('WalletContextProvider', () => {
     };
   }
 
-  function createMock(isInstalled = true, address?: string, blockchain?: Blockchain): Mock {
+  function createMock({ isInstalled, address, blockchain }: MockInput): Mock {
     return {
-      isInstalled,
+      isInstalled: isInstalled ?? true,
       register: jest.fn(),
       requestAccount: jest.fn(() => address),
       requestBlockchain: jest.fn(() => blockchain),
@@ -92,19 +98,19 @@ describe('WalletContextProvider', () => {
 
   const setup = {
     installed: (): Setup => {
-      return mockAndRenderTestElements(createMock(true));
+      return mockAndRenderTestElements(createMock({ isInstalled: true }));
     },
     notInstalled: (): Setup => {
-      return mockAndRenderTestElements(createMock(false));
+      return mockAndRenderTestElements(createMock({ isInstalled: false }));
     },
     connectSuccess: (): Setup => {
-      return mockAndRenderTestElements(createMock(true, 'test-address', Blockchain.ETH));
+      return mockAndRenderTestElements(createMock({ address: 'test-address', blockchain: Blockchain.ETH }));
     },
     connectFail: (): Setup => {
-      return mockAndRenderTestElements(createMock(true));
+      return mockAndRenderTestElements(createMock({}));
     },
     connected: (): Setup => {
-      return mockAndRenderTestElements(createMock(true));
+      return mockAndRenderTestElements(createMock({}));
     },
   };
 
