@@ -1,8 +1,9 @@
-import { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
+import StyledIconButton from './StyledIconButton';
 
 interface StyledDataBoxProps extends PropsWithChildren {
   heading: string;
-  rightIconButton?: ReactNode | undefined;
+  rightIconButton?: ReactElement<typeof StyledIconButton>;
   boxButtonLabel?: string;
   boxButtonOnClick?: () => void;
 }

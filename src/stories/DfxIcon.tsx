@@ -20,7 +20,7 @@ import {
 import React, { ReactElement, useContext } from 'react';
 
 interface DfxIconProps {
-  icon: IconVariant | undefined;
+  icon: IconVariant;
   color?: IconColors;
   size?: IconSizes;
 }
@@ -101,11 +101,7 @@ const SIZE_MAPS: Record<IconSizes, string> = {
   [IconSizes.XL]: '32px',
 };
 
-export default function DfxIcon({
-  icon = IconVariant.BANK,
-  color = IconColors.RED,
-  size = IconSizes.MD,
-}: DfxIconProps) {
+export default function DfxIcon({ icon, color = IconColors.RED, size = IconSizes.MD }: DfxIconProps) {
   return (
     <IconContext.Provider value={{ color: COLOR_MAPS[color], size: SIZE_MAPS[size] }}>
       {VARIANT_MAPS[icon]}

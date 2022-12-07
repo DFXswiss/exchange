@@ -2,9 +2,8 @@ import { PropsWithChildren } from 'react';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
 
 interface StyledTabProps extends PropsWithChildren {
-  tabId: number;
-  setActive: (tId: number) => any;
-  active: number;
+  setActive: () => any;
+  active: boolean;
   deactivated?: boolean;
   icon?: IconVariant;
   flagWord1?: string;
@@ -12,7 +11,6 @@ interface StyledTabProps extends PropsWithChildren {
 }
 
 export default function StyledTab({
-  tabId,
   children,
   active,
   setActive,
@@ -21,16 +19,11 @@ export default function StyledTab({
   flagWord1,
   flagWord2,
 }: StyledTabProps) {
-  const hrefLink = '#link' + tabId;
   let tabClasses = 'text-2xl font-black px-12 py-2 rounded-t-lg block flex gap-2 ';
   if (!deactivated) {
-    active === tabId ? (tabClasses += 'bg-white') : (tabClasses += 'hover:bg-white/10 focus:bg-white/10');
+    active ? (tabClasses += 'bg-white') : (tabClasses += 'hover:bg-white/10 focus:bg-white/10');
   } else {
     tabClasses += 'cursor-default text-dfxBlue-800/70';
-  }
-
-  function setCurrentTab() {
-    setActive(tabId);
   }
 
   return (
@@ -40,11 +33,11 @@ export default function StyledTab({
         onClick={(e) => {
           e.preventDefault();
           if (!deactivated) {
-            setCurrentTab();
+            setActive();
           }
         }}
         data-toggle="tab"
-        href={hrefLink}
+        href="#"
         role="tablist"
       >
         {children}
@@ -81,7 +74,7 @@ function TwoWordFlag({ word1, word2 }: TwoWordFlagProps) {
 }
 
 type IconFlagProps = {
-  icon: IconVariant | undefined;
+  icon: IconVariant;
 };
 
 function IconFlag({ icon }: IconFlagProps) {

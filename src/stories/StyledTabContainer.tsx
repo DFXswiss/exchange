@@ -27,9 +27,8 @@ export default function StyledTabContainer({ tabs, activeTab = 0 }: StyledTabCon
             {tabs.map((tab: TabProps, index: number) => {
               return (
                 <StyledTab
-                  tabId={index}
-                  setActive={setActive}
-                  active={active}
+                  setActive={() => setActive(index)}
+                  active={index === active}
                   deactivated={tab.deactivated}
                   key={index}
                   icon={tab.icon}
