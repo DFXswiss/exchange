@@ -14,9 +14,20 @@ export const Primary: ComponentStory<typeof StyledModal> = () => {
   return (
     <>
       <StyledButton label="Open Modal" onClick={() => setShowModal(true)}></StyledButton>
-      {showModal ? <StyledModal onClose={setShowModal}></StyledModal> : null}
+      {showModal ? (
+        <StyledModal onClose={setShowModal}>
+          <h2>Überschrift</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quisquam illum ea magni consequatur voluptas,
+            necessitatibus temporibus, delectus alias tempora exercitationem accusantium culpa dolorem adipisci. Fugiat
+            hic laborum tempore obcaecati.
+          </p>
+        </StyledModal>
+      ) : null}
     </>
   );
 };
 
-Primary.args = {};
+Primary.args = {
+  heading: 'Modal-Heading',
+};
