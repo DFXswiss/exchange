@@ -3,18 +3,18 @@ import { IconVariant } from './DfxIcon';
 import StyledTab from './StyledTab';
 
 interface StyledTabContainerProps {
-  tabs: Array<TabProps>;
+  tabs: Array<StyledTabProps>;
   activeTab?: number;
 }
 
-type TabProps = {
+export interface StyledTabProps {
   title: string;
   deactivated?: boolean;
   content: ReactNode | undefined;
   icon?: IconVariant;
   flagWord1?: string;
   flagWord2?: string;
-};
+}
 
 export default function StyledTabContainer({ tabs, activeTab = 0 }: StyledTabContainerProps) {
   const [active, setActive] = useState(activeTab);
@@ -24,7 +24,7 @@ export default function StyledTabContainer({ tabs, activeTab = 0 }: StyledTabCon
       <div className="flex flex-wrap text-dfxBlue-800 mt-6">
         <div className="w-full">
           <ul className="flex mb-0 rounded-t-lg list-none bg-white/50 flex-wrap p-0 flex-row" role="tablist">
-            {tabs.map((tab: TabProps, index: number) => {
+            {tabs.map((tab: StyledTabProps, index: number) => {
               return (
                 <StyledTab
                   setActive={() => setActive(index)}
