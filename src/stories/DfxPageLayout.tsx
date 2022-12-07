@@ -1,8 +1,10 @@
+import { IconVariant } from './DfxIcon';
 import DfxLogo from './DfxLogo';
 import DfxTitleSection from './DfxTitleSection';
 import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
 import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
+import StyledTabContainer from './StyledTabContainer';
 
 export default function DfxPageLayout() {
   return (
@@ -22,8 +24,8 @@ export default function DfxPageLayout() {
             <DfxTitleSection heading="DFX Multichain" subheading="Buy • Sell • Convert • Stake" />
           </div>
           <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
-            <StyledDataBox heading="Your wallet">
-              <StyledDataTextRow label="Metamask">Account1: 0x6724...f1436</StyledDataTextRow>
+            <StyledDataBox heading="Your wallet" boxButtonLabel="Log out">
+              <StyledDataTextRow label="Metamask">Account1: 0x672423423423423423423423423f1436</StyledDataTextRow>
               <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
             </StyledDataBox>
             <StyledDataBox heading="Your Data">
@@ -43,9 +45,34 @@ export default function DfxPageLayout() {
             </StyledDataBox>
           </aside>
         </div>
-        <div className="bg-white w-full h-96 rounded-lg text-black">
-          <h1>Buy</h1>
-        </div>
+        <StyledTabContainer
+          tabs={[
+            {
+              title: 'Buy',
+              deactivated: false,
+              icon: IconVariant.BANK,
+              content: (
+                <>
+                  <h2>Tab 1: Buy</h2>{' '}
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt praesentium explicabo, quibusdam
+                    nisi quae a! Quis consectetur qui, impedit autem exercitationem incidunt eligendi. Itaque quaerat
+                    dolor non velit, maiores perspiciatis?
+                  </p>
+                </>
+              ),
+            },
+            { title: 'Sell', deactivated: false, icon: IconVariant.WALLET, content: <h2>Tab2 : sell</h2> },
+            {
+              title: 'Convert',
+              deactivated: false,
+              flagWord1: 'Coming',
+              flagWord2: 'Soon',
+              content: <h2>Tab 3: convert</h2>,
+            },
+            { title: 'Stake', flagWord1: 'Beta', content: <h2>Tab4: Staking</h2> },
+          ]}
+        ></StyledTabContainer>
       </div>
     </div>
   );

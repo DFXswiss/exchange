@@ -10,7 +10,7 @@ export default function StyledDataTextRow({ label, children }: IStyledDataTextRo
       <div className="flex-none w-48">
         <p className="text-dfxGray-600">{label}</p>
       </div>
-      <div className="flex-auto">{children}</div>
+      <div className="flex-auto overflow-hidden ">{children}</div>
     </div>
   );
 }

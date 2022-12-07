@@ -2,9 +2,12 @@ import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
 import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { IconButton } from './StyledIconButton.stories';
+import { IconVariant, IconColors, IconSizes } from './DfxIcon';
+import StyledIconButton from './StyledIconButton';
 
 export default {
-  title: 'DFX/DataBox',
+  title: 'Composites/DataBox',
   component: StyledDataBox,
 } as ComponentMeta<typeof StyledDataBox>;
 
@@ -16,6 +19,47 @@ WithoutRows.args = {
 };
 
 export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
+  return (
+    <StyledDataBox {...args}>
+      <StyledDataTextRow label="Metamask">
+        Account1: 0x6724...f1436{' '}
+        <IconButton
+          icon={IconVariant.COPY}
+          onClick={() => {
+            console.log('copied.');
+          }}
+          inline
+        />
+      </StyledDataTextRow>
+      <StyledDataTextRow label="Connected to">
+        Ethereum Mainnet{' '}
+        <IconButton
+          icon={IconVariant.INFOOUTLINE}
+          onClick={() => {
+            console.log('informed.');
+          }}
+          inline
+        />
+      </StyledDataTextRow>
+    </StyledDataBox>
+  );
+};
+
+WithRows.args = {
+  heading: 'With Rows and Settings',
+  rightIconButton: (
+    <StyledIconButton
+      icon={IconVariant.SETTINGS}
+      color={IconColors.RED}
+      size={IconSizes.LG}
+      onClick={() => {
+        console.log('clicked');
+      }}
+    />
+  ),
+};
+
+export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args) => {
   return (
     <StyledDataBox {...args}>
       <StyledDataTextRow label="E-mail address">john.doe@gmail.com</StyledDataTextRow>
@@ -35,19 +79,23 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
   );
 };
 
-WithRows.args = {
-  heading: 'Your Data With Rows',
+WithIntegratedButton.args = {
+  heading: 'With Buttons',
 };
 
-export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args) => {
+export const LoggedIn: ComponentStory<typeof StyledDataBox> = (args) => {
   return (
     <StyledDataBox {...args}>
-      <StyledDataTextRow label="Metamask">Account1: 0x6724...f1436</StyledDataTextRow>
+      <StyledDataTextRow label="Metamask">Account1: 0x672424234234234f1436</StyledDataTextRow>
       <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
     </StyledDataBox>
   );
 };
 
-WithIntegratedButton.args = {
-  heading: 'With Integrated Button',
+LoggedIn.args = {
+  heading: 'Your wallet',
+  boxButtonLabel: 'Log Out',
+  boxButtonOnClick() {
+    console.log('Logged out.');
+  },
 };
