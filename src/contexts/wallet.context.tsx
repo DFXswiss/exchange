@@ -1,7 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import Web3 from 'web3';
 import { Blockchain } from '../api/definitions/blockchain';
-import { useBlockchain } from '../hooks/blockchain.hook';
+import { useMetaMask } from '../hooks/metamask.hook';
 
 interface WalletInterface {
   address?: string;
@@ -21,50 +20,25 @@ export function useWalletContext(): WalletInterface {
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [address, setAddress] = useState<string>();
   const [blockchain, setBlockchain] = useState<Blockchain>();
-  const { toBlockchain } = useBlockchain();
-  const { ethereum } = window as any;
-  const web3 = new Web3(Web3.givenProvider);
+  const { isInstalled, register, requestAccount, requestBlockchain, sign } = useMetaMask();
 
-  const isInstalled = ethereum && ethereum.isMetaMask;
   const isConnected = address !== undefined;
 
   useEffect(() => {
-    web3.eth.getAccounts((_err, accounts) => {
-      setAddress(verifyAccount(accounts));
-    });
-    web3.eth.getChainId((_err, chainId) => {
-      setBlockchain(toBlockchain(chainId));
-    });
-    ethereum?.on('accountsChanged', (accounts: string[]) => {
-      setAddress(verifyAccount(accounts));
-    });
-    ethereum?.on('chainChanged', (chainId: string) => {
-      setBlockchain(toBlockchain(chainId));
-      // Following is a recommendation of metamask documentation. I am not sure, if we will need it.
-      // Handle the new chain.
-      // Correctly handling chain changes can be complicated.
-      // We recommend reloading the page unless you have good reason not to.
-      // window.location.reload();
-    });
+    register(setAddress, setBlockchain);
   }, []);
 
-  function verifyAccount(accounts: string[]): string | undefined {
-    if ((accounts?.length ?? 0) <= 0) return undefined;
-    // check if address is valid
-    return Web3.utils.toChecksumAddress(accounts[0]);
-  }
-
   async function connect(): Promise<string> {
-    const account = verifyAccount(await web3.eth.requestAccounts());
+    const account = await requestAccount();
     if (!account) throw new Error('Permission denied or account not verified');
     setAddress(account);
-    setBlockchain(toBlockchain(await web3.eth.getChainId()));
+    setBlockchain(await requestBlockchain());
     return account;
   }
 
   async function signMessage(message: string, address: string): Promise<string> {
     try {
-      return await web3.eth.personal.sign(message, address, '');
+      return await sign(address, message);
     } catch (e: any) {
       // TODO (Krysh): real error handling
       // {code: 4001, message: 'User rejected the request.'} = requests accounts cancel
