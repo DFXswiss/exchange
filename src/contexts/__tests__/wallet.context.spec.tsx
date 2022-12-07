@@ -34,12 +34,12 @@ const TestingComponent = (): JSX.Element => {
   );
 };
 
-enum Test {
-  NOT_INSTALLED,
-  INSTALLED,
-  CONNECT_SUCCESS,
-  CONNECT_FAIL,
-  CONNECTED,
+interface Mock {
+  isInstalled: boolean;
+  register: jest.Mock<any, any>;
+  requestAccount: jest.Mock<any, any>;
+  requestBlockchain: jest.Mock<any, any>;
+  sign: jest.Mock<any, any>;
 }
 
 interface Setup {
@@ -57,21 +57,8 @@ interface Setup {
 }
 
 describe('WalletContextProvider', () => {
-  function setup(testCase: Test): Setup {
-    const isInstalled = testCase === Test.INSTALLED;
-    const register = jest.fn();
-    const requestAccount: jest.Mock<any, any> =
-      testCase === Test.CONNECT_SUCCESS ? jest.fn(() => 'test-address') : jest.fn(() => undefined);
-    const requestBlockchain: jest.Mock<any, any> = jest.fn(() => Blockchain.ETH);
-    const sign = jest.fn();
-
-    mockUseMetaMask.mockImplementation(() => ({
-      isInstalled,
-      register,
-      requestAccount,
-      requestBlockchain,
-      sign,
-    }));
+  function mockAndRenderTestElements({ isInstalled, register, requestAccount, requestBlockchain, sign }: Mock): Setup {
+    mockUseMetaMask.mockImplementation(() => ({ isInstalled, register, requestAccount, requestBlockchain, sign }));
 
     const { getByTestId } = render(
       <WalletContextProvider>
@@ -93,27 +80,55 @@ describe('WalletContextProvider', () => {
     };
   }
 
+  function createMock(isInstalled = true, address?: string, blockchain?: Blockchain): Mock {
+    return {
+      isInstalled,
+      register: jest.fn(),
+      requestAccount: jest.fn(() => address),
+      requestBlockchain: jest.fn(() => blockchain),
+      sign: jest.fn(),
+    };
+  }
+
+  const setup = {
+    installed: (): Setup => {
+      return mockAndRenderTestElements(createMock(true));
+    },
+    notInstalled: (): Setup => {
+      return mockAndRenderTestElements(createMock(false));
+    },
+    connectSuccess: (): Setup => {
+      return mockAndRenderTestElements(createMock(true, 'test-address', Blockchain.ETH));
+    },
+    connectFail: (): Setup => {
+      return mockAndRenderTestElements(createMock(true));
+    },
+    connected: (): Setup => {
+      return mockAndRenderTestElements(createMock(true));
+    },
+  };
+
   it('should return is installed, not connected and an empty address if installed', () => {
-    const { isInstalled, isConnected, address } = setup(Test.INSTALLED);
+    const { isInstalled, isConnected, address } = setup.installed();
     expect(isInstalled.textContent).toEqual('true');
     expect(isConnected.textContent).toEqual('false');
     expect(address.textContent).toEqual('');
   });
 
   it('should return not installed, not connected and an empty address if not installed', () => {
-    const { isInstalled, isConnected, address } = setup(Test.NOT_INSTALLED);
+    const { isInstalled, isConnected, address } = setup.notInstalled();
     expect(isInstalled.textContent).toEqual('false');
     expect(isConnected.textContent).toEqual('false');
     expect(address.textContent).toEqual('');
   });
 
   it('should call register on creation', () => {
-    const { register } = setup(Test.INSTALLED);
+    const { register } = setup.installed();
     expect(register).toBeCalled();
   });
 
   it('should show address and blockchain if connect is successful', async () => {
-    const { connect, address, blockchain, requestAccount, requestBlockchain } = setup(Test.CONNECT_SUCCESS);
+    const { connect, address, blockchain, requestAccount, requestBlockchain } = setup.connectSuccess();
     fireEvent.click(connect);
 
     await waitFor(() => {
@@ -125,7 +140,7 @@ describe('WalletContextProvider', () => {
   });
 
   it('should not show address and blockchain if connect fails', async () => {
-    const { connect, address, blockchain, requestAccount, requestBlockchain } = setup(Test.CONNECT_FAIL);
+    const { connect, address, blockchain, requestAccount, requestBlockchain } = setup.connectFail();
     fireEvent.click(connect);
 
     await waitFor(() => {
@@ -137,7 +152,7 @@ describe('WalletContextProvider', () => {
   });
 
   it('should call sign with address and message', async () => {
-    const { signMessage, sign } = setup(Test.CONNECTED);
+    const { signMessage, sign } = setup.connected();
     fireEvent.click(signMessage);
 
     await waitFor(() => {
