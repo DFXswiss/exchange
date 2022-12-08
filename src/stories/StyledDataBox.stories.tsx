@@ -33,7 +33,7 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
       <StyledDataTextRow label="Connected to">
         Ethereum Mainnet{' '}
         <IconButton
-          icon={IconVariant.INFOOUTLINE}
+          icon={IconVariant.INFO_OUTLINE}
           onClick={() => {
             console.log('informed.');
           }}
