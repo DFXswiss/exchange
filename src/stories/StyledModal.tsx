@@ -77,7 +77,7 @@ export default function StyledModal({
           </div>
         </div>
       </div>
-      <button type="button" className="opacity-30 fixed inset-0 z-30 bg-black"></button>
+      <div className="opacity-30 fixed inset-0 z-30 bg-black"></div>
     </>
   );
 }
