@@ -5,6 +5,9 @@ import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledBut
 import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
 import StyledTabContainer from './StyledTabContainer';
+import StyledCoinList from './StyledCoinList';
+import StyledCoinListItem, { Protocols } from './StyledCoinListItem';
+import { AssetIconVariant } from './DfxAssetIcon';
 
 export default function DfxPageLayout() {
   return (
@@ -53,12 +56,59 @@ export default function DfxPageLayout() {
               icon: IconVariant.BANK,
               content: (
                 <>
-                  <h2>Tab 1: Buy</h2>{' '}
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt praesentium explicabo, quibusdam
-                    nisi quae a! Quis consectetur qui, impedit autem exercitationem incidunt eligendi. Itaque quaerat
-                    dolor non velit, maiores perspiciatis?
-                  </p>
+                  <StyledCoinList heading="Ethereum mainnet · ERC-20 token">
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.ETH}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.ERC_20}
+                    />
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.USDT}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.ERC_20}
+                    />
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.USDC}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.ERC_20}
+                    />
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.DFI}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.ERC_20}
+                    />
+                  </StyledCoinList>
+                  <StyledCoinList heading="Binance Smart Chain · BEP-20 token">
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.BUSD}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.BEP_20}
+                    />
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.BNB}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.BEP_20}
+                    />
+                    <StyledCoinListItem
+                      asset={AssetIconVariant.DFI}
+                      onClick={() => {
+                        console.log('clicked');
+                      }}
+                      protocol={Protocols.BEP_20}
+                    />
+                  </StyledCoinList>
                 </>
               ),
             },

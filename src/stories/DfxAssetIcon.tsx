@@ -1,5 +1,19 @@
+import { createContext, ReactElement, useContext } from 'react';
+
 interface DfxAssetIconProps {
   size?: AssetIconSizes;
+  asset: AssetIconVariant;
+}
+
+export enum AssetIconVariant {
+  USDT = 'USDT',
+  BNB = 'BNB',
+  DFI = 'DFI',
+  USDC = 'USDC',
+  BUSD = 'BUSD',
+  ETH = 'ETH',
+  DAI = 'DAI',
+  BTC = 'BTC',
 }
 
 export enum AssetIconSizes {
@@ -8,17 +22,35 @@ export enum AssetIconSizes {
   LG = 'LARGE',
 }
 
+export const SizeContext = createContext(AssetIconSizes.MD);
+
 const SIZE_MAPS: Record<AssetIconSizes, string> = {
   [AssetIconSizes.SM]: '16px',
   [AssetIconSizes.MD]: '24px',
   [AssetIconSizes.LG]: '32px',
 };
 
-export default function DfxAssetIcon({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+const VARIANT_MAPS: Record<AssetIconVariant, ReactElement> = {
+  [AssetIconVariant.USDT]: <DfxAssetIconUSDT />,
+  [AssetIconVariant.BNB]: <DfxAssetIconBNB />,
+  [AssetIconVariant.DFI]: <DfxAssetIconDFI />,
+  [AssetIconVariant.USDC]: <DfxAssetIconUSDC />,
+  [AssetIconVariant.BUSD]: <DfxAssetIconBUSD />,
+  [AssetIconVariant.ETH]: <DfxAssetIconETH />,
+  [AssetIconVariant.DAI]: <DfxAssetIconDAI />,
+  [AssetIconVariant.BTC]: <DfxAssetIconBTC />,
+};
+
+export default function DfxAssetIcon({ size = AssetIconSizes.MD, asset }: DfxAssetIconProps) {
+  return <SizeContext.Provider value={size}>{VARIANT_MAPS[asset]}</SizeContext.Provider>;
+}
+
+export function DfxAssetIconUSDT() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -34,31 +66,12 @@ export default function DfxAssetIcon({ size = AssetIconSizes.MD }: DfxAssetIconP
   );
 }
 
-export function DfxAssetIconUSDT({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconUSDC() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle cx="16" cy="16" r="16" fill="#50AF95" />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M17.9856 17.6759C17.8747 17.6843 17.3017 17.7185 16.0236 17.7185C15.007 17.7185 14.2852 17.688 14.032 17.6759C10.1033 17.5029 7.17092 16.8182 7.17092 15.9984C7.17092 15.1785 10.1033 14.4947 14.032 14.3189V16.994C14.2889 17.0125 15.0245 17.056 16.0411 17.056C17.261 17.056 17.8719 17.0051 17.9819 16.9949V14.3208C21.9022 14.4957 24.8282 15.1804 24.8282 15.9984C24.8282 16.8163 21.9032 17.5011 17.9819 17.675L17.9856 17.6759ZM17.9856 14.0441V11.6503H23.4567V8H8.56088V11.6503H14.0311V14.0432C9.58486 14.2477 6.2412 15.1295 6.2412 16.1862C6.2412 17.2429 9.58486 18.1238 14.0311 18.3292V26H17.9847V18.3264C22.4207 18.1219 25.7588 17.241 25.7588 16.1853C25.7588 15.1295 22.4235 14.2486 17.9847 14.0432L17.9856 14.0441Z"
-        fill="white"
-      />
-    </svg>
-  );
-}
-
-export function DfxAssetIconUSDC({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
-  return (
-    <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -86,11 +99,12 @@ export function DfxAssetIconUSDC({ size = AssetIconSizes.MD }: DfxAssetIconProps
   );
 }
 
-export function DfxAssetIconETH({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconETH() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -116,11 +130,12 @@ export function DfxAssetIconETH({ size = AssetIconSizes.MD }: DfxAssetIconProps)
   );
 }
 
-export function DfxAssetIconDFI({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconDFI() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -144,11 +159,12 @@ export function DfxAssetIconDFI({ size = AssetIconSizes.MD }: DfxAssetIconProps)
   );
 }
 
-export function DfxAssetIconDAI({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconDAI() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -172,11 +188,12 @@ export function DfxAssetIconDAI({ size = AssetIconSizes.MD }: DfxAssetIconProps)
   );
 }
 
-export function DfxAssetIconBUSD({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconBUSD() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -197,11 +214,12 @@ export function DfxAssetIconBUSD({ size = AssetIconSizes.MD }: DfxAssetIconProps
   );
 }
 
-export function DfxAssetIconBTC({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconBTC() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -215,11 +233,12 @@ export function DfxAssetIconBTC({ size = AssetIconSizes.MD }: DfxAssetIconProps)
   );
 }
 
-export function DfxAssetIconBNB({ size = AssetIconSizes.MD }: DfxAssetIconProps) {
+export function DfxAssetIconBNB() {
+  const sizeContext = useContext(SizeContext);
   return (
     <svg
-      width={SIZE_MAPS[size]}
-      height={SIZE_MAPS[size]}
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
