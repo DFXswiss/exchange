@@ -10,13 +10,13 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
   const { buyableAssets } = useAssetContext();
   return (
     <div className="flex flex-col gap-8">
-      {Array.from(buyableAssets.keys()).map((blockchain, blockchainIndex) => (
+      {Array.from(buyableAssets.entries()).map(([blockchain, assets], blockchainIndex) => (
         <div key={blockchainIndex} className="flex flex-col gap-4">
           <p>
             <strong>{blockchain}</strong>
           </p>
           <div className="flex flex-row gap-4">
-            {buyableAssets.get(blockchain)?.map((asset, assetIndex) => (
+            {assets.map((asset, assetIndex) => (
               <button key={assetIndex} className="flex flex-row gap-1" onClick={() => onAssetClicked(asset)}>
                 <DfxIcon icon={IconVariant.INFO} />
                 <p>{asset.name}</p>
