@@ -1,14 +1,5 @@
-import { Asset } from '../definitions/asset';
-import { Buy, BuyUrl } from '../definitions/buy';
-import { Fiat } from '../definitions/fiat';
+import { Buy, BuyUrl, PaymentInfo } from '../definitions/buy';
 import { useApi } from './api.hook';
-
-interface PaymentInfo {
-  label: string;
-  currency: Fiat;
-  amount: number;
-  asset: Asset;
-}
 
 export interface BuyInterface {
   receiveFor: (info: PaymentInfo) => Promise<Buy>;

@@ -3,8 +3,8 @@ import { Fiat } from '../definitions/fiat';
 import { useApi } from './api.hook';
 
 export interface CreateBankAccount {
-  label: string;
-  preferredCurrency: Fiat;
+  label?: string;
+  preferredCurrency?: Fiat;
   iban: string;
 }
 

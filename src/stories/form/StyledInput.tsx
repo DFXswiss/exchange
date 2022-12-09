@@ -4,14 +4,10 @@ import { ControlProps } from './Form';
 
 interface StyledInputProps extends ControlProps {
   placeholder?: string;
-  valueHook: (val: string) => string;
 }
 
 const StyledInput = forwardRef<any, any>(
-  (
-    { control, name, label, rules, disabled = false, placeholder, valueHook = (v) => v, ...props }: StyledInputProps,
-    ref,
-  ) => {
+  ({ control, name, label, rules, disabled = false, placeholder, ...props }: StyledInputProps, ref) => {
     return (
       <Controller
         control={control}
@@ -22,7 +18,7 @@ const StyledInput = forwardRef<any, any>(
               className="text-base font-normal text-dfxBlue-800 border placeholder:text-dfxGray-600 border-dfxGray-500 rounded-md p-3 outline-dfxBlue-400 outline-2"
               type={'text'}
               onBlur={onBlur}
-              onChange={(value) => onChange(valueHook(value.target.value))}
+              onChange={(value) => onChange(value.target.value)}
               placeholder={placeholder}
               value={value ?? ''}
               disabled={disabled}
