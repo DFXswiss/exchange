@@ -17,7 +17,7 @@ import {
   MdWest,
   MdSettings,
 } from 'react-icons/md';
-import React, { ReactElement, useContext } from 'react';
+import { ReactElement, useContext } from 'react';
 
 interface DfxIconProps {
   icon: IconVariant;
@@ -26,22 +26,22 @@ interface DfxIconProps {
 }
 
 export enum IconVariant {
-  ARROWRIGHT = 'ARROWRIGHT',
-  ARROWLEFT = 'ARROWLEFT',
+  ARROW_RIGHT = 'ARROW_RIGHT',
+  ARROW_LEFT = 'ARROW_LEFT',
   BACK = 'BACK',
   CANCEL = 'CANCEL',
-  CHEVRIGHT = 'CHEVRIGHT',
-  CHEVLEFT = 'CHEVLEFT',
+  CHEV_RIGHT = 'CHEV_RIGHT',
+  CHEV_LEFT = 'CHEV_LEFT',
   CLOSE = 'CLOSE',
   COPY = 'COPY',
-  EXPANDLESS = 'EXPANDLESS',
-  EXPANDMORE = 'EXPANDMORE',
+  EXPAND_LESS = 'EXPAND_LESS',
+  EXPAND_MORE = 'EXPAND_MORE',
   FORWARD = 'FORWARD',
   INFO = 'INFO',
-  INFOOUTLINE = 'INFOOUTLINE',
+  INFO_OUTLINE = 'INFO_OUTLINE',
   SETTINGS = 'SETTINGS',
-  UNFOLDLESS = 'UNFOLDLESS',
-  UNFOLDMORE = 'UNFOLDMORE',
+  UNFOLD_LESS = 'UNFOLD_LESS',
+  UNFOLD_MORE = 'UNFOLD_MORE',
   WALLET = 'WALLET',
   BANK = 'BANK',
 }
@@ -50,16 +50,16 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.COPY]: <MdContentCopy />,
   [IconVariant.BACK]: <MdArrowBackIos />,
   [IconVariant.FORWARD]: <MdArrowForwardIos />,
-  [IconVariant.UNFOLDLESS]: <MdUnfoldLess />,
-  [IconVariant.UNFOLDMORE]: <MdUnfoldMore />,
-  [IconVariant.EXPANDLESS]: <MdExpandLess />,
-  [IconVariant.EXPANDMORE]: <MdExpandMore />,
-  [IconVariant.CHEVLEFT]: <MdChevronLeft />,
-  [IconVariant.CHEVRIGHT]: <MdChevronRight />,
-  [IconVariant.INFOOUTLINE]: <MdInfoOutline />,
+  [IconVariant.UNFOLD_LESS]: <MdUnfoldLess />,
+  [IconVariant.UNFOLD_MORE]: <MdUnfoldMore />,
+  [IconVariant.EXPAND_LESS]: <MdExpandLess />,
+  [IconVariant.EXPAND_MORE]: <MdExpandMore />,
+  [IconVariant.CHEV_LEFT]: <MdChevronLeft />,
+  [IconVariant.CHEV_RIGHT]: <MdChevronRight />,
+  [IconVariant.INFO_OUTLINE]: <MdInfoOutline />,
   [IconVariant.INFO]: <MdInfo />,
-  [IconVariant.ARROWLEFT]: <MdWest />,
-  [IconVariant.ARROWRIGHT]: <MdEast />,
+  [IconVariant.ARROW_LEFT]: <MdWest />,
+  [IconVariant.ARROW_RIGHT]: <MdEast />,
   [IconVariant.CLOSE]: <MdClose />,
   [IconVariant.CANCEL]: <MdOutlineCancel />,
   [IconVariant.SETTINGS]: <MdSettings />,
@@ -78,7 +78,7 @@ export enum IconSizes {
 export enum IconColors {
   RED = 'RED',
   BLUE = 'BLUE',
-  LIGHTBLUE = 'LIGHTBLUE',
+  LIGHT_BLUE = 'LIGHT_BLUE',
   GRAY = 'GRAY',
   BLACK = 'BLACK',
   WHITE = 'WHITE',
@@ -87,7 +87,7 @@ export enum IconColors {
 const COLOR_MAPS: Record<IconColors, string> = {
   [IconColors.RED]: '#F5516C',
   [IconColors.BLUE]: '#072440',
-  [IconColors.LIGHTBLUE]: '#5A81BB',
+  [IconColors.LIGHT_BLUE]: '#5A81BB',
   [IconColors.GRAY]: '#D6DBE2',
   [IconColors.WHITE]: '#ffffff',
   [IconColors.BLACK]: '#000000',

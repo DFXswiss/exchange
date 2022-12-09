@@ -2,6 +2,10 @@
 
 @tailwind base;
 
+.bg-dfxGradient {
+  background: linear-gradient(215.56deg, #402f4b 20.21%, #072440 85.33%);
+}
+
 @layer base {
   html {
     @apply text-white;
@@ -13,7 +17,7 @@
   }
 
   body {
-    background: linear-gradient(215.56deg, #402f4b 20.21%, #072440 85.33%);
+    @apply bg-dfxGradient;
   }
 
   h1 {

@@ -4,7 +4,6 @@ import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledBut
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { IconButton } from './StyledIconButton.stories';
 import { IconVariant, IconColors, IconSizes } from './DfxIcon';
-import StyledIconButton from './StyledIconButton';
 
 export default {
   title: 'Composites/DataBox',
@@ -34,7 +33,7 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
       <StyledDataTextRow label="Connected to">
         Ethereum Mainnet{' '}
         <IconButton
-          icon={IconVariant.INFOOUTLINE}
+          icon={IconVariant.INFO_OUTLINE}
           onClick={() => {
             console.log('informed.');
           }}
@@ -47,16 +46,14 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
 
 WithRows.args = {
   heading: 'With Rows and Settings',
-  rightIconButton: (
-    <StyledIconButton
-      icon={IconVariant.SETTINGS}
-      color={IconColors.RED}
-      size={IconSizes.LG}
-      onClick={() => {
-        console.log('clicked');
-      }}
-    />
-  ),
+  rightIconButton: {
+    icon: IconVariant.SETTINGS,
+    color: IconColors.RED,
+    size: IconSizes.LG,
+    onClick: () => {
+      console.log('clicked');
+    },
+  },
 };
 
 export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args) => {

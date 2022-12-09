@@ -18,22 +18,22 @@ SingleIcon.args = {
 export const AllIcons: ComponentStory<typeof DfxIcon> = (args) => {
   return (
     <div className="grid gap-6 grid-cols-6">
-      <DfxIcon {...args} icon={IconVariant.ARROWLEFT} />
-      <DfxIcon {...args} icon={IconVariant.ARROWRIGHT} />
+      <DfxIcon {...args} icon={IconVariant.ARROW_LEFT} />
+      <DfxIcon {...args} icon={IconVariant.ARROW_RIGHT} />
       <DfxIcon {...args} icon={IconVariant.BACK} />
       <DfxIcon {...args} icon={IconVariant.FORWARD} />
-      <DfxIcon {...args} icon={IconVariant.CHEVLEFT} />
-      <DfxIcon {...args} icon={IconVariant.CHEVRIGHT} />
+      <DfxIcon {...args} icon={IconVariant.CHEV_LEFT} />
+      <DfxIcon {...args} icon={IconVariant.CHEV_RIGHT} />
       <DfxIcon {...args} icon={IconVariant.CLOSE} />
       <DfxIcon {...args} icon={IconVariant.CANCEL} />
       <DfxIcon {...args} icon={IconVariant.COPY} />
-      <DfxIcon {...args} icon={IconVariant.EXPANDLESS} />
-      <DfxIcon {...args} icon={IconVariant.EXPANDMORE} />
+      <DfxIcon {...args} icon={IconVariant.EXPAND_LESS} />
+      <DfxIcon {...args} icon={IconVariant.EXPAND_MORE} />
       <DfxIcon {...args} icon={IconVariant.INFO} />
-      <DfxIcon {...args} icon={IconVariant.INFOOUTLINE} />
+      <DfxIcon {...args} icon={IconVariant.INFO_OUTLINE} />
       <DfxIcon {...args} icon={IconVariant.SETTINGS} />
-      <DfxIcon {...args} icon={IconVariant.UNFOLDLESS} />
-      <DfxIcon {...args} icon={IconVariant.UNFOLDMORE} />
+      <DfxIcon {...args} icon={IconVariant.UNFOLD_LESS} />
+      <DfxIcon {...args} icon={IconVariant.UNFOLD_MORE} />
       <DfxIcon {...args} icon={IconVariant.WALLET} />
       <DfxIcon {...args} icon={IconVariant.BANK} />
     </div>

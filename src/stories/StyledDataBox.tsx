@@ -1,9 +1,9 @@
-import { PropsWithChildren, ReactElement } from 'react';
-import StyledIconButton from './StyledIconButton';
+import { PropsWithChildren } from 'react';
+import StyledIconButton, { StyledIconButtonProps } from './StyledIconButton';
 
 interface StyledDataBoxProps extends PropsWithChildren {
   heading: string;
-  rightIconButton?: ReactElement<typeof StyledIconButton>;
+  rightIconButton?: StyledIconButtonProps;
   boxButtonLabel?: string;
   boxButtonOnClick?: () => void;
 }
@@ -31,7 +31,7 @@ export default function StyledDataBox({
       <div className={containerClasses}>
         <div className="flex justify-between content-start">
           <h2 className={headingClasses}>{heading}</h2>
-          {rightIconButton}
+          {rightIconButton && <StyledIconButton {...rightIconButton} />}
         </div>
         <div>{children}</div>
       </div>
