@@ -17,7 +17,7 @@ import {
   MdWest,
   MdSettings,
 } from 'react-icons/md';
-import React, { ReactElement, useContext } from 'react';
+import { ReactElement, useContext } from 'react';
 
 interface DfxIconProps {
   icon: IconVariant;

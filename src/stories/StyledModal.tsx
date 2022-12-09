@@ -13,6 +13,7 @@ export enum StyledModalTypes {
 }
 
 interface StyledModalProps extends PropsWithChildren {
+  isVisible: boolean;
   onClose: (showModal: boolean) => any;
   closeWithX?: boolean;
   heading?: string;
@@ -21,6 +22,7 @@ interface StyledModalProps extends PropsWithChildren {
 }
 
 export default function StyledModal({
+  isVisible,
   type = StyledModalTypes.REGULAR,
   color = StyledModalColors.DFX_GRADIENT,
   onClose,
@@ -52,32 +54,36 @@ export default function StyledModal({
 
   return (
     <>
-      <div className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none">
-        <div className="relative my-6 mx-auto max-w-2xl">
-          {/*content*/}
-          <div className={containerClasses}>
-            {closeWithX && type === StyledModalTypes.REGULAR && (
-              <div className="absolute right-4 top-4 z-50">
-                <StyledIconButton
-                  color={color === StyledModalColors.DFX_GRADIENT ? IconColors.WHITE : IconColors.BLUE}
-                  size={IconSizes.LG}
-                  icon={IconVariant.CLOSE}
-                  onClick={() => setShowModal(false)}
-                />
+      {isVisible && (
+        <>
+          <div className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none">
+            <div className="relative my-6 mx-auto max-w-2xl">
+              {/*content*/}
+              <div className={containerClasses}>
+                {closeWithX && type === StyledModalTypes.REGULAR && (
+                  <div className="absolute right-4 top-4 z-50">
+                    <StyledIconButton
+                      color={color === StyledModalColors.DFX_GRADIENT ? IconColors.WHITE : IconColors.BLUE}
+                      size={IconSizes.LG}
+                      icon={IconVariant.CLOSE}
+                      onClick={() => setShowModal(false)}
+                    />
+                  </div>
+                )}
+                {/*header*/}
+                {showHeader && (
+                  <div className={headingClasses}>
+                    <h3 className="text-lg font-bold text-center">{heading}</h3>
+                  </div>
+                )}
+                {/*body*/}
+                <div className={bodyClasses}>{children}</div>
               </div>
-            )}
-            {/*header*/}
-            {showHeader && (
-              <div className={headingClasses}>
-                <h3 className="text-lg font-bold text-center">{heading}</h3>
-              </div>
-            )}
-            {/*body*/}
-            <div className={bodyClasses}>{children}</div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="opacity-30 fixed inset-0 z-30 bg-black"></div>
+          <div className="opacity-30 fixed inset-0 z-30 bg-black"></div>
+        </>
+      )}
     </>
   );
 }
