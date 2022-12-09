@@ -1,12 +1,21 @@
-import { useAssetContext } from '../api/contexts/asset.context';
 import DfxLogo from '../stories/DfxLogo';
 import DfxTitleSection from '../stories/DfxTitleSection';
+import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
 import { Connect } from './connect';
+import { BuyTab } from './tabs/buy.tab';
 import { UserBox } from './user-box';
 import { WalletBox } from './wallet-box';
 
 export function Main(): JSX.Element {
-  const { assets } = useAssetContext();
+  function buildComingSoonTab(title: string): StyledTabProps {
+    return {
+      title,
+      deactivated: true,
+      flagWord1: 'Coming',
+      flagWord2: 'soon',
+      content: undefined,
+    };
+  }
 
   return (
     <div className="text-center p-2 h-screen">
@@ -24,10 +33,9 @@ export function Main(): JSX.Element {
             <UserBox />
           </aside>
         </div>
-        <div className="bg-white w-full h-96 rounded-lg text-black">
-          <h1>Buy</h1>
-          <p className="break-words">{assets.map((asset) => `${asset.name} (${asset.blockchain})`).join(', ')}</p>
-        </div>
+        <StyledTabContainer
+          tabs={[BuyTab, buildComingSoonTab('Sell'), buildComingSoonTab('Convert'), buildComingSoonTab('Staking')]}
+        />
       </div>
     </div>
   );
