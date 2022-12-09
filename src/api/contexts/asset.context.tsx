@@ -20,7 +20,6 @@ export function useAssetContext(): AssetInterface {
 
 export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   const { isLoggedIn } = useAuthContext();
-  // TODO (Krysh): add wallet context here to read network
   const { getAssets } = useAsset();
   const [assets, setAssets] = useState<Asset[]>([]);
   const [buyableAssets, setBuyableAssets] = useState<Map<Blockchain, Asset[]>>(new Map());

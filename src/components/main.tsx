@@ -34,7 +34,7 @@ export function Main(): JSX.Element {
           </aside>
         </div>
         <StyledTabContainer
-          tabs={[BuyTab(), buildComingSoonTab('Sell'), buildComingSoonTab('Convert'), buildComingSoonTab('Staking')]}
+          tabs={[BuyTab, buildComingSoonTab('Sell'), buildComingSoonTab('Convert'), buildComingSoonTab('Staking')]}
         />
       </div>
     </div>

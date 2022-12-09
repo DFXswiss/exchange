@@ -10,26 +10,16 @@ enum BuyTabStep {
   BUY_PROCESS,
 }
 
-export function BuyTab(): StyledTabProps {
-  return {
-    title: 'Buy',
-    icon: IconVariant.BANK,
-    deactivated: false,
-    content: <BuyTabContent />,
-  };
-}
+export const BuyTab: StyledTabProps = {
+  title: 'Buy',
+  icon: IconVariant.BANK,
+  deactivated: false,
+  content: <BuyTabContent />,
+};
 
 function BuyTabContent(): JSX.Element {
   const [step, setStep] = useState<BuyTabStep>(BuyTabStep.OVERVIEW);
   const [currentAsset, setCurrentAsset] = useState<Asset>();
-
-  function next() {
-    setStep(BuyTabStep.BUY_PROCESS);
-  }
-
-  function back() {
-    setStep(BuyTabStep.OVERVIEW);
-  }
 
   switch (step) {
     case BuyTabStep.OVERVIEW:
@@ -37,11 +27,11 @@ function BuyTabContent(): JSX.Element {
         <BuyTabContentOverview
           onAssetClicked={(asset) => {
             setCurrentAsset(asset);
-            next();
+            setStep(BuyTabStep.BUY_PROCESS);
           }}
         />
       );
     case BuyTabStep.BUY_PROCESS:
-      return <BuyTabContentProcess onBack={back} asset={currentAsset} />;
+      return <BuyTabContentProcess onBack={() => setStep(BuyTabStep.OVERVIEW)} asset={currentAsset} />;
   }
 }
