@@ -9,7 +9,7 @@ export const BankAccountUrl = {
 export interface BankAccount {
   id: number;
   iban: string;
-  label: string;
-  preferredCurrency: Fiat;
+  label?: string;
+  preferredCurrency?: Fiat;
   sepaInstant: boolean;
 }

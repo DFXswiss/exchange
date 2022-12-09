@@ -1,7 +1,14 @@
-import { createContext, PropsWithChildren, useContext } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { Fiat } from '../definitions/fiat';
+import { useFiat } from '../hooks/fiat.hook';
+import { useAuthContext } from './auth.context';
+import { CreateBankAccount, useBankAccount } from '../hooks/bank-account.hook';
+import { BankAccount } from '../definitions/bank-account';
 
 interface BuyInterface {
-  test: string;
+  currencies?: Fiat[];
+  bankAccounts?: BankAccount[];
+  createAccount: (newAccount: CreateBankAccount) => Promise<BankAccount>;
 }
 
 const BuyContext = createContext<BuyInterface>(undefined as any);
@@ -11,8 +18,22 @@ export function useBuyContext(): BuyInterface {
 }
 
 export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
-  // Krysh: This is just a placeholder, it will be changed to gather all required information for a buy
-  const context: BuyInterface = { test: 'test' };
+  const { isLoggedIn } = useAuthContext();
+  const [currencies, setCurrencies] = useState<Fiat[]>();
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>();
+  const { getCurrencies } = useFiat();
+  const { getAccounts, createAccount } = useBankAccount();
+
+  useEffect(() => {
+    Promise.all([getCurrencies(), getAccounts()])
+      .then(([currencies, bankAccounts]) => {
+        setCurrencies(currencies.filter((c) => c.sellable));
+        setBankAccounts(bankAccounts);
+      })
+      .catch(console.error); // TODO (Krysh) add real error handling
+  }, [isLoggedIn]);
+
+  const context: BuyInterface = { currencies, bankAccounts, createAccount };
 
   return <BuyContext.Provider value={context}>{props.children}</BuyContext.Provider>;
 }

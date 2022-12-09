@@ -2,13 +2,13 @@ import { BankAccount, BankAccountUrl } from '../definitions/bank-account';
 import { Fiat } from '../definitions/fiat';
 import { useApi } from './api.hook';
 
-interface CreateBankAccount {
+export interface CreateBankAccount {
   label: string;
   preferredCurrency: Fiat;
   iban: string;
 }
 
-interface UpdateBankAccount {
+export interface UpdateBankAccount {
   label: string;
   preferredCurrency: Fiat;
 }

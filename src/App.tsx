@@ -3,6 +3,7 @@ import { AssetContextProvider } from './api/contexts/asset.context';
 import { WalletContextProvider } from './contexts/wallet.context';
 import { AuthContextProvider } from './api/contexts/auth.context';
 import { UserContextProvider } from './api/contexts/user.context';
+import { BuyContextProvider } from './api/contexts/buy.context';
 
 function App() {
   return (
@@ -10,7 +11,9 @@ function App() {
       <UserContextProvider>
         <WalletContextProvider>
           <AssetContextProvider>
-            <Main />
+            <BuyContextProvider>
+              <Main />
+            </BuyContextProvider>
           </AssetContextProvider>
         </WalletContextProvider>
       </UserContextProvider>
