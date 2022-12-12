@@ -13,13 +13,12 @@ export interface CallConfig {
 }
 
 export function useApi(): ApiInterface {
-  // TODO (Krysh): add session context here and change if required
-  const { authenticationToken } = useAuthContext();
+  const { authenticationToken, setAuthenticationToken } = useAuthContext();
 
   async function call<T>(config: CallConfig): Promise<T> {
     return fetchFrom<T>(config).catch((error: ApiError) => {
       if (error.statusCode === 401) {
-        // TODO (Krysh): delete session
+        setAuthenticationToken(undefined);
       }
 
       throw error;

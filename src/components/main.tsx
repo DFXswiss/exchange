@@ -31,15 +31,22 @@ export function Main(): JSX.Element {
           // intentionally do nothing, as alert are closed via button
         }}
       >
-        <h1>Terms and Conditions.</h1>
-        <p>
-          Please read our terms and conditions and click on ”Next” to confirm and to continue to the DFX Multichain
-          Service.
-        </p>
-        <p>
-          TODO LINK TO terms and conditions
-          <br></br>
-        </p>
+        <div className="flex flex-col">
+          <h1>Terms and Conditions.</h1>
+          <p>
+            Please read our terms and conditions and click on ”Next” to confirm and to continue to the DFX Multichain
+            Service.
+          </p>
+          <a
+            className="underline underline-offset-2 pt-6 pb-4"
+            target="_blank"
+            href="https://payment.dfx.swiss" // TODO (Krysh) use correct link
+            rel="noopener noreferrer"
+          >
+            Terms and conditions DFX Swiss.
+          </a>
+        </div>
+
         <StyledButton
           width={StyledButtonWidths.MD}
           color={StyledButtonColors.RED}
