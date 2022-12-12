@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useBuyContext } from '../../../api/contexts/buy.context';
 import { Asset } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
-import { PaymentInfo } from '../../../api/definitions/buy';
+import { Buy, BuyPaymentInfo } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
-import { CreateBankAccount } from '../../../api/hooks/bank-account.hook';
 import DfxIcon, { IconColors, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
 import StyledInput from '../../../stories/form/StyledInput';
@@ -25,54 +23,85 @@ interface BuyTabContentProcessProps {
   onBack: () => void;
 }
 
+interface FormData {
+  bankAccount: BankAccount;
+  currency: Fiat;
+  asset: Asset;
+  amount: string;
+}
+
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts } = useBuyContext();
-  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
+  const { currencies, bankAccounts, receiveFor } = useBuyContext();
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const {
     control,
     handleSubmit,
     getValues,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
     watch,
-  } = useForm<PaymentInfo>();
+  } = useForm<FormData>();
+
+  const debouncedReceiveFor = useRef(
+    debounce((info: BuyPaymentInfo) => {
+      receiveFor(info)
+        .then((value) => toPaymentInformation(value, info.bankAccount))
+        .then(setPaymentInfo);
+    }, 500),
+  ).current;
 
   useEffect(() => {
     if (asset) setValue('asset', asset);
   }, [asset]);
 
   useEffect(() => {
-    console.log('hey there use effect');
-    const subscription = watch(
-      debounce(() => {
-        if (isValid) {
-          console.log('finally asdf');
-          console.log(getValues());
-        }
-      }, 500),
-    );
+    const subscription = watch(() => {
+      const formData = getValues();
+      if (isFormDataValid(formData)) {
+        receiveBuyFor({ ...formData, iban: formData.bankAccount.iban, amount: Number(formData.amount) });
+      }
+    });
     return () => subscription.unsubscribe();
   }, [watch]);
 
+  async function onSubmit(_data: FormData): Promise<void> {
+    // TODO (Krysh): fix broken form validation and onSubmit
+  }
+
+  function isFormDataValid(data: FormData): boolean {
+    return !isNaN(+data.amount) && data.asset != null && data.bankAccount != null && data.currency != null;
+  }
+
+  async function receiveBuyFor(info: BuyPaymentInfo): Promise<void> {
+    debouncedReceiveFor(info);
+  }
+
+  function toPaymentInformation(buy: Buy, bankAccount: BankAccount): PaymentInformation {
+    return {
+      iban: buy.iban,
+      bic: buy.bic,
+      purpose: buy.remittanceInfo,
+      isSepaInstant: bankAccount.sepaInstant,
+      recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
+      fee: `${buy.fee} %`,
+    };
+  }
+
   const rules = Utils.createRules({
-    iban: Validations.Required,
-    currency: Validations.Required,
+    bankAccount: Validations.Required,
     asset: Validations.Required,
+    currency: Validations.Required,
     amount: Validations.Required,
   });
-
-  async function onSubmit(newInfo: PaymentInfo): Promise<void> {
-    console.log(newInfo);
-  }
 
   return (
     <>
       {/* CONTENT */}
-      <Form control={control} errors={errors} rules={rules} onSubmit={handleSubmit(onSubmit)}>
+      <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-8">
           <IconButton icon={IconVariant.BACK} onClick={onBack} />
           <StyledModalDropdown
-            name="iban"
+            name="bankAccount"
             labelFunc={(item: BankAccount) => item.iban}
             label="Your bank account"
             placeholder="Add or select your IBAN"
@@ -118,7 +147,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
         </div>
         <StyledInput label="Buy amount" placeholder="0.00" name="amount" />
       </Form>
-      {showPaymentInfo && <PaymentInformationContent />}
+      {paymentInfo && <PaymentInformationContent info={paymentInfo} />}
     </>
   );
 }
@@ -129,10 +158,11 @@ interface PaymentInformation {
   bic: string;
   purpose: string;
   recipient: string;
+  fee: string;
 }
 
 interface PaymentInformationContentProps {
-  info?: PaymentInformation;
+  info: PaymentInformation;
 }
 
 function PaymentInformationContent({ info }: PaymentInformationContentProps): JSX.Element {
@@ -143,6 +173,11 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
         Please transfer the purchase amount using this information via your banking application. The purpose of payment
         is important!
       </p>
+      <p>IBAN: {info.iban}</p>
+      <p>BIC: {info.bic}</p>
+      <p>Purpose {info.purpose}</p>
+      <p>Recipient: {info.recipient}</p>
+      <p>Fee: {info.fee}</p>
       <div className="border border-dfxGray-500 rounded-md"></div>
       <StyledButton
         label="Click once your bank Transfer is completed."

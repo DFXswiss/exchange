@@ -4,11 +4,14 @@ import { useFiat } from '../hooks/fiat.hook';
 import { useAuthContext } from './auth.context';
 import { CreateBankAccount, useBankAccount } from '../hooks/bank-account.hook';
 import { BankAccount } from '../definitions/bank-account';
+import { useBuy } from '../hooks/buy.hook';
+import { Buy, BuyPaymentInfo } from '../definitions/buy';
 
 interface BuyInterface {
   currencies?: Fiat[];
   bankAccounts?: BankAccount[];
   createAccount: (newAccount: CreateBankAccount) => Promise<BankAccount>;
+  receiveFor: (info: BuyPaymentInfo) => Promise<Buy>;
 }
 
 const BuyContext = createContext<BuyInterface>(undefined as any);
@@ -23,6 +26,7 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>();
   const { getCurrencies } = useFiat();
   const { getAccounts, createAccount } = useBankAccount();
+  const { receiveFor } = useBuy();
 
   useEffect(() => {
     Promise.all([getCurrencies(), getAccounts()])
@@ -33,7 +37,7 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
       .catch(console.error); // TODO (Krysh) add real error handling
   }, [isLoggedIn]);
 
-  const context: BuyInterface = { currencies, bankAccounts, createAccount };
+  const context: BuyInterface = { currencies, bankAccounts, createAccount, receiveFor };
 
   return <BuyContext.Provider value={context}>{props.children}</BuyContext.Provider>;
 }

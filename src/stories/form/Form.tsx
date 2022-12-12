@@ -6,7 +6,7 @@ export interface ControlProps {
   name: string;
   label?: string;
   rules?: any;
-  error?: FieldError | undefined;
+  error?: FieldError;
   disabled?: boolean;
 }
 

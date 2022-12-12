@@ -1,14 +1,14 @@
-import { Buy, BuyUrl, PaymentInfo } from '../definitions/buy';
+import { Buy, BuyUrl, BuyPaymentInfo } from '../definitions/buy';
 import { useApi } from './api.hook';
 
 export interface BuyInterface {
-  receiveFor: (info: PaymentInfo) => Promise<Buy>;
+  receiveFor: (info: BuyPaymentInfo) => Promise<Buy>;
 }
 
 export function useBuy(): BuyInterface {
   const { call } = useApi();
 
-  async function receiveFor(info: PaymentInfo): Promise<Buy> {
+  async function receiveFor(info: BuyPaymentInfo): Promise<Buy> {
     return call<Buy>({ url: BuyUrl.receive, method: 'PUT', data: info });
   }
 
