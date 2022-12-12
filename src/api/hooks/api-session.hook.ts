@@ -5,6 +5,7 @@ export interface ApiSessionInterface {
   isLoggedIn: boolean;
   getSignMessage: (address: string) => Promise<string>;
   createSession: (address: string, signature: string, isSignUp: boolean) => Promise<void>;
+  deleteSession: () => Promise<void>;
 }
 
 export function useApiSession(): ApiSessionInterface {
@@ -17,5 +18,9 @@ export function useApiSession(): ApiSessionInterface {
     );
   }
 
-  return { isLoggedIn, getSignMessage, createSession };
+  async function deleteSession(): Promise<void> {
+    setAuthenticationToken(undefined);
+  }
+
+  return { isLoggedIn, getSignMessage, createSession, deleteSession };
 }
