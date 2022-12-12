@@ -9,7 +9,26 @@ export default {
   component: StyledDataTable,
 } as ComponentMeta<typeof StyledDataTable>;
 
-export const Default: ComponentStory<typeof StyledDataTable> = (args) => {
+export const UserData: ComponentStory<typeof StyledDataTable> = (args) => {
+  let whiteBG = 'p-10 max-w-xl';
+  args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
+  return (
+    <div className={whiteBG}>
+      <StyledDataTable {...args}>
+        <StyledDataTableRow label="E-mail address">LU11 6060 0020 0000 5040</StyledDataTableRow>
+        <StyledDataTableRow label="KYC status">OLKILUL1</StyledDataTableRow>
+        <StyledDataTableRow label="Transaction limit">OC11-A025-BCF7</StyledDataTableRow>
+      </StyledDataTable>
+    </div>
+  );
+};
+UserData.args = {
+  darkTheme: true,
+  heading: 'User Data',
+  showBorder: false,
+};
+
+export const PaymentData: ComponentStory<typeof StyledDataTable> = (args) => {
   let whiteBG = 'p-10 max-w-xl';
   args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
   return (
@@ -42,20 +61,47 @@ export const Default: ComponentStory<typeof StyledDataTable> = (args) => {
             }}
           />
         </StyledDataTableRow>
-        <StyledDataTableRow label="Purpose of Payment">
-          OC11-A025-BCF7
-          <StyledIconButton
-            icon={IconVariant.COPY}
-            onClick={() => {
-              console.log('copied.');
-            }}
-          />
+      </StyledDataTable>
+    </div>
+  );
+};
+PaymentData.args = {
+  darkTheme: false,
+  showBorder: true,
+  alignRight: true,
+};
+
+export const SingleRowOnlyText: ComponentStory<typeof StyledDataTable> = (args) => {
+  let whiteBG = 'p-10 max-w-xl';
+  args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
+  return (
+    <div className={whiteBG}>
+      <StyledDataTable {...args}>
+        <StyledDataTableRow>DFX AG, Bahnhofstrasse 7, 6300 Zug, Schweiz</StyledDataTableRow>
+      </StyledDataTable>
+    </div>
+  );
+};
+SingleRowOnlyText.args = {
+  darkTheme: false,
+  showBorder: true,
+};
+
+export const SingleRowBetween: ComponentStory<typeof StyledDataTable> = (args) => {
+  let whiteBG = 'p-10 max-w-xl';
+  args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
+  return (
+    <div className={whiteBG}>
+      <StyledDataTable {...args}>
+        <StyledDataTableRow discreet>
+          <span>DFX Fee</span>
+          <span>2.9 %</span>
         </StyledDataTableRow>
       </StyledDataTable>
     </div>
   );
 };
-Default.args = {
-  darkTheme: true,
-  heading: 'User Data',
+SingleRowBetween.args = {
+  darkTheme: false,
+  showBorder: true,
 };
