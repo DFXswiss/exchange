@@ -40,7 +40,7 @@ export function Main(): JSX.Element {
           <a
             className="underline underline-offset-2 pt-6 pb-4"
             target="_blank"
-            href="https://payment.dfx.swiss" // TODO (Krysh) use correct link
+            href={process.env.REACT_APP_TNC_URL}
             rel="noopener noreferrer"
           >
             Terms and conditions DFX Swiss.
