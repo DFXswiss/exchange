@@ -34,6 +34,7 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   }, [isLoggedIn]);
 
   async function changeMail(mail: string): Promise<void> {
+    if (!user) return; // TODO (Krysh) add real error handling
     setUserLoading(true);
     changeUser({ ...user, mail })
       .then(setUser)

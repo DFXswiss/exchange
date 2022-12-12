@@ -8,14 +8,14 @@ import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
 import StyledModal, { StyledModalColors } from '../stories/StyledModal';
 import { MailEdit } from './edit/mail.edit';
-import { UserDataEdit } from './edit/user-data.edit';
+import { UserData } from './user-data';
 
 export function UserBox(): JSX.Element {
   const { isLoggedIn } = useSessionContext();
   const { user } = useUserContext();
   const { copy } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
-  const [showsUserEdit, setShowsUserEdit] = useState(false);
+  const [showsUserData, setShowsUserData] = useState(false);
 
   return isLoggedIn ? (
     <>
@@ -29,12 +29,12 @@ export function UserBox(): JSX.Element {
         <MailEdit onSubmit={() => setShowsEmailEdit(false)} />
       </StyledModal>
       <StyledModal
-        heading="User data"
+        heading="Your data"
         color={StyledModalColors.DFX_GRADIENT}
-        isVisible={showsUserEdit}
-        onClose={setShowsUserEdit}
+        isVisible={showsUserData}
+        onClose={setShowsUserData}
       >
-        <UserDataEdit />
+        <UserData />
       </StyledModal>
       {/* CONTENT */}
       <StyledDataBox
@@ -43,7 +43,7 @@ export function UserBox(): JSX.Element {
           icon: IconVariant.SETTINGS,
           color: IconColors.RED,
           size: IconSizes.LG,
-          onClick: () => setShowsUserEdit(true),
+          onClick: () => setShowsUserData(true),
         }}
       >
         <StyledDataTextRow label="E-Mail address">
@@ -66,7 +66,7 @@ export function UserBox(): JSX.Element {
               size={StyledButtonSizes.SMALL}
               width={StyledButtonWidths.MIN}
               caps={false}
-              onClick={() => user && user.ref && copy(user.ref)}
+              onClick={() => user && copy(user.ref)}
             />
           </StyledDataTextRow>
         )}
