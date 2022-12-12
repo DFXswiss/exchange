@@ -19,7 +19,7 @@ export const BuyAmount: ComponentStory<typeof StyledInput> = (args) => {
   return (
     <div className="bg-white p-10">
       <Form control={control} errors={errors} onSubmit={onSubmit}>
-        <StyledInput name="test" {...args} />
+        <StyledInput {...args} name="test" />
       </Form>
     </div>
   );
