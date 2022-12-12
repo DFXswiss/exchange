@@ -1,7 +1,7 @@
 {
   "editor.formatOnSave": true,
   "git.ignoreLimitWarning": true,
-  "cSpell.words": ["PALEWHITE", "Multichain", "testid", "iban"],
+  "cSpell.words": ["PALEWHITE", "Multichain", "testid", "iban", "IBAN"],
   "files.exclude": {
     "node_modules": true
   }
