@@ -103,6 +103,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           <StyledModalDropdown
             name="bankAccount"
             labelFunc={(item: BankAccount) => item.iban}
+            detailLabelFunc={(item: BankAccount) => item.label}
             label="Your bank account"
             placeholder="Add or select your IBAN"
             modal={{
