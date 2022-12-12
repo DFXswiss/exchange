@@ -42,16 +42,16 @@ export const BuyAmount: ComponentStory<typeof StyledModalDropdown> = (args) => {
   return (
     <div className="bg-white p-10">
       <Form control={control} errors={errors} onSubmit={onSubmit}>
-        <StyledModalDropdown
+        <StyledModalDropdown<TestElement>
+          {...args}
           name="test"
-          labelFunc={(item: TestElement) => item.test}
+          labelFunc={(item) => item.test}
           modal={{
             heading: 'Some test header',
             items: [{ test: 'abc' }, { test: 'def' }],
-            itemContent: (item: any) => <p>{item.test}</p>,
-            form: (onFormSubmit: (item: any) => void) => <AddTest onSubmit={onFormSubmit} />,
+            itemContent: (item) => <p>{item.test}</p>,
+            form: (onFormSubmit: (item: TestElement) => void) => <AddTest onSubmit={onFormSubmit} />,
           }}
-          {...args}
         />
       </Form>
     </div>

@@ -37,10 +37,9 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     control,
     handleSubmit,
     getValues,
-    setValue,
     formState: { errors },
     watch,
-  } = useForm<FormData>();
+  } = useForm<FormData>({ defaultValues: { asset } });
 
   const debouncedReceiveFor = useRef(
     debounce((info: BuyPaymentInfo) => {
@@ -51,14 +50,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   ).current;
 
   useEffect(() => {
-    if (asset) setValue('asset', asset);
-  }, [asset]);
-
-  useEffect(() => {
     const subscription = watch(() => {
       const formData = getValues();
       if (isFormDataValid(formData)) {
-        receiveBuyFor({ ...formData, iban: formData.bankAccount.iban, amount: Number(formData.amount) });
+        debouncedReceiveFor({ ...formData, iban: formData.bankAccount.iban, amount: Number(formData.amount) });
       }
     });
     return () => subscription.unsubscribe();
@@ -70,10 +65,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
   function isFormDataValid(data: FormData): boolean {
     return !isNaN(+data.amount) && data.asset != null && data.bankAccount != null && data.currency != null;
-  }
-
-  async function receiveBuyFor(info: BuyPaymentInfo): Promise<void> {
-    debouncedReceiveFor(info);
   }
 
   function toPaymentInformation(buy: Buy, bankAccount: BankAccount): PaymentInformation {
@@ -100,27 +91,29 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-8">
           <IconButton icon={IconVariant.BACK} onClick={onBack} />
-          <StyledModalDropdown
-            name="bankAccount"
-            labelFunc={(item: BankAccount) => item.iban}
-            detailLabelFunc={(item: BankAccount) => item.label}
-            label="Your bank account"
-            placeholder="Add or select your IBAN"
-            modal={{
-              heading: 'Select your bank account',
-              items: bankAccounts,
-              itemContent: (b: BankAccount) => (
-                <div className="flex flex-row gap-2">
-                  <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
-                  <div className="flex flex-col gap-1">
-                    {b.label && b.label.length > 0 && <p className="text-dfxGray-500">{b.label}</p>}
-                    <p className="text-dfxBlue-800">{b.iban}</p>
+          {bankAccounts && (
+            <StyledModalDropdown<BankAccount>
+              name="bankAccount"
+              labelFunc={(item) => item.iban}
+              detailLabelFunc={(item) => item.label ?? ''}
+              label="Your bank account"
+              placeholder="Add or select your IBAN"
+              modal={{
+                heading: 'Select your bank account',
+                items: bankAccounts,
+                itemContent: (b) => (
+                  <div className="flex flex-row gap-2">
+                    <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
+                    <div className="flex flex-col gap-1">
+                      {b.label && b.label.length > 0 && <p className="text-dfxGray-500">{b.label}</p>}
+                      <p className="text-dfxBlue-800">{b.iban}</p>
+                    </div>
                   </div>
-                </div>
-              ),
-              form: (onFormSubmit: (item: any) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
-            }}
-          />
+                ),
+                form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
+              }}
+            />
+          )}
           {asset && (
             <StyledCoinListItem
               asset={asset.name}
@@ -130,21 +123,23 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               }}
             />
           )}
-          <StyledModalDropdown
-            name="currency"
-            labelFunc={(item: Fiat) => item.name}
-            label="YOUR CURRENCY"
-            placeholder="e.g. EUR"
-            modal={{
-              heading: 'Select your currency',
-              items: currencies,
-              itemContent: (c: Fiat) => (
-                <div className="flex flex-row gap-2">
-                  <p className="text-dfxBlue-800">{c.name}</p>
-                </div>
-              ),
-            }}
-          />
+          {currencies && (
+            <StyledModalDropdown<Fiat>
+              name="currency"
+              labelFunc={(item: Fiat) => item.name}
+              label="YOUR CURRENCY"
+              placeholder="e.g. EUR"
+              modal={{
+                heading: 'Select your currency',
+                items: currencies,
+                itemContent: (c: Fiat) => (
+                  <div className="flex flex-row gap-2">
+                    <p className="text-dfxBlue-800">{c.name}</p>
+                  </div>
+                ),
+              }}
+            />
+          )}
         </div>
         <StyledInput label="Buy amount" placeholder="0.00" name="amount" />
       </Form>

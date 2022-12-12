@@ -6,7 +6,7 @@ interface StyledInputProps extends ControlProps {
   placeholder?: string;
 }
 
-const StyledInput = forwardRef<any, any>(
+const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
   ({ control, name, label, rules, disabled = false, placeholder, ...props }: StyledInputProps, ref) => {
     return (
       <Controller

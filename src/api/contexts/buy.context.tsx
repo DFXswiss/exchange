@@ -29,12 +29,14 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
   const { receiveFor } = useBuy();
 
   useEffect(() => {
-    Promise.all([getCurrencies(), getAccounts()])
-      .then(([currencies, bankAccounts]) => {
-        setCurrencies(currencies.filter((c) => c.sellable));
-        setBankAccounts(bankAccounts);
-      })
-      .catch(console.error); // TODO (Krysh) add real error handling
+    if (isLoggedIn) {
+      Promise.all([getCurrencies(), getAccounts()])
+        .then(([currencies, bankAccounts]) => {
+          setCurrencies(currencies.filter((c) => c.sellable));
+          setBankAccounts(bankAccounts);
+        })
+        .catch(console.error); // TODO (Krysh) add real error handling
+    }
   }, [isLoggedIn]);
 
   const context: BuyInterface = { currencies, bankAccounts, createAccount, receiveFor };
