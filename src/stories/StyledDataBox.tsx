@@ -22,7 +22,7 @@ export default function StyledDataBox({
     ? (containerClasses += ' rounded-t border-x border-t')
     : (containerClasses += ' border rounded');
 
-  if (children === undefined) {
+  if (!children) {
     headingClasses += ' text-white/20';
   }
 

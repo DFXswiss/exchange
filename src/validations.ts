@@ -1,7 +1,7 @@
 // import * as IbanTools from 'ibantools';
 // import { Country } from '../api/definitions/country';
 // import BlockedIbans from '../public/blocked-iban.json';
-// import regex from './regex';
+import regex from './regex';
 
 class ValidationsClass {
   public get Required() {
@@ -9,6 +9,15 @@ class ValidationsClass {
       required: {
         value: true,
         message: 'Mandatory field',
+      },
+    };
+  }
+
+  public get Mail() {
+    return {
+      pattern: {
+        value: regex.Mail,
+        message: 'Invalid E-mail address',
       },
     };
   }
@@ -31,15 +40,6 @@ class ValidationsClass {
 
       return IbanTools.validateIBAN(iban).valid ? true : 'validation.iban_invalid';
     });
-  }
-
-  public get Mail() {
-    return {
-      pattern: {
-        value: regex.Mail,
-        message: i18n.t('validation.pattern_invalid'),
-      },
-    };
   }
 
   public get Ref() {
