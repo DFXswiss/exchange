@@ -109,7 +109,7 @@ export default function DfxIcon({ icon, color = IconColors.RED, size = IconSizes
   );
 }
 
-export function DfxWalletIcon() {
+function DfxWalletIcon() {
   const icContext = useContext(IconContext);
   return (
     <svg
@@ -129,7 +129,7 @@ export function DfxWalletIcon() {
   );
 }
 
-export function DfxBankIcon() {
+function DfxBankIcon() {
   const icContext = useContext(IconContext);
   return (
     <svg

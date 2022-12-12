@@ -42,10 +42,10 @@ const VARIANT_MAPS: Record<AssetIconVariant, ReactElement> = {
 };
 
 export default function DfxAssetIcon({ size = AssetIconSizes.MD, asset }: DfxAssetIconProps) {
-  return <SizeContext.Provider value={size}>{VARIANT_MAPS[asset]}</SizeContext.Provider>;
+  return <SizeContext.Provider value={size}>{VARIANT_MAPS[asset] ?? DfxAssetIconPlaceholder()}</SizeContext.Provider>;
 }
 
-export function DfxAssetIconUSDT() {
+function DfxAssetIconUSDT() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -66,7 +66,7 @@ export function DfxAssetIconUSDT() {
   );
 }
 
-export function DfxAssetIconUSDC() {
+function DfxAssetIconUSDC() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -76,7 +76,7 @@ export function DfxAssetIconUSDC() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_102_23)">
+      <g clipPath="url(#clip0_102_23)">
         <path
           d="M16 32C24.8667 32 32 24.8667 32 16C32 7.13328 24.8667 0 16 0C7.13328 0 0 7.13328 0 16C0 24.8667 7.13328 32 16 32Z"
           fill="#2775CA"
@@ -99,7 +99,7 @@ export function DfxAssetIconUSDC() {
   );
 }
 
-export function DfxAssetIconETH() {
+function DfxAssetIconETH() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -109,17 +109,17 @@ export function DfxAssetIconETH() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_4_53)">
+      <g clipPath="url(#clip0_4_53)">
         <path
           d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z"
           fill="#627EEA"
         />
-        <path d="M16.498 4V12.87L23.995 16.22L16.498 4Z" fill="white" fill-opacity="0.602" />
+        <path d="M16.498 4V12.87L23.995 16.22L16.498 4Z" fill="white" fillOpacity="0.602" />
         <path d="M16.498 4L9 16.22L16.498 12.87V4Z" fill="white" />
-        <path d="M16.498 21.968V27.995L24 17.616L16.498 21.968Z" fill="white" fill-opacity="0.602" />
+        <path d="M16.498 21.968V27.995L24 17.616L16.498 21.968Z" fill="white" fillOpacity="0.602" />
         <path d="M16.498 27.995V21.967L9 17.616L16.498 27.995Z" fill="white" />
-        <path d="M16.498 20.573L23.995 16.22L16.498 12.872V20.573Z" fill="white" fill-opacity="0.2" />
-        <path d="M9 16.22L16.498 20.573V12.872L9 16.22Z" fill="white" fill-opacity="0.602" />
+        <path d="M16.498 20.573L23.995 16.22L16.498 12.872V20.573Z" fill="white" fillOpacity="0.2" />
+        <path d="M9 16.22L16.498 20.573V12.872L9 16.22Z" fill="white" fillOpacity="0.602" />
       </g>
       <defs>
         <clipPath id="clip0_4_53">
@@ -130,7 +130,7 @@ export function DfxAssetIconETH() {
   );
 }
 
-export function DfxAssetIconDFI() {
+function DfxAssetIconDFI() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -140,7 +140,7 @@ export function DfxAssetIconDFI() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_297_30)">
+      <g clipPath="url(#clip0_297_30)">
         <path
           d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z"
           fill="#FF00AF"
@@ -159,7 +159,7 @@ export function DfxAssetIconDFI() {
   );
 }
 
-export function DfxAssetIconDAI() {
+function DfxAssetIconDAI() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -169,7 +169,7 @@ export function DfxAssetIconDAI() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_4_65)">
+      <g clipPath="url(#clip0_4_65)">
         <path
           d="M16 0C24.8374 0 32 7.16407 32 16C32 24.8374 24.8374 32 16 32C7.16407 32 0 24.8366 0 16C0 7.16407 7.16407 0 16 0Z"
           fill="#F5AC37"
@@ -188,7 +188,7 @@ export function DfxAssetIconDAI() {
   );
 }
 
-export function DfxAssetIconBUSD() {
+function DfxAssetIconBUSD() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -199,14 +199,14 @@ export function DfxAssetIconBUSD() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M16 0C24.8372 0 32 7.16282 32 16C32 24.8372 24.8372 32 16 32C7.16282 32 0 24.8372 0 16C0 7.16282 7.16282 0 16 0Z"
         fill="#F0B90B"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M18.6845 7.78274L15.9673 5L9.125 11.9077L11.8423 14.625L18.6845 7.78274ZM22.8095 11.9077L20.0923 9.125L9.125 20.1577L11.8423 22.875L22.8095 11.9077ZM7.71726 13.25L10.4345 16.0327L7.71726 18.75L5 16.0327L7.71726 13.25ZM26.9345 16.0327L24.2173 13.25L13.25 24.2827L15.9673 27L26.9345 16.0327Z"
         fill="white"
       />
@@ -214,7 +214,7 @@ export function DfxAssetIconBUSD() {
   );
 }
 
-export function DfxAssetIconBTC() {
+function DfxAssetIconBTC() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -233,7 +233,7 @@ export function DfxAssetIconBTC() {
   );
 }
 
-export function DfxAssetIconBNB() {
+function DfxAssetIconBNB() {
   const sizeContext = useContext(SizeContext);
   return (
     <svg
@@ -244,8 +244,8 @@ export function DfxAssetIconBNB() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M16 0C24.8372 0 32 7.16282 32 16C32 24.8372 24.8372 32 16 32C7.16282 32 0 24.8372 0 16C0 7.16282 7.16282 0 16 0Z"
         fill="#F0B90B"
       />
@@ -262,6 +262,61 @@ export function DfxAssetIconBNB() {
         d="M21.6936 12.6461L21.7051 15.1231L18.1 17.2384V21.4795L16.0064 22.7064L13.9128 21.4795V17.2384L10.3077 15.1231V12.6461L12.4103 11.4077L15.9936 13.5333L19.5987 11.4077L21.7026 12.6461H21.6936ZM10.3064 8.41665L15.9949 5.06281L21.6936 8.41665L19.6 9.65511L15.9949 7.52947L12.4 9.65511L10.3064 8.41665Z"
         fill="white"
       />
+    </svg>
+  );
+}
+
+function DfxAssetIconPlaceholder() {
+  const sizeContext = useContext(SizeContext);
+  return (
+    <svg
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_422_24)">
+        <circle cx="16" cy="16" r="16" fill="#B8C4D8" />
+        <path
+          d="M19.6935 23.0748C23.7288 23.0748 27 19.8036 27 15.7684C27 11.7331 23.7288 8.46188 19.6935 8.46188C15.6583 8.46188 12.3871 11.7331 12.3871 15.7684C12.3871 19.8036 15.6583 23.0748 19.6935 23.0748Z"
+          fill="url(#paint0_linear_422_24)"
+        />
+        <path
+          d="M13.0383 24.0767C17.4778 24.0767 21.0767 20.4778 21.0767 16.0383C21.0767 11.5989 17.4778 8 13.0383 8C8.59889 8 5 11.5989 5 16.0383C5 20.4778 8.59889 24.0767 13.0383 24.0767Z"
+          fill="url(#paint1_linear_422_24)"
+        />
+      </g>
+      <defs>
+        <linearGradient
+          id="paint0_linear_422_24"
+          x1="25.8226"
+          y1="12.5767"
+          x2="12.8376"
+          y2="19.2706"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0.104167" stopColor="white" />
+          <stop offset="0.520833" stopColor="#C7D0E0" />
+          <stop offset="1" stopColor="#B8C4D8" />
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_422_24"
+          x1="17.941"
+          y1="10.1956"
+          x2="7.60596"
+          y2="22.5088"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="white" />
+          <stop offset="0.375" stopColor="#F3F5F8" />
+          <stop offset="0.682292" stopColor="#E3E8F0" />
+          <stop offset="1" stopColor="#C7D1E0" />
+        </linearGradient>
+        <clipPath id="clip0_422_24">
+          <rect width="32" height="32" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }

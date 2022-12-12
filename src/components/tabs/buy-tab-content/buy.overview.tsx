@@ -1,6 +1,8 @@
 import { useAssetContext } from '../../../api/contexts/asset.context';
 import { Asset } from '../../../api/definitions/asset';
-import DfxIcon, { IconVariant } from '../../../stories/DfxIcon';
+import StyledCoinList from '../../../stories/StyledCoinList';
+import StyledCoinListItem from '../../../stories/StyledCoinListItem';
+import { BuyTabDefinitions } from '../buy.tab';
 
 interface BuyTabContentOverviewProps {
   onAssetClicked: (asset: Asset) => void;
@@ -8,22 +10,20 @@ interface BuyTabContentOverviewProps {
 
 export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewProps): JSX.Element {
   const { buyableAssets } = useAssetContext();
+
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col">
       {Array.from(buyableAssets.entries()).map(([blockchain, assets], blockchainIndex) => (
-        <div key={blockchainIndex} className="flex flex-col gap-4">
-          <p>
-            <strong>{blockchain}</strong>
-          </p>
-          <div className="flex flex-row gap-4">
-            {assets.map((asset, assetIndex) => (
-              <button key={assetIndex} className="flex flex-row gap-1" onClick={() => onAssetClicked(asset)}>
-                <DfxIcon icon={IconVariant.INFO} />
-                <p>{asset.name}</p>
-              </button>
-            ))}
-          </div>
-        </div>
+        <StyledCoinList key={blockchainIndex} heading={BuyTabDefinitions.headings[blockchain]}>
+          {assets.map((asset, assetIndex) => (
+            <StyledCoinListItem
+              key={assetIndex}
+              asset={asset.name}
+              protocol={BuyTabDefinitions.protocols[blockchain]}
+              onClick={() => onAssetClicked(asset)}
+            />
+          ))}
+        </StyledCoinList>
       ))}
     </div>
   );

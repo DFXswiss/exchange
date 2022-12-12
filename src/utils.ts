@@ -9,4 +9,17 @@ export class Utils {
       new Map<U, T[]>(),
     );
   }
+
+  static createRules(rules: any): any {
+    for (const property in rules) {
+      if (rules[property] instanceof Array) {
+        rules[property] = rules[property].reduce((prev: any, curr: any) => Utils.updateObject(prev, curr), {});
+      }
+    }
+    return rules;
+  }
+
+  private static updateObject(obj?: any, update?: any): unknown {
+    return obj ? { ...obj, ...update } : undefined;
+  }
 }
