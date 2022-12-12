@@ -1,11 +1,11 @@
 import { useUserContext } from '../api/contexts/user.context';
-import { useSession } from '../hooks/session.hook';
+import { useSessionContext } from '../contexts/session.context';
 import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
 import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
 
 export function UserBox(): JSX.Element {
-  const { isLoggedIn } = useSession();
+  const { isLoggedIn } = useSessionContext();
   const { user } = useUserContext();
 
   return isLoggedIn ? (

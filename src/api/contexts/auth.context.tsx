@@ -5,7 +5,7 @@ import { Jwt } from '../definitions/jwt';
 
 interface AuthInterface {
   authenticationToken?: string;
-  setAuthenticationToken: (authenticationToken: string) => void;
+  setAuthenticationToken: (authenticationToken?: string) => void;
   isLoggedIn: boolean;
 }
 
@@ -32,8 +32,8 @@ export function AuthContextProvider(props: PropsWithChildren): JSX.Element {
     return jwt?.exp != null && Date.now() > new Date(jwt?.exp * 1000).getTime();
   }
 
-  function setAuthenticationToken(token: string) {
-    authenticationToken.set(token);
+  function setAuthenticationToken(token?: string) {
+    token ? authenticationToken.set(token) : authenticationToken.remove();
     setToken(token);
   }
 

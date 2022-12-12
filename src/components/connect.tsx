@@ -1,10 +1,10 @@
 import { useWalletContext } from '../contexts/wallet.context';
-import { useSession } from '../hooks/session.hook';
+import { useSessionContext } from '../contexts/session.context';
 import StyledButton from '../stories/StyledButton';
 
 export function Connect(): JSX.Element {
   const { isConnected } = useWalletContext();
-  const { login } = useSession();
+  const { login } = useSessionContext();
 
   return (
     <div className={isConnected ? 'hidden' : ''}>
