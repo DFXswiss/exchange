@@ -1,11 +1,11 @@
 import { useWalletContext } from '../contexts/wallet.context';
-import { useSession } from '../hooks/session.hook';
+import { useSessionContext } from '../contexts/session.context';
 import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
 
 export function WalletBox(): JSX.Element {
   const { isConnected } = useWalletContext();
-  const { address, blockchain } = useSession();
+  const { address, blockchain } = useSessionContext();
 
   function blankedAddress(): string {
     return `${address?.slice(0, 6)}...${address?.slice(address?.length - 5)}`;

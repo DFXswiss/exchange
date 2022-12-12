@@ -14,7 +14,7 @@ export enum StyledModalTypes {
 
 interface StyledModalProps extends PropsWithChildren {
   isVisible: boolean;
-  onClose: (showModal: boolean) => any;
+  onClose?: (showModal: boolean) => any;
   closeWithX?: boolean;
   heading?: string;
   color?: StyledModalColors;
@@ -31,7 +31,7 @@ export default function StyledModal({
   children,
 }: StyledModalProps) {
   function setShowModal(modalState: boolean) {
-    onClose(modalState);
+    onClose?.(modalState);
   }
 
   const showHeader = heading !== undefined && heading !== '' && type === StyledModalTypes.REGULAR;
