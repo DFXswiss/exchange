@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useContext } from 'react';
+import { PropsWithChildren, useContext } from 'react';
 import { AlignContent, ThemeContext } from './StyledDataTable';
 
 interface StyledDataTableRowProps extends PropsWithChildren {
