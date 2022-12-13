@@ -12,6 +12,7 @@ export interface SessionInterface {
   needsSignUp: boolean;
   login: () => Promise<void>;
   signUp: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const SessionContext = createContext<SessionInterface>(undefined as any);
@@ -21,7 +22,7 @@ export function useSessionContext(): SessionInterface {
 }
 
 export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
-  const { isLoggedIn, getSignMessage, createSession } = useApiSession();
+  const { isLoggedIn, getSignMessage, createSession, deleteSession } = useApiSession();
   const { isInstalled, isConnected, address, blockchain, connect, signMessage } = useWalletContext();
   const [needsSignUp, setNeedsSignUp] = useState(false);
   const [signature, setSignature] = useState<string>();
@@ -52,7 +53,20 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
     });
   }
 
-  const context = { isMetaMaskInstalled: isInstalled, address, blockchain, isLoggedIn, needsSignUp, login, signUp };
+  async function logout(): Promise<void> {
+    await deleteSession();
+  }
+
+  const context = {
+    isMetaMaskInstalled: isInstalled,
+    address,
+    blockchain,
+    isLoggedIn,
+    needsSignUp,
+    login,
+    signUp,
+    logout,
+  };
 
   return <SessionContext.Provider value={context}>{props.children}</SessionContext.Provider>;
 }
