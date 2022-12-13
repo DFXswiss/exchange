@@ -1,5 +1,4 @@
 import { Asset } from './asset';
-import { BankAccount } from './bank-account';
 import { Fiat } from './fiat';
 
 export const BuyUrl = { receive: 'buy/paymentInfos' };
