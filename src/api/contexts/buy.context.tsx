@@ -39,7 +39,14 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
     }
   }, [isLoggedIn]);
 
-  const context: BuyInterface = { currencies, bankAccounts, createAccount, receiveFor };
+  async function addNewAccount(newAccount: CreateBankAccount): Promise<BankAccount> {
+    return createAccount(newAccount).then((b) => {
+      setBankAccounts((bankAccounts ?? []).concat(b));
+      return b;
+    });
+  }
+
+  const context: BuyInterface = { currencies, bankAccounts, createAccount: addNewAccount, receiveFor };
 
   return <BuyContext.Provider value={context}>{props.children}</BuyContext.Provider>;
 }
