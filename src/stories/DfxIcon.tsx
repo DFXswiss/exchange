@@ -44,6 +44,7 @@ export enum IconVariant {
   UNFOLD_MORE = 'UNFOLD_MORE',
   WALLET = 'WALLET',
   BANK = 'BANK',
+  SEPA_INSTANT = 'SEPA_INSTANT',
 }
 
 export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
@@ -65,6 +66,7 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.SETTINGS]: <MdSettings />,
   [IconVariant.WALLET]: <DfxWalletIcon />,
   [IconVariant.BANK]: <DfxBankIcon />,
+  [IconVariant.SEPA_INSTANT]: <DfxSepaInstantAvailable />,
 };
 
 export enum IconSizes {
@@ -148,5 +150,28 @@ function DfxBankIcon() {
       />
       <path d="M18.4043 16.3309H0.404297V18.366H18.4043V16.3309Z" fill={icContext.color} />
     </svg>
+  );
+}
+
+function DfxSepaInstantAvailable() {
+  return (
+    <div className="bg-primary-red text-xs flex gap-1 justify-center rounded-sm w-fit pl-1 pr-2 py-0.25 font-semibold italic">
+      <svg
+        width="27"
+        height="10"
+        viewBox="0 0 27 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="place-self-center"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M13.6502 0.166504H26.5877L23.6145 9.1665H10.677L13.6502 0.166504ZM18.7118 6.93191C17.7944 6.93191 17.1585 6.43613 16.9977 5.71236H19.1029L19.3259 5.01754H16.9794C16.9977 4.90174 17.0233 4.78593 17.0598 4.67013C17.0963 4.55433 17.1439 4.43852 17.1987 4.32272H19.5451L19.7681 3.6279H17.6629C18.2879 2.90413 19.2454 2.40835 20.1592 2.40835C20.7476 2.40835 21.2228 2.61462 21.5298 2.95479L22.3741 2.33959C21.9537 1.84018 21.2776 1.53982 20.4369 1.53982C19.0079 1.53258 17.513 2.40835 16.6724 3.62066H15.3858L15.1629 4.31548H16.2813C16.2301 4.43128 16.1863 4.54709 16.1497 4.66289C16.1132 4.7787 16.0839 4.8945 16.062 5.0103H14.9399L14.717 5.70512H16.0035C16.0693 6.92106 17.0013 7.7932 18.4341 7.7932C19.2783 7.7932 20.1446 7.48922 20.8828 6.99343L20.4296 6.37823C19.907 6.7184 19.3039 6.92468 18.7118 6.92468V6.93191ZM4.35541 2.41281H11.1054V1.29526H4.35541V2.41281ZM0.833334 5.22531H7.58333V4.10776H0.833334V5.22531ZM4.58333 8.03781H9.08333V6.92026H4.58333V8.03781Z"
+          fill="white"
+        />
+      </svg>
+      <span> SEPA INSTANT AVAILABLE</span>
+    </div>
   );
 }

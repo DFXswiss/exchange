@@ -11,7 +11,8 @@
     "videoid",
     "noreferrer",
     "OLKILUL",
-    "Bahnhofstrasse"
+    "Bahnhofstrasse",
+    "SEPA"
   ],
   "files.exclude": {
     "node_modules": true
