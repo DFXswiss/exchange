@@ -1,10 +1,14 @@
+import copy from 'copy-to-clipboard';
+
 interface ClipboardInterface {
-  copy: (text?: string) => Promise<void>;
+  copy: (text?: string) => void;
 }
 
 export function useClipboard(): ClipboardInterface {
-  async function copy(text?: string): Promise<void> {
-    console.log('TODO copy', text);
+  function copyHelper(text?: string): void {
+    if (!text) return;
+    copy(text);
   }
-  return { copy };
+
+  return { copy: copyHelper };
 }

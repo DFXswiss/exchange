@@ -8,6 +8,7 @@ export interface User {
   kycState: KycState;
   kycStatus: KycStatus;
   tradingLimit: UserTradingLimit;
+  kycHash: string;
 
   ref?: string;
   refFeePercent: number;

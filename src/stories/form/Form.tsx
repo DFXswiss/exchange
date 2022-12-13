@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, RefAttributes } from 'react';
+import { createElement, ReactElement, ReactNode, RefAttributes } from 'react';
 import { Control, FieldError } from 'react-hook-form';
 
 export interface ControlProps {
@@ -50,7 +50,7 @@ const Form = ({ children, control, rules, errors, disabled = false, onSubmit }: 
       };
     }
 
-    return React.createElement(element.type, props);
+    return createElement(element.type, props);
   };
 
   return <>{enrichElements(children)}</>;

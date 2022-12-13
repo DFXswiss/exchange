@@ -66,7 +66,7 @@ export function UserBox(): JSX.Element {
               size={StyledButtonSizes.SMALL}
               width={StyledButtonWidths.MIN}
               caps={false}
-              onClick={() => user && copy(user.ref)}
+              onClick={() => copy(user.ref)}
             />
           </StyledDataTextRow>
         )}
