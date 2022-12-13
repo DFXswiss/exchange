@@ -1,9 +1,11 @@
 import { PropsWithChildren, useContext } from 'react';
 import { AlignContent, ThemeContext } from './StyledDataTable';
+import StyledLoadingSpinner, { SpinnerSizes, SpinnerVariant } from './StyledLoadingSpinner';
 
 interface StyledDataTableRowProps extends PropsWithChildren {
   label?: string;
   discreet?: boolean;
+  isLoading?: boolean;
 }
 
 const ALIGN_MAPS: Record<AlignContent, string> = {
@@ -12,7 +14,7 @@ const ALIGN_MAPS: Record<AlignContent, string> = {
   [AlignContent.BETWEEN]: ' justify-between',
 };
 
-export default function StyledDataTableRow({ label, children, discreet }: StyledDataTableRowProps) {
+export default function StyledDataTableRow({ label, children, discreet, isLoading }: StyledDataTableRowProps) {
   const theme = useContext(ThemeContext);
 
   let wrapperClasses = 'flex text-sm';
@@ -44,7 +46,9 @@ export default function StyledDataTableRow({ label, children, discreet }: Styled
         </div>
       )}
 
-      <div className={rowDataClasses}>{children}</div>
+      <div className={rowDataClasses}>
+        {isLoading ? <StyledLoadingSpinner size={SpinnerSizes.SM} variant={SpinnerVariant.PALE} /> : children}
+      </div>
     </div>
   );
 }

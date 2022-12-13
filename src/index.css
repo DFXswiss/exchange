@@ -4,6 +4,7 @@
 
 .bg-dfxGradient {
   background: linear-gradient(215.56deg, #402f4b 20.21%, #072440 85.33%);
+  background-attachment: fixed;
 }
 
 @layer base {

@@ -1,3 +1,5 @@
+import StyledLoadingSpinner, { SpinnerSizes, SpinnerVariant } from './StyledLoadingSpinner';
+
 export enum StyledButtonSizes {
   BIG = 'BIG',
   SMALL = 'SMALL',
@@ -23,17 +25,29 @@ export interface StyledButtonProps {
   width?: StyledButtonWidths;
   color?: StyledButtonColors;
   caps?: boolean;
+  isLoading?: boolean;
+  disabled?: boolean;
 }
 
-const SIZE_MAPS: Record<StyledButtonSizes, string> = {
-  [StyledButtonSizes.BIG]: 'font-bold text-base rounded px-7 py-2.5 ',
-  [StyledButtonSizes.SMALL]: 'text-sm rounded-md px-3.5 py-0.5 ',
+type SizeMapProps = {
+  buttonClasses: string;
+  loadingSpinnerSize: SpinnerSizes;
+};
+
+const SIZE_MAPS: Record<StyledButtonSizes, SizeMapProps> = {
+  [StyledButtonSizes.BIG]: {
+    buttonClasses: 'font-bold text-base rounded px-7 py-2.5 ',
+    loadingSpinnerSize: SpinnerSizes.MD,
+  },
+  [StyledButtonSizes.SMALL]: {
+    buttonClasses: 'text-sm rounded-md px-3.5 py-0.5 ',
+    loadingSpinnerSize: SpinnerSizes.SM,
+  },
 };
 
 const COLOR_MAPS: Record<StyledButtonColors, string> = {
   [StyledButtonColors.RED]: 'bg-primary-red text-white hover:bg-dfxRed-150 focus:bg-dfxRed-150 active:bg-dfxRed-100',
-  [StyledButtonColors.GRAY]:
-    'bg-dfxGray-800 text-dfxGray-700 hover:bg-dfxGray-700 hover:text-dfxGray-800 focus:bg-dfxGray-700 focus:text-dfxGray-800 active:bg-dfxGray-800 active:text-dfxGray-700',
+  [StyledButtonColors.GRAY]: 'bg-dfxGray-800 text-dfxGray-700',
   [StyledButtonColors.WHITE]:
     'bg-dfxGray-400 text-primary-blue hover:bg-dfxGray-500 focus:bg-dfxGray-500 active:bg-dfxGray-600',
   [StyledButtonColors.PALE_WHITE]:
@@ -53,17 +67,46 @@ export default function StyledButton({
   width = StyledButtonWidths.MD,
   color = StyledButtonColors.RED,
   caps = true,
+  isLoading = false,
+  disabled = false,
 }: StyledButtonProps) {
   let buttonClasses =
-    'inline-block leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ';
+    'inline-block flex gap-4 justify-center leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ';
 
-  buttonClasses += [SIZE_MAPS[size], COLOR_MAPS[color], WIDTH_MAPS[width], caps ? 'uppercase' : 'normal-case'].join(
-    ' ',
-  );
+  let renderedColor: string;
+  let isDisabled = false;
+
+  disabled || isLoading ? (isDisabled = true) : null;
+
+  if (isDisabled) {
+    renderedColor = COLOR_MAPS[StyledButtonColors.GRAY];
+  } else {
+    if (color === StyledButtonColors.GRAY) {
+      renderedColor =
+        COLOR_MAPS[color] +
+        ' hover:bg-dfxGray-700 hover:text-dfxGray-800 focus:bg-dfxGray-700 focus:text-dfxGray-800 active:bg-dfxGray-800 active:text-dfxGray-700';
+    } else {
+      renderedColor = COLOR_MAPS[color];
+    }
+  }
+
+  buttonClasses += [
+    SIZE_MAPS[size].buttonClasses,
+    renderedColor,
+    WIDTH_MAPS[width],
+    caps ? 'uppercase' : 'normal-case',
+  ].join(' ');
 
   return (
-    <button type="button" className={buttonClasses} onClick={onClick}>
-      {label}
-    </button>
+    <>
+      <button type="button" className={buttonClasses} onClick={onClick} disabled={isDisabled}>
+        {label}
+        {isLoading && (
+          <div className="place-self-center">
+            <StyledLoadingSpinner variant={SpinnerVariant.PALE} size={SIZE_MAPS[size].loadingSpinnerSize} />
+          </div>
+        )}
+      </button>
+    </>
   );
 }

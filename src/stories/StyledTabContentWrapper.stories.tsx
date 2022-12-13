@@ -6,6 +6,7 @@ import StyledDataTable from './StyledDataTable';
 import StyledDataTableRow from './StyledDataTableRow';
 import StyledIconButton from './StyledIconButton';
 import StyledSpacer from './StyledSpacer';
+import StyledLoadingSpinner, { SpinnerSizes } from './StyledLoadingSpinner';
 
 export default {
   title: 'Composites/StyledTabContentWrapper',
@@ -28,11 +29,13 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
               }}
             >
               <h1>Democontent</h1>
+              <StyledLoadingSpinner size={SpinnerSizes.MD} />
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo assumenda minima, quae possimus beatae
                 quisquam iste vel aspernatur, ab velit, exercitationem nobis atque veritatis vitae expedita dolor magni
                 magnam ut?
               </p>
+              <StyledLoadingSpinner size={SpinnerSizes.LG} />
               <StyledSpacer spacing={8} showLine />
               <StyledDataTable heading="Data">
                 <StyledDataTableRow label="IBAN">
@@ -52,6 +55,7 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
                       console.log('copied.');
                     }}
                   />
+                  <StyledLoadingSpinner size={SpinnerSizes.SM} />
                 </StyledDataTableRow>
                 <StyledDataTableRow label="Purpose of Payment">
                   OC11-A025-BCF7
