@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { IconVariant } from './DfxIcon';
-import StyledDataTable from './StyledDataTable';
+import StyledDataTable, { AlignContent } from './StyledDataTable';
 import StyledDataTableRow from './StyledDataTableRow';
 import StyledIconButton from './StyledIconButton';
 
@@ -68,7 +68,7 @@ export const PaymentData: ComponentStory<typeof StyledDataTable> = (args) => {
 PaymentData.args = {
   darkTheme: false,
   showBorder: true,
-  alignRight: true,
+  alignContent: AlignContent.RIGHT,
 };
 
 export const SingleRowOnlyText: ComponentStory<typeof StyledDataTable> = (args) => {
