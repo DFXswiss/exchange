@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { DeepPartial, useForm, useWatch } from 'react-hook-form';
 import { useBuyContext } from '../../../api/contexts/buy.context';
 import { Asset } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
@@ -36,71 +36,43 @@ interface FormData {
   amount: string;
 }
 
-interface KycInfo {
-  limit: string;
-  buttonLabel: 'Complete Kyc';
-  buttonOnClick: () => void;
-}
-
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts, receiveFor } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
-  const [kycInfo, setKycInfo] = useState<KycInfo>();
   const {
     control,
     handleSubmit,
-    getValues,
     formState: { errors },
-    watch,
   } = useForm<FormData>({ defaultValues: { asset } });
-  const [data, setData] = useState<FormData>();
-  const debounceValue = useDebounce<FormData>(data, 500);
+  const data = useWatch({ control });
+  const validatedData = validateData(useDebounce(data, 500));
 
   function isAllowedToBuyEnteredAmount(): boolean {
-    return isAllowedToBuy(Number(getValues().amount));
+    return isAllowedToBuy(Number(validatedData?.amount));
   }
 
   useEffect(() => {
-    if (!debounceValue) return;
-    const amount = Number(debounceValue.amount);
-    if (!isAllowedToBuy(amount)) return;
-    const info = { ...debounceValue, iban: debounceValue.bankAccount.iban, amount };
-    receiveFor(info)
-      .then((value) => toPaymentInformation(value, debounceValue.bankAccount.sepaInstant))
-      .then((info) => {
-        if (isAllowedToBuyEnteredAmount() && isFormDataValid(getValues())) {
-          setPaymentInfo(info);
-          setKycInfo(undefined);
-        }
-      });
-  }, [debounceValue]);
+    if (!validatedData) return;
 
-  useEffect(() => {
-    const subscription = watch(() => {
-      const formData = getValues();
-      if (isFormDataValid(formData)) {
-        const amount = Number(formData.amount);
-        if (isAllowedToBuy(amount)) {
-          setData(formData);
-        } else {
-          setPaymentInfo(undefined);
-          setKycInfo({ limit, buttonLabel: 'Complete Kyc', buttonOnClick: start });
-        }
-      } else {
-        setPaymentInfo(undefined);
-        setKycInfo(undefined);
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch]);
+    receiveFor({
+      iban: validatedData.bankAccount.iban,
+      currency: validatedData.currency,
+      amount: Number(validatedData.amount),
+      asset: validatedData.asset,
+    })
+      .then((value) => toPaymentInformation(value, validatedData.bankAccount.sepaInstant))
+      .then(setPaymentInfo);
+  }, [validatedData]);
 
   async function onSubmit(_data: FormData): Promise<void> {
     // TODO (Krysh): fix broken form validation and onSubmit
   }
 
-  function isFormDataValid(data: FormData): boolean {
-    return +data.amount > 0 && data.asset != null && data.bankAccount != null && data.currency != null;
+  function validateData(data?: DeepPartial<FormData>): FormData | undefined {
+    if (data && Number(data.amount) > 0 && data.asset != null && data.bankAccount != null && data.currency != null) {
+      return data as FormData;
+    }
   }
 
   function toPaymentInformation(buy: Buy, isSepaInstant: boolean): PaymentInformation {
@@ -179,10 +151,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           label="Buy amount"
           placeholder="0.00"
           name="amount"
-          forceError={isFormDataValid(getValues()) && !isAllowedToBuyEnteredAmount()}
+          forceError={validateData != null && !isAllowedToBuyEnteredAmount()}
         />
       </Form>
-      {paymentInfo && (
+      {paymentInfo && isAllowedToBuyEnteredAmount() && (
         <>
           <PaymentInformationContent info={paymentInfo} />
           <StyledButton
@@ -193,14 +165,14 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           />
         </>
       )}
-      {kycInfo && (
+      {!isAllowedToBuyEnteredAmount() && (
         <>
           <p>
-            Your account needs to get verified once your daily transaction volume exceeds {kycInfo.limit}. If you want
-            to increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
+            Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
+            increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
           </p>
           <StyledSpacer spacing={4} />
-          <StyledButton width={StyledButtonWidths.FULL} label={kycInfo.buttonLabel} onClick={kycInfo.buttonOnClick} />
+          <StyledButton width={StyledButtonWidths.FULL} label="Complete KYC" onClick={start} />
         </>
       )}
     </StyledTabContentWrapper>
