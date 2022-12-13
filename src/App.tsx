@@ -11,8 +11,8 @@ function App() {
     <AuthContextProvider>
       <UserContextProvider>
         <WalletContextProvider>
-		  <SessionContextProvider>
-            <AssetContextProvider> 
+          <SessionContextProvider>
+            <AssetContextProvider>
               <BuyContextProvider>
                 <Main />
               </BuyContextProvider>
