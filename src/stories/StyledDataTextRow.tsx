@@ -1,16 +1,19 @@
 import { PropsWithChildren } from 'react';
 
-interface IStyledDataTextRowProps extends PropsWithChildren {
+interface StyledDataTextRowProps extends PropsWithChildren {
   label: string;
 }
 
-export default function StyledDataTextRow({ label, children }: IStyledDataTextRowProps) {
+export default function StyledDataTextRow({ label, children }: StyledDataTextRowProps) {
+  const labelClasses = 'text-dfxGray-600';
+  const rowDataClasses = 'flex-auto overflow-hidden ';
+
   return (
     <div className="flex py-1">
       <div className="flex-none w-48">
-        <p className="text-dfxGray-600">{label}</p>
+        <p className={labelClasses}>{label}</p>
       </div>
-      <div className="flex-auto overflow-hidden ">{children}</div>
+      <div className={rowDataClasses}>{children}</div>
     </div>
   );
 }
