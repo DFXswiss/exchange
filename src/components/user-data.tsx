@@ -48,7 +48,7 @@ export function UserData(): JSX.Element {
           ? {
               color: StyledButtonColors.RED,
               label: 'Copy to share',
-              func: () => user && copy(user.ref),
+              func: () => copy(user.ref),
             }
           : undefined,
     },

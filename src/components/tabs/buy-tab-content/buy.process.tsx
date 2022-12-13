@@ -147,7 +147,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
         </div>
         <StyledInput label="Buy amount" placeholder="0.00" name="amount" />
       </Form>
-      {paymentInfo && <PaymentInformationContent info={paymentInfo} onFinish={onBack} />}
+      {paymentInfo && (
+        <>
+          <PaymentInformationContent info={paymentInfo} />
+          <StyledButton label="Click once your bank Transfer is completed." onClick={onBack} caps={false} />
+        </>
+      )}
     </>
   );
 }
@@ -163,10 +168,9 @@ interface PaymentInformation {
 
 interface PaymentInformationContentProps {
   info: PaymentInformation;
-  onFinish: () => void;
 }
 
-function PaymentInformationContent({ info, onFinish }: PaymentInformationContentProps): JSX.Element {
+function PaymentInformationContent({ info }: PaymentInformationContentProps): JSX.Element {
   const { copy } = useClipboard();
   return (
     <>
@@ -190,7 +194,7 @@ function PaymentInformationContent({ info, onFinish }: PaymentInformationContent
         </StyledDataTableRow>
       </StyledDataTable>
       <StyledDataTable label="Recipient" darkTheme={false} showBorder>
-        <StyledDataTableRow>DFX AG, Bahnhofstrasse 7, 6300 Zug, Schweiz</StyledDataTableRow>
+        <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
       </StyledDataTable>
       <StyledDataTable darkTheme={false} alignContent={AlignContent.BETWEEN}>
         <StyledDataTableRow discreet>
@@ -198,7 +202,6 @@ function PaymentInformationContent({ info, onFinish }: PaymentInformationContent
           <p>{info.fee}</p>
         </StyledDataTableRow>
       </StyledDataTable>
-      <StyledButton label="Click once your bank Transfer is completed." onClick={onFinish} caps={false} />
     </>
   );
 }

@@ -25,7 +25,7 @@ export function WalletBox(): JSX.Element {
         <>
           <StyledDataTextRow label="Metamask">
             {blankedAddress()}
-            <IconButton icon={IconVariant.COPY} onClick={() => address && copy(address)} inline />
+            <IconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
           </StyledDataTextRow>
           <StyledDataTextRow label="Connected to">{blockchain}</StyledDataTextRow>
         </>

@@ -14,7 +14,6 @@ export function useKyc(): KycInterface {
     ['onlineid']: 'online identification',
     ['videoid']: 'video identification',
     ['check']: 'Data in review',
-    ['manual']: 'Verification completed',
     ['completed']: 'Verification completed',
     ['rejected']: 'Verification rejected',
     ['na']: 'In progress',
