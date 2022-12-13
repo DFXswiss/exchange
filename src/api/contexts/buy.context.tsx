@@ -41,7 +41,7 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
 
   async function addNewAccount(newAccount: CreateBankAccount): Promise<BankAccount> {
     return createAccount(newAccount).then((b) => {
-      setBankAccounts(bankAccounts?.concat(b));
+      setBankAccounts((bankAccounts ?? []).concat(b));
       return b;
     });
   }
