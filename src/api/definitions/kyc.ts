@@ -4,7 +4,6 @@ export enum KycStatus {
   ONLINE_ID = 'OnlineId',
   VIDEO_ID = 'VideoId',
   CHECK = 'Check',
-  MANUAL = 'Manual',
   COMPLETED = 'Completed',
   REJECTED = 'Rejected',
 }

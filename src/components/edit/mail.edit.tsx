@@ -27,7 +27,7 @@ export function MailEdit({ onSubmit }: MailEditProps): JSX.Element {
   }
 
   const rules = Utils.createRules({
-    email: Validations.Required && Validations.Mail,
+    email: [Validations.Required, Validations.Mail],
   });
 
   return (
