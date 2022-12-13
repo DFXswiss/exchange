@@ -41,7 +41,7 @@ export function UserData(): JSX.Element {
 
   const referralData = [
     {
-      title: 'Your Referral Code',
+      title: 'Referral code',
       value: user?.ref ?? 'Complete a buy to receive your Ref code',
       button:
         user?.ref != null
@@ -53,9 +53,9 @@ export function UserData(): JSX.Element {
           : undefined,
     },
     { title: 'Referral commission', value: `${user?.refFeePercent ?? 0 * 100} %` },
-    { title: 'Ref users', value: user?.refCount },
-    { title: 'Ref volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
-    { title: 'Ref bonus', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
+    { title: 'Referral users', value: user?.refCount },
+    { title: 'Referral volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
+    { title: 'Referral bonus', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
   ];
 
   const data = [

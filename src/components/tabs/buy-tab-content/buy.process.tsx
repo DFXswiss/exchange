@@ -17,6 +17,10 @@ import { BuyTabDefinitions } from '../buy.tab';
 import debounce from 'debounce';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
+import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
+import StyledDataTableRow from '../../../stories/StyledDataTableRow';
+import StyledIconButton from '../../../stories/StyledIconButton';
+import { useClipboard } from '../../../hooks/clipboard.hook';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -143,7 +147,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
         </div>
         <StyledInput label="Buy amount" placeholder="0.00" name="amount" />
       </Form>
-      {paymentInfo && <PaymentInformationContent info={paymentInfo} />}
+      {paymentInfo && <PaymentInformationContent info={paymentInfo} onFinish={onBack} />}
     </>
   );
 }
@@ -159,9 +163,11 @@ interface PaymentInformation {
 
 interface PaymentInformationContentProps {
   info: PaymentInformation;
+  onFinish: () => void;
 }
 
-function PaymentInformationContent({ info }: PaymentInformationContentProps): JSX.Element {
+function PaymentInformationContent({ info, onFinish }: PaymentInformationContentProps): JSX.Element {
+  const { copy } = useClipboard();
   return (
     <>
       <h2>Payment Information</h2>
@@ -169,17 +175,30 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
         Please transfer the purchase amount using this information via your banking application. The purpose of payment
         is important!
       </p>
-      <p>IBAN: {info.iban}</p>
-      <p>BIC: {info.bic}</p>
-      <p>Purpose {info.purpose}</p>
-      <p>Recipient: {info.recipient}</p>
-      <p>Fee: {info.fee}</p>
-      <div className="border border-dfxGray-500 rounded-md"></div>
-      <StyledButton
-        label="Click once your bank Transfer is completed."
-        onClick={() => console.log('TODO ask what should happen after this button was clicked')}
-        caps={false}
-      />
+      <StyledDataTable darkTheme={false} alignContent={AlignContent.RIGHT} showBorder>
+        <StyledDataTableRow label="IBAN">
+          {info.iban}
+          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
+        </StyledDataTableRow>
+        <StyledDataTableRow label="BIC">
+          {info.bic}
+          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.bic)} />
+        </StyledDataTableRow>
+        <StyledDataTableRow label="Purpose of payment">
+          {info.purpose}
+          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
+        </StyledDataTableRow>
+      </StyledDataTable>
+      <StyledDataTable label="Recipient" darkTheme={false} showBorder>
+        <StyledDataTableRow>DFX AG, Bahnhofstrasse 7, 6300 Zug, Schweiz</StyledDataTableRow>
+      </StyledDataTable>
+      <StyledDataTable darkTheme={false} alignContent={AlignContent.BETWEEN}>
+        <StyledDataTableRow discreet>
+          <p>DFX-Fee</p>
+          <p>{info.fee}</p>
+        </StyledDataTableRow>
+      </StyledDataTable>
+      <StyledButton label="Click once your bank Transfer is completed." onClick={onFinish} caps={false} />
     </>
   );
 }
