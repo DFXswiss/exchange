@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useBuyContext } from '../../../api/contexts/buy.context';
 import { Asset } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
-import { Buy, BuyPaymentInfo } from '../../../api/definitions/buy';
+import { Buy } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
 import DfxIcon, { IconColors, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
@@ -14,13 +14,14 @@ import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { IconButton } from '../../../stories/StyledIconButton.stories';
 import { AddBankAccount } from '../../add-bank-account';
 import { BuyTabDefinitions } from '../buy.tab';
-import debounce from 'debounce';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
 import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
 import StyledDataTableRow from '../../../stories/StyledDataTableRow';
 import StyledIconButton from '../../../stories/StyledIconButton';
 import { useClipboard } from '../../../hooks/clipboard.hook';
+import { useKyc } from '../../../hooks/kyc.hook';
+import useDebounce from '../../../hooks/debounce.hook';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -34,9 +35,17 @@ interface FormData {
   amount: string;
 }
 
+interface KycInfo {
+  limit: string;
+  buttonLabel: 'Complete Kyc';
+  buttonOnClick: () => void;
+}
+
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts, receiveFor } = useBuyContext();
+  const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
+  const [kycInfo, setKycInfo] = useState<KycInfo>();
   const {
     control,
     handleSubmit,
@@ -44,20 +53,42 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     formState: { errors },
     watch,
   } = useForm<FormData>({ defaultValues: { asset } });
+  const [data, setData] = useState<FormData>();
+  const debounceValue = useDebounce<FormData>(data, 500);
 
-  const debouncedReceiveFor = useRef(
-    debounce((info: BuyPaymentInfo) => {
-      receiveFor(info)
-        .then((value) => toPaymentInformation(value, info.bankAccount))
-        .then(setPaymentInfo);
-    }, 500),
-  ).current;
+  function isAllowedToBuyEnteredAmount(): boolean {
+    return isAllowedToBuy(Number(getValues().amount));
+  }
+
+  useEffect(() => {
+    if (!debounceValue) return;
+    const amount = Number(debounceValue.amount);
+    if (!isAllowedToBuy(amount)) return;
+    const info = { ...debounceValue, iban: debounceValue.bankAccount.iban, amount };
+    receiveFor(info)
+      .then((value) => toPaymentInformation(value, info.bankAccount))
+      .then((info) => {
+        if (isAllowedToBuyEnteredAmount() && isFormDataValid(getValues())) {
+          setPaymentInfo(info);
+          setKycInfo(undefined);
+        }
+      });
+  }, [debounceValue]);
 
   useEffect(() => {
     const subscription = watch(() => {
       const formData = getValues();
       if (isFormDataValid(formData)) {
-        debouncedReceiveFor({ ...formData, iban: formData.bankAccount.iban, amount: Number(formData.amount) });
+        const amount = Number(formData.amount);
+        if (isAllowedToBuy(amount)) {
+          setData(formData);
+        } else {
+          setPaymentInfo(undefined);
+          setKycInfo({ limit, buttonLabel: 'Complete Kyc', buttonOnClick: start });
+        }
+      } else {
+        setPaymentInfo(undefined);
+        setKycInfo(undefined);
       }
     });
     return () => subscription.unsubscribe();
@@ -68,7 +99,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   }
 
   function isFormDataValid(data: FormData): boolean {
-    return !isNaN(+data.amount) && data.asset != null && data.bankAccount != null && data.currency != null;
+    return +data.amount > 0 && data.asset != null && data.bankAccount != null && data.currency != null;
   }
 
   function toPaymentInformation(buy: Buy, bankAccount: BankAccount): PaymentInformation {
@@ -145,12 +176,26 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             />
           )}
         </div>
-        <StyledInput label="Buy amount" placeholder="0.00" name="amount" />
+        <StyledInput
+          label="Buy amount"
+          placeholder="0.00"
+          name="amount"
+          forceError={isFormDataValid(getValues()) && !isAllowedToBuyEnteredAmount()}
+        />
       </Form>
       {paymentInfo && (
         <>
           <PaymentInformationContent info={paymentInfo} />
           <StyledButton label="Click once your bank Transfer is completed." onClick={onBack} caps={false} />
+        </>
+      )}
+      {kycInfo && (
+        <>
+          <p>
+            Your account needs to get verified once your daily transaction volume exceeds {kycInfo.limit}. If you want
+            to increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
+          </p>
+          <StyledButton label={kycInfo.buttonLabel} onClick={kycInfo.buttonOnClick} />
         </>
       )}
     </>

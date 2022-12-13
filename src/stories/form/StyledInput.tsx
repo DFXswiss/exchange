@@ -4,10 +4,13 @@ import { ControlProps } from './Form';
 
 interface StyledInputProps extends ControlProps {
   placeholder?: string;
+  forceError?: boolean;
 }
 
 const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
-  ({ control, name, label, rules, disabled = false, placeholder, ...props }: StyledInputProps, ref) => {
+  ({ control, name, label, rules, disabled = false, placeholder, forceError, ...props }: StyledInputProps, ref) => {
+    const textColor = forceError ? 'text-dfxRed-100' : 'text-dfxBlue-800';
+
     return (
       <Controller
         control={control}
@@ -15,7 +18,10 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
           <div className="flex flex-col gap-1 py-4">
             <label className="text-dfxBlue-800 text-base font-semibold pl-4">{label}</label>
             <input
-              className="text-base font-normal text-dfxBlue-800 border placeholder:text-dfxGray-600 border-dfxGray-500 rounded-md p-3 outline-dfxBlue-400 outline-2"
+              className={
+                'text-base font-normal border placeholder:text-dfxGray-600 border-dfxGray-500 rounded-md p-3 outline-dfxBlue-400 outline-2 ' +
+                textColor
+              }
               type={'text'}
               onBlur={onBlur}
               onChange={(value) => onChange(value.target.value)}

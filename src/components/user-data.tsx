@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useUserContext } from '../api/contexts/user.context';
-import { UserTradingLimit } from '../api/definitions/user';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKyc } from '../hooks/kyc.hook';
 import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
@@ -13,24 +12,15 @@ import { MailEdit } from './edit/mail.edit';
 export function UserData(): JSX.Element {
   const { user } = useUserContext();
   const { copy } = useClipboard();
-  const { start, status } = useKyc();
+  const { start, status, limit } = useKyc();
   const [showsUserEdit, setShowsUserEdit] = useState(false);
-
-  const periodMap: Record<string, string> = {
-    ['Day']: 'per day',
-    ['Year']: 'per year',
-  };
-
-  function toString(limit?: UserTradingLimit): string {
-    return limit ? `${Utils.formatAmount(limit.limit)} € ${periodMap[limit.period]}` : '';
-  }
 
   const userData = [
     { title: 'E-mail address', value: user?.mail },
     { title: 'KYC status', value: status },
     {
       title: 'Transaction limit',
-      value: toString(user?.tradingLimit),
+      value: limit,
       button: {
         color: StyledButtonColors.WHITE,
         label: 'Start KYC to increase',

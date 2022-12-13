@@ -1,9 +1,12 @@
 import { useUserContext } from '../api/contexts/user.context';
 import { KycStatus } from '../api/definitions/kyc';
+import { Utils } from '../utils';
 
 interface KycInterface {
   status: string;
+  limit: string;
   start: () => Promise<void>;
+  isAllowedToBuy: (amount: number) => boolean;
 }
 
 export function useKyc(): KycInterface {
@@ -22,13 +25,25 @@ export function useKyc(): KycInterface {
     ['review']: 'In review',
   };
 
-  const isKycInProgress = [KycStatus.CHATBOT, KycStatus.ONLINE_ID, KycStatus.VIDEO_ID].includes(
+  const periodMap: Record<string, string> = {
+    ['Day']: 'per day',
+    ['Year']: 'per year',
+  };
+
+  const limit =
+    user?.tradingLimit != null
+      ? `${Utils.formatAmount(user.tradingLimit.limit)} € ${periodMap[user.tradingLimit.period]}`
+      : '';
+
+  const isInProgress = [KycStatus.CHATBOT, KycStatus.ONLINE_ID, KycStatus.VIDEO_ID].includes(
     user?.kycStatus ?? KycStatus.NA,
   );
 
+  const isComplete = [KycStatus.COMPLETED].includes(user?.kycStatus ?? KycStatus.NA);
+
   function buildKycStatusString(): string {
     if (!user) return kycMap[KycStatus.NA.toLowerCase()];
-    if (isKycInProgress) {
+    if (isInProgress) {
       return `${kycMap[user.kycState.toLowerCase()]} (${kycMap[user.kycStatus.toLowerCase()]})`;
     } else {
       return kycMap[user.kycStatus.toLowerCase()];
@@ -42,5 +57,10 @@ export function useKyc(): KycInterface {
     if (popUpBlocked) console.error('popUp blocked'); // TODO (Krysh) use correct error handling here
   }
 
-  return { start, status: buildKycStatusString() };
+  function isAllowedToBuy(amount: number): boolean {
+    if (isComplete) return true;
+    return (user?.tradingLimit.limit ?? 0) > amount;
+  }
+
+  return { start, status: buildKycStatusString(), limit, isAllowedToBuy };
 }
