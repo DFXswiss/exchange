@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { AssetIconVariant } from './DfxAssetIcon';
 
 export default {
-  title: 'Building Blocks/CoinListItem',
+  title: 'Building Blocks/StyledCoinListItem',
   component: StyledCoinListItem,
 } as ComponentMeta<typeof StyledCoinListItem>;
 

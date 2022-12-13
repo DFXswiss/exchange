@@ -25,7 +25,7 @@ export default function StyledDataTable({
   showBorder = true,
   heading,
   label,
-  darkTheme = true,
+  darkTheme = false,
   children,
   alignContent = AlignContent.LEFT,
 }: StyledDataTableProps) {
