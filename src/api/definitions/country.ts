@@ -1,4 +1,4 @@
-export const CountryUrl = { get: 'country' };
+export const CountryUrl = { get: 'kyc/countries' };
 
 export interface Country {
   id: number;

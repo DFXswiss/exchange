@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useBuyContext } from '../api/contexts/buy.context';
-import { useCountryContext } from '../api/contexts/country.context';
+import { useUserContext } from '../api/contexts/user.context';
 import { BankAccount } from '../api/definitions/bank-account';
 import { CreateBankAccount } from '../api/hooks/bank-account.hook';
 import Form from '../stories/form/Form';
@@ -20,7 +20,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
     formState: { errors, isValid },
   } = useForm<CreateBankAccount>();
   const { createAccount } = useBuyContext();
-  const { countries } = useCountryContext();
+  const { countries } = useUserContext();
 
   async function createBankAccount(newAccount: CreateBankAccount): Promise<void> {
     createAccount(newAccount).then(onSubmit);

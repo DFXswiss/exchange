@@ -5,7 +5,6 @@ import { AuthContextProvider } from './api/contexts/auth.context';
 import { UserContextProvider } from './api/contexts/user.context';
 import { SessionContextProvider } from './contexts/session.context';
 import { BuyContextProvider } from './api/contexts/buy.context';
-import { CountryContextProvider } from './api/contexts/country.context';
 
 function App() {
   return (
@@ -13,13 +12,11 @@ function App() {
       <UserContextProvider>
         <WalletContextProvider>
           <SessionContextProvider>
-            <CountryContextProvider>
-              <AssetContextProvider>
-                <BuyContextProvider>
-                  <Main />
-                </BuyContextProvider>
-              </AssetContextProvider>
-            </CountryContextProvider>
+            <AssetContextProvider>
+              <BuyContextProvider>
+                <Main />
+              </BuyContextProvider>
+            </AssetContextProvider>
           </SessionContextProvider>
         </WalletContextProvider>
       </UserContextProvider>
