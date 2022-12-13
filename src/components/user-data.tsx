@@ -22,7 +22,6 @@ export function UserData(): JSX.Element {
 
   const userData = [
     { title: 'E-mail address', value: user?.mail },
-    { title: 'Ref code used', value: user?.usedRef },
     { title: 'KYC status', value: user?.kycStatus },
     {
       title: 'Transaction limit',

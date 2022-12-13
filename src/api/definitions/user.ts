@@ -10,7 +10,6 @@ export interface User {
   tradingLimit: UserTradingLimit;
 
   ref?: string;
-  usedRef: string;
   refFeePercent: number;
   refCount: number;
   refVolume: number;
