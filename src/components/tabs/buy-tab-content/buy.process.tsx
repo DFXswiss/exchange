@@ -47,10 +47,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   } = useForm<FormData>({ defaultValues: { asset } });
   const data = useWatch({ control });
   const validatedData = validateData(useDebounce(data, 500));
-
-  function isAllowedToBuyEnteredAmount(): boolean {
-    return isAllowedToBuy(Number(validatedData?.amount));
-  }
+  const kycRequired = validatedData != null && !isAllowedToBuy(Number(validatedData?.amount));
 
   useEffect(() => {
     if (!validatedData) return;
@@ -147,14 +144,9 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             />
           )}
         </div>
-        <StyledInput
-          label="Buy amount"
-          placeholder="0.00"
-          name="amount"
-          forceError={validateData != null && !isAllowedToBuyEnteredAmount()}
-        />
+        <StyledInput label="Buy amount" placeholder="0.00" name="amount" forceError={kycRequired} />
       </Form>
-      {paymentInfo && isAllowedToBuyEnteredAmount() && (
+      {paymentInfo && !kycRequired && (
         <>
           <PaymentInformationContent info={paymentInfo} />
           <StyledButton
@@ -165,7 +157,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           />
         </>
       )}
-      {!isAllowedToBuyEnteredAmount() && (
+      {kycRequired && (
         <>
           <p>
             Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
