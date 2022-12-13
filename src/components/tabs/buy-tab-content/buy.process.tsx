@@ -180,7 +180,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           label="Buy amount"
           placeholder="0.00"
           name="amount"
-          customErrorHandling={isFormDataValid(getValues()) && !isAllowedToBuyEnteredAmount()}
+          forceError={isFormDataValid(getValues()) && !isAllowedToBuyEnteredAmount()}
         />
       </Form>
       {paymentInfo && (

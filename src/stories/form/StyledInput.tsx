@@ -4,15 +4,12 @@ import { ControlProps } from './Form';
 
 interface StyledInputProps extends ControlProps {
   placeholder?: string;
-  customErrorHandling?: boolean;
+  forceError?: boolean;
 }
 
 const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
-  (
-    { control, name, label, rules, disabled = false, placeholder, customErrorHandling, ...props }: StyledInputProps,
-    ref,
-  ) => {
-    const textColor = customErrorHandling ? 'text-dfxRed-100' : 'text-dfxBlue-800';
+  ({ control, name, label, rules, disabled = false, placeholder, forceError, ...props }: StyledInputProps, ref) => {
+    const textColor = forceError ? 'text-dfxRed-100' : 'text-dfxBlue-800';
 
     return (
       <Controller
