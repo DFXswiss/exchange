@@ -23,7 +23,7 @@ export default function StyledDataTableRow({ label, children, discreet }: Styled
 
   theme.showBorder
     ? (wrapperClasses += ' px-3.5 py-2.5 border-t border-x last:border-y first:rounded-t last:rounded-b')
-    : (wrapperClasses += ' px-0 py-2.5');
+    : (wrapperClasses += ' px-0 py-2');
 
   if (theme.darkTheme) {
     labelClasses += ' text-dfxGray-600';
