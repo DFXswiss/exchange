@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useUserContext } from '../../api/contexts/user.context';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
-import StyledButton, { StyledButtonColors } from '../../stories/StyledButton';
+import StyledButton from '../../stories/StyledButton';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
 
@@ -20,10 +20,10 @@ export function MailEdit({ onSubmit }: MailEditProps): JSX.Element {
     handleSubmit,
     formState: { isValid, errors },
   } = useForm<FormData>();
-  const { changeMail } = useUserContext();
+  const { changeMail, isUserLoading } = useUserContext();
 
   async function saveUser({ email }: FormData): Promise<void> {
-    changeMail(email).then(onSubmit);
+    return changeMail(email).then(onSubmit);
   }
 
   const rules = Utils.createRules({
@@ -33,12 +33,7 @@ export function MailEdit({ onSubmit }: MailEditProps): JSX.Element {
   return (
     <Form control={control} errors={errors} rules={rules} onSubmit={handleSubmit(saveUser)}>
       <StyledInput label="Contact information" placeholder="E-mail address" name="email" />
-      <StyledButton
-        color={isValid ? StyledButtonColors.RED : StyledButtonColors.GRAY}
-        label="save"
-        onClick={handleSubmit(saveUser)}
-        caps
-      />
+      <StyledButton disabled={!isValid} label="save" onClick={handleSubmit(saveUser)} isLoading={isUserLoading} caps />
     </Form>
   );
 }

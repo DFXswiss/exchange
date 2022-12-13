@@ -11,7 +11,7 @@ import { MailEdit } from './edit/mail.edit';
 
 export function UserData(): JSX.Element {
   const { user } = useUserContext();
-  const { copy } = useClipboard();
+  const { copy, isCopying } = useClipboard();
   const { start, status, limit } = useKyc();
   const [showsUserEdit, setShowsUserEdit] = useState(false);
 
@@ -25,6 +25,7 @@ export function UserData(): JSX.Element {
         color: StyledButtonColors.WHITE,
         label: 'Start KYC to increase',
         func: start,
+        isLoading: false,
       },
     },
   ];
@@ -39,6 +40,7 @@ export function UserData(): JSX.Element {
               color: StyledButtonColors.RED,
               label: 'Copy to share',
               func: () => copy(user.ref),
+              isLoading: isCopying,
             }
           : undefined,
     },
@@ -79,6 +81,7 @@ export function UserData(): JSX.Element {
                     size={StyledButtonSizes.SMALL}
                     width={StyledButtonWidths.MIN}
                     caps={false}
+                    isLoading={entry.button.isLoading}
                   />
                 )}
               </StyledDataTableRow>

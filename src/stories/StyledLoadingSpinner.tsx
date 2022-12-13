@@ -44,7 +44,6 @@ export default function StyledLoadingSpinner({
   variant = SpinnerVariant.DARK_MODE,
   size = SpinnerSizes.MD,
 }: StyledLoadingSpinnerProps) {
-  console.log(VARIANT_MAPS[variant].primaryColor);
   return (
     <SpinnerCircular
       size={SIZE_MAPS[size]}

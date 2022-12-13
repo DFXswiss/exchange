@@ -28,5 +28,4 @@ export interface BuyPaymentInfo {
   currency: Fiat;
   amount: number;
   asset: Asset;
-  bankAccount: BankAccount;
 }
