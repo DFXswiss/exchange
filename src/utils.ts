@@ -22,4 +22,8 @@ export class Utils {
   private static updateObject(obj?: any, update?: any): unknown {
     return obj ? { ...obj, ...update } : undefined;
   }
+
+  static formatAmount(amount?: number): string {
+    return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') ?? '';
+  }
 }
