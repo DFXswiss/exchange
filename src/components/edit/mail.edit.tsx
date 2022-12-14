@@ -3,7 +3,7 @@ import { useUserContext } from '../../api/contexts/user.context';
 import { IconColors } from '../../stories/DfxIcon';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
-import StyledVerticalStack, { StyledVerticalStackAlignContent } from '../../stories/layout-helpers/StyledVerticalStack';
+import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import StyledInfoText from '../../stories/StyledInfoText';
 import { Utils } from '../../utils';
