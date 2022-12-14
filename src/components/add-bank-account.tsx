@@ -5,7 +5,7 @@ import { BankAccount } from '../api/definitions/bank-account';
 import { CreateBankAccount } from '../api/hooks/bank-account.hook';
 import Form from '../stories/form/Form';
 import StyledInput from '../stories/form/StyledInput';
-import StyledButton from '../stories/StyledButton';
+import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../stories/StyledButton';
 import { Utils } from '../utils';
 import Validations from '../validations';
 
@@ -36,10 +36,12 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
       <StyledInput label="Optional - Account Designation" placeholder="eg. Deutsche Bank" name="label" />
       <StyledButton
         disabled={!isValid}
-        label="add bank account"
+        color={StyledButtonColors.RED}
+        label="Add Bank Account"
         onClick={handleSubmit(createBankAccount)}
         isLoading={isAccountLoading}
         caps
+        width={StyledButtonWidths.FULL}
       />
     </Form>
   );

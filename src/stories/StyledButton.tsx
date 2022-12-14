@@ -46,10 +46,11 @@ const SIZE_MAPS: Record<StyledButtonSizes, SizeMapProps> = {
 };
 
 const COLOR_MAPS: Record<StyledButtonColors, string> = {
-  [StyledButtonColors.RED]: 'bg-primary-red text-white hover:bg-dfxRed-150 focus:bg-dfxRed-150 active:bg-dfxRed-100',
+  [StyledButtonColors.RED]:
+    'bg-primary-red text-white hover:bg-dfxRed-150 focus:bg-dfxRed-150 active:bg-dfxRed-100 hover:shadow-lg',
   [StyledButtonColors.GRAY]: 'bg-dfxGray-800 text-dfxGray-700',
   [StyledButtonColors.WHITE]:
-    'bg-dfxGray-400 text-primary-blue hover:bg-dfxGray-500 focus:bg-dfxGray-500 active:bg-dfxGray-600',
+    'bg-dfxGray-400 text-primary-blue hover:bg-dfxGray-500 focus:bg-dfxGray-500 active:bg-dfxGray-600 hover:shadow-lg',
   [StyledButtonColors.PALE_WHITE]:
     'border border-white/20 text-white bg-white/10 hover:bg-white/20 focus:bg-white/20 active:bg-white/30',
 };
@@ -71,7 +72,7 @@ export default function StyledButton({
   disabled = false,
 }: StyledButtonProps) {
   let buttonClasses =
-    'inline-block flex gap-4 justify-center leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out ';
+    'inline-block flex gap-4 justify-center leading-tight shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out ';
 
   let renderedColor: string;
   let isDisabled = false;
