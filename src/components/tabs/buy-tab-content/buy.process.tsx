@@ -11,7 +11,7 @@ import StyledInput from '../../../stories/form/StyledInput';
 import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
 import StyledButton, { StyledButtonWidths } from '../../../stories/StyledButton';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
-import { AddBankAccount } from '../../add-bank-account';
+import { AddBankAccount } from '../../buy/add-bank-account';
 import { BuyTabDefinitions } from '../buy.tab';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
@@ -22,6 +22,8 @@ import { useClipboard } from '../../../hooks/clipboard.hook';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
+import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
+import { BuyCompletion } from '../../buy/buy-completion';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 
 interface BuyTabContentProcessProps {
@@ -40,6 +42,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const { currencies, bankAccounts, receiveFor } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
+  const [showsCompletion, setShowsCompletion] = useState(false);
   const {
     control,
     handleSubmit,
@@ -93,83 +96,90 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   });
 
   return (
-    <StyledTabContentWrapper showBackArrow={true} onBackClick={onBack}>
-      <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-8">
-          {bankAccounts && (
-            <StyledModalDropdown<BankAccount>
-              name="bankAccount"
-              labelFunc={(item) => item.iban}
-              detailLabelFunc={(item) => item.label ?? ''}
-              label="Your bank account"
-              placeholder="Add or select your IBAN"
-              modal={{
-                heading: 'Select your bank account',
-                items: bankAccounts,
-                itemContent: (b) => (
-                  <div className="flex flex-row gap-2">
-                    <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
-                    <div className="flex flex-col gap-1">
-                      {b.label && b.label.length > 0 && <p className="text-dfxGray-500">{b.label}</p>}
-                      <p className="text-dfxBlue-800">{b.iban}</p>
+    <>
+      {/* MODALS */}
+      <StyledModal isVisible={showsCompletion} color={StyledModalColors.DFX_GRADIENT} onClose={setShowsCompletion}>
+        <BuyCompletion onSubmit={onBack} onCancel={() => setShowsCompletion(false)} />
+      </StyledModal>
+      {/* CONTENT */}
+      <StyledTabContentWrapper showBackArrow={true} onBackClick={onBack}>
+        <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-8">
+            {bankAccounts && (
+              <StyledModalDropdown<BankAccount>
+                name="bankAccount"
+                labelFunc={(item) => item.iban}
+                detailLabelFunc={(item) => item.label ?? ''}
+                label="Your bank account"
+                placeholder="Add or select your IBAN"
+                modal={{
+                  heading: 'Select your bank account',
+                  items: bankAccounts,
+                  itemContent: (b) => (
+                    <div className="flex flex-row gap-2">
+                      <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
+                      <div className="flex flex-col gap-1">
+                        {b.label && b.label.length > 0 && <p className="text-dfxGray-500">{b.label}</p>}
+                        <p className="text-dfxBlue-800">{b.iban}</p>
+                      </div>
                     </div>
-                  </div>
-                ),
-                form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
-              }}
+                  ),
+                  form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
+                }}
+              />
+            )}
+            {asset && (
+              <StyledCoinListItem
+                asset={asset.name}
+                protocol={BuyTabDefinitions.protocols[asset.blockchain]}
+                onClick={() => {
+                  console.log('just a placeholder');
+                }}
+              />
+            )}
+            {currencies && (
+              <StyledModalDropdown<Fiat>
+                name="currency"
+                labelFunc={(item: Fiat) => item.name}
+                label="YOUR CURRENCY"
+                placeholder="e.g. EUR"
+                modal={{
+                  heading: 'Select your currency',
+                  items: currencies,
+                  itemContent: (c: Fiat) => (
+                    <div className="flex flex-row gap-2">
+                      <p className="text-dfxBlue-800">{c.name}</p>
+                    </div>
+                  ),
+                }}
+              />
+            )}
+          </div>
+          <StyledInput label="Buy amount" placeholder="0.00" name="amount" forceError={kycRequired} />
+        </Form>
+        {paymentInfo && dataValid && !kycRequired && (
+          <>
+            <PaymentInformationContent info={paymentInfo} />
+            <StyledButton
+              width={StyledButtonWidths.FULL}
+              label="Click once your bank Transfer is completed."
+              onClick={() => setShowsCompletion(true)}
+              caps={false}
             />
-          )}
-          {asset && (
-            <StyledCoinListItem
-              asset={asset.name}
-              protocol={BuyTabDefinitions.protocols[asset.blockchain]}
-              onClick={() => {
-                console.log('just a placeholder');
-              }}
-            />
-          )}
-          {currencies && (
-            <StyledModalDropdown<Fiat>
-              name="currency"
-              labelFunc={(item: Fiat) => item.name}
-              label="YOUR CURRENCY"
-              placeholder="e.g. EUR"
-              modal={{
-                heading: 'Select your currency',
-                items: currencies,
-                itemContent: (c: Fiat) => (
-                  <div className="flex flex-row gap-2">
-                    <p className="text-dfxBlue-800">{c.name}</p>
-                  </div>
-                ),
-              }}
-            />
-          )}
-        </div>
-        <StyledInput label="Buy amount" placeholder="0.00" name="amount" forceError={kycRequired} />
-      </Form>
-      {paymentInfo && dataValid && !kycRequired && (
-        <>
-          <PaymentInformationContent info={paymentInfo} />
-          <StyledButton
-            width={StyledButtonWidths.FULL}
-            label="Click once your bank Transfer is completed."
-            onClick={onBack}
-            caps={false}
-          />
-        </>
-      )}
-      {kycRequired && (
-        <>
-          <p>
-            Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
-            increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
-          </p>
-          <StyledSpacer spacing={4} />
-          <StyledButton width={StyledButtonWidths.FULL} label="Complete KYC" onClick={start} />
-        </>
-      )}
-    </StyledTabContentWrapper>
+          </>
+        )}
+        {kycRequired && (
+          <>
+            <p>
+              Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
+              increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
+            </p>
+            <StyledSpacer spacing={4} />
+            <StyledButton width={StyledButtonWidths.FULL} label="Complete KYC" onClick={start} />
+          </>
+        )}
+      </StyledTabContentWrapper>
+    </>
   );
 }
 
