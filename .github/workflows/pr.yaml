@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: "16.x"
+  NODE_VERSION: '16.x'
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build code
         run: |
-          npm run build
+          npm run build:dev
 
       - name: Run tests
         run: |
