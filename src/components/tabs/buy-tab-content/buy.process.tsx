@@ -26,9 +26,6 @@ import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
-import StyledVerticalStack, {
-  StyledVerticalStackAlignContent,
-} from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledInfoText from '../../../stories/StyledInfoText';
 
 interface BuyTabContentProcessProps {
