@@ -35,7 +35,7 @@ export default function StyledInfoText({
       <div className="shrink-0">
         <DfxIcon icon={iconVariant} size={iconSize} color={iconColor} />
       </div>
-      <span>{children}</span>
+      <p>{children}</p>
     </div>
   );
 }

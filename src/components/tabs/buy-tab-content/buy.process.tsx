@@ -159,7 +159,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             <PaymentInformationContent info={paymentInfo} />
             <StyledButton
               width={StyledButtonWidths.FULL}
-              label="Click once your bank Transfer is completed."
+              label="Click once your bank transfer is completed."
               onClick={() => setShowsCompletion(true)}
               caps={false}
             />
@@ -197,7 +197,7 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
   const { copy } = useClipboard();
   return (
     <>
-      <StyledVerticalStack gap={2} align={StyledVerticalStackAlignContent.CENTER}>
+      <StyledVerticalStack marginY={5} gap={2} align={StyledVerticalStackAlignContent.CENTER}>
         <h2>Payment Information</h2>
         <StyledInfoText iconColor={IconColors.BLUE}>
           Please transfer the purchase amount using this information via your banking application. The purpose of
@@ -228,7 +228,7 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
       <StyledDataTable label="Recipient" showBorder>
         <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
       </StyledDataTable>
-      <StyledDataTable alignContent={AlignContent.BETWEEN}>
+      <StyledDataTable alignContent={AlignContent.BETWEEN} showBorder={false} narrow>
         <StyledDataTableRow discreet>
           <p>DFX-Fee</p>
           <p>{info.fee}</p>

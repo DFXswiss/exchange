@@ -1,8 +1,11 @@
 import { PropsWithChildren } from 'react';
+import { convertToRem } from './LayoutFunctions';
 
 export interface StyledVerticalStackProps extends PropsWithChildren {
   gap?: number;
   align?: StyledVerticalStackAlignContent;
+  marginY?: number;
+  marginX?: number;
 }
 
 export enum StyledVerticalStackAlignContent {
@@ -15,11 +18,18 @@ export default function StyledVerticalStack({
   children,
   gap = 0,
   align = StyledVerticalStackAlignContent.START,
+  marginY,
+  marginX,
 }: StyledVerticalStackProps) {
-  const gapRem = gap / 4;
-  const spacing = gapRem + 'rem';
+  let mY: string | undefined;
+  let mX: string | undefined;
+
+  const spacing = convertToRem(gap);
+  marginY !== undefined ? (mY = convertToRem(marginY)) : (mY = '0');
+  marginX !== undefined ? (mX = convertToRem(marginX)) : (mX = '0');
+
   return (
-    <div style={{ gap: spacing }} className={'flex flex-col w-full ' + align}>
+    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col ' + align}>
       {children}
     </div>
   );
