@@ -16,8 +16,10 @@ export const BuyAmount: ComponentStory<typeof StyledInput> = (args) => {
   } = useForm<{ test: string }>();
 
   const onSubmit = handleSubmit((data) => console.log(data));
+  let whiteBG = 'p-10 max-w-xl';
+  args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
   return (
-    <div className="bg-white p-10">
+    <div className={whiteBG}>
       <Form control={control} errors={errors} onSubmit={onSubmit}>
         <StyledInput {...args} name="test" />
       </Form>
@@ -27,4 +29,7 @@ export const BuyAmount: ComponentStory<typeof StyledInput> = (args) => {
 BuyAmount.args = {
   label: 'Buy amount',
   placeholder: '0.00',
+  forceError: false,
+  hideLabel: false,
+  darkTheme: false,
 };

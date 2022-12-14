@@ -60,9 +60,9 @@ export function MailEdit({
 
   return (
     <Form control={control} errors={errors} rules={rules} onSubmit={handleSubmit(saveUser)}>
-      <StyledVerticalStack gap={2}>
+      <StyledVerticalStack gap={6}>
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.ABOVE_INPUT && getInfoTextElement(infoText)}
-        <StyledInput label="Contact information" placeholder="E-mail address" name="email" />
+        <StyledInput label="Contact information" placeholder="E-mail address" name="email" darkTheme />
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && getInfoTextElement(infoText)}
         <div className="flex flex-row gap-4 w-full">
           {showCancelButton && onCancel && (

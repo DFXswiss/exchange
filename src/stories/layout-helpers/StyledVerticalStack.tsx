@@ -19,7 +19,7 @@ export default function StyledVerticalStack({
   const gapRem = gap / 4;
   const spacing = gapRem + 'rem';
   return (
-    <div style={{ gap: spacing }} className={'flex flex-col ' + align}>
+    <div style={{ gap: spacing }} className={'flex flex-col w-full ' + align}>
       {children}
     </div>
   );
