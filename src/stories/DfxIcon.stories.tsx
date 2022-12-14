@@ -1,4 +1,4 @@
-import DfxIcon, { IconColors, IconVariant } from './DfxIcon';
+import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
@@ -13,6 +13,15 @@ export const SingleIcon: ComponentStory<typeof DfxIcon> = (args) => {
 SingleIcon.args = {
   icon: IconVariant.COPY,
   color: IconColors.RED,
+};
+
+export const ProcessDoneIcon: ComponentStory<typeof DfxIcon> = (args) => {
+  return <DfxIcon {...args} />;
+};
+
+ProcessDoneIcon.args = {
+  icon: IconVariant.PROCESS_DONE,
+  size: IconSizes.XL,
 };
 
 export const AllIcons: ComponentStory<typeof DfxIcon> = (args) => {
@@ -36,6 +45,8 @@ export const AllIcons: ComponentStory<typeof DfxIcon> = (args) => {
       <DfxIcon {...args} icon={IconVariant.UNFOLD_MORE} />
       <DfxIcon {...args} icon={IconVariant.WALLET} />
       <DfxIcon {...args} icon={IconVariant.BANK} />
+      <DfxIcon {...args} icon={IconVariant.SEPA_INSTANT} />
+      <DfxIcon {...args} icon={IconVariant.PROCESS_DONE} />
     </div>
   );
 };
