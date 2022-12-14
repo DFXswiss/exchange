@@ -2,14 +2,14 @@ import { PropsWithChildren } from 'react';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
 
 export interface StyledInfoTextProps extends PropsWithChildren {
-  darkMode?: boolean;
+  darkTheme?: boolean;
   bigText?: boolean;
   invertedIcon?: boolean;
   iconColor?: IconColors;
 }
 
 export default function StyledInfoText({
-  darkMode,
+  darkTheme,
   children,
   bigText,
   invertedIcon,
@@ -21,7 +21,7 @@ export default function StyledInfoText({
 
   invertedIcon ? (iconVariant = IconVariant.INFO) : (iconVariant = IconVariant.INFO_OUTLINE);
 
-  darkMode ? (wrapperClasses += ' text-white') : (wrapperClasses += ' text-dfxBlue-800');
+  darkTheme ? (wrapperClasses += ' text-white') : (wrapperClasses += ' text-dfxBlue-800');
 
   if (bigText) {
     iconSize = IconSizes.LG;

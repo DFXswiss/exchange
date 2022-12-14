@@ -8,7 +8,7 @@ export default {
 
 export const IconButton: ComponentStory<typeof StyledInfoText> = (args) => {
   let whiteBG = 'p-10 max-w-xl rounded';
-  args.darkMode ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
+  args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
   return (
     <div className={whiteBG}>
       <StyledInfoText {...args}>
@@ -19,5 +19,5 @@ export const IconButton: ComponentStory<typeof StyledInfoText> = (args) => {
   );
 };
 IconButton.args = {
-  darkMode: false,
+  darkTheme: false,
 };
