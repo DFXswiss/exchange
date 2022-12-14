@@ -32,7 +32,7 @@ export default function DfxPageLayout() {
               <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
             </StyledDataBox>
             <StyledDataBox heading="Your Data">
-              <StyledDataTextRow label="E-Mail address">john.doe@gmail.com</StyledDataTextRow>
+              <StyledDataTextRow label="E-mail address">john.doe@gmail.com</StyledDataTextRow>
               <StyledDataTextRow label="Your Referral Code">
                 008-802
                 <StyledButton

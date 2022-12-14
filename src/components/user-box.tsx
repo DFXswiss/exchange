@@ -46,7 +46,7 @@ export function UserBox(): JSX.Element {
           onClick: () => setShowsUserData(true),
         }}
       >
-        <StyledDataTextRow label="E-Mail address" isLoading={isUserLoading}>
+        <StyledDataTextRow label="E-mail address" isLoading={isUserLoading}>
           {user?.mail ?? (
             <StyledButton
               label="add e-mail address"

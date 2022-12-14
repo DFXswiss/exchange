@@ -15,21 +15,19 @@ export function WalletBox(): JSX.Element {
     return `${address?.slice(0, 6)}...${address?.slice(address?.length - 5)}`;
   }
 
-  return (
+  return isConnected ? (
     <StyledDataBox
       heading="Your wallet"
       boxButtonLabel={isConnected ? (isLoggedIn ? 'Disconnect from DFX' : 'Reconnect to DFX') : undefined}
       boxButtonOnClick={() => (isConnected ? (isLoggedIn ? logout() : login()) : undefined)}
     >
-      {isConnected && (
-        <>
-          <StyledDataTextRow label="Metamask">
-            {blankedAddress()}
-            <IconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
-          </StyledDataTextRow>
-          <StyledDataTextRow label="Connected to">{blockchain}</StyledDataTextRow>
-        </>
-      )}
+      <StyledDataTextRow label="Metamask">
+        {blankedAddress()}
+        <IconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
+      </StyledDataTextRow>
+      <StyledDataTextRow label="Connected to">{blockchain}</StyledDataTextRow>
     </StyledDataBox>
+  ) : (
+    <></>
   );
 }
