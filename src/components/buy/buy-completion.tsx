@@ -1,4 +1,6 @@
 import { useUserContext } from '../../api/contexts/user.context';
+import DfxIcon, { IconSizes, IconVariant } from '../../stories/DfxIcon';
+import StyledVerticalStack, { StyledVerticalStackAlignContent } from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import { MailEdit } from '../edit/mail.edit';
 
@@ -19,7 +21,8 @@ export function BuyCompletion({ onCancel, onSubmit }: BuyCompletionProps): JSX.E
   }
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <StyledVerticalStack gap={4} align={StyledVerticalStackAlignContent.CENTER}>
+      <DfxIcon size={IconSizes.XL} icon={IconVariant.PROCESS_DONE} />
       <p className="text-lg font-bold text-center">{getHeader()}</p>
       {showsSimple ? (
         <>
@@ -43,6 +46,6 @@ export function BuyCompletion({ onCancel, onSubmit }: BuyCompletionProps): JSX.E
           showCancelButton
         />
       )}
-    </div>
+    </StyledVerticalStack>
   );
 }

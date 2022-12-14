@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKyc } from '../hooks/kyc.hook';
+import { IconColors } from '../stories/DfxIcon';
 import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
 import StyledDataTable from '../stories/StyledDataTable';
 import StyledDataTableRow from '../stories/StyledDataTableRow';
 import StyledModal, { StyledModalColors } from '../stories/StyledModal';
 import { Utils } from '../utils';
-import { MailEdit } from './edit/mail.edit';
+import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
 
 export function UserData(): JSX.Element {
   const { user } = useUserContext();
@@ -64,7 +65,12 @@ export function UserData(): JSX.Element {
         isVisible={showsUserEdit}
         onClose={setShowsUserEdit}
       >
-        <MailEdit onSubmit={() => setShowsUserEdit(false)} />
+        <MailEdit
+          onSubmit={() => setShowsUserEdit(false)}
+          infoText="Enter your email address if you want to be informed about the progress of any purchase or sale."
+          infoTextIconColor={IconColors.WHITE}
+          infoTextPlacement={MailEditInfoTextPlacement.BELOW_INPUT}
+        />
       </StyledModal>
       {/* CONTENT */}
       <div className="flex flex-col gap-6">
