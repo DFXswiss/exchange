@@ -5,7 +5,7 @@ import { BankAccount } from '../../api/definitions/bank-account';
 import { CreateBankAccount } from '../../api/hooks/bank-account.hook';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
-import StyledButton from '../../stories/StyledButton';
+import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
 

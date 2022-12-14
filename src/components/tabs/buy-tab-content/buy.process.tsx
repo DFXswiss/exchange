@@ -22,9 +22,9 @@ import { useClipboard } from '../../../hooks/clipboard.hook';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
-import StyledSpacer from '../../../stories/StyledSpacer';
 import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
+import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;

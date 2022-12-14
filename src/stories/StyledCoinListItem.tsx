@@ -23,7 +23,6 @@ const NAME_MAPS: Record<AssetIconVariant, string> = {
 };
 
 export default function StyledCoinListItem({ asset, onClick, protocol }: StyledCoinListItemProps) {
-  console.log(AssetIconVariant.BNB);
   return (
     <button
       type="button"
