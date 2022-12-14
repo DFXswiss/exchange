@@ -1,4 +1,4 @@
-import StyledCoinListItem, { Protocols } from './StyledCoinListItem';
+import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { AssetIconVariant } from './DfxAssetIcon';
 import StyledCoinList from './StyledCoinList';
@@ -17,28 +17,28 @@ export const CoinListingRow: ComponentStory<typeof StyledCoinList> = (args) => {
           onClick={() => {
             console.log('clicked');
           }}
-          protocol={Protocols.ERC_20}
+          protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
           asset={AssetIconVariant.USDT}
           onClick={() => {
             console.log('clicked');
           }}
-          protocol={Protocols.ERC_20}
+          protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
           asset={AssetIconVariant.USDC}
           onClick={() => {
             console.log('clicked');
           }}
-          protocol={Protocols.ERC_20}
+          protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
           asset={AssetIconVariant.DFI}
           onClick={() => {
             console.log('clicked');
           }}
-          protocol={Protocols.ERC_20}
+          protocol={Protocol.ERC_20}
         />
       </StyledCoinList>
     </div>

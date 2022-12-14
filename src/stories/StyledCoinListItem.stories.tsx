@@ -1,4 +1,4 @@
-import StyledCoinListItem, { Protocols } from './StyledCoinListItem';
+import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { AssetIconVariant } from './DfxAssetIcon';
 
@@ -16,5 +16,5 @@ export const SingleCoinListItem: ComponentStory<typeof StyledCoinListItem> = (ar
 };
 SingleCoinListItem.args = {
   asset: AssetIconVariant.BNB,
-  protocol: Protocols.ERC_20,
+  protocol: Protocol.ERC_20,
 };

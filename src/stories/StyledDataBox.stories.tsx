@@ -61,7 +61,7 @@ export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args)
     <StyledDataBox {...args}>
       <StyledDataTextRow label="E-mail address">john.doe@gmail.com</StyledDataTextRow>
       <StyledDataTextRow label="Your Referral Code">
-        000-802{' '}
+        000-802
         <StyledButton
           caps={false}
           onClick={() => {

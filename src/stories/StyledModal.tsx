@@ -57,7 +57,7 @@ export default function StyledModal({
       {isVisible && (
         <>
           <div className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none">
-            <div className="relative my-6 mx-auto max-w-2xl">
+            <div className="relative my-6 mx-auto min-w-[37.5rem] max-w-2xl">
               {/*content*/}
               <div className={containerClasses}>
                 {closeWithX && type === StyledModalTypes.REGULAR && (

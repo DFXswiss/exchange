@@ -6,7 +6,7 @@ import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
 import StyledTabContainer from './StyledTabContainer';
 import StyledCoinList from './StyledCoinList';
-import StyledCoinListItem, { Protocols } from './StyledCoinListItem';
+import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
 import { AssetIconVariant } from './DfxAssetIcon';
 
 export default function DfxPageLayout() {
@@ -62,28 +62,28 @@ export default function DfxPageLayout() {
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.ERC_20}
+                      protocol={Protocol.ERC_20}
                     />
                     <StyledCoinListItem
                       asset={AssetIconVariant.USDT}
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.ERC_20}
+                      protocol={Protocol.ERC_20}
                     />
                     <StyledCoinListItem
                       asset={AssetIconVariant.USDC}
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.ERC_20}
+                      protocol={Protocol.ERC_20}
                     />
                     <StyledCoinListItem
                       asset={AssetIconVariant.DFI}
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.ERC_20}
+                      protocol={Protocol.ERC_20}
                     />
                   </StyledCoinList>
                   <StyledCoinList heading="Binance Smart Chain · BEP-20 token">
@@ -92,21 +92,21 @@ export default function DfxPageLayout() {
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.BEP_20}
+                      protocol={Protocol.BEP_20}
                     />
                     <StyledCoinListItem
                       asset={AssetIconVariant.BNB}
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.BEP_20}
+                      protocol={Protocol.BEP_20}
                     />
                     <StyledCoinListItem
                       asset={AssetIconVariant.DFI}
                       onClick={() => {
                         console.log('clicked');
                       }}
-                      protocol={Protocols.BEP_20}
+                      protocol={Protocol.BEP_20}
                     />
                   </StyledCoinList>
                 </>

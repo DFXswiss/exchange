@@ -1,12 +1,14 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { IconVariant } from './DfxIcon';
+import DfxIcon, { IconSizes, IconVariant } from './DfxIcon';
 import StyledTabContainer from './StyledTabContainer';
 import StyledTabContentWrapper from './StyledTabContentWrapper';
 import StyledDataTable from './StyledDataTable';
 import StyledDataTableRow from './StyledDataTableRow';
 import StyledIconButton from './StyledIconButton';
-import StyledSpacer from './StyledSpacer';
+import StyledSpacer from './layout-helpers/StyledSpacer';
 import StyledLoadingSpinner, { SpinnerSizes } from './StyledLoadingSpinner';
+import StyledHorizontalStack from './layout-helpers/StyledHorizontalStack';
+import StyledVerticalStack from './layout-helpers/StyledVerticalStack';
 
 export default {
   title: 'Composites/StyledTabContentWrapper',
@@ -35,7 +37,19 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
                 quisquam iste vel aspernatur, ab velit, exercitationem nobis atque veritatis vitae expedita dolor magni
                 magnam ut?
               </p>
-              <StyledLoadingSpinner size={SpinnerSizes.LG} />
+
+              <StyledSpacer spacing={8} showLine />
+              <StyledVerticalStack gap={8}>
+                <h2>Horizontal Stack test</h2>
+                <StyledHorizontalStack spanAcross>
+                  <DfxIcon size={IconSizes.XL} icon={IconVariant.BANK} />
+
+                  <DfxIcon size={IconSizes.XL} icon={IconVariant.CLOSE} />
+                  <DfxIcon size={IconSizes.XL} icon={IconVariant.INFO} />
+                  <DfxIcon size={IconSizes.XL} icon={IconVariant.COPY} />
+                </StyledHorizontalStack>
+              </StyledVerticalStack>
+
               <StyledSpacer spacing={8} showLine />
               <StyledDataTable heading="Data">
                 <StyledDataTableRow label="IBAN">
