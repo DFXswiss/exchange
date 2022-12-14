@@ -1,5 +1,4 @@
 import { Asset } from './asset';
-import { BankAccount } from './bank-account';
 import { Fiat } from './fiat';
 
 export const BuyUrl = { receive: 'buy/paymentInfos' };
@@ -28,5 +27,4 @@ export interface BuyPaymentInfo {
   currency: Fiat;
   amount: number;
   asset: Asset;
-  bankAccount: BankAccount;
 }

@@ -9,9 +9,8 @@ import DfxIcon, { IconColors, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
 import StyledInput from '../../../stories/form/StyledInput';
 import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
-import StyledButton from '../../../stories/StyledButton';
+import StyledButton, { StyledButtonWidths } from '../../../stories/StyledButton';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
-import { IconButton } from '../../../stories/StyledIconButton.stories';
 import { AddBankAccount } from '../../add-bank-account';
 import { BuyTabDefinitions } from '../buy.tab';
 import { Utils } from '../../../utils';
@@ -20,8 +19,10 @@ import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable'
 import StyledDataTableRow from '../../../stories/StyledDataTableRow';
 import StyledIconButton from '../../../stories/StyledIconButton';
 import { useClipboard } from '../../../hooks/clipboard.hook';
+import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
+import StyledSpacer from '../../../stories/StyledSpacer';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -66,7 +67,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     if (!isAllowedToBuy(amount)) return;
     const info = { ...debounceValue, iban: debounceValue.bankAccount.iban, amount };
     receiveFor(info)
-      .then((value) => toPaymentInformation(value, info.bankAccount))
+      .then((value) => toPaymentInformation(value, debounceValue.bankAccount.sepaInstant))
       .then((info) => {
         if (isAllowedToBuyEnteredAmount() && isFormDataValid(getValues())) {
           setPaymentInfo(info);
@@ -102,12 +103,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     return +data.amount > 0 && data.asset != null && data.bankAccount != null && data.currency != null;
   }
 
-  function toPaymentInformation(buy: Buy, bankAccount: BankAccount): PaymentInformation {
+  function toPaymentInformation(buy: Buy, isSepaInstant: boolean): PaymentInformation {
     return {
       iban: buy.iban,
       bic: buy.bic,
       purpose: buy.remittanceInfo,
-      isSepaInstant: bankAccount.sepaInstant,
+      isSepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
     };
@@ -121,11 +122,9 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   });
 
   return (
-    <>
-      {/* CONTENT */}
+    <StyledTabContentWrapper showBackArrow={true} onBackClick={onBack}>
       <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-8">
-          <IconButton icon={IconVariant.BACK} onClick={onBack} />
           {bankAccounts && (
             <StyledModalDropdown<BankAccount>
               name="bankAccount"
@@ -186,7 +185,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       {paymentInfo && (
         <>
           <PaymentInformationContent info={paymentInfo} />
-          <StyledButton label="Click once your bank Transfer is completed." onClick={onBack} caps={false} />
+          <StyledButton
+            width={StyledButtonWidths.FULL}
+            label="Click once your bank Transfer is completed."
+            onClick={onBack}
+            caps={false}
+          />
         </>
       )}
       {kycInfo && (
@@ -195,10 +199,11 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             Your account needs to get verified once your daily transaction volume exceeds {kycInfo.limit}. If you want
             to increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
           </p>
-          <StyledButton label={kycInfo.buttonLabel} onClick={kycInfo.buttonOnClick} />
+          <StyledSpacer spacing={4} />
+          <StyledButton width={StyledButtonWidths.FULL} label={kycInfo.buttonLabel} onClick={kycInfo.buttonOnClick} />
         </>
       )}
-    </>
+    </StyledTabContentWrapper>
   );
 }
 
@@ -224,9 +229,17 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
         Please transfer the purchase amount using this information via your banking application. The purpose of payment
         is important!
       </p>
-      <StyledDataTable darkTheme={false} alignContent={AlignContent.RIGHT} showBorder>
+      <StyledDataTable alignContent={AlignContent.RIGHT} showBorder>
         <StyledDataTableRow label="IBAN">
-          {info.iban}
+          <div>
+            <p>{info.iban}</p>
+            {info.isSepaInstant && (
+              <div className="text-white">
+                <DfxIcon icon={IconVariant.SEPA_INSTANT} color={IconColors.RED} />
+              </div>
+            )}
+          </div>
+
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
         </StyledDataTableRow>
         <StyledDataTableRow label="BIC">
@@ -238,10 +251,10 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
         </StyledDataTableRow>
       </StyledDataTable>
-      <StyledDataTable label="Recipient" darkTheme={false} showBorder>
+      <StyledDataTable label="Recipient" showBorder>
         <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
       </StyledDataTable>
-      <StyledDataTable darkTheme={false} alignContent={AlignContent.BETWEEN}>
+      <StyledDataTable alignContent={AlignContent.BETWEEN}>
         <StyledDataTableRow discreet>
           <p>DFX-Fee</p>
           <p>{info.fee}</p>

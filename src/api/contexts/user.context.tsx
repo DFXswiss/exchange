@@ -8,7 +8,8 @@ import { useAuthContext } from './auth.context';
 interface UserInterface {
   user?: User;
   countries: Country[];
-  userLoading: boolean;
+  isUserLoading: boolean;
+  isUserUpdating: boolean;
   changeMail: (mail: string) => Promise<void>;
 }
 
@@ -24,15 +25,16 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   const { getCountries } = useCountry();
   const [user, setUser] = useState<User>();
   const [countries, setCountries] = useState<Country[]>([]);
-  const [userLoading, setUserLoading] = useState<boolean>(false);
+  const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
+  const [isUserUpdating, setIsUserUpdating] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLoggedIn) {
-      setUserLoading(true);
+      setIsUserLoading(true);
       getUser()
         .then(setUser)
         .catch(console.error) // TODO (Krysh) add real error handling
-        .finally(() => setUserLoading(false));
+        .finally(() => setIsUserLoading(false));
 
       getCountries().then(setCountries);
     } else {
@@ -43,14 +45,14 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
 
   async function changeMail(mail: string): Promise<void> {
     if (!user) return; // TODO (Krysh) add real error handling
-    setUserLoading(true);
-    changeUser({ ...user, mail })
+    setIsUserUpdating(true);
+    return changeUser({ ...user, mail })
       .then(setUser)
       .catch(console.error) // TODO (Krysh) add real error handling
-      .finally(() => setUserLoading(false));
+      .finally(() => setIsUserUpdating(false));
   }
 
-  const context: UserInterface = { user, countries, userLoading, changeMail };
+  const context: UserInterface = { user, countries, isUserLoading, isUserUpdating, changeMail };
 
   return <UserContext.Provider value={context}>{props.children}</UserContext.Provider>;
 }
