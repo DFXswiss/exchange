@@ -47,10 +47,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   } = useForm<FormData>({ defaultValues: { asset } });
   const data = useWatch({ control });
   const validatedData = validateData(useDebounce(data, 500));
-  const kycRequired = validatedData != null && !isAllowedToBuy(Number(validatedData?.amount));
+
+  const dataValid = validatedData != null;
+  const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
 
   useEffect(() => {
-    if (!validatedData) return;
+    if (!dataValid) return;
 
     receiveFor({
       iban: validatedData.bankAccount.iban,
@@ -146,7 +148,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
         </div>
         <StyledInput label="Buy amount" placeholder="0.00" name="amount" forceError={kycRequired} />
       </Form>
-      {paymentInfo && !kycRequired && (
+      {paymentInfo && dataValid && !kycRequired && (
         <>
           <PaymentInformationContent info={paymentInfo} />
           <StyledButton
