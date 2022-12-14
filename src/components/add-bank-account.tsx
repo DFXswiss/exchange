@@ -19,7 +19,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<CreateBankAccount>();
-  const { createAccount, isLoadingAccount } = useBuyContext();
+  const { createAccount, isAccountLoading } = useBuyContext();
   const { countries } = useUserContext();
 
   async function createBankAccount(newAccount: CreateBankAccount): Promise<void> {
@@ -38,7 +38,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
         disabled={!isValid}
         label="add bank account"
         onClick={handleSubmit(createBankAccount)}
-        isLoading={isLoadingAccount}
+        isLoading={isAccountLoading}
         caps
       />
     </Form>

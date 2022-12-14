@@ -12,7 +12,7 @@ import { UserData } from './user-data';
 
 export function UserBox(): JSX.Element {
   const { isLoggedIn } = useSessionContext();
-  const { user } = useUserContext();
+  const { user, isUserLoading } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
   const [showsUserData, setShowsUserData] = useState(false);
@@ -46,7 +46,7 @@ export function UserBox(): JSX.Element {
           onClick: () => setShowsUserData(true),
         }}
       >
-        <StyledDataTextRow label="E-Mail address">
+        <StyledDataTextRow label="E-Mail address" isLoading={isUserLoading}>
           {user?.mail ?? (
             <StyledButton
               label="add e-mail address"

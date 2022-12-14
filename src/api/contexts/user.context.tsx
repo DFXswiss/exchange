@@ -9,6 +9,7 @@ interface UserInterface {
   user?: User;
   countries: Country[];
   isUserLoading: boolean;
+  isUserUpdating: boolean;
   changeMail: (mail: string) => Promise<void>;
 }
 
@@ -25,6 +26,7 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   const [user, setUser] = useState<User>();
   const [countries, setCountries] = useState<Country[]>([]);
   const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
+  const [isUserUpdating, setIsUserUpdating] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -43,14 +45,14 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
 
   async function changeMail(mail: string): Promise<void> {
     if (!user) return; // TODO (Krysh) add real error handling
-    setIsUserLoading(true);
+    setIsUserUpdating(true);
     return changeUser({ ...user, mail })
       .then(setUser)
       .catch(console.error) // TODO (Krysh) add real error handling
-      .finally(() => setIsUserLoading(false));
+      .finally(() => setIsUserUpdating(false));
   }
 
-  const context: UserInterface = { user, countries, isUserLoading: isUserLoading, changeMail };
+  const context: UserInterface = { user, countries, isUserLoading, isUserUpdating, changeMail };
 
   return <UserContext.Provider value={context}>{props.children}</UserContext.Provider>;
 }

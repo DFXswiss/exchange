@@ -10,7 +10,7 @@ import { Buy, BuyPaymentInfo } from '../definitions/buy';
 interface BuyInterface {
   currencies?: Fiat[];
   bankAccounts?: BankAccount[];
-  isLoadingAccount: boolean;
+  isAccountLoading: boolean;
   createAccount: (newAccount: CreateBankAccount) => Promise<BankAccount>;
   receiveFor: (info: BuyPaymentInfo) => Promise<Buy>;
 }
@@ -25,7 +25,7 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
   const { isLoggedIn } = useAuthContext();
   const [currencies, setCurrencies] = useState<Fiat[]>();
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>();
-  const [isLoadingAccount, setIsLoadingAccount] = useState(false);
+  const [isAccountLoading, setIsAccountLoading] = useState(false);
   const { getCurrencies } = useFiat();
   const { getAccounts, createAccount } = useBankAccount();
   const { receiveFor } = useBuy();
@@ -42,19 +42,19 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
   }, [isLoggedIn]);
 
   async function addNewAccount(newAccount: CreateBankAccount): Promise<BankAccount> {
-    setIsLoadingAccount(true);
+    setIsAccountLoading(true);
     return createAccount(newAccount)
       .then((b) => {
         setBankAccounts((bankAccounts ?? []).concat(b));
         return b;
       })
-      .finally(() => setIsLoadingAccount(false));
+      .finally(() => setIsAccountLoading(false));
   }
 
   const context: BuyInterface = {
     currencies,
     bankAccounts,
-    isLoadingAccount,
+    isAccountLoading,
     createAccount: addNewAccount,
     receiveFor,
   };

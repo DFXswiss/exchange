@@ -229,14 +229,14 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
         Please transfer the purchase amount using this information via your banking application. The purpose of payment
         is important!
       </p>
-      <StyledDataTable darkTheme={false} alignContent={AlignContent.RIGHT} showBorder>
+      <StyledDataTable alignContent={AlignContent.RIGHT} showBorder>
         <StyledDataTableRow label="IBAN">
           <div>
             <p>{info.iban}</p>
             {info.isSepaInstant && (
-              <p className="text-white">
+              <div className="text-white">
                 <DfxIcon icon={IconVariant.SEPA_INSTANT} color={IconColors.RED} />
-              </p>
+              </div>
             )}
           </div>
 
@@ -251,10 +251,10 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
         </StyledDataTableRow>
       </StyledDataTable>
-      <StyledDataTable label="Recipient" darkTheme={false} showBorder>
+      <StyledDataTable label="Recipient" showBorder>
         <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
       </StyledDataTable>
-      <StyledDataTable darkTheme={false} alignContent={AlignContent.BETWEEN}>
+      <StyledDataTable alignContent={AlignContent.BETWEEN}>
         <StyledDataTableRow discreet>
           <p>DFX-Fee</p>
           <p>{info.fee}</p>

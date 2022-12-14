@@ -20,7 +20,7 @@ export function MailEdit({ onSubmit }: MailEditProps): JSX.Element {
     handleSubmit,
     formState: { isValid, errors },
   } = useForm<FormData>();
-  const { changeMail, isUserLoading } = useUserContext();
+  const { changeMail, isUserUpdating } = useUserContext();
 
   async function saveUser({ email }: FormData): Promise<void> {
     return changeMail(email).then(onSubmit);
@@ -33,7 +33,7 @@ export function MailEdit({ onSubmit }: MailEditProps): JSX.Element {
   return (
     <Form control={control} errors={errors} rules={rules} onSubmit={handleSubmit(saveUser)}>
       <StyledInput label="Contact information" placeholder="E-mail address" name="email" />
-      <StyledButton disabled={!isValid} label="save" onClick={handleSubmit(saveUser)} isLoading={isUserLoading} caps />
+      <StyledButton disabled={!isValid} label="save" onClick={handleSubmit(saveUser)} isLoading={isUserUpdating} caps />
     </Form>
   );
 }
