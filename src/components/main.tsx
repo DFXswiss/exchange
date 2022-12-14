@@ -18,7 +18,7 @@ export function Main(): JSX.Element {
   }
 
   return (
-    <div className="text-center p-2 h-screen">
+    <div className="text-center p-2 mt-4">
       <div className="max-w-6xl text-left mx-auto ">
         <div className="flex justify-between">
           <DfxLogo />

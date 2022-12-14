@@ -3,10 +3,10 @@ import DfxAssetIcon, { AssetIconVariant } from './DfxAssetIcon';
 export interface StyledCoinListItemProps {
   asset: string;
   onClick: () => void;
-  protocol: Protocols;
+  protocol: Protocol;
 }
 
-export enum Protocols {
+export enum Protocol {
   ERC_20 = 'ERC-20',
   BEP_20 = 'BEP-20',
 }
@@ -23,6 +23,7 @@ const NAME_MAPS: Record<AssetIconVariant, string> = {
 };
 
 export default function StyledCoinListItem({ asset, onClick, protocol }: StyledCoinListItemProps) {
+  console.log(AssetIconVariant.BNB);
   return (
     <button
       type="button"

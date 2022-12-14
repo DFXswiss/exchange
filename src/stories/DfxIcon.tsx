@@ -155,7 +155,7 @@ function DfxBankIcon() {
 
 function DfxSepaInstantAvailable() {
   return (
-    <div className="bg-primary-red text-xs flex gap-1 justify-center rounded-sm w-fit pl-1 pr-2 py-0.25 font-semibold italic">
+    <div className="bg-primary-red text-xs text-white flex gap-1 justify-center rounded-sm w-fit pl-1 pr-2 py-0.25 font-semibold italic">
       <svg
         width="27"
         height="10"

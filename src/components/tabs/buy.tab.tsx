@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Asset } from '../../api/definitions/asset';
 import { Blockchain } from '../../api/definitions/blockchain';
 import { IconVariant } from '../../stories/DfxIcon';
-import { Protocols } from '../../stories/StyledCoinListItem';
+import { Protocol } from '../../stories/StyledCoinListItem';
 import { StyledTabProps } from '../../stories/StyledTabContainer';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { BuyTabContentProcess } from './buy-tab-content/buy.process';
@@ -25,8 +25,8 @@ export const BuyTabDefinitions = {
     [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
   },
   protocols: {
-    [Blockchain.ETH]: Protocols.ERC_20,
-    [Blockchain.BSC]: Protocols.BEP_20,
+    [Blockchain.ETH]: Protocol.ERC_20,
+    [Blockchain.BSC]: Protocol.BEP_20,
   },
 };
 

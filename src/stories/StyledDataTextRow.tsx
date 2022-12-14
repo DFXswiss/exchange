@@ -8,7 +8,7 @@ interface StyledDataTextRowProps extends PropsWithChildren {
 
 export default function StyledDataTextRow({ label, children, isLoading }: StyledDataTextRowProps) {
   const labelClasses = 'text-dfxGray-600';
-  const rowDataClasses = 'flex-auto place-self-center overflow-hidden ';
+  const rowDataClasses = 'flex place-self-center overflow-hidden ';
 
   return (
     <div className="flex py-1">
