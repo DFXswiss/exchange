@@ -66,14 +66,20 @@ export function MailEdit({
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && getInfoTextElement(infoText)}
         <div className="flex flex-row gap-4 w-full">
           {showCancelButton && onCancel && (
-            <StyledButton label="cancel" onClick={onCancel} color={StyledButtonColors.PALE_WHITE} caps />
+            <StyledButton
+              label="cancel"
+              onClick={onCancel}
+              color={StyledButtonColors.PALE_WHITE}
+              width={StyledButtonWidths.FULL}
+              caps
+            />
           )}
           <StyledButton
             disabled={!isValid}
             label="save"
             onClick={handleSubmit(saveUser)}
             isLoading={isUserUpdating}
-            width={showCancelButton ? StyledButtonWidths.MD : StyledButtonWidths.FULL}
+            width={StyledButtonWidths.FULL}
             caps
           />
         </div>
