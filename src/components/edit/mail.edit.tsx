@@ -50,20 +50,16 @@ export function MailEdit({
     email: [Validations.Required, Validations.Mail],
   });
 
-  function getInfoTextElement(text: string): JSX.Element {
-    return (
-      <StyledInfoText darkTheme iconColor={infoTextIconColor}>
-        {text}
-      </StyledInfoText>
-    );
-  }
-
   return (
     <Form control={control} errors={errors} rules={rules} onSubmit={handleSubmit(saveUser)}>
-      <StyledVerticalStack gap={2}>
-        {infoText && infoTextPlacement === MailEditInfoTextPlacement.ABOVE_INPUT && getInfoTextElement(infoText)}
-        <StyledInput label="Contact information" placeholder="E-mail address" name="email" />
-        {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && getInfoTextElement(infoText)}
+      <StyledVerticalStack gap={6}>
+        {infoText && infoTextPlacement === MailEditInfoTextPlacement.ABOVE_INPUT && (
+          <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
+        )}
+        <StyledInput label="Contact information" placeholder="E-mail address" name="email" darkTheme />
+        {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && (
+          <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
+        )}
         <div className="flex flex-row gap-4 w-full">
           {showCancelButton && onCancel && (
             <StyledButton label="cancel" onClick={onCancel} color={StyledButtonColors.PALE_WHITE} caps />
@@ -79,5 +75,13 @@ export function MailEdit({
         </div>
       </StyledVerticalStack>
     </Form>
+  );
+}
+
+function InfoTextElement({ text, iconColor }: { text: string; iconColor: IconColors }): JSX.Element {
+  return (
+    <StyledInfoText darkTheme iconColor={iconColor}>
+      {text}
+    </StyledInfoText>
   );
 }
