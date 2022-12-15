@@ -2,7 +2,7 @@ import { IconVariant } from '../DfxIcon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useForm } from 'react-hook-form';
 import Form from './Form';
-import StyledDropdown, { dummyCurrencies } from './StyledDropdown';
+import StyledDropdown, { DropdownItem } from './StyledDropdown';
 
 export default {
   title: 'Forms/StyledDropdown',
@@ -26,11 +26,18 @@ export const CurrencySelector: ComponentStory<typeof StyledDropdown> = (args) =>
   );
 };
 
+const dummyCurrencies: DropdownItem[] = [
+  { title: 'EUR', description: 'EURO' },
+  { title: 'USD', description: 'US Dollar' },
+  { title: 'CHF', description: 'Swiss Franc' },
+  { title: 'GBP', description: 'British Pound' },
+];
+
 CurrencySelector.args = {
   label: 'Your Currency',
   labelIcon: IconVariant.BANK,
   items: dummyCurrencies,
-  preSelection: { title: 'CHF', description: 'Swiss Franc' },
+  placeholder: 'e.g. EUR',
   onSelect: (item) => {
     console.log('selected ' + item.title);
   },
