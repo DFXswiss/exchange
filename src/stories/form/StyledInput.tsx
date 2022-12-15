@@ -18,7 +18,6 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
       label,
       rules,
       disabled = false,
-      error,
       placeholder,
       forceError = false,
       hideLabel = false,
@@ -50,10 +49,7 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
               }
               type={'text'}
               onBlur={onBlur}
-              onChange={(value) => {
-                console.log(error);
-                onChange(value.target.value);
-              }}
+              onChange={(value) => onChange(value.target.value)}
               placeholder={placeholder}
               value={value ?? ''}
               disabled={disabled}
