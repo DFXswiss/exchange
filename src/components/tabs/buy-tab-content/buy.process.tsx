@@ -51,7 +51,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     control,
     handleSubmit,
     setValue,
-    resetField,
     formState: { errors },
   } = useForm<FormData>({ defaultValues: { asset } });
   const data = useWatch({ control });
@@ -84,11 +83,8 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   }, [validatedData]);
 
   useEffect(() => {
-    if (selectedBankAccount && selectedBankAccount.preferredCurrency) {
+    if (selectedBankAccount && selectedBankAccount.preferredCurrency)
       setValue('currency', selectedBankAccount.preferredCurrency);
-    } else {
-      resetField('currency');
-    }
   }, [selectedBankAccount]);
 
   async function onSubmit(_data: FormData): Promise<void> {
