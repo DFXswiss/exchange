@@ -24,7 +24,6 @@ import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
-import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
