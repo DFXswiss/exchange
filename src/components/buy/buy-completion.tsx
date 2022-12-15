@@ -44,6 +44,7 @@ export function BuyCompletion({ onCancel, onSubmit }: BuyCompletionProps): JSX.E
           onCancel={onCancel}
           infoText="Enter your email address if you want to be informed about the progress of any purchase or sale."
           showCancelButton
+          hideLabels
         />
       )}
     </StyledVerticalStack>

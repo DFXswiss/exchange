@@ -14,6 +14,7 @@ interface MailEditProps {
   infoTextIconColor?: IconColors;
   infoTextPlacement?: MailEditInfoTextPlacement;
   showCancelButton?: boolean;
+  hideLabels?: boolean;
   onSubmit: () => void;
   onCancel?: () => void;
 }
@@ -31,6 +32,7 @@ export function MailEdit({
   onSubmit,
   onCancel,
   showCancelButton = false,
+  hideLabels = false,
   infoText,
   infoTextIconColor = IconColors.RED,
   infoTextPlacement = MailEditInfoTextPlacement.ABOVE_INPUT,
@@ -56,7 +58,13 @@ export function MailEdit({
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.ABOVE_INPUT && (
           <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
         )}
-        <StyledInput label="Contact information" placeholder="E-mail address" name="email" darkTheme />
+        <StyledInput
+          label="Contact information"
+          placeholder="E-mail address"
+          name="email"
+          hideLabel={hideLabels}
+          darkTheme
+        />
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && (
           <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
         )}
