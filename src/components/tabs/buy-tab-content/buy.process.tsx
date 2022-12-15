@@ -27,6 +27,9 @@ import { BuyCompletion } from '../../buy/buy-completion';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import StyledInfoText from '../../../stories/StyledInfoText';
+import StyledVerticalStack, {
+  StyledVerticalStackAlignContent,
+} from '../../../stories/layout-helpers/StyledVerticalStack';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -194,11 +197,13 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
   const { copy } = useClipboard();
   return (
     <>
-      <h2 className="text-center">Payment Information</h2>
-      <StyledInfoText iconColor={IconColors.BLUE}>
-        Please transfer the purchase amount using this information via your banking application. The purpose of payment
-        is important!
-      </StyledInfoText>
+      <StyledVerticalStack gap={2} align={StyledVerticalStackAlignContent.CENTER}>
+        <h2>Payment Information</h2>
+        <StyledInfoText iconColor={IconColors.BLUE}>
+          Please transfer the purchase amount using this information via your banking application. The purpose of
+          payment is important!
+        </StyledInfoText>
+      </StyledVerticalStack>
       <StyledDataTable alignContent={AlignContent.RIGHT} showBorder>
         <StyledDataTableRow label="IBAN">
           <div>
@@ -209,7 +214,6 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
               </div>
             )}
           </div>
-
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
         </StyledDataTableRow>
         <StyledDataTableRow label="BIC">
