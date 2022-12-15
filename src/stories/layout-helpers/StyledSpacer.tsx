@@ -1,3 +1,5 @@
+import { convertToRem } from './LayoutFunctions';
+
 export interface StyledSpacerProps {
   showLine?: boolean;
   spacing: number;
@@ -8,7 +10,7 @@ export default function StyledSpacer({ showLine, spacing }: StyledSpacerProps) {
 
   showLine ? (spacerClasses = ' border-t border-dfxGray-400') : null;
 
-  const margin = 4 * spacing;
+  const margin = convertToRem(spacing);
 
-  return <div style={{ margin: margin + 'px 0' }} className={spacerClasses}></div>;
+  return <div style={{ margin: margin + ' 0' }} className={spacerClasses}></div>;
 }

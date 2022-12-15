@@ -39,9 +39,9 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
               </p>
 
               <StyledSpacer spacing={8} showLine />
-              <StyledVerticalStack gap={8}>
+              <StyledVerticalStack gap={8} marginY={20}>
                 <h2>Horizontal Stack test</h2>
-                <StyledHorizontalStack spanAcross>
+                <StyledHorizontalStack gap={4} marginX={4} marginY={10}>
                   <DfxIcon size={IconSizes.XL} icon={IconVariant.BANK} />
 
                   <DfxIcon size={IconSizes.XL} icon={IconVariant.CLOSE} />
