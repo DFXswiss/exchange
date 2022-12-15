@@ -5,6 +5,7 @@ import { Utils } from '../utils';
 interface KycInterface {
   status: string;
   limit: string;
+  isComplete: boolean;
   start: () => Promise<void>;
   isAllowedToBuy: (amount: number) => boolean;
 }
@@ -62,5 +63,5 @@ export function useKyc(): KycInterface {
     return (user?.tradingLimit.limit ?? 0) > amount;
   }
 
-  return { start, status: buildKycStatusString(), limit, isAllowedToBuy };
+  return { start, status: buildKycStatusString(), isComplete, limit, isAllowedToBuy };
 }

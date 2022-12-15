@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Asset } from '../../api/definitions/asset';
 import { Blockchain } from '../../api/definitions/blockchain';
+import { useSessionContext } from '../../contexts/session.context';
 import { IconVariant } from '../../stories/DfxIcon';
 import { Protocol } from '../../stories/StyledCoinListItem';
 import { StyledTabProps } from '../../stories/StyledTabContainer';
@@ -33,14 +34,19 @@ export const BuyTabDefinitions = {
 function BuyTabContent(): JSX.Element {
   const [step, setStep] = useState<BuyTabStep>(BuyTabStep.OVERVIEW);
   const [currentAsset, setCurrentAsset] = useState<Asset>();
+  const { isLoggedIn, login } = useSessionContext();
 
   switch (step) {
     case BuyTabStep.OVERVIEW:
       return (
         <BuyTabContentOverview
           onAssetClicked={(asset) => {
-            setCurrentAsset(asset);
-            setStep(BuyTabStep.BUY_PROCESS);
+            if (isLoggedIn) {
+              setCurrentAsset(asset);
+              setStep(BuyTabStep.BUY_PROCESS);
+            } else {
+              login();
+            }
           }}
         />
       );

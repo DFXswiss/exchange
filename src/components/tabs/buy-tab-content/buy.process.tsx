@@ -25,6 +25,11 @@ import useDebounce from '../../../hooks/debounce.hook';
 import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
+import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
+import StyledInfoText from '../../../stories/StyledInfoText';
+import StyledVerticalStack, {
+  StyledVerticalStackAlignContent,
+} from '../../../stories/layout-helpers/StyledVerticalStack';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -115,15 +120,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                 modal={{
                   heading: 'Select your bank account',
                   items: bankAccounts,
-                  itemContent: (b) => (
-                    <div className="flex flex-row gap-2">
-                      <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
-                      <div className="flex flex-col gap-1">
-                        {b.label && b.label.length > 0 && <p className="text-dfxGray-500">{b.label}</p>}
-                        <p className="text-dfxBlue-800">{b.iban}</p>
-                      </div>
-                    </div>
-                  ),
+                  itemContent: (b) => <StyledBankAccountListItem bankAccount={b} />,
                   form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
                 }}
               />
@@ -200,11 +197,13 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
   const { copy } = useClipboard();
   return (
     <>
-      <h2>Payment Information</h2>
-      <p>
-        Please transfer the purchase amount using this information via your banking application. The purpose of payment
-        is important!
-      </p>
+      <StyledVerticalStack gap={2} align={StyledVerticalStackAlignContent.CENTER}>
+        <h2>Payment Information</h2>
+        <StyledInfoText iconColor={IconColors.BLUE}>
+          Please transfer the purchase amount using this information via your banking application. The purpose of
+          payment is important!
+        </StyledInfoText>
+      </StyledVerticalStack>
       <StyledDataTable alignContent={AlignContent.RIGHT} showBorder>
         <StyledDataTableRow label="IBAN">
           <div>
@@ -215,7 +214,6 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
               </div>
             )}
           </div>
-
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
         </StyledDataTableRow>
         <StyledDataTableRow label="BIC">

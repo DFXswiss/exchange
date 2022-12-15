@@ -12,19 +12,32 @@ import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
 
 export function UserData(): JSX.Element {
   const { user } = useUserContext();
+  const { isComplete } = useKyc();
   const { copy, isCopying } = useClipboard();
   const { start, status, limit } = useKyc();
   const [showsUserEdit, setShowsUserEdit] = useState(false);
 
   const userData = [
-    { title: 'E-mail address', value: user?.mail },
+    {
+      title: 'E-mail address',
+      value: user?.mail,
+      button:
+        user?.mail != null
+          ? undefined
+          : {
+              color: StyledButtonColors.WHITE,
+              label: 'add e-mail address',
+              func: () => setShowsUserEdit(true),
+              isLoading: false,
+            },
+    },
     { title: 'KYC status', value: status },
     {
       title: 'Transaction limit',
       value: limit,
       button: {
         color: StyledButtonColors.WHITE,
-        label: 'Start KYC to increase',
+        label: isComplete ? 'Increase limit' : 'Start KYC to increase',
         func: start,
         isLoading: false,
       },

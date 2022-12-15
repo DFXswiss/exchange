@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 import { Blockchain } from '../api/definitions/blockchain';
 import { ApiError } from '../api/definitions/error';
 import { useApiSession } from '../api/hooks/api-session.hook';
@@ -27,17 +27,32 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
   const [needsSignUp, setNeedsSignUp] = useState(false);
   const [signature, setSignature] = useState<string>();
 
-  async function login(): Promise<void> {
-    let connectedAddress = address;
-    if (!isConnected) {
-      connectedAddress = await connect();
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
     }
-    if (!connectedAddress) return; // TODO (Krysh) add real error handling in here
-    // if we are already logged in, do not trigger another signature
+    if (address) {
+      createApiSession(address);
+    } else {
+      deleteSession();
+    }
+  }, [address]);
+
+  async function login(): Promise<void> {
+    if (!isConnected) {
+      await connect();
+    }
+    if (!address) return; // TODO (Krysh) add real error handling
+    createApiSession(address);
+  }
+
+  async function createApiSession(address: string): Promise<void> {
     if (isLoggedIn) return;
-    const message = await getSignMessage(connectedAddress);
-    const signature = await signMessage(message, connectedAddress);
-    return createSession(connectedAddress, signature, false).catch((error: ApiError) => {
+    const message = await getSignMessage(address);
+    const signature = await signMessage(message, address);
+    return createSession(address, signature, false).catch((error: ApiError) => {
       if (error.statusCode === 404) {
         setSignature(signature);
         setNeedsSignUp(true);
