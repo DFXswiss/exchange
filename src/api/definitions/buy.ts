@@ -20,6 +20,7 @@ export interface Buy {
   bic: string;
   remittanceInfo: string;
   minDeposits: MinDeposit[];
+  sepaInstant: boolean;
 }
 
 export interface BuyPaymentInfo {

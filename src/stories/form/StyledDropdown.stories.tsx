@@ -2,7 +2,7 @@ import { IconVariant } from '../DfxIcon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useForm } from 'react-hook-form';
 import Form from './Form';
-import StyledDropdown, { DropdownItem } from './StyledDropdown';
+import StyledDropdown from './StyledDropdown';
 
 export default {
   title: 'Forms/StyledDropdown',
@@ -20,13 +20,24 @@ export const CurrencySelector: ComponentStory<typeof StyledDropdown> = (args) =>
   return (
     <div className="bg-white p-10 max-w-xs">
       <Form control={control} errors={errors} onSubmit={onSubmit}>
-        <StyledDropdown {...args} name="test" />
+        <StyledDropdown<TestItem>
+          {...args}
+          name="test"
+          items={dummyCurrencies}
+          labelFunc={(item) => item.title}
+          descriptionFunc={(item) => item.description}
+        />
       </Form>
     </div>
   );
 };
 
-export const dummyCurrencies: DropdownItem[] = [
+interface TestItem {
+  title: string;
+  description: string;
+}
+
+export const dummyCurrencies: TestItem[] = [
   { title: 'EUR', description: 'EURO' },
   { title: 'USD', description: 'US Dollar' },
   { title: 'CHF', description: 'Swiss Franc' },
@@ -36,9 +47,5 @@ export const dummyCurrencies: DropdownItem[] = [
 CurrencySelector.args = {
   label: 'Your Currency',
   labelIcon: IconVariant.BANK,
-  items: dummyCurrencies,
   placeholder: 'e.g. EUR',
-  onSelect: (item) => {
-    console.log('selected ' + item.title);
-  },
 };

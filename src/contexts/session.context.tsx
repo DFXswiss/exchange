@@ -10,6 +10,7 @@ export interface SessionInterface {
   blockchain?: Blockchain;
   isLoggedIn: boolean;
   needsSignUp: boolean;
+  isProcessing: boolean;
   login: () => Promise<void>;
   signUp: () => Promise<void>;
   logout: () => Promise<void>;
@@ -25,6 +26,7 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
   const { isLoggedIn, getSignMessage, createSession, deleteSession } = useApiSession();
   const { isInstalled, isConnected, address, blockchain, connect, signMessage } = useWalletContext();
   const [needsSignUp, setNeedsSignUp] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [signature, setSignature] = useState<string>();
 
   const firstRender = useRef(true);
@@ -52,19 +54,24 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
     if (isLoggedIn) return;
     const message = await getSignMessage(address);
     const signature = await signMessage(message, address);
-    return createSession(address, signature, false).catch((error: ApiError) => {
-      if (error.statusCode === 404) {
-        setSignature(signature);
-        setNeedsSignUp(true);
-      }
-    });
+    setIsProcessing(true);
+    return createSession(address, signature, false)
+      .catch((error: ApiError) => {
+        if (error.statusCode === 404) {
+          setSignature(signature);
+          setNeedsSignUp(true);
+        }
+      })
+      .finally(() => setIsProcessing(false));
   }
 
   async function signUp(): Promise<void> {
     if (!address || !signature) return; // TODO (Krysh) add real error handling
+    setIsProcessing(true);
     return createSession(address, signature, true).finally(() => {
       setSignature(undefined);
       setNeedsSignUp(false);
+      setIsProcessing(false);
     });
   }
 
@@ -78,6 +85,7 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
     blockchain,
     isLoggedIn,
     needsSignUp,
+    isProcessing,
     login,
     signUp,
     logout,

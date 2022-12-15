@@ -3,19 +3,15 @@ import { useState } from 'react';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from '../DfxIcon';
 import { Controller } from 'react-hook-form';
 
-export interface StyledDropdownProps extends ControlProps {
+export interface StyledDropdownProps<T> extends ControlProps {
   labelIcon?: IconVariant;
   placeholder?: string;
-  items: DropdownItem[];
-  onSelect: (item: DropdownItem) => void;
+  items: T[];
+  labelFunc: (item: T) => string;
+  descriptionFunc: (item: T) => string;
 }
 
-export interface DropdownItem {
-  title: string;
-  description: string;
-}
-
-export default function StyledDropdown({
+export default function StyledDropdown<T>({
   label,
   labelIcon,
   control,
@@ -24,15 +20,11 @@ export default function StyledDropdown({
   disabled,
   items,
   placeholder,
-  onSelect,
+  labelFunc,
+  descriptionFunc,
   ...props
-}: StyledDropdownProps) {
+}: StyledDropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const select = (item: DropdownItem): void => {
-    setIsOpen(false);
-    onSelect(item);
-  };
 
   let buttonClasses = 'flex justify-between border border-dfxGray-400 px-4 py-3 shadow-sm w-full';
 
@@ -62,28 +54,28 @@ export default function StyledDropdown({
                 <p className="text-dfxGray-400 drop-shadow-none py-[0.3rem]">{placeholder}</p>
               ) : (
                 <>
-                  <span className="text-dfxBlue-800 leading-none font-semibold">{value.title}</span>
-                  <span className="text-dfxGray-800 text-xs h-min leading-none">{value.description}</span>
+                  <span className="text-dfxBlue-800 leading-none font-semibold">{labelFunc(value)}</span>
+                  <span className="text-dfxGray-800 text-xs h-min leading-none">{descriptionFunc(value)}</span>
                 </>
               )}
             </div>
             <div className="place-self-center">
-              <DfxIcon icon={IconVariant.EXPAND_MORE} size={IconSizes.LG} />
+              <DfxIcon icon={isOpen ? IconVariant.EXPAND_LESS : IconVariant.EXPAND_MORE} size={IconSizes.LG} />
             </div>
           </button>
           {isOpen && (
             <div className="absolute bg-white rounded-b w-full">
-              {items.map((item) => (
+              {items.map((item, index) => (
                 <button
-                  key={item.title}
+                  key={index}
                   onClick={() => {
                     onChange(item);
-                    select(item);
+                    setIsOpen(false);
                   }}
                   className="flex flex-col gap-2 justify-between text-left border-x border-dfxGray-400 w-full hover:bg-dfxGray-400/50 last:border-b last:rounded-b px-3.5 py-2.5"
                 >
-                  <span className="text-dfxBlue-800 leading-none font-semibold">{item.title}</span>
-                  <span className="text-dfxGray-800 text-xs h-min leading-none">{item.description}</span>
+                  <span className="text-dfxBlue-800 leading-none font-semibold">{labelFunc(item)}</span>
+                  <span className="text-dfxGray-800 text-xs h-min leading-none">{descriptionFunc(item)}</span>
                 </button>
               ))}
             </div>

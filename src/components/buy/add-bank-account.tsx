@@ -5,6 +5,7 @@ import { BankAccount } from '../../api/definitions/bank-account';
 import { CreateBankAccount } from '../../api/hooks/bank-account.hook';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
+import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
@@ -32,17 +33,19 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
 
   return (
     <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(createBankAccount)}>
-      <StyledInput label="IBAN" placeholder="XX XXXX XXXX XXXX XXXX X" name="iban" />
-      <StyledInput label="Optional - Account Designation" placeholder="eg. Deutsche Bank" name="label" />
-      <StyledButton
-        disabled={!isValid}
-        color={StyledButtonColors.RED}
-        label="Add Bank Account"
-        onClick={handleSubmit(createBankAccount)}
-        isLoading={isAccountLoading}
-        caps
-        width={StyledButtonWidths.FULL}
-      />
+      <StyledVerticalStack gap={4}>
+        <StyledInput label="IBAN" placeholder="XX XXXX XXXX XXXX XXXX X" name="iban" />
+        <StyledInput label="Optional - Account Designation" placeholder="eg. Deutsche Bank" name="label" />
+        <StyledButton
+          disabled={!isValid}
+          color={StyledButtonColors.RED}
+          label="Add Bank Account"
+          onClick={handleSubmit(createBankAccount)}
+          isLoading={isAccountLoading}
+          caps
+          width={StyledButtonWidths.FULL}
+        />
+      </StyledVerticalStack>
     </Form>
   );
 }

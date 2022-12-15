@@ -1,6 +1,6 @@
 import { useUserContext } from '../../api/contexts/user.context';
 import DfxIcon, { IconSizes, IconVariant } from '../../stories/DfxIcon';
-import StyledVerticalStack, { StyledVerticalStackAlignContent } from '../../stories/layout-helpers/StyledVerticalStack';
+import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import { MailEdit } from '../edit/mail.edit';
 
@@ -21,8 +21,10 @@ export function BuyCompletion({ onCancel, onSubmit }: BuyCompletionProps): JSX.E
   }
 
   return (
-    <StyledVerticalStack gap={4} align={StyledVerticalStackAlignContent.CENTER}>
-      <DfxIcon size={IconSizes.XL} icon={IconVariant.PROCESS_DONE} />
+    <StyledVerticalStack gap={4}>
+      <div className="mx-auto">
+        <DfxIcon size={IconSizes.XL} icon={IconVariant.PROCESS_DONE} />
+      </div>
       <p className="text-lg font-bold text-center">{getHeader()}</p>
       {showsSimple ? (
         <>
@@ -44,6 +46,8 @@ export function BuyCompletion({ onCancel, onSubmit }: BuyCompletionProps): JSX.E
           onCancel={onCancel}
           infoText="Enter your email address if you want to be informed about the progress of any purchase or sale."
           showCancelButton
+          hideLabels
+          isOptional
         />
       )}
     </StyledVerticalStack>

@@ -3,6 +3,7 @@ import { useUserContext } from '../../api/contexts/user.context';
 import { IconColors } from '../../stories/DfxIcon';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
+import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import StyledInfoText from '../../stories/StyledInfoText';
@@ -14,6 +15,8 @@ interface MailEditProps {
   infoTextIconColor?: IconColors;
   infoTextPlacement?: MailEditInfoTextPlacement;
   showCancelButton?: boolean;
+  hideLabels?: boolean;
+  isOptional?: boolean;
   onSubmit: () => void;
   onCancel?: () => void;
 }
@@ -31,6 +34,8 @@ export function MailEdit({
   onSubmit,
   onCancel,
   showCancelButton = false,
+  hideLabels = false,
+  isOptional = false,
   infoText,
   infoTextIconColor = IconColors.RED,
   infoTextPlacement = MailEditInfoTextPlacement.ABOVE_INPUT,
@@ -43,11 +48,12 @@ export function MailEdit({
   const { changeMail, isUserUpdating } = useUserContext();
 
   async function saveUser({ email }: FormData): Promise<void> {
+    if (!email || email.length === 0) return onSubmit();
     return changeMail(email).then(onSubmit);
   }
 
   const rules = Utils.createRules({
-    email: [Validations.Required, Validations.Mail],
+    email: [!isOptional && Validations.Required, Validations.Mail],
   });
 
   return (
@@ -56,11 +62,17 @@ export function MailEdit({
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.ABOVE_INPUT && (
           <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
         )}
-        <StyledInput label="Contact information" placeholder="E-mail address" name="email" darkTheme />
+        <StyledInput
+          label="Contact information"
+          placeholder="E-mail address"
+          name="email"
+          hideLabel={hideLabels}
+          darkTheme
+        />
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && (
           <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
         )}
-        <div className="flex flex-row gap-4 w-full">
+        <StyledHorizontalStack gap={4}>
           {showCancelButton && onCancel && (
             <StyledButton
               label="cancel"
@@ -72,13 +84,13 @@ export function MailEdit({
           )}
           <StyledButton
             disabled={!isValid}
-            label="save"
+            label={isOptional ? 'finish' : 'save'}
             onClick={handleSubmit(saveUser)}
             isLoading={isUserUpdating}
             width={StyledButtonWidths.FULL}
             caps
           />
-        </div>
+        </StyledHorizontalStack>
       </StyledVerticalStack>
     </Form>
   );

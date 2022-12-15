@@ -24,10 +24,14 @@ export const BuyTabDefinitions = {
   headings: {
     [Blockchain.ETH]: 'Ethereum mainnet · ERC-20 token',
     [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
+    [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
+    [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
   },
   protocols: {
     [Blockchain.ETH]: Protocol.ERC_20,
     [Blockchain.BSC]: Protocol.BEP_20,
+    [Blockchain.ARBITRUM]: Protocol.ERC_20,
+    [Blockchain.OPTIMISM]: Protocol.ERC_20,
   },
 };
 
@@ -41,6 +45,7 @@ function BuyTabContent(): JSX.Element {
       return (
         <BuyTabContentOverview
           onAssetClicked={(asset) => {
+            if (!asset.buyable) return;
             if (isLoggedIn) {
               setCurrentAsset(asset);
               setStep(BuyTabStep.BUY_PROCESS);

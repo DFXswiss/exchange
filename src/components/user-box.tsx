@@ -12,7 +12,7 @@ import { UserData } from './user-data';
 
 export function UserBox(): JSX.Element {
   const { isLoggedIn } = useSessionContext();
-  const { user, isUserLoading } = useUserContext();
+  const { user, refLink, isUserLoading } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
   const [showsUserData, setShowsUserData] = useState(false);
@@ -29,7 +29,7 @@ export function UserBox(): JSX.Element {
         <MailEdit onSubmit={() => setShowsEmailEdit(false)} />
       </StyledModal>
       <StyledModal
-        heading="Your data"
+        heading="Your Data"
         color={StyledModalColors.DFX_GRADIENT}
         isVisible={showsUserData}
         onClose={setShowsUserData}
@@ -59,14 +59,14 @@ export function UserBox(): JSX.Element {
           )}
         </StyledDataTextRow>
         {user?.ref && (
-          <StyledDataTextRow label="Your Referral Code">
+          <StyledDataTextRow label="Your referral link">
             {user.ref}
             <StyledButton
               label="Copy link to share"
               size={StyledButtonSizes.SMALL}
               width={StyledButtonWidths.MIN}
               caps={false}
-              onClick={() => copy(user.ref)}
+              onClick={() => copy(refLink)}
               isLoading={isCopying}
             />
           </StyledDataTextRow>

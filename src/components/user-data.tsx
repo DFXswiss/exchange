@@ -3,6 +3,7 @@ import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKyc } from '../hooks/kyc.hook';
 import { IconColors } from '../stories/DfxIcon';
+import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
 import StyledDataTable from '../stories/StyledDataTable';
 import StyledDataTableRow from '../stories/StyledDataTableRow';
@@ -11,7 +12,7 @@ import { Utils } from '../utils';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
 
 export function UserData(): JSX.Element {
-  const { user } = useUserContext();
+  const { user, refLink } = useUserContext();
   const { isComplete } = useKyc();
   const { copy, isCopying } = useClipboard();
   const { start, status, limit } = useKyc();
@@ -46,14 +47,14 @@ export function UserData(): JSX.Element {
 
   const referralData = [
     {
-      title: 'Referral code',
-      value: user?.ref ?? 'Complete a buy to receive your Ref code',
+      title: 'Referral link',
+      value: user?.ref ?? 'Complete a buy to receive your referral link',
       button:
         user?.ref != null
           ? {
               color: StyledButtonColors.RED,
               label: 'Copy to share',
-              func: () => copy(user.ref),
+              func: () => copy(refLink),
               isLoading: isCopying,
             }
           : undefined,
@@ -65,8 +66,8 @@ export function UserData(): JSX.Element {
   ];
 
   const data = [
-    { header: 'User data', content: userData },
-    { header: 'Your referral', content: referralData },
+    { header: 'User Data', content: userData },
+    { header: 'User Referral', content: referralData },
   ];
 
   return (
@@ -86,7 +87,7 @@ export function UserData(): JSX.Element {
         />
       </StyledModal>
       {/* CONTENT */}
-      <div className="flex flex-col gap-6">
+      <StyledVerticalStack gap={6}>
         {data.map(({ header, content }, index) => (
           <StyledDataTable heading={header} key={index} showBorder={false} darkTheme>
             {content.map((entry, entryIndex) => (
@@ -108,7 +109,7 @@ export function UserData(): JSX.Element {
           </StyledDataTable>
         ))}
         <StyledButton label="edit user data" onClick={() => setShowsUserEdit(true)} />
-      </div>
+      </StyledVerticalStack>
     </>
   );
 }
