@@ -53,7 +53,7 @@ export function MailEdit({
   }
 
   const rules = Utils.createRules({
-    email: isOptional ? [Validations.Mail] : [Validations.Required, Validations.Mail],
+    email: [!isOptional && Validations.Required, Validations.Mail],
   });
 
   return (

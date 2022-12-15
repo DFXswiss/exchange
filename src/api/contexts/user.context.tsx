@@ -29,7 +29,7 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
   const [isUserUpdating, setIsUserUpdating] = useState<boolean>(false);
 
-  const refLink = user && user.ref ? `${process.env.REACT_APP_REF_URL}${user.ref}` : undefined;
+  const refLink = user?.ref && `${process.env.REACT_APP_REF_URL}${user.ref}`;
 
   useEffect(() => {
     if (isLoggedIn) {

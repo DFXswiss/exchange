@@ -79,12 +79,12 @@ export default function StyledModalDropdown<T>({
               <div className="flex flex-col justify-between text-left gap-1">
                 {value ? (
                   <>
-                    {descriptionFunc && descriptionFunc(value) && (
+                    {descriptionFunc?.(value) && (
                       <span className="text-dfxGray-800 text-xs h-min leading-none">{descriptionFunc(value)}</span>
                     )}
                     <span
                       className={'text-dfxBlue-800 leading-none font-base'.concat(
-                        descriptionFunc && descriptionFunc(value) ? '' : ' py-2',
+                        descriptionFunc?.(value) ? '' : ' py-2',
                       )}
                     >
                       {labelFunc(value)}
