@@ -152,7 +152,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                 name="bankAccount"
                 labelFunc={(item) => item.iban}
                 descriptionFunc={(item) => item.label}
-                label="Your bank account"
+                label="Your Bank Account"
                 placeholder="Add or select your IBAN"
                 modal={{
                   heading: 'Select your bank account',
@@ -197,7 +197,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               </div>
             )}
             <StyledInput
-              label="Buy amount"
+              label="Buy Amount"
               placeholder="0.00"
               name="amount"
               forceError={kycRequired || customAmountError != null}

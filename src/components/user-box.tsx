@@ -29,7 +29,7 @@ export function UserBox(): JSX.Element {
         <MailEdit onSubmit={() => setShowsEmailEdit(false)} />
       </StyledModal>
       <StyledModal
-        heading="Your data"
+        heading="Your Data"
         color={StyledModalColors.DFX_GRADIENT}
         isVisible={showsUserData}
         onClose={setShowsUserData}
@@ -59,7 +59,7 @@ export function UserBox(): JSX.Element {
           )}
         </StyledDataTextRow>
         {user?.ref && (
-          <StyledDataTextRow label="Your Referral Code">
+          <StyledDataTextRow label="Your referral link">
             {user.ref}
             <StyledButton
               label="Copy link to share"
