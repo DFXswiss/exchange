@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import DfxYourCurrencyWalletSection from './DfxYourCurrencyWalletSection';
+import { dummyCurrencies } from './form/StyledDropdown.stories';
 
 export default {
   title: 'Composites/DfxYourCurrencyWalletSection',
@@ -9,7 +10,7 @@ export default {
 export const Default: ComponentStory<typeof DfxYourCurrencyWalletSection> = () => {
   return (
     <div className="bg-white p-10 max-w-2xl">
-      <DfxYourCurrencyWalletSection />
+      <DfxYourCurrencyWalletSection items={dummyCurrencies} />
     </div>
   );
 };

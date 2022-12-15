@@ -26,7 +26,7 @@ export const CurrencySelector: ComponentStory<typeof StyledDropdown> = (args) =>
   );
 };
 
-const dummyCurrencies: DropdownItem[] = [
+export const dummyCurrencies: DropdownItem[] = [
   { title: 'EUR', description: 'EURO' },
   { title: 'USD', description: 'US Dollar' },
   { title: 'CHF', description: 'Swiss Franc' },

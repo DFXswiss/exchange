@@ -1,8 +1,12 @@
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
-import StyledDropdown, { dummyCurrencies } from './form/StyledDropdown';
+import StyledDropdown, { DropdownItem } from './form/StyledDropdown';
 import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
 
-export default function DfxYourCurrencyWalletSection() {
+interface DfxYourCurrencyWalletSectionProps {
+  items: DropdownItem[];
+}
+
+export default function DfxYourCurrencyWalletSection({ items }: DfxYourCurrencyWalletSectionProps) {
   return (
     <div className="flex justify-between  items-center">
       <div className="basis-5/12 shrink-1">
@@ -10,7 +14,7 @@ export default function DfxYourCurrencyWalletSection() {
           name="currency-select"
           label="Your Currency"
           labelIcon={IconVariant.BANK}
-          items={dummyCurrencies}
+          items={items}
           onSelect={(item) => {
             console.log('selected ' + item.title);
           }}
