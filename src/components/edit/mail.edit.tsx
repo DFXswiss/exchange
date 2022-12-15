@@ -3,6 +3,7 @@ import { useUserContext } from '../../api/contexts/user.context';
 import { IconColors } from '../../stories/DfxIcon';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
+import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import StyledInfoText from '../../stories/StyledInfoText';
@@ -68,7 +69,7 @@ export function MailEdit({
         {infoText && infoTextPlacement === MailEditInfoTextPlacement.BELOW_INPUT && (
           <InfoTextElement text={infoText} iconColor={infoTextIconColor} />
         )}
-        <div className="flex flex-row gap-4 w-full">
+        <StyledHorizontalStack gap={4}>
           {showCancelButton && onCancel && (
             <StyledButton
               label="cancel"
@@ -86,7 +87,7 @@ export function MailEdit({
             width={StyledButtonWidths.FULL}
             caps
           />
-        </div>
+        </StyledHorizontalStack>
       </StyledVerticalStack>
     </Form>
   );

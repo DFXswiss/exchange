@@ -2,7 +2,7 @@ import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 import DfxLogo from '../stories/DfxLogo';
 import DfxTitleSection from '../stories/DfxTitleSection';
-import StyledVerticalStack, { StyledVerticalStackAlignContent } from '../stories/layout-helpers/StyledVerticalStack';
+import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../stories/StyledButton';
 import StyledModal, { StyledModalTypes } from '../stories/StyledModal';
 import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
@@ -28,7 +28,7 @@ export function Main(): JSX.Element {
     <>
       {/* MODALS */}
       <StyledModal type={StyledModalTypes.ALERT} isVisible={needsSignUp}>
-        <StyledVerticalStack align={StyledVerticalStackAlignContent.CENTER}>
+        <StyledVerticalStack>
           <h1>Terms and Conditions.</h1>
           <p>
             Please read our terms and conditions and click on ”Next” to confirm and to continue to the DFX Multichain
@@ -42,15 +42,16 @@ export function Main(): JSX.Element {
           >
             Terms and conditions DFX Swiss.
           </a>
-
-          <StyledButton
-            width={StyledButtonWidths.MD}
-            color={StyledButtonColors.RED}
-            label="Next"
-            caps={false}
-            onClick={() => signUp()}
-            isLoading={isProcessing}
-          />
+          <div className="mx-auto">
+            <StyledButton
+              width={StyledButtonWidths.SM}
+              color={StyledButtonColors.RED}
+              label="Next"
+              caps={false}
+              onClick={() => signUp()}
+              isLoading={isProcessing}
+            />
+          </div>
         </StyledVerticalStack>
       </StyledModal>
       {/* CONTENT */}

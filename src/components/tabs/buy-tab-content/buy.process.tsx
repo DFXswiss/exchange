@@ -27,9 +27,7 @@ import { BuyCompletion } from '../../buy/buy-completion';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import StyledInfoText from '../../../stories/StyledInfoText';
-import StyledVerticalStack, {
-  StyledVerticalStackAlignContent,
-} from '../../../stories/layout-helpers/StyledVerticalStack';
+import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
 
 interface BuyTabContentProcessProps {
@@ -250,8 +248,8 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
   const { copy } = useClipboard();
   return (
     <>
-      <StyledVerticalStack marginY={5} gap={2} align={StyledVerticalStackAlignContent.CENTER}>
-        <h2>Payment Information</h2>
+      <StyledVerticalStack marginY={5} gap={2}>
+        <h2 className="text-center">Payment Information</h2>
         <StyledInfoText iconColor={IconColors.BLUE}>
           Please transfer the purchase amount using this information via your banking application. The purpose of
           payment is important!

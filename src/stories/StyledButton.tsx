@@ -7,6 +7,7 @@ export enum StyledButtonSizes {
 
 export enum StyledButtonWidths {
   MIN = 'MIN',
+  SM = 'SM',
   MD = 'MD',
   FULL = 'FULL',
 }
@@ -57,6 +58,7 @@ const COLOR_MAPS: Record<StyledButtonColors, string> = {
 
 const WIDTH_MAPS: Record<StyledButtonWidths, string> = {
   [StyledButtonWidths.MIN]: 'mx-4',
+  [StyledButtonWidths.SM]: 'w-[250px]',
   [StyledButtonWidths.MD]: 'min-w-[250px]',
   [StyledButtonWidths.FULL]: 'w-full',
 };

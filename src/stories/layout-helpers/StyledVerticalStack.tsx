@@ -3,24 +3,11 @@ import { convertToRem } from './LayoutFunctions';
 
 export interface StyledVerticalStackProps extends PropsWithChildren {
   gap?: number;
-  align?: StyledVerticalStackAlignContent;
   marginY?: number;
   marginX?: number;
 }
 
-export enum StyledVerticalStackAlignContent {
-  CENTER = 'items-center',
-  START = 'items-start',
-  END = 'items-end',
-}
-
-export default function StyledVerticalStack({
-  children,
-  gap = 0,
-  align = StyledVerticalStackAlignContent.START,
-  marginY,
-  marginX,
-}: StyledVerticalStackProps) {
+export default function StyledVerticalStack({ children, gap = 0, marginY, marginX }: StyledVerticalStackProps) {
   let mY: string | undefined;
   let mX: string | undefined;
 
@@ -29,7 +16,7 @@ export default function StyledVerticalStack({
   marginX !== undefined ? (mX = convertToRem(marginX)) : (mX = '0');
 
   return (
-    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col w-full' + align}>
+    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col'}>
       {children}
     </div>
   );

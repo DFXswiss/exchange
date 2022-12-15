@@ -3,6 +3,7 @@ import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKyc } from '../hooks/kyc.hook';
 import { IconColors } from '../stories/DfxIcon';
+import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
 import StyledDataTable from '../stories/StyledDataTable';
 import StyledDataTableRow from '../stories/StyledDataTableRow';
@@ -86,7 +87,7 @@ export function UserData(): JSX.Element {
         />
       </StyledModal>
       {/* CONTENT */}
-      <div className="flex flex-col gap-6">
+      <StyledVerticalStack gap={6}>
         {data.map(({ header, content }, index) => (
           <StyledDataTable heading={header} key={index} showBorder={false} darkTheme>
             {content.map((entry, entryIndex) => (
@@ -108,7 +109,7 @@ export function UserData(): JSX.Element {
           </StyledDataTable>
         ))}
         <StyledButton label="edit user data" onClick={() => setShowsUserEdit(true)} />
-      </div>
+      </StyledVerticalStack>
     </>
   );
 }
