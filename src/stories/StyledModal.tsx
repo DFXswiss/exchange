@@ -38,7 +38,7 @@ export default function StyledModal({
 
   let containerClasses = 'rounded-lg shadow-lg  relative flex flex-col w-full outline-none focus:outline-none';
   let headingClasses = 'p-3 border-b rounded-t';
-  let bodyClasses = 'relative px-14 pb-12 flex-auto';
+  let bodyClasses = 'relative px-14 pb-10 flex-auto';
 
   if (type !== StyledModalTypes.ALERT) {
     color === StyledModalColors.DFX_GRADIENT
@@ -50,7 +50,7 @@ export default function StyledModal({
     bodyClasses += ' text-center';
   }
 
-  showHeader ? (bodyClasses += ' pt-8') : (bodyClasses += ' pt-12');
+  showHeader ? (bodyClasses += ' pt-6') : (bodyClasses += ' pt-12');
 
   return (
     <>

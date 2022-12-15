@@ -28,6 +28,7 @@ import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountLi
 import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
+import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -181,7 +182,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
                     <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
                   </div>
-                  <div className="border border-dfxGray-400 rounded px-2 py-1.5 drop-shadow-sm">
+                  <div className="border border-dfxGray-400 rounded px-2 py-1 drop-shadow-sm">
                     <StyledCoinListItem
                       asset={asset.name}
                       protocol={BuyTabDefinitions.protocols[asset.blockchain]}
@@ -200,6 +201,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               forceErrorMessage={customAmountError}
             />
           </StyledVerticalStack>
+          <StyledSpacer spacing={6} />
         </Form>
         {paymentInfo && dataValid && !kycRequired && (
           <>
