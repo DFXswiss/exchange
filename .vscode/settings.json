@@ -14,7 +14,9 @@
     "noreferrer",
     "OLKILUL",
     "Bahnhofstrasse",
-    "SEPA"
+    "SEPA",
+    "ARBITRUM",
+    "Arbitrum"
   ],
   "files.exclude": {
     "node_modules": true

@@ -1,5 +1,6 @@
 import { useAssetContext } from '../../../api/contexts/asset.context';
 import { Asset } from '../../../api/definitions/asset';
+import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledCoinList from '../../../stories/StyledCoinList';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { BuyTabDefinitions } from '../buy.tab';
@@ -9,11 +10,11 @@ interface BuyTabContentOverviewProps {
 }
 
 export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewProps): JSX.Element {
-  const { buyableAssets } = useAssetContext();
+  const { assets } = useAssetContext();
 
   return (
-    <div className="flex flex-col">
-      {Array.from(buyableAssets.entries()).map(([blockchain, assets], blockchainIndex) => (
+    <StyledVerticalStack gap={0}>
+      {Array.from(assets.entries()).map(([blockchain, assets], blockchainIndex) => (
         <StyledCoinList key={blockchainIndex} heading={BuyTabDefinitions.headings[blockchain]}>
           {assets.map((asset, assetIndex) => (
             <StyledCoinListItem
@@ -21,10 +22,11 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
               asset={asset.name}
               protocol={BuyTabDefinitions.protocols[blockchain]}
               onClick={() => onAssetClicked(asset)}
+              disabled={!asset.buyable}
             />
           ))}
         </StyledCoinList>
       ))}
-    </div>
+    </StyledVerticalStack>
   );
 }
