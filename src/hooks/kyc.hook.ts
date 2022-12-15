@@ -60,7 +60,7 @@ export function useKyc(): KycInterface {
 
   function isAllowedToBuy(amount: number): boolean {
     if (isComplete) return true;
-    return (user?.tradingLimit.limit ?? 0) > amount;
+    return (user?.tradingLimit.limit ?? 0) >= amount;
   }
 
   return { start, status: buildKycStatusString(), isComplete, limit, isAllowedToBuy };
