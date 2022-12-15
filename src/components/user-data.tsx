@@ -48,7 +48,7 @@ export function UserData(): JSX.Element {
   const referralData = [
     {
       title: 'Referral link',
-      value: user?.ref ?? 'Complete a buy to receive your Ref link',
+      value: user?.ref ?? 'Complete a buy to receive your referral link',
       button:
         user?.ref != null
           ? {

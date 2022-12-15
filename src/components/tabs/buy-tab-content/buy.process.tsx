@@ -190,6 +190,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                       asset={asset.name}
                       protocol={BuyTabDefinitions.protocols[asset.blockchain]}
                       onClick={onBack}
+                      disabled
                     />
                   </div>
                 </div>

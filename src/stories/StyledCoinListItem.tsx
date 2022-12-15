@@ -3,6 +3,7 @@ import DfxAssetIcon, { AssetIconVariant } from './DfxAssetIcon';
 export interface StyledCoinListItemProps {
   asset: string;
   disabled?: boolean;
+  comingSoon?: boolean;
   onClick: () => void;
   protocol: Protocol;
 }
@@ -23,16 +24,24 @@ const NAME_MAPS: Record<AssetIconVariant, string> = {
   [AssetIconVariant.BTC]: 'Bitcoin',
 };
 
-export default function StyledCoinListItem({ asset, onClick, protocol, disabled }: StyledCoinListItemProps) {
-  const name = disabled ? 'Coming soon' : NAME_MAPS[asset as AssetIconVariant];
+export default function StyledCoinListItem({
+  asset,
+  onClick,
+  protocol,
+  disabled,
+  comingSoon,
+}: StyledCoinListItemProps) {
+  const name = comingSoon ? 'Coming soon' : NAME_MAPS[asset as AssetIconVariant];
   let buttonClasses = 'flex gap-2 rounded px-3 py-2 h-12';
 
-  disabled ? null : (buttonClasses += ' hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 active:bg-dfxGray-400/80');
+  disabled || comingSoon
+    ? null
+    : (buttonClasses += ' hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 active:bg-dfxGray-400/80');
 
   return (
-    <button type="button" onClick={onClick} className={buttonClasses} disabled={disabled}>
+    <button type="button" onClick={onClick} className={buttonClasses} disabled={disabled || comingSoon}>
       <div className="self-center">
-        <DfxAssetIcon asset={asset as AssetIconVariant} disabled={disabled} />
+        <DfxAssetIcon asset={asset as AssetIconVariant} disabled={comingSoon} />
       </div>
       <div className="flex-col text-dfxBlue-800 text-left">
         <div className="flex font-semibold gap-1">
