@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Controller } from 'react-hook-form';
+import DfxIcon, { IconSizes, IconVariant } from '../DfxIcon';
 import StyledVerticalStack from '../layout-helpers/StyledVerticalStack';
 import StyledModal, { StyledModalColors } from '../StyledModal';
 import { ControlProps } from './Form';
 
 interface StyledModalDropdownProps<T> extends ControlProps {
   placeholder: string;
-  labelFunc: (item: T) => JSX.Element;
+  labelFunc: (item: T) => string;
+  descriptionFunc?: (item: T) => string | undefined;
   modal: {
     heading: string;
     items: T[];
@@ -23,6 +25,7 @@ export default function StyledModalDropdown<T>({
   modal,
   placeholder,
   labelFunc,
+  descriptionFunc,
   ...props
 }: StyledModalDropdownProps<T>): JSX.Element {
   const [showModal, setShowModal] = useState(false);
@@ -66,13 +69,32 @@ export default function StyledModalDropdown<T>({
           </StyledModal>
           <StyledVerticalStack gap={1} marginY={4}>
             <label className="text-dfxBlue-800 text-base font-semibold pl-4">{label}</label>
-            <button onClick={() => setShowModal(true)} onBlur={onBlur} {...props}>
-              <div
-                className={`text-base font-normal border border-dfxGray-500 rounded-md ${
-                  value ? 'text-dfxBlue-800' : 'text-dfxGray-600'
-                }`}
-              >
-                {value ? labelFunc(value) : placeholder}
+            <button
+              className="flex justify-between border border-dfxGray-400 text-base font-normal rounded-md px-4 py-2 shadow-sm w-full"
+              onClick={() => setShowModal(true)}
+              onBlur={onBlur}
+              {...props}
+            >
+              <div className="flex flex-col justify-between text-left gap-1">
+                {value ? (
+                  <>
+                    {descriptionFunc && descriptionFunc(value) && (
+                      <span className="text-dfxGray-800 text-xs h-min leading-none">{descriptionFunc(value)}</span>
+                    )}
+                    <span
+                      className={'text-dfxBlue-800 leading-none font-base'.concat(
+                        descriptionFunc && descriptionFunc(value) ? '' : ' py-2',
+                      )}
+                    >
+                      {labelFunc(value)}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-dfxGray-600 py-1">{placeholder}</span>
+                )}
+              </div>
+              <div className="place-self-center">
+                <DfxIcon icon={IconVariant.UNFOLD_MORE} size={IconSizes.LG} />
               </div>
             </button>
           </StyledVerticalStack>

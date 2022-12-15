@@ -28,7 +28,7 @@ export default function DfxYourCurrencyWalletSection({
           labelIcon={IconVariant.BANK}
           items={currencies}
           labelFunc={(item) => item.name}
-          descriptionFunc={(item) => 'todo'}
+          descriptionFunc={(item) => 'todo ' + item.name}
         />
       </div>
       <div className="basis-2/12 shrink-0 flex justify-center pt-9">

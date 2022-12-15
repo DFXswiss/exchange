@@ -60,7 +60,7 @@ export default function StyledDropdown<T>({
               )}
             </div>
             <div className="place-self-center">
-              <DfxIcon icon={IconVariant.EXPAND_MORE} size={IconSizes.LG} />
+              <DfxIcon icon={isOpen ? IconVariant.EXPAND_LESS : IconVariant.EXPAND_MORE} size={IconSizes.LG} />
             </div>
           </button>
           {isOpen && (

@@ -30,7 +30,6 @@ import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack, {
   StyledVerticalStackAlignContent,
 } from '../../../stories/layout-helpers/StyledVerticalStack';
-import DfxYourCurrencyWalletSection from '../../../stories/DfxYourCurrencyWalletSection';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
 
 interface BuyTabContentProcessProps {
@@ -142,7 +141,8 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             {bankAccounts && (
               <StyledModalDropdown<BankAccount>
                 name="bankAccount"
-                labelFunc={(item) => <StyledBankAccountListItem bankAccount={item} />}
+                labelFunc={(item) => item.iban}
+                descriptionFunc={(item) => item.label}
                 label="Your bank account"
                 placeholder="Add or select your IBAN"
                 modal={{
