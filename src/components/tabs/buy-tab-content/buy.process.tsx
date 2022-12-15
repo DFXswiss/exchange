@@ -5,7 +5,7 @@ import { Asset } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
 import { Buy } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
-import DfxIcon, { IconColors, IconVariant } from '../../../stories/DfxIcon';
+import DfxIcon, { IconColors, IconSizes, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
 import StyledInput from '../../../stories/form/StyledInput';
 import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
@@ -24,12 +24,10 @@ import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
-import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import StyledInfoText from '../../../stories/StyledInfoText';
-import StyledVerticalStack, {
-  StyledVerticalStackAlignContent,
-} from '../../../stories/layout-helpers/StyledVerticalStack';
+import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
+import StyledDropdown from '../../../stories/form/StyledDropdown';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -47,30 +45,47 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const { currencies, bankAccounts, receiveFor } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
+  const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({ defaultValues: { asset } });
   const data = useWatch({ control });
   const validatedData = validateData(useDebounce(data, 500));
+  const selectedBankAccount = useWatch({ control, name: 'bankAccount' });
 
   const dataValid = validatedData != null;
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
 
+  const currencyDescription: Record<string, string> = {
+    ['EUR']: 'Euro',
+    ['USD']: 'US Dollar',
+    ['CHF']: 'Swiss Franc',
+    ['GBP']: 'British Pound',
+  };
+
   useEffect(() => {
     if (!dataValid) return;
 
+    const amount = Number(validatedData.amount);
     receiveFor({
       iban: validatedData.bankAccount.iban,
       currency: validatedData.currency,
-      amount: Number(validatedData.amount),
+      amount,
       asset: validatedData.asset,
     })
-      .then((value) => toPaymentInformation(value, validatedData.bankAccount.sepaInstant))
+      .then((value) => checkForMinDeposit(value, amount))
+      .then((value) => toPaymentInformation(value))
       .then(setPaymentInfo);
   }, [validatedData]);
+
+  useEffect(() => {
+    if (selectedBankAccount && selectedBankAccount.preferredCurrency)
+      setValue('currency', selectedBankAccount.preferredCurrency);
+  }, [selectedBankAccount]);
 
   async function onSubmit(_data: FormData): Promise<void> {
     // TODO (Krysh): fix broken form validation and onSubmit
@@ -82,12 +97,27 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     }
   }
 
-  function toPaymentInformation(buy: Buy, isSepaInstant: boolean): PaymentInformation {
+  function checkForMinDeposit(buy: Buy, amount: number): Buy | undefined {
+    if (buy.minDeposit.amount > amount) {
+      setCustomAmountError(
+        `Entered amount is below minimum deposit of ${Utils.formatAmount(buy.minDeposit.amount)} ${
+          buy.minDeposit.asset
+        }`,
+      );
+      return undefined;
+    } else {
+      setCustomAmountError(undefined);
+      return buy;
+    }
+  }
+
+  function toPaymentInformation(buy: Buy | undefined): PaymentInformation | undefined {
+    if (!buy) return undefined;
     return {
       iban: buy.iban,
       bic: buy.bic,
       purpose: buy.remittanceInfo,
-      isSepaInstant,
+      isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
     };
@@ -109,13 +139,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       {/* CONTENT */}
       <StyledTabContentWrapper showBackArrow={true} onBackClick={onBack}>
         <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-8">
+          <StyledVerticalStack gap={8}>
             {bankAccounts && (
               <StyledModalDropdown<BankAccount>
                 name="bankAccount"
                 labelFunc={(item) => item.iban}
-                detailLabelFunc={(item) => item.label ?? ''}
-                label="Your bank account"
+                descriptionFunc={(item) => item.label}
+                label="Your Bank Account"
                 placeholder="Add or select your IBAN"
                 modal={{
                   heading: 'Select your bank account',
@@ -125,55 +155,69 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                 }}
               />
             )}
-            {asset && (
-              <StyledCoinListItem
-                asset={asset.name}
-                protocol={BuyTabDefinitions.protocols[asset.blockchain]}
-                onClick={() => {
-                  console.log('just a placeholder');
-                }}
-              />
+            {currencies && asset && (
+              <div className="flex justify-between  items-center">
+                <div className="basis-5/12 shrink-1">
+                  <StyledDropdown<Fiat>
+                    name="currency"
+                    label="Your Currency"
+                    placeholder="e.g. EUR"
+                    labelIcon={IconVariant.BANK}
+                    items={currencies}
+                    labelFunc={(item) => item.name}
+                    descriptionFunc={(item) => currencyDescription[item.name]}
+                  />
+                </div>
+                <div className="basis-2/12 shrink-0 flex justify-center pt-9">
+                  <div className=" ">
+                    <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSizes.LG} color={IconColors.GRAY} />
+                  </div>
+                </div>
+                <div className="basis-5/12 shrink-1">
+                  <div className="flex ml-3.5 mb-2.5">
+                    <DfxIcon icon={IconVariant.WALLET} size={IconSizes.SM} color={IconColors.BLUE} />
+
+                    <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
+                  </div>
+                  <div className="border border-dfxGray-400 rounded px-2 py-1.5 drop-shadow-sm">
+                    <StyledCoinListItem
+                      asset={asset.name}
+                      protocol={BuyTabDefinitions.protocols[asset.blockchain]}
+                      onClick={onBack}
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
             )}
-            {currencies && (
-              <StyledModalDropdown<Fiat>
-                name="currency"
-                labelFunc={(item: Fiat) => item.name}
-                label="YOUR CURRENCY"
-                placeholder="e.g. EUR"
-                modal={{
-                  heading: 'Select your currency',
-                  items: currencies,
-                  itemContent: (c: Fiat) => (
-                    <div className="flex flex-row gap-2">
-                      <p className="text-dfxBlue-800">{c.name}</p>
-                    </div>
-                  ),
-                }}
-              />
-            )}
-          </div>
-          <StyledInput label="Buy amount" placeholder="0.00" name="amount" forceError={kycRequired} />
+            <StyledInput
+              label="Buy Amount"
+              placeholder="0.00"
+              name="amount"
+              forceError={kycRequired || customAmountError != null}
+              forceErrorMessage={customAmountError}
+            />
+          </StyledVerticalStack>
         </Form>
         {paymentInfo && dataValid && !kycRequired && (
           <>
             <PaymentInformationContent info={paymentInfo} />
             <StyledButton
               width={StyledButtonWidths.FULL}
-              label="Click once your bank Transfer is completed."
+              label="Click once your bank transfer is completed."
               onClick={() => setShowsCompletion(true)}
               caps={false}
             />
           </>
         )}
         {kycRequired && (
-          <>
-            <p>
+          <StyledVerticalStack gap={4} marginY={4}>
+            <StyledInfoText invertedIcon>
               Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
               increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
-            </p>
-            <StyledSpacer spacing={4} />
+            </StyledInfoText>
             <StyledButton width={StyledButtonWidths.FULL} label="Complete KYC" onClick={start} />
-          </>
+          </StyledVerticalStack>
         )}
       </StyledTabContentWrapper>
     </>
@@ -197,8 +241,8 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
   const { copy } = useClipboard();
   return (
     <>
-      <StyledVerticalStack gap={2} align={StyledVerticalStackAlignContent.CENTER}>
-        <h2>Payment Information</h2>
+      <StyledVerticalStack marginY={5} gap={2}>
+        <h2 className="text-center">Payment Information</h2>
         <StyledInfoText iconColor={IconColors.BLUE}>
           Please transfer the purchase amount using this information via your banking application. The purpose of
           payment is important!
@@ -228,7 +272,7 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
       <StyledDataTable label="Recipient" showBorder>
         <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
       </StyledDataTable>
-      <StyledDataTable alignContent={AlignContent.BETWEEN}>
+      <StyledDataTable alignContent={AlignContent.BETWEEN} showBorder={false} narrow>
         <StyledDataTableRow discreet>
           <p>DFX-Fee</p>
           <p>{info.fee}</p>

@@ -25,7 +25,9 @@ export default function StyledDataTableRow({ label, children, discreet, isLoadin
 
   theme.showBorder
     ? (wrapperClasses += ' px-3.5 py-2.5 border-t border-x last:border-y first:rounded-t last:rounded-b')
-    : (wrapperClasses += ' px-0 py-2');
+    : (wrapperClasses += ' py-2');
+
+  !theme.showBorder && theme.narrow ? (wrapperClasses += ' px-3.5') : null;
 
   if (theme.darkTheme) {
     labelClasses += ' text-dfxGray-600';

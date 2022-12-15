@@ -3,7 +3,7 @@ import { Fiat } from './fiat';
 
 export const BuyUrl = { receive: 'buy/paymentInfos' };
 
-interface MinDeposit {
+export interface MinDeposit {
   amount: number;
   asset: string;
 }
@@ -19,7 +19,8 @@ export interface Buy {
   iban: string;
   bic: string;
   remittanceInfo: string;
-  minDeposit: MinDeposit[];
+  minDeposit: MinDeposit;
+  sepaInstant: boolean;
 }
 
 export interface BuyPaymentInfo {

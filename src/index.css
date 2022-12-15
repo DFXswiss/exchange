@@ -7,6 +7,10 @@
   background-attachment: fixed;
 }
 
+.text-center-important {
+  text-align: center !important;
+}
+
 @layer base {
   html {
     @apply text-white;

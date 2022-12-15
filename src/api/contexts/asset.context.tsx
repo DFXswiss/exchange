@@ -7,8 +7,7 @@ import { useAsset } from '../hooks/asset.hook';
 import { useAuthContext } from './auth.context';
 
 interface AssetInterface {
-  assets: Asset[];
-  buyableAssets: Map<Blockchain, Asset[]>;
+  assets: Map<Blockchain, Asset[]>;
   assetsLoading: boolean;
 }
 
@@ -21,8 +20,7 @@ export function useAssetContext(): AssetInterface {
 export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   const { isLoggedIn } = useAuthContext();
   const { getAssets } = useAsset();
-  const [assets, setAssets] = useState<Asset[]>([]);
-  const [buyableAssets, setBuyableAssets] = useState<Map<Blockchain, Asset[]>>(new Map());
+  const [assets, setAssets] = useState<Map<Blockchain, Asset[]>>(new Map());
   const [assetsLoading, setAssetsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,16 +31,87 @@ export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   }, [isLoggedIn]);
 
   function updateAssets(assets: Asset[]) {
-    setAssets(assets);
-    setBuyableAssets(
-      Utils.groupBy(
-        assets.filter((a) => a.buyable),
-        'blockchain',
-      ),
-    );
+    setAssets(Utils.groupBy(assets.concat(dummyAssets), 'blockchain'));
   }
 
-  const context: AssetInterface = { assets, buyableAssets, assetsLoading };
+  const context: AssetInterface = { assets, assetsLoading };
 
   return <AssetContext.Provider value={context}>{props.children}</AssetContext.Provider>;
 }
+
+// TODO (Krysh) remove those as soon as available via API
+const dummyAssets: Asset[] = [
+  // ETH assets
+  {
+    id: 1001,
+    name: 'ETH',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ETH,
+  },
+  {
+    id: 1002,
+    name: 'USDC',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ETH,
+  },
+  {
+    id: 1003,
+    name: 'USDT',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ETH,
+  },
+  {
+    id: 1004,
+    name: 'DFI',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ETH,
+  },
+  // ARBITRUM assets
+  {
+    id: 2001,
+    name: 'ETH',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ARBITRUM,
+  },
+  {
+    id: 2002,
+    name: 'USDC',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ARBITRUM,
+  },
+  {
+    id: 2003,
+    name: 'USDT',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ARBITRUM,
+  },
+  // OPTIMISM assets
+  {
+    id: 3001,
+    name: 'ETH',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.OPTIMISM,
+  },
+  {
+    id: 3002,
+    name: 'USDC',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.OPTIMISM,
+  },
+  {
+    id: 3003,
+    name: 'USDT',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.OPTIMISM,
+  },
+];

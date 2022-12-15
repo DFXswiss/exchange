@@ -17,11 +17,11 @@ export function WalletBox(): JSX.Element {
 
   return isConnected ? (
     <StyledDataBox
-      heading="Your wallet"
+      heading="Your Wallet"
       boxButtonLabel={isConnected ? (isLoggedIn ? 'Disconnect from DFX' : 'Reconnect to DFX') : undefined}
       boxButtonOnClick={() => (isConnected ? (isLoggedIn ? logout() : login()) : undefined)}
     >
-      <StyledDataTextRow label="Metamask">
+      <StyledDataTextRow label="MetaMask">
         {blankedAddress()}
         <IconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
       </StyledDataTextRow>

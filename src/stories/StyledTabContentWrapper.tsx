@@ -19,7 +19,7 @@ export default function StyledTabContentWrapper({
           <StyledIconButton icon={IconVariant.BACK} onClick={onBackClick} />
         </div>
       )}
-      <div className="m-auto max-w-xl">{children}</div>
+      <div className="m-auto max-w-lg">{children}</div>
     </div>
   );
 }
