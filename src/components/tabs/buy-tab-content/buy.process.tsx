@@ -47,6 +47,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const { currencies, bankAccounts, receiveFor } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
+  const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
   const {
     control,
@@ -62,12 +63,14 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   useEffect(() => {
     if (!dataValid) return;
 
+    const amount = Number(validatedData.amount);
     receiveFor({
       iban: validatedData.bankAccount.iban,
       currency: validatedData.currency,
-      amount: Number(validatedData.amount),
+      amount,
       asset: validatedData.asset,
     })
+      .then((value) => checkForMinDeposit(value, amount))
       .then((value) => toPaymentInformation(value, validatedData.bankAccount.sepaInstant))
       .then(setPaymentInfo);
   }, [validatedData]);
@@ -82,7 +85,24 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     }
   }
 
-  function toPaymentInformation(buy: Buy, isSepaInstant: boolean): PaymentInformation {
+  function checkForMinDeposit(buy: Buy, amount: number): Buy | undefined {
+    // should we search for the right currency?
+    const minDepositToCheck = buy.minDeposits.length === 0 ? undefined : buy.minDeposits[0];
+    if (!minDepositToCheck || amount >= minDepositToCheck.amount) {
+      setCustomAmountError(undefined);
+      return buy;
+    } else {
+      setCustomAmountError(
+        `Entered amount is below minimum deposit of ${Utils.formatAmount(minDepositToCheck.amount)} ${
+          minDepositToCheck.asset
+        }`,
+      );
+      return undefined;
+    }
+  }
+
+  function toPaymentInformation(buy: Buy | undefined, isSepaInstant: boolean): PaymentInformation | undefined {
+    if (!buy) return undefined;
     return {
       iban: buy.iban,
       bic: buy.bic,
@@ -152,7 +172,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               />
             )}
           </div>
-          <StyledInput label="Buy amount" placeholder="0.00" name="amount" forceError={kycRequired} />
+          <StyledInput
+            label="Buy amount"
+            placeholder="0.00"
+            name="amount"
+            forceError={kycRequired || customAmountError != null}
+            forceErrorMessage={customAmountError}
+          />
         </Form>
         {paymentInfo && dataValid && !kycRequired && (
           <>

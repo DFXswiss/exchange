@@ -6,6 +6,7 @@ import { ControlProps } from './Form';
 interface StyledInputProps extends ControlProps {
   placeholder?: string;
   forceError?: boolean;
+  forceErrorMessage?: string;
   hideLabel?: boolean;
   darkTheme?: boolean;
 }
@@ -18,8 +19,10 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
       label,
       rules,
       disabled = false,
+      error,
       placeholder,
       forceError = false,
+      forceErrorMessage,
       hideLabel = false,
       darkTheme = false,
       ...props
@@ -56,6 +59,9 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
               ref={ref}
               {...props}
             />
+            {(forceErrorMessage || error) && (
+              <p className="text-sm text-dfxRed-100 pl-3">{forceErrorMessage ?? error?.message}</p>
+            )}
           </StyledVerticalStack>
         )}
         name={name}
