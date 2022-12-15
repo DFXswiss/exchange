@@ -19,7 +19,7 @@ export interface Buy {
   iban: string;
   bic: string;
   remittanceInfo: string;
-  minDeposits: MinDeposit[];
+  minDeposit: MinDeposit;
   sepaInstant: boolean;
 }
 

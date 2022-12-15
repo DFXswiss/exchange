@@ -98,18 +98,16 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   }
 
   function checkForMinDeposit(buy: Buy, amount: number): Buy | undefined {
-    // should we search for the right currency?
-    const minDepositToCheck = buy.minDeposits.length === 0 ? undefined : buy.minDeposits[0];
-    if (!minDepositToCheck || amount >= minDepositToCheck.amount) {
-      setCustomAmountError(undefined);
-      return buy;
-    } else {
+    if (buy.minDeposit.amount > amount) {
       setCustomAmountError(
-        `Entered amount is below minimum deposit of ${Utils.formatAmount(minDepositToCheck.amount)} ${
-          minDepositToCheck.asset
+        `Entered amount is below minimum deposit of ${Utils.formatAmount(buy.minDeposit.amount)} ${
+          buy.minDeposit.asset
         }`,
       );
       return undefined;
+    } else {
+      setCustomAmountError(undefined);
+      return buy;
     }
   }
 

@@ -45,19 +45,15 @@ class ValidationsClass {
   }
 
   // TODO (Krysh) as soon as buy process form is fixed, we should use this validation for min deposit check
-  public MinDeposit(minDeposit: MinDeposit[]) {
+  public MinDeposit(minDeposit: MinDeposit) {
     return this.Custom((amount: string) => {
-      if (minDeposit.length === 0) return true;
-
       if (isNaN(+amount)) {
         return 'Invalid amount';
       }
 
-      // should we search for the right currency?
-      const minDepositToCheck = minDeposit[0];
-      if (+amount < minDepositToCheck.amount) {
-        return `Entered amount is below minimum deposit of ${Utils.formatAmount(minDepositToCheck.amount)} ${
-          minDepositToCheck.asset
+      if (minDeposit.amount > +amount) {
+        return `Entered amount is below minimum deposit of ${Utils.formatAmount(minDeposit.amount)} ${
+          minDeposit.asset
         }`;
       }
 
