@@ -217,14 +217,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           </>
         )}
         {kycRequired && (
-          <>
-            <p>
+          <StyledVerticalStack gap={4} marginY={4}>
+            <StyledInfoText invertedIcon>
               Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
               increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
-            </p>
-            <StyledSpacer spacing={4} />
+            </StyledInfoText>
             <StyledButton width={StyledButtonWidths.FULL} label="Complete KYC" onClick={start} />
-          </>
+          </StyledVerticalStack>
         )}
       </StyledTabContentWrapper>
     </>
