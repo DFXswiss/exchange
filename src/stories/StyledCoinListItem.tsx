@@ -4,6 +4,7 @@ export interface StyledCoinListItemProps {
   asset: string;
   onClick: () => void;
   protocol: Protocol;
+  disabled?: boolean;
 }
 
 export enum Protocol {
@@ -22,13 +23,13 @@ const NAME_MAPS: Record<AssetIconVariant, string> = {
   [AssetIconVariant.BTC]: 'Bitcoin',
 };
 
-export default function StyledCoinListItem({ asset, onClick, protocol }: StyledCoinListItemProps) {
+export default function StyledCoinListItem({ asset, onClick, protocol, disabled }: StyledCoinListItemProps) {
+  let buttonClasses = 'flex gap-2 rounded px-3 py-2 h-12';
+
+  disabled ? null : (buttonClasses += ' hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 active:bg-dfxGray-400/80');
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className=" flex gap-2 hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 active:bg-dfxGray-400/80 rounded px-3 py-2 h-12"
-    >
+    <button type="button" onClick={onClick} className={buttonClasses} disabled={disabled}>
       <div className="self-center">
         <DfxAssetIcon asset={asset as AssetIconVariant} />
       </div>
