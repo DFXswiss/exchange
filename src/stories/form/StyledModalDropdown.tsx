@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Controller } from 'react-hook-form';
+import StyledVerticalStack from '../layout-helpers/StyledVerticalStack';
 import StyledModal, { StyledModalColors } from '../StyledModal';
 import { ControlProps } from './Form';
 
 interface StyledModalDropdownProps<T> extends ControlProps {
   placeholder: string;
-  labelFunc: (item: T) => string;
-  detailLabelFunc?: (item: T) => string;
+  labelFunc: (item: T) => JSX.Element;
   modal: {
     heading: string;
     items: T[];
@@ -23,7 +23,6 @@ export default function StyledModalDropdown<T>({
   modal,
   placeholder,
   labelFunc,
-  detailLabelFunc,
   ...props
 }: StyledModalDropdownProps<T>): JSX.Element {
   const [showModal, setShowModal] = useState(false);
@@ -65,21 +64,18 @@ export default function StyledModalDropdown<T>({
               </>
             )}
           </StyledModal>
-          <div className="flex flex-col gap-1 py-4">
+          <StyledVerticalStack gap={1} marginY={4}>
             <label className="text-dfxBlue-800 text-base font-semibold pl-4">{label}</label>
-            <button onClick={() => setShowModal(true)}>
-              {value && detailLabelFunc && <p className="text-dfxGray-600">{detailLabelFunc(value)}</p>}
-              <p
-                className={`text-base font-normal border border-dfxGray-500 rounded-md p-3 ${
+            <button onClick={() => setShowModal(true)} onBlur={onBlur} {...props}>
+              <div
+                className={`text-base font-normal border border-dfxGray-500 rounded-md ${
                   value ? 'text-dfxBlue-800' : 'text-dfxGray-600'
                 }`}
-                onBlur={onBlur}
-                {...props}
               >
                 {value ? labelFunc(value) : placeholder}
-              </p>
+              </div>
             </button>
-          </div>
+          </StyledVerticalStack>
         </>
       )}
       name={name}

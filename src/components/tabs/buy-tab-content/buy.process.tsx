@@ -5,7 +5,7 @@ import { Asset } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
 import { Buy } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
-import DfxIcon, { IconColors, IconVariant } from '../../../stories/DfxIcon';
+import DfxIcon, { IconColors, IconSizes, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
 import StyledInput from '../../../stories/form/StyledInput';
 import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
@@ -30,6 +30,8 @@ import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack, {
   StyledVerticalStackAlignContent,
 } from '../../../stories/layout-helpers/StyledVerticalStack';
+import DfxYourCurrencyWalletSection from '../../../stories/DfxYourCurrencyWalletSection';
+import StyledDropdown from '../../../stories/form/StyledDropdown';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -59,6 +61,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
   const dataValid = validatedData != null;
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
+
+  const currencyDescription: Record<string, string> = {
+    ['EUR']: 'Euro',
+    ['USD']: 'US Dollar',
+    ['CHF']: 'Swiss Franc',
+    ['GBP']: 'British Pound',
+  };
 
   useEffect(() => {
     if (!dataValid) return;
@@ -129,12 +138,11 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       {/* CONTENT */}
       <StyledTabContentWrapper showBackArrow={true} onBackClick={onBack}>
         <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-8">
+          <StyledVerticalStack gap={8}>
             {bankAccounts && (
               <StyledModalDropdown<BankAccount>
                 name="bankAccount"
-                labelFunc={(item) => item.iban}
-                detailLabelFunc={(item) => item.label ?? ''}
+                labelFunc={(item) => <StyledBankAccountListItem bankAccount={item} />}
                 label="Your bank account"
                 placeholder="Add or select your IBAN"
                 modal={{
@@ -145,40 +153,48 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                 }}
               />
             )}
-            {asset && (
-              <StyledCoinListItem
-                asset={asset.name}
-                protocol={BuyTabDefinitions.protocols[asset.blockchain]}
-                onClick={() => {
-                  console.log('just a placeholder');
-                }}
-              />
+            {currencies && asset && (
+              <div className="flex justify-between  items-center">
+                <div className="basis-5/12 shrink-1">
+                  <StyledDropdown<Fiat>
+                    name="currency"
+                    label="Your Currency"
+                    placeholder="e.g. EUR"
+                    labelIcon={IconVariant.BANK}
+                    items={currencies}
+                    labelFunc={(item) => item.name}
+                    descriptionFunc={(item) => currencyDescription[item.name]}
+                  />
+                </div>
+                <div className="basis-2/12 shrink-0 flex justify-center pt-9">
+                  <div className=" ">
+                    <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSizes.LG} color={IconColors.GRAY} />
+                  </div>
+                </div>
+                <div className="basis-5/12 shrink-1">
+                  <div className="flex ml-3.5 mb-2.5">
+                    <DfxIcon icon={IconVariant.WALLET} size={IconSizes.SM} color={IconColors.BLUE} />
+
+                    <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
+                  </div>
+                  <div className="border border-dfxGray-400 rounded px-2 py-1.5 drop-shadow-sm">
+                    <StyledCoinListItem
+                      asset={asset.name}
+                      protocol={BuyTabDefinitions.protocols[asset.blockchain]}
+                      onClick={onBack}
+                    />
+                  </div>
+                </div>
+              </div>
             )}
-            {currencies && (
-              <StyledModalDropdown<Fiat>
-                name="currency"
-                labelFunc={(item: Fiat) => item.name}
-                label="YOUR CURRENCY"
-                placeholder="e.g. EUR"
-                modal={{
-                  heading: 'Select your currency',
-                  items: currencies,
-                  itemContent: (c: Fiat) => (
-                    <div className="flex flex-row gap-2">
-                      <p className="text-dfxBlue-800">{c.name}</p>
-                    </div>
-                  ),
-                }}
-              />
-            )}
-          </div>
-          <StyledInput
-            label="Buy amount"
-            placeholder="0.00"
-            name="amount"
-            forceError={kycRequired || customAmountError != null}
-            forceErrorMessage={customAmountError}
-          />
+            <StyledInput
+              label="Buy amount"
+              placeholder="0.00"
+              name="amount"
+              forceError={kycRequired || customAmountError != null}
+              forceErrorMessage={customAmountError}
+            />
+          </StyledVerticalStack>
         </Form>
         {paymentInfo && dataValid && !kycRequired && (
           <>

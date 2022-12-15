@@ -5,7 +5,6 @@ export interface StyledCoinListItemProps {
   disabled?: boolean;
   onClick: () => void;
   protocol: Protocol;
-  disabled?: boolean;
 }
 
 export enum Protocol {

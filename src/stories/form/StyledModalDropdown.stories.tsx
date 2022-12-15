@@ -45,7 +45,7 @@ export const BuyAmount: ComponentStory<typeof StyledModalDropdown> = (args) => {
         <StyledModalDropdown<TestElement>
           {...args}
           name="test"
-          labelFunc={(item) => item.test}
+          labelFunc={(item) => <p>{item.test}</p>}
           modal={{
             heading: 'Some test header',
             items: [{ test: 'abc' }, { test: 'def' }],

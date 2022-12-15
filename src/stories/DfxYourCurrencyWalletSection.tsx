@@ -1,23 +1,34 @@
+import { Asset } from '../api/definitions/asset';
+import { Fiat } from '../api/definitions/fiat';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
-import StyledDropdown, { DropdownItem } from './form/StyledDropdown';
+import StyledDropdown from './form/StyledDropdown';
 import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
 
 interface DfxYourCurrencyWalletSectionProps {
-  items: DropdownItem[];
+  currencies: Fiat[];
+  currencyElementName: string;
+  asset: Asset;
+  assetProtocol: Protocol;
+  onAssetClick: () => void;
 }
 
-export default function DfxYourCurrencyWalletSection({ items }: DfxYourCurrencyWalletSectionProps) {
+export default function DfxYourCurrencyWalletSection({
+  currencies,
+  currencyElementName,
+  asset,
+  assetProtocol,
+  onAssetClick,
+}: DfxYourCurrencyWalletSectionProps) {
   return (
     <div className="flex justify-between  items-center">
       <div className="basis-5/12 shrink-1">
-        <StyledDropdown
-          name="currency-select"
+        <StyledDropdown<Fiat>
+          name={currencyElementName}
           label="Your Currency"
           labelIcon={IconVariant.BANK}
-          items={items}
-          onSelect={(item) => {
-            console.log('selected ' + item.title);
-          }}
+          items={currencies}
+          labelFunc={(item) => item.name}
+          descriptionFunc={(item) => 'todo'}
         />
       </div>
       <div className="basis-2/12 shrink-0 flex justify-center pt-9">
@@ -32,14 +43,7 @@ export default function DfxYourCurrencyWalletSection({ items }: DfxYourCurrencyW
           <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
         </div>
         <div className="border border-dfxGray-400 rounded px-2 py-1.5 drop-shadow-sm">
-          <StyledCoinListItem
-            asset="ETH"
-            protocol={Protocol.ERC_20}
-            onClick={() => {
-              console.log('click');
-            }}
-            disabled={true}
-          />
+          <StyledCoinListItem asset={asset.name} protocol={assetProtocol} onClick={onAssetClick} disabled={true} />
         </div>
       </div>
     </div>

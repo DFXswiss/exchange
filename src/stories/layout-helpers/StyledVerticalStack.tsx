@@ -29,7 +29,7 @@ export default function StyledVerticalStack({
   marginX !== undefined ? (mX = convertToRem(marginX)) : (mX = '0');
 
   return (
-    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col ' + align}>
+    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col w-full' + align}>
       {children}
     </div>
   );
