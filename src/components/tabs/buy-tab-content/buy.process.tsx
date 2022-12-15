@@ -80,7 +80,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       asset: validatedData.asset,
     })
       .then((value) => checkForMinDeposit(value, amount))
-      .then((value) => toPaymentInformation(value, validatedData.bankAccount.sepaInstant))
+      .then((value) => toPaymentInformation(value))
       .then(setPaymentInfo);
   }, [validatedData]);
 
@@ -118,13 +118,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     }
   }
 
-  function toPaymentInformation(buy: Buy | undefined, isSepaInstant: boolean): PaymentInformation | undefined {
+  function toPaymentInformation(buy: Buy | undefined): PaymentInformation | undefined {
     if (!buy) return undefined;
     return {
       iban: buy.iban,
       bic: buy.bic,
       purpose: buy.remittanceInfo,
-      isSepaInstant,
+      isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
     };
