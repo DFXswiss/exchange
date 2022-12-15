@@ -11,7 +11,7 @@ import { Utils } from '../utils';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
 
 export function UserData(): JSX.Element {
-  const { user } = useUserContext();
+  const { user, refLink } = useUserContext();
   const { isComplete } = useKyc();
   const { copy, isCopying } = useClipboard();
   const { start, status, limit } = useKyc();
@@ -53,7 +53,7 @@ export function UserData(): JSX.Element {
           ? {
               color: StyledButtonColors.RED,
               label: 'Copy to share',
-              func: () => copy(user.ref),
+              func: () => copy(refLink),
               isLoading: isCopying,
             }
           : undefined,

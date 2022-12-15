@@ -12,7 +12,7 @@ import { UserData } from './user-data';
 
 export function UserBox(): JSX.Element {
   const { isLoggedIn } = useSessionContext();
-  const { user, isUserLoading } = useUserContext();
+  const { user, refLink, isUserLoading } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
   const [showsUserData, setShowsUserData] = useState(false);
@@ -66,7 +66,7 @@ export function UserBox(): JSX.Element {
               size={StyledButtonSizes.SMALL}
               width={StyledButtonWidths.MIN}
               caps={false}
-              onClick={() => copy(user.ref)}
+              onClick={() => copy(refLink)}
               isLoading={isCopying}
             />
           </StyledDataTextRow>

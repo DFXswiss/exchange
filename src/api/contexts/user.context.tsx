@@ -7,6 +7,7 @@ import { useAuthContext } from './auth.context';
 
 interface UserInterface {
   user?: User;
+  refLink?: string;
   countries: Country[];
   isUserLoading: boolean;
   isUserUpdating: boolean;
@@ -27,6 +28,8 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   const [countries, setCountries] = useState<Country[]>([]);
   const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
   const [isUserUpdating, setIsUserUpdating] = useState<boolean>(false);
+
+  const refLink = user && user.ref ? `${process.env.REACT_APP_REF_URL}${user.ref}` : undefined;
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -52,7 +55,7 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
       .finally(() => setIsUserUpdating(false));
   }
 
-  const context: UserInterface = { user, countries, isUserLoading, isUserUpdating, changeMail };
+  const context: UserInterface = { user, refLink, countries, isUserLoading, isUserUpdating, changeMail };
 
   return <UserContext.Provider value={context}>{props.children}</UserContext.Provider>;
 }
