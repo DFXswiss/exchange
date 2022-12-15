@@ -16,6 +16,7 @@ interface MailEditProps {
   infoTextPlacement?: MailEditInfoTextPlacement;
   showCancelButton?: boolean;
   hideLabels?: boolean;
+  isOptional?: boolean;
   onSubmit: () => void;
   onCancel?: () => void;
 }
@@ -34,6 +35,7 @@ export function MailEdit({
   onCancel,
   showCancelButton = false,
   hideLabels = false,
+  isOptional = false,
   infoText,
   infoTextIconColor = IconColors.RED,
   infoTextPlacement = MailEditInfoTextPlacement.ABOVE_INPUT,
@@ -46,11 +48,12 @@ export function MailEdit({
   const { changeMail, isUserUpdating } = useUserContext();
 
   async function saveUser({ email }: FormData): Promise<void> {
+    if (!email || email.length === 0) return onSubmit();
     return changeMail(email).then(onSubmit);
   }
 
   const rules = Utils.createRules({
-    email: [Validations.Required, Validations.Mail],
+    email: isOptional ? [Validations.Mail] : [Validations.Required, Validations.Mail],
   });
 
   return (
@@ -81,7 +84,7 @@ export function MailEdit({
           )}
           <StyledButton
             disabled={!isValid}
-            label="save"
+            label={isOptional ? 'finish' : 'save'}
             onClick={handleSubmit(saveUser)}
             isLoading={isUserUpdating}
             width={StyledButtonWidths.FULL}
