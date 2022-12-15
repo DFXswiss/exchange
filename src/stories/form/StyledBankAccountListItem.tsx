@@ -6,15 +6,14 @@ export interface StyledBankAccountListItemProps {
 }
 
 export default function StyledBankAccountListItem({ bankAccount }: StyledBankAccountListItemProps) {
+  const isLabelAvailable = bankAccount.label && bankAccount.label.length > 0;
   return (
     <div className="flex gap-3 mb-3 last:mb-0 rounded-sm py-1 px-3 hover:bg-dfxGray-400/50 ">
       <div className="place-self-center">
         <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
       </div>
-      <div className="flex flex-col">
-        {bankAccount.label && bankAccount.label.length > 0 && (
-          <p className="text-dfxGray-800 text-xs">{bankAccount.label}</p>
-        )}
+      <div className="flex flex-col justify-center h-[42px]">
+        {isLabelAvailable && <p className="text-dfxGray-800 text-xs">{bankAccount.label}</p>}
         <p className="text-dfxBlue-800">{bankAccount.iban}</p>
       </div>
     </div>

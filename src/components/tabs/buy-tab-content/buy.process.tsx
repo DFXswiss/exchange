@@ -53,10 +53,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const {
     control,
     handleSubmit,
+    setValue,
+    resetField,
     formState: { errors },
   } = useForm<FormData>({ defaultValues: { asset } });
   const data = useWatch({ control });
   const validatedData = validateData(useDebounce(data, 500));
+  const selectedBankAccount = useWatch({ control, name: 'bankAccount' });
 
   const dataValid = validatedData != null;
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
@@ -82,6 +85,14 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       .then((value) => toPaymentInformation(value, validatedData.bankAccount.sepaInstant))
       .then(setPaymentInfo);
   }, [validatedData]);
+
+  useEffect(() => {
+    if (selectedBankAccount && selectedBankAccount.preferredCurrency) {
+      setValue('currency', selectedBankAccount.preferredCurrency);
+    } else {
+      resetField('currency');
+    }
+  }, [selectedBankAccount]);
 
   async function onSubmit(_data: FormData): Promise<void> {
     // TODO (Krysh): fix broken form validation and onSubmit

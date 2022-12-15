@@ -41,12 +41,13 @@ export default function StyledModalDropdown<T>({
             color={StyledModalColors.WHITE}
           >
             {modal.items.length > 0 && (
-              <div className="flex flex-col gap-2">
+              <StyledVerticalStack gap={2}>
                 {modal.items
                   .map((item) => ({ item, content: modal.itemContent(item) }))
                   .map((obj, index: number) => (
                     <button
                       key={index}
+                      className="text-start"
                       onClick={() => {
                         onChange(obj.item);
                         setShowModal(false);
@@ -55,11 +56,11 @@ export default function StyledModalDropdown<T>({
                       {obj.content}
                     </button>
                   ))}
-              </div>
+              </StyledVerticalStack>
             )}
             {modal.form && (
               <>
-                <div className="h-[1px] bg-dfxGray-400 mt-8 -mx-14" />
+                <div className="h-[1px] bg-dfxGray-400 -mx-14 my-6" />
                 {modal.form((item) => {
                   onChange(item);
                   setShowModal(false);
