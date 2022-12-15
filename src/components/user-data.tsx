@@ -22,14 +22,14 @@ export function UserData(): JSX.Element {
       title: 'E-mail address',
       value: user?.mail,
       button:
-        user?.mail === undefined
-          ? {
+        user?.mail != null
+          ? undefined
+          : {
               color: StyledButtonColors.WHITE,
               label: 'add e-mail address',
               func: () => setShowsUserEdit(true),
               isLoading: false,
-            }
-          : undefined,
+            },
     },
     { title: 'KYC status', value: status },
     {
