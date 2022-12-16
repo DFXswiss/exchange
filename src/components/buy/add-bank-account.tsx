@@ -5,6 +5,7 @@ import { BankAccount } from '../../api/definitions/bank-account';
 import { CreateBankAccount } from '../../api/hooks/bank-account.hook';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
+import StyledSpacer from '../../stories/layout-helpers/StyledSpacer';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
 import { Utils } from '../../utils';
@@ -36,6 +37,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
       <StyledVerticalStack gap={4}>
         <StyledInput label="IBAN" placeholder="XX XXXX XXXX XXXX XXXX X" name="iban" />
         <StyledInput label="Optional - Account Designation" placeholder="eg. Deutsche Bank" name="label" />
+        <StyledSpacer spacing={-1} />
         <StyledButton
           disabled={!isValid}
           color={StyledButtonColors.RED}

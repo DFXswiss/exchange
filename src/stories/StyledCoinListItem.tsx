@@ -44,10 +44,11 @@ export default function StyledCoinListItem({
         <DfxAssetIcon asset={asset as AssetIconVariant} disabled={comingSoon} />
       </div>
       <div className="flex-col text-dfxBlue-800 text-left">
-        <div className="flex font-semibold gap-1">
-          <h4 className="leading-none">{asset}</h4> <span className="self-start leading-none text-2xs">{protocol}</span>{' '}
+        <div className="flex font-semibold gap-1 ">
+          <h4 className="leading-none">{asset}</h4>
+          <span className="self-start leading-none text-2xs shrink-0">{protocol}</span>{' '}
         </div>
-        <span className="text-dfxGray-800 text-xs relative -top-1">{name}</span>
+        <span className="text-dfxGray-800 text-xs leading-none relative -top-1">{name}</span>
       </div>
     </button>
   );

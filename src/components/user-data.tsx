@@ -60,7 +60,7 @@ export function UserData(): JSX.Element {
           : undefined,
     },
     { title: 'Referral commission', value: `${user?.refFeePercent ?? 0 * 100} %` },
-    { title: 'Referral users', value: user?.refCount },
+    { title: 'Referred users', value: user?.refCount },
     { title: 'Referral volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
     { title: 'Referral bonus', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
   ];

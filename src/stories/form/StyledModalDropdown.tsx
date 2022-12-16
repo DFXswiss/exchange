@@ -41,7 +41,7 @@ export default function StyledModalDropdown<T>({
             color={StyledModalColors.WHITE}
           >
             {modal.items.length > 0 && (
-              <StyledVerticalStack gap={2}>
+              <StyledVerticalStack gap={4}>
                 {modal.items
                   .map((item) => ({ item, content: modal.itemContent(item) }))
                   .map((obj, index: number) => (

@@ -8,7 +8,7 @@ export interface StyledBankAccountListItemProps {
 export default function StyledBankAccountListItem({ bankAccount }: StyledBankAccountListItemProps) {
   const isLabelAvailable = bankAccount.label && bankAccount.label.length > 0;
   return (
-    <div className="flex gap-3 mb-3 last:mb-0 rounded-sm py-1 px-3 hover:bg-dfxGray-400/50 ">
+    <div className="flex gap-3 mb-3 last:mb-0 rounded py-1 px-3 hover:bg-dfxGray-400/50 ">
       <div className="place-self-center">
         <DfxIcon icon={IconVariant.BANK} color={IconColors.BLACK} />
       </div>

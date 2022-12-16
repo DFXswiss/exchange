@@ -65,7 +65,7 @@ export function Main(): JSX.Element {
           </div>
           <div className="md:flex justify-between mt-6">
             <div className="basis-3/5 max-w-[50%] px-6 mx-auto md:mx-0">
-              <DfxTitleSection heading="DFX Multichain" subheading="Buy • Sell • Convert • Stake" />
+              <DfxTitleSection heading="DFX Exchange" subheading="Buy • Sell • Convert • Stake" />
             </div>
             <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
               <WalletBox />
