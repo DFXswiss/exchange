@@ -43,7 +43,7 @@ interface FormData {
 }
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts, receiveFor } = useBuyContext();
+  const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
@@ -122,6 +122,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
     };
+  }
+
+  function updateBankAccount() {
+    updateAccount(selectedBankAccount.id, { preferredCurrency: data.currency as Fiat });
   }
 
   const rules = Utils.createRules({
@@ -208,7 +212,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             <StyledButton
               width={StyledButtonWidths.FULL}
               label="Click once your bank transfer is completed."
-              onClick={() => setShowsCompletion(true)}
+              onClick={() => {
+                updateBankAccount();
+                setShowsCompletion(true);
+              }}
               caps={false}
             />
           </>
