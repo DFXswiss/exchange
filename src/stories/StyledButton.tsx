@@ -98,7 +98,7 @@ export default function StyledButton({
   buttonClasses += [
     SIZE_MAPS[size].buttonClasses,
     renderedColor,
-    width === StyledButtonWidths.MIN && !deactivateMargin && WIDTH_MAPS[width],
+    width === StyledButtonWidths.MIN && deactivateMargin ? '' : WIDTH_MAPS[width],
     caps ? 'uppercase' : 'normal-case',
   ].join(' ');
 
