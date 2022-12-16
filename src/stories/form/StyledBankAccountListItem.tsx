@@ -1,4 +1,5 @@
 import { BankAccount } from '../../api/definitions/bank-account';
+import { Utils } from '../../utils';
 import DfxIcon, { IconVariant, IconColors } from '../DfxIcon';
 
 export interface StyledBankAccountListItemProps {
@@ -14,7 +15,7 @@ export default function StyledBankAccountListItem({ bankAccount }: StyledBankAcc
       </div>
       <div className="flex flex-col justify-center h-[42px]">
         {isLabelAvailable && <p className="text-dfxGray-800 text-xs">{bankAccount.label}</p>}
-        <p className="text-dfxBlue-800">{bankAccount.iban}</p>
+        <p className="text-dfxBlue-800">{Utils.formatIban(bankAccount.iban)}</p>
       </div>
     </div>
   );

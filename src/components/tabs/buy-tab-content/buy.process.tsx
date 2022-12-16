@@ -144,7 +144,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             {bankAccounts && (
               <StyledModalDropdown<BankAccount>
                 name="bankAccount"
-                labelFunc={(item) => item.iban}
+                labelFunc={(item) => Utils.formatIban(item.iban) ?? ''}
                 descriptionFunc={(item) => item.label}
                 label="Your Bank Account"
                 placeholder="Add or select your IBAN"
@@ -192,6 +192,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               </div>
             )}
             <StyledInput
+              type={'number'}
               label="Buy Amount"
               placeholder="0.00"
               name="amount"
