@@ -49,12 +49,13 @@ export function UserBox(): JSX.Element {
         <StyledDataTextRow label="E-mail address" isLoading={isUserLoading}>
           {user?.mail ?? (
             <StyledButton
-              label="add e-mail address"
+              label="Add E-mail address"
               size={StyledButtonSizes.SMALL}
               width={StyledButtonWidths.MIN}
               color={StyledButtonColors.WHITE}
               caps={false}
               onClick={() => setShowsEmailEdit(true)}
+              deactivateMargin
             />
           )}
         </StyledDataTextRow>
