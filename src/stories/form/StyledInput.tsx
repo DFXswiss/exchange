@@ -1,9 +1,10 @@
-import { forwardRef } from 'react';
+import { forwardRef, HTMLInputTypeAttribute } from 'react';
 import { Controller } from 'react-hook-form';
 import StyledVerticalStack from '../layout-helpers/StyledVerticalStack';
 import { ControlProps } from './Form';
 
 interface StyledInputProps extends ControlProps {
+  type?: HTMLInputTypeAttribute;
   placeholder?: string;
   forceError?: boolean;
   forceErrorMessage?: string;
@@ -20,6 +21,7 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
       rules,
       disabled = false,
       error,
+      type = 'text',
       placeholder,
       forceError = false,
       forceErrorMessage,
@@ -50,13 +52,14 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
                 'text-base font-normal rounded-md p-3 w-full ' +
                 [textOrErrorColor, backgroundColor, placeholderColor, borderColor, outlineColor].join(' ')
               }
-              type={'text'}
+              type={type}
               onBlur={onBlur}
               onChange={(value) => onChange(value.target.value)}
               placeholder={placeholder}
               value={value ?? ''}
               disabled={disabled}
               ref={ref}
+              onWheel={(e) => type === 'number' && e.currentTarget.blur()}
               {...props}
             />
             {(forceErrorMessage || error) && (

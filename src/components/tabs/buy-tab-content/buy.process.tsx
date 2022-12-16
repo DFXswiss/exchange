@@ -43,7 +43,7 @@ interface FormData {
 }
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts, receiveFor } = useBuyContext();
+  const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
@@ -124,6 +124,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     };
   }
 
+  function updateBankAccount() {
+    updateAccount(selectedBankAccount.id, { preferredCurrency: data.currency as Fiat });
+  }
+
   const rules = Utils.createRules({
     bankAccount: Validations.Required,
     asset: Validations.Required,
@@ -144,7 +148,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             {bankAccounts && (
               <StyledModalDropdown<BankAccount>
                 name="bankAccount"
-                labelFunc={(item) => item.iban}
+                labelFunc={(item) => Utils.formatIban(item.iban) ?? ''}
                 descriptionFunc={(item) => item.label}
                 label="Your Bank Account"
                 placeholder="Add or select your IBAN"
@@ -192,6 +196,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               </div>
             )}
             <StyledInput
+              type={'number'}
               label="Buy Amount"
               placeholder="0.00"
               name="amount"
@@ -207,7 +212,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             <StyledButton
               width={StyledButtonWidths.FULL}
               label="Click once your bank transfer is completed."
-              onClick={() => setShowsCompletion(true)}
+              onClick={() => {
+                updateBankAccount();
+                setShowsCompletion(true);
+              }}
               caps={false}
             />
           </>

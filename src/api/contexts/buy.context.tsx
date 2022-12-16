@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 import { Fiat } from '../definitions/fiat';
 import { useFiat } from '../hooks/fiat.hook';
 import { useAuthContext } from './auth.context';
-import { CreateBankAccount, useBankAccount } from '../hooks/bank-account.hook';
+import { CreateBankAccount, UpdateBankAccount, useBankAccount } from '../hooks/bank-account.hook';
 import { BankAccount } from '../definitions/bank-account';
 import { useBuy } from '../hooks/buy.hook';
 import { Buy, BuyPaymentInfo } from '../definitions/buy';
@@ -12,6 +12,7 @@ interface BuyInterface {
   bankAccounts?: BankAccount[];
   isAccountLoading: boolean;
   createAccount: (newAccount: CreateBankAccount) => Promise<BankAccount>;
+  updateAccount: (id: number, changedAccount: UpdateBankAccount) => Promise<BankAccount>;
   receiveFor: (info: BuyPaymentInfo) => Promise<Buy>;
 }
 
@@ -27,7 +28,7 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>();
   const [isAccountLoading, setIsAccountLoading] = useState(false);
   const { getCurrencies } = useFiat();
-  const { getAccounts, createAccount } = useBankAccount();
+  const { getAccounts, createAccount, updateAccount } = useBankAccount();
   const { receiveFor } = useBuy();
 
   useEffect(() => {
@@ -51,11 +52,25 @@ export function BuyContextProvider(props: PropsWithChildren): JSX.Element {
       .finally(() => setIsAccountLoading(false));
   }
 
+  async function updateExistingAccount(id: number, changedAccount: UpdateBankAccount): Promise<BankAccount> {
+    return updateAccount(id, changedAccount).then((b) => {
+      setBankAccounts(replace(b, bankAccounts));
+      return b;
+    });
+  }
+
+  function replace(account: BankAccount, accounts?: BankAccount[]): BankAccount[] | undefined {
+    const index = accounts?.findIndex((b) => b.id === account.id);
+    if (index && accounts) accounts[index] = account;
+    return accounts;
+  }
+
   const context: BuyInterface = {
     currencies,
     bankAccounts,
     isAccountLoading,
     createAccount: addNewAccount,
+    updateAccount: updateExistingAccount,
     receiveFor,
   };
 
