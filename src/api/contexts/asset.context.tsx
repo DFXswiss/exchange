@@ -92,6 +92,13 @@ const dummyAssets: Asset[] = [
     sellable: false,
     blockchain: Blockchain.ARBITRUM,
   },
+  {
+    id: 2004,
+    name: 'DFI',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.ARBITRUM,
+  },
   // OPTIMISM assets
   {
     id: 3001,
@@ -110,6 +117,13 @@ const dummyAssets: Asset[] = [
   {
     id: 3003,
     name: 'USDT',
+    buyable: false,
+    sellable: false,
+    blockchain: Blockchain.OPTIMISM,
+  },
+  {
+    id: 3004,
+    name: 'DFI',
     buyable: false,
     sellable: false,
     blockchain: Blockchain.OPTIMISM,

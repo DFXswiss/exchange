@@ -68,6 +68,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     ['GBP']: 'British Pound',
   };
 
+  const currencySymbol: Record<string, string> = {
+    ['EUR']: '€',
+    ['USD']: '$',
+    ['CHF']: '₣',
+    ['GBP']: '£',
+  };
+
   useEffect(() => {
     if (!dataValid) return;
 
@@ -199,6 +206,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               type={'number'}
               label="Buy Amount"
               placeholder="0.00"
+              prefix={data?.currency?.name && currencySymbol[data.currency.name]}
               name="amount"
               forceError={kycRequired || customAmountError != null}
               forceErrorMessage={customAmountError}

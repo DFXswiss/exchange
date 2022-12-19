@@ -59,7 +59,9 @@ export function Main(): JSX.Element {
       <div className="text-center p-2 mt-4">
         <div className="max-w-6xl text-left mx-auto ">
           <div className="flex justify-between">
-            <DfxLogo />
+            <a target="_blank" href={process.env.REACT_APP_DFX_URL} rel="noopener noreferrer">
+              <DfxLogo />
+            </a>
             {!isMobile && (
               <div className={isConnected ? 'hidden' : ''}>
                 <StyledButton label="Connect to Metamask" onClick={login} />
