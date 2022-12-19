@@ -1,5 +1,7 @@
 import StyledDataTableRow from './StyledDataTableRow';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { IconButton } from './StyledIconButton.stories';
+import { IconVariant } from './DfxIcon';
 
 export default {
   title: 'Building Blocks/StyledDataTableRow',
@@ -11,4 +13,23 @@ export const DataRowTextOnly: ComponentStory<typeof StyledDataTableRow> = (args)
 };
 DataRowTextOnly.args = {
   label: 'Connected to',
+};
+
+export const WithInfoText: ComponentStory<typeof StyledDataTableRow> = (args) => {
+  return (
+    <StyledDataTableRow {...args}>
+      OC11-A025-BCF7{' '}
+      <IconButton
+        icon={IconVariant.COPY}
+        onClick={() => {
+          console.log('copied.');
+        }}
+      />{' '}
+    </StyledDataTableRow>
+  );
+};
+WithInfoText.args = {
+  label: 'Purpose of Payment',
+  infoText:
+    'The purpose of payment remains identical for the selected asset and can be used for recurring payments and standing orders.',
 };
