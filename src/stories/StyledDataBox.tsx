@@ -6,12 +6,14 @@ interface StyledDataBoxProps extends PropsWithChildren {
   rightIconButton?: StyledIconButtonProps;
   boxButtonLabel?: string;
   boxButtonOnClick?: () => void;
+  rightCornerHeading?: string;
 }
 
 export default function StyledDataBox({
   heading,
   children,
   rightIconButton,
+  rightCornerHeading,
   boxButtonLabel,
   boxButtonOnClick,
 }: StyledDataBoxProps) {
@@ -32,6 +34,7 @@ export default function StyledDataBox({
         <div className="flex justify-between content-start">
           <h2 className={headingClasses}>{heading}</h2>
           {rightIconButton && <StyledIconButton {...rightIconButton} />}
+          {rightCornerHeading && <span className="text-lg font-bold">{rightCornerHeading}</span>}
         </div>
         <div>{children}</div>
       </div>

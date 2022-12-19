@@ -27,8 +27,8 @@ export default function DfxPageLayout() {
             <DfxTitleSection heading="DFX Multichain" subheading="Buy • Sell • Convert • Stake" />
           </div>
           <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
-            <StyledDataBox heading="Your wallet" boxButtonLabel="Log out">
-              <StyledDataTextRow label="Metamask">Account1: 0x672423423423423423423423423f1436</StyledDataTextRow>
+            <StyledDataBox heading="Your wallet" boxButtonLabel="Log out" rightCornerHeading="0.9834 ETH">
+              <StyledDataTextRow label="Metamask">Account1: 0x67242342...f1436</StyledDataTextRow>
               <StyledDataTextRow label="Connected to">Ethereum Mainnet</StyledDataTextRow>
             </StyledDataBox>
             <StyledDataBox heading="Your Data">
