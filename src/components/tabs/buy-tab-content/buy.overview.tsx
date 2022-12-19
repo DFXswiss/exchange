@@ -22,7 +22,7 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
               asset={asset.name}
               protocol={BuyTabDefinitions.protocols[blockchain]}
               onClick={() => onAssetClicked(asset)}
-              comingSoon={!asset.buyable}
+              comingSoon={asset.comingSoon}
             />
           ))}
         </StyledCoinList>
