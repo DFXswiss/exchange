@@ -8,7 +8,7 @@ import StyledIconButton from '../stories/StyledIconButton';
 import { useBlockchain } from '../hooks/blockchain.hook';
 
 export function WalletBox(): JSX.Element {
-  const { isConnected, balance } = useWalletContext();
+  const { isConnected } = useWalletContext();
   const { address, blockchain, isLoggedIn, login, logout } = useSessionContext();
   const { copy } = useClipboard();
   const { toString } = useBlockchain();
@@ -22,7 +22,6 @@ export function WalletBox(): JSX.Element {
       heading="Your Wallet"
       boxButtonLabel={isConnected ? (isLoggedIn ? 'Disconnect from DFX' : 'Reconnect to DFX') : undefined}
       boxButtonOnClick={() => (isConnected ? (isLoggedIn ? logout() : login()) : undefined)}
-      rightCornerHeading={balance}
     >
       <StyledDataTextRow label="MetaMask">
         {blankedAddress()}
