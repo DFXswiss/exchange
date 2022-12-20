@@ -12,6 +12,20 @@ export enum StyledModalTypes {
   ALERT = 'ALERT',
 }
 
+export enum StyledModalWidths {
+  SMALL = 'SMALL',
+  REGULAR = 'REGULAR',
+  LARGE = 'LARGE',
+  FULL_WIDTH = 'FULL_WIDTH',
+}
+
+const WIDTH_MAPS: Record<StyledModalWidths, string> = {
+  [StyledModalWidths.SMALL]: 'min-w-[25rem] max-w-lg',
+  [StyledModalWidths.REGULAR]: 'min-w-[37.5rem] max-w-2xl',
+  [StyledModalWidths.LARGE]: 'w-[90%] max-w-4xl',
+  [StyledModalWidths.FULL_WIDTH]: 'w-[90%] max-w-7xl',
+};
+
 interface StyledModalProps extends PropsWithChildren {
   isVisible: boolean;
   onClose?: (showModal: boolean) => any;
@@ -19,6 +33,7 @@ interface StyledModalProps extends PropsWithChildren {
   heading?: string;
   color?: StyledModalColors;
   type?: StyledModalTypes;
+  width?: StyledModalWidths;
 }
 
 export default function StyledModal({
@@ -29,6 +44,7 @@ export default function StyledModal({
   heading,
   closeWithX = true,
   children,
+  width = StyledModalWidths.REGULAR,
 }: StyledModalProps) {
   function setShowModal(modalState: boolean) {
     onClose?.(modalState);
@@ -36,9 +52,11 @@ export default function StyledModal({
 
   const showHeader = heading !== undefined && heading !== '' && type === StyledModalTypes.REGULAR;
 
-  let containerClasses = 'rounded-lg shadow-lg  relative flex flex-col w-full outline-none focus:outline-none';
+  const parentClasses = 'relative my-6 mx-auto ' + WIDTH_MAPS[width];
+  let containerClasses =
+    'rounded-lg shadow-lg max-h-[80vh] relative flex flex-col w-full outline-none focus:outline-none';
   let headingClasses = 'p-3 border-b rounded-t';
-  let bodyClasses = 'relative px-14 pb-10 flex-auto';
+  let bodyClasses = 'relative px-14 pb-10 flex-auto overflow-auto';
 
   if (type !== StyledModalTypes.ALERT) {
     color === StyledModalColors.DFX_GRADIENT
@@ -57,7 +75,7 @@ export default function StyledModal({
       {isVisible && (
         <>
           <div className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none">
-            <div className="relative my-6 mx-auto min-w-[37.5rem] max-w-2xl">
+            <div className={parentClasses}>
               {/*content*/}
               <div className={containerClasses}>
                 {closeWithX && type === StyledModalTypes.REGULAR && (

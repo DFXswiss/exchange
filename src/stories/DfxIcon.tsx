@@ -16,6 +16,8 @@ import {
   MdEast,
   MdWest,
   MdSettings,
+  MdEdit,
+  MdHelpOutline,
 } from 'react-icons/md';
 import { ReactElement, useContext } from 'react';
 
@@ -34,9 +36,11 @@ export enum IconVariant {
   CHEV_LEFT = 'CHEV_LEFT',
   CLOSE = 'CLOSE',
   COPY = 'COPY',
+  EDIT = 'EDIT',
   EXPAND_LESS = 'EXPAND_LESS',
   EXPAND_MORE = 'EXPAND_MORE',
   FORWARD = 'FORWARD',
+  HELP = 'HELP',
   INFO = 'INFO',
   INFO_OUTLINE = 'INFO_OUTLINE',
   SETTINGS = 'SETTINGS',
@@ -69,6 +73,8 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.BANK]: <DfxBankIcon />,
   [IconVariant.SEPA_INSTANT]: <DfxSepaInstantAvailable />,
   [IconVariant.PROCESS_DONE]: <DfxProcessDoneIcon />,
+  [IconVariant.EDIT]: <MdEdit />,
+  [IconVariant.HELP]: <MdHelpOutline />,
 };
 
 export enum IconSizes {
