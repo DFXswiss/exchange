@@ -10,6 +10,12 @@ export interface CallConfig {
   method: 'GET' | 'PUT' | 'POST' | 'DELETE';
   data?: any;
   noJson?: boolean;
+  specialHandling?: SpecialHandling;
+}
+
+interface SpecialHandling {
+  action?: () => void;
+  statusCode: number;
 }
 
 export function useApi(): ApiInterface {
@@ -30,6 +36,9 @@ export function useApi(): ApiInterface {
       `${process.env.REACT_APP_API_URL}/${config.url}`,
       buildInit(config.method, authenticationToken, config.data, config.noJson),
     ).then((response) => {
+      if (response.status === config.specialHandling?.statusCode) {
+        config.specialHandling?.action?.();
+      }
       if (response.ok) {
         return response.json().catch(() => undefined);
       }

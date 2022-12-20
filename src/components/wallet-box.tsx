@@ -2,9 +2,9 @@ import { useWalletContext } from '../contexts/wallet.context';
 import { useSessionContext } from '../contexts/session.context';
 import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
-import { IconButton } from '../stories/StyledIconButton.stories';
 import { IconVariant } from '../stories/DfxIcon';
 import { useClipboard } from '../hooks/clipboard.hook';
+import StyledIconButton from '../stories/StyledIconButton';
 
 export function WalletBox(): JSX.Element {
   const { isConnected } = useWalletContext();
@@ -23,7 +23,7 @@ export function WalletBox(): JSX.Element {
     >
       <StyledDataTextRow label="MetaMask">
         {blankedAddress()}
-        <IconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
+        <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
       </StyledDataTextRow>
       <StyledDataTextRow label="Connected to">{blockchain}</StyledDataTextRow>
     </StyledDataBox>

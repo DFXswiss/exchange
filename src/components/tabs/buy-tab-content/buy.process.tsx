@@ -282,7 +282,10 @@ function PaymentInformationContent({ info }: PaymentInformationContentProps): JS
           {info.bic}
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.bic)} />
         </StyledDataTableRow>
-        <StyledDataTableRow label="Purpose of payment">
+        <StyledDataTableRow
+          label="Purpose of payment"
+          infoText="The purpose of payment remains identical for the selected asset and can be used for recurring payments and standing orders."
+        >
           {info.purpose}
           <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
         </StyledDataTableRow>
