@@ -31,7 +31,7 @@ export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   }, [isLoggedIn]);
 
   function updateAssets(assets: Asset[]) {
-    setAssets(Utils.groupBy(assets.concat(dummyAssets), 'blockchain'));
+    setAssets(Utils.groupBy(assets.filter((a) => a.buyable).concat(dummyAssets), 'blockchain'));
   }
 
   const context: AssetInterface = { assets, assetsLoading };
