@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Asset } from '../../api/definitions/asset';
-import { Blockchain } from '../../api/definitions/blockchain';
 import { useSessionContext } from '../../contexts/session.context';
 import { IconVariant } from '../../stories/DfxIcon';
-import { Protocol } from '../../stories/StyledCoinListItem';
 import { StyledTabProps } from '../../stories/StyledTabContainer';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { BuyTabContentProcess } from './buy-tab-content/buy.process';
@@ -18,21 +16,6 @@ export const BuyTab: StyledTabProps = {
   icon: IconVariant.BANK,
   deactivated: false,
   content: <BuyTabContent />,
-};
-
-export const BuyTabDefinitions = {
-  headings: {
-    [Blockchain.ETH]: 'Ethereum mainnet · ERC-20 token',
-    [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
-    [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
-    [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
-  },
-  protocols: {
-    [Blockchain.ETH]: Protocol.ERC_20,
-    [Blockchain.BSC]: Protocol.BEP_20,
-    [Blockchain.ARBITRUM]: Protocol.ERC_20,
-    [Blockchain.OPTIMISM]: Protocol.ERC_20,
-  },
 };
 
 function BuyTabContent(): JSX.Element {

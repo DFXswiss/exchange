@@ -12,7 +12,6 @@ import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
 import StyledButton, { StyledButtonWidths } from '../../../stories/StyledButton';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { AddBankAccount } from '../../buy/add-bank-account';
-import { BuyTabDefinitions } from '../buy.tab';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
 import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
@@ -29,6 +28,7 @@ import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
+import { useBlockchain } from '../../../hooks/blockchain.hook';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -45,6 +45,7 @@ interface FormData {
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
+  const { toProtocol } = useBlockchain();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
@@ -194,7 +195,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                   <div className="border border-dfxGray-400 rounded px-2 py-1 drop-shadow-sm">
                     <StyledCoinListItem
                       asset={asset.name}
-                      protocol={BuyTabDefinitions.protocols[asset.blockchain]}
+                      protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
                       disabled
                     />

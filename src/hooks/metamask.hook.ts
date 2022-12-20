@@ -10,6 +10,7 @@ export interface MetaMaskInterface {
   ) => void;
   requestAccount: () => Promise<string | undefined>;
   requestBlockchain: () => Promise<Blockchain | undefined>;
+  requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
 }
 
@@ -51,6 +52,10 @@ export function useMetaMask(): MetaMaskInterface {
     return toBlockchain(await web3.eth.getChainId());
   }
 
+  async function requestBalance(account: string): Promise<string | undefined> {
+    return web3.eth.getBalance(account);
+  }
+
   async function sign(address: string, message: string): Promise<string> {
     return web3.eth.personal.sign(message, address, '');
   }
@@ -61,5 +66,5 @@ export function useMetaMask(): MetaMaskInterface {
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
-  return { isInstalled, register, requestAccount, requestBlockchain, sign };
+  return { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign };
 }

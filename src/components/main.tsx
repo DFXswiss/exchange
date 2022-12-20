@@ -7,7 +7,6 @@ import { IconSizes, IconVariant } from '../stories/DfxIcon';
 import DfxLogo from '../stories/DfxLogo';
 import DfxTitleSection from '../stories/DfxTitleSection';
 import DfxVideoHelpModalContent from '../stories/DfxVideoHelpModalContent';
-import StyledSpacer from '../stories/layout-helpers/StyledSpacer';
 import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../stories/StyledButton';
 import StyledIconButton from '../stories/StyledIconButton';
