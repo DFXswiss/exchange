@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof StyledModal>;
 
 export const RegularModalWithHeading: ComponentStory<typeof StyledModal> = (args) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   return (
     <>
       <StyledButton label="Open Modal" onClick={() => setShowModal(true)}></StyledButton>
@@ -45,7 +45,7 @@ RegularModalWithHeading.args = {
 };
 
 export const WhiteModalWithHeading: ComponentStory<typeof StyledModal> = (args) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   return (
     <>
       <StyledButton label="Open White Modal" onClick={() => setShowModal(true)}></StyledButton>
@@ -80,7 +80,7 @@ WhiteModalWithHeading.args = {
 };
 
 export const AlertModal: ComponentStory<typeof StyledModal> = (args) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   return (
     <>
       <StyledButton label="Open Alert Modal" caps={false} onClick={() => setShowModal(true)}></StyledButton>
