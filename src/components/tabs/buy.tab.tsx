@@ -11,15 +11,24 @@ enum BuyTabStep {
   BUY_PROCESS,
 }
 
-export const BuyTab: StyledTabProps = {
-  title: 'Buy',
-  icon: IconVariant.BANK,
-  deactivated: false,
-  content: <BuyTabContent />,
-};
-
-function BuyTabContent(): JSX.Element {
+export function BuyTab(): StyledTabProps {
   const [step, setStep] = useState<BuyTabStep>(BuyTabStep.OVERVIEW);
+
+  return {
+    title: 'Buy',
+    icon: IconVariant.BANK,
+    deactivated: false,
+    content: <BuyTabContent step={step} onStepUpdate={setStep} />,
+    onActivate: () => setStep(BuyTabStep.OVERVIEW),
+  };
+}
+
+interface BuyTabContentProps {
+  step: BuyTabStep;
+  onStepUpdate: (step: BuyTabStep) => void;
+}
+
+function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element {
   const [currentAsset, setCurrentAsset] = useState<Asset>();
   const { isLoggedIn, login } = useSessionContext();
 
@@ -31,7 +40,7 @@ function BuyTabContent(): JSX.Element {
             if (!asset.buyable) return;
             if (isLoggedIn) {
               setCurrentAsset(asset);
-              setStep(BuyTabStep.BUY_PROCESS);
+              onStepUpdate(BuyTabStep.BUY_PROCESS);
             } else {
               login();
             }
@@ -39,6 +48,6 @@ function BuyTabContent(): JSX.Element {
         />
       );
     case BuyTabStep.BUY_PROCESS:
-      return <BuyTabContentProcess onBack={() => setStep(BuyTabStep.OVERVIEW)} asset={currentAsset} />;
+      return <BuyTabContentProcess onBack={() => onStepUpdate(BuyTabStep.OVERVIEW)} asset={currentAsset} />;
   }
 }

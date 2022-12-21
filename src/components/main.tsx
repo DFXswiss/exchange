@@ -130,7 +130,7 @@ export function Main(): JSX.Element {
             )}
           </div>
           {!isMobile ? (
-            <StyledTabContainer tabs={[BuyTab, buildComingSoonTab('Sell'), buildComingSoonTab('Convert')]} />
+            <StyledTabContainer tabs={[BuyTab(), buildComingSoonTab('Sell'), buildComingSoonTab('Convert')]} />
           ) : (
             <p className="text-center">Our DFX Exchange is not yet available on mobile. Please check back later</p>
           )}
