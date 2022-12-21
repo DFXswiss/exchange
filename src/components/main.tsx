@@ -139,6 +139,40 @@ export function Main(): JSX.Element {
             <p className="text-center">Our DFX Exchange is not yet available on mobile. Please check back later</p>
           )}
         </div>
+        <div className="flex flex-row gap-40 justify-center pb-4">
+          <a
+            className="text-link opacity-30"
+            target="_blank"
+            href={process.env.REACT_APP_TNC_URL}
+            rel="noopener noreferrer"
+          >
+            Terms and conditions
+          </a>
+          <a
+            className="text-link opacity-30"
+            target="_blank"
+            href={process.env.REACT_APP_PPO_URL}
+            rel="noopener noreferrer"
+          >
+            Privacy policy
+          </a>
+          <a
+            className="text-link opacity-30"
+            target="_blank"
+            href={process.env.REACT_APP_IMP_URL}
+            rel="noopener noreferrer"
+          >
+            Imprint
+          </a>
+          <a
+            className="text-link opacity-30"
+            target="_blank"
+            href={process.env.REACT_APP_POF_URL}
+            rel="noopener noreferrer"
+          >
+            Proof of Origins of Funds
+          </a>
+        </div>
       </div>
     </>
   );
