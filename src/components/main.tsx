@@ -10,6 +10,7 @@ import DfxVideoHelpModalContent from '../stories/DfxVideoHelpModalContent';
 import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../stories/StyledButton';
 import StyledIconButton from '../stories/StyledIconButton';
+import { StyledLink } from '../stories/StyledLink';
 import StyledModal, { StyledModalTypes, StyledModalWidths } from '../stories/StyledModal';
 import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
 import { useBuyTab } from './tabs/buy.tab';
@@ -140,38 +141,10 @@ export function Main(): JSX.Element {
           )}
         </div>
         <div className="flex flex-row gap-40 justify-center pb-4">
-          <a
-            className="text-link opacity-30"
-            target="_blank"
-            href={process.env.REACT_APP_TNC_URL}
-            rel="noopener noreferrer"
-          >
-            Terms and conditions
-          </a>
-          <a
-            className="text-link opacity-30"
-            target="_blank"
-            href={process.env.REACT_APP_PPO_URL}
-            rel="noopener noreferrer"
-          >
-            Privacy policy
-          </a>
-          <a
-            className="text-link opacity-30"
-            target="_blank"
-            href={process.env.REACT_APP_IMP_URL}
-            rel="noopener noreferrer"
-          >
-            Imprint
-          </a>
-          <a
-            className="text-link opacity-30"
-            target="_blank"
-            href={process.env.REACT_APP_POF_URL}
-            rel="noopener noreferrer"
-          >
-            Proof of Origins of Funds
-          </a>
+          <StyledLink label="Terms and conditions" url={process.env.REACT_APP_TNC_URL} />
+          <StyledLink label="Privacy policy" url={process.env.REACT_APP_PPO_URL} />
+          <StyledLink label="Imprint" url={process.env.REACT_APP_IMP_URL} />
+          <StyledLink label="Proof of Origins of Funds" url={process.env.REACT_APP_POF_URL} />
         </div>
       </div>
     </>
