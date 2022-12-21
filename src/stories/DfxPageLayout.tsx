@@ -8,10 +8,10 @@ import StyledTabContainer from './StyledTabContainer';
 import StyledCoinList from './StyledCoinList';
 import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
 import { AssetIconVariant } from './DfxAssetIcon';
-import { IconButton } from './StyledIconButton.stories';
 import StyledModal, { StyledModalWidths } from './StyledModal';
 import { useState } from 'react';
 import DfxVideoHelpModalContent from './DfxVideoHelpModalContent';
+import StyledIconButton from './StyledIconButton';
 
 export default function DfxPageLayout() {
   const [showHelpModal, setShowHelpModal] = useState(false);
@@ -60,7 +60,7 @@ export default function DfxPageLayout() {
                   console.log('clicked');
                 }}
               />
-              <IconButton size={IconSizes.LG} icon={IconVariant.HELP} onClick={() => setShowHelpModal(true)} />
+              <StyledIconButton size={IconSizes.LG} icon={IconVariant.HELP} onClick={() => setShowHelpModal(true)} />
             </div>
           </div>
           <div className="md:flex justify-between mt-6">

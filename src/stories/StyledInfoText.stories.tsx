@@ -6,7 +6,7 @@ export default {
   component: StyledInfoText,
 } as ComponentMeta<typeof StyledInfoText>;
 
-export const IconButton: ComponentStory<typeof StyledInfoText> = (args) => {
+export const DemoIconButton: ComponentStory<typeof StyledInfoText> = (args) => {
   let whiteBG = 'p-10 max-w-xl rounded';
   args.darkTheme ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
   return (
@@ -18,6 +18,6 @@ export const IconButton: ComponentStory<typeof StyledInfoText> = (args) => {
     </div>
   );
 };
-IconButton.args = {
+DemoIconButton.args = {
   darkTheme: false,
 };

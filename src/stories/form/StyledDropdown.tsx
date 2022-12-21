@@ -64,7 +64,7 @@ export default function StyledDropdown<T>({
             </div>
           </button>
           {isOpen && (
-            <div className="absolute bg-white rounded-b w-full">
+            <div className="absolute bg-white rounded-b w-full z-10">
               {items.map((item, index) => (
                 <button
                   key={index}

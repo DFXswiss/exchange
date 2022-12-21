@@ -1,7 +1,7 @@
 import StyledDataTableRow from './StyledDataTableRow';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { IconButton } from './StyledIconButton.stories';
 import { IconVariant } from './DfxIcon';
+import StyledIconButton from './StyledIconButton';
 
 export default {
   title: 'Building Blocks/StyledDataTableRow',
@@ -19,7 +19,7 @@ export const WithInfoText: ComponentStory<typeof StyledDataTableRow> = (args) =>
   return (
     <StyledDataTableRow {...args}>
       OC11-A025-BCF7{' '}
-      <IconButton
+      <StyledIconButton
         icon={IconVariant.COPY}
         onClick={() => {
           console.log('copied.');

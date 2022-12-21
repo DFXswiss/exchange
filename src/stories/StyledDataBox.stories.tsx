@@ -2,8 +2,8 @@ import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
 import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { IconButton } from './StyledIconButton.stories';
 import { IconVariant, IconColors, IconSizes } from './DfxIcon';
+import StyledIconButton from './StyledIconButton';
 
 export default {
   title: 'Composites/DataBox',
@@ -22,7 +22,7 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
     <StyledDataBox {...args}>
       <StyledDataTextRow label="Metamask">
         Account1: 0x6724...f1436{' '}
-        <IconButton
+        <StyledIconButton
           icon={IconVariant.COPY}
           onClick={() => {
             console.log('copied.');
@@ -32,7 +32,7 @@ export const WithRows: ComponentStory<typeof StyledDataBox> = (args) => {
       </StyledDataTextRow>
       <StyledDataTextRow label="Connected to">
         Ethereum Mainnet{' '}
-        <IconButton
+        <StyledIconButton
           icon={IconVariant.INFO_OUTLINE}
           onClick={() => {
             console.log('informed.');

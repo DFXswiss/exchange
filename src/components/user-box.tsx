@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../api/contexts/user.context';
 import { useSessionContext } from '../contexts/session.context';
+import { useWalletContext } from '../contexts/wallet.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { IconColors, IconSizes, IconVariant } from '../stories/DfxIcon';
 import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
@@ -11,13 +12,14 @@ import { MailEdit } from './edit/mail.edit';
 import { UserData } from './user-data';
 
 export function UserBox(): JSX.Element {
+  const { isConnected } = useWalletContext();
   const { isLoggedIn } = useSessionContext();
   const { user, refLink, isUserLoading } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
   const [showsUserData, setShowsUserData] = useState(false);
 
-  return isLoggedIn ? (
+  return isConnected && isLoggedIn ? (
     <>
       {/* MODALS */}
       <StyledModal

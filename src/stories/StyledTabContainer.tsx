@@ -14,6 +14,7 @@ export interface StyledTabProps {
   icon?: IconVariant;
   flagWord1?: string;
   flagWord2?: string;
+  onActivate?: () => void;
 }
 
 export default function StyledTabContainer({ tabs, activeTab = 0 }: StyledTabContainerProps) {
@@ -27,7 +28,10 @@ export default function StyledTabContainer({ tabs, activeTab = 0 }: StyledTabCon
             {tabs.map((tab: StyledTabProps, index: number) => {
               return (
                 <StyledTab
-                  setActive={() => setActive(index)}
+                  setActive={() => {
+                    setActive(index);
+                    tab.onActivate?.();
+                  }}
                   active={index === active}
                   deactivated={tab.deactivated}
                   key={index}

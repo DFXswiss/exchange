@@ -16,7 +16,7 @@ export default function StyledIconButton({
   color = IconColors.RED,
 }: StyledIconButtonProps) {
   let buttonClass = 'inline-block h-full align-top';
-  inline ? (buttonClass += ' px-2') : null;
+  inline ? (buttonClass += ' px-2 pt-0.5') : null;
   return (
     <button type="button" className={buttonClass} onClick={onClick}>
       <DfxIcon icon={icon} color={color} size={size} />

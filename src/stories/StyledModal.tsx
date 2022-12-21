@@ -70,11 +70,15 @@ export default function StyledModal({
 
   showHeader ? (bodyClasses += ' pt-6') : (bodyClasses += ' pt-12');
 
+  const zIndex = type === StyledModalTypes.ALERT ? 'z-[100]' : 'z-40';
+
   return (
     <>
       {isVisible && (
         <>
-          <div className="justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none">
+          <div
+            className={`justify-center  items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 ${zIndex} outline-none focus:outline-none`}
+          >
             <div className={parentClasses}>
               {/*content*/}
               <div className={containerClasses}>

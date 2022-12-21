@@ -1,10 +1,13 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { Blockchain } from '../api/definitions/blockchain';
+import { useBlockchain } from '../hooks/blockchain.hook';
 import { useMetaMask } from '../hooks/metamask.hook';
+import { Utils } from '../utils';
 
 interface WalletInterface {
   address?: string;
   blockchain?: Blockchain;
+  balance?: string;
   isInstalled: boolean;
   isConnected: boolean;
   connect: () => Promise<string>;
@@ -20,13 +23,29 @@ export function useWalletContext(): WalletInterface {
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [address, setAddress] = useState<string>();
   const [blockchain, setBlockchain] = useState<Blockchain>();
-  const { isInstalled, register, requestAccount, requestBlockchain, sign } = useMetaMask();
+  const [balance, setBalance] = useState<string>();
+  const { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
+  const { toMainToken } = useBlockchain();
 
   const isConnected = address !== undefined;
 
   useEffect(() => {
     register(setAddress, setBlockchain);
   }, []);
+
+  useEffect(() => {
+    if (address) {
+      requestBalance(address).then((balance) => {
+        if (balance && blockchain) {
+          setBalance(`${Utils.formatAmountCrypto(+balance)} ${toMainToken(blockchain)}`);
+        } else {
+          setBalance(undefined);
+        }
+      });
+    } else {
+      setBalance(undefined);
+    }
+  }, [address, blockchain]);
 
   async function connect(): Promise<string> {
     const account = await requestAccount();
@@ -50,6 +69,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
 
   const context: WalletInterface = {
     address,
+    balance,
     blockchain,
     isInstalled,
     isConnected,

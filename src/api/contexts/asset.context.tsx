@@ -31,7 +31,7 @@ export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   }, [isLoggedIn]);
 
   function updateAssets(assets: Asset[]) {
-    setAssets(Utils.groupBy(assets.concat(dummyAssets), 'blockchain'));
+    setAssets(Utils.groupBy(assets.filter((a) => a.buyable).concat(dummyAssets), 'blockchain'));
   }
 
   const context: AssetInterface = { assets, assetsLoading };
@@ -46,6 +46,7 @@ const dummyAssets: Asset[] = [
     id: 1001,
     name: 'ETH',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ETH,
   },
@@ -53,6 +54,7 @@ const dummyAssets: Asset[] = [
     id: 1002,
     name: 'USDC',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ETH,
   },
@@ -60,6 +62,7 @@ const dummyAssets: Asset[] = [
     id: 1003,
     name: 'USDT',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ETH,
   },
@@ -67,6 +70,7 @@ const dummyAssets: Asset[] = [
     id: 1004,
     name: 'DFI',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ETH,
   },
@@ -75,6 +79,7 @@ const dummyAssets: Asset[] = [
     id: 2001,
     name: 'ETH',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ARBITRUM,
   },
@@ -82,6 +87,7 @@ const dummyAssets: Asset[] = [
     id: 2002,
     name: 'USDC',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ARBITRUM,
   },
@@ -89,6 +95,15 @@ const dummyAssets: Asset[] = [
     id: 2003,
     name: 'USDT',
     buyable: false,
+    comingSoon: true,
+    sellable: false,
+    blockchain: Blockchain.ARBITRUM,
+  },
+  {
+    id: 2004,
+    name: 'DFI',
+    buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.ARBITRUM,
   },
@@ -97,6 +112,7 @@ const dummyAssets: Asset[] = [
     id: 3001,
     name: 'ETH',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.OPTIMISM,
   },
@@ -104,6 +120,7 @@ const dummyAssets: Asset[] = [
     id: 3002,
     name: 'USDC',
     buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.OPTIMISM,
   },
@@ -111,6 +128,15 @@ const dummyAssets: Asset[] = [
     id: 3003,
     name: 'USDT',
     buyable: false,
+    comingSoon: true,
+    sellable: false,
+    blockchain: Blockchain.OPTIMISM,
+  },
+  {
+    id: 3004,
+    name: 'DFI',
+    buyable: false,
+    comingSoon: true,
     sellable: false,
     blockchain: Blockchain.OPTIMISM,
   },

@@ -29,6 +29,14 @@ export class Utils {
     return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') ?? '';
   }
 
+  static formatAmountCrypto(num: number): string {
+    let r = (+num.toPrecision(6)).toFixed(6);
+    if (r.match(/\./)) {
+      r = r.replace(/\.?0+$/, '');
+    }
+    return r;
+  }
+
   static formatIban(iban?: string): string | null {
     return IbanTools.friendlyFormatIBAN(iban);
   }
