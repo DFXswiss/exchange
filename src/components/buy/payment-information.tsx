@@ -4,8 +4,8 @@ import DfxIcon, { IconColors, IconVariant } from '../../stories/DfxIcon';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledDataTable, { AlignContent } from '../../stories/StyledDataTable';
 import StyledDataTableRow from '../../stories/StyledDataTableRow';
-import StyledIconButton from '../../stories/StyledIconButton';
 import StyledInfoText from '../../stories/StyledInfoText';
+import { CopyButton } from '../copy-button';
 import { GiroCode } from './giro-code';
 
 export interface PaymentInformation {
@@ -44,18 +44,18 @@ export function PaymentInformationContent({ info }: PaymentInformationContentPro
               </div>
             )}
           </div>
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
+          <CopyButton onCopy={() => copy(info.iban)} />
         </StyledDataTableRow>
         <StyledDataTableRow label="BIC">
           {info.bic}
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.bic)} />
+          <CopyButton onCopy={() => copy(info.bic)} />
         </StyledDataTableRow>
         <StyledDataTableRow
           label="Purpose of payment"
           infoText="The purpose of payment remains identical for the selected asset and can be used for recurring payments and standing orders."
         >
           {info.purpose}
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
+          <CopyButton onCopy={() => copy(info.purpose)} />
         </StyledDataTableRow>
       </StyledDataTable>
       <GiroCode info={info} />

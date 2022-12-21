@@ -6,6 +6,7 @@ import { IconVariant } from '../stories/DfxIcon';
 import { useClipboard } from '../hooks/clipboard.hook';
 import StyledIconButton from '../stories/StyledIconButton';
 import { useBlockchain } from '../hooks/blockchain.hook';
+import { CopyButton } from './copy-button';
 
 interface WalletBoxProps {
   onInfoClick: () => void;
@@ -29,7 +30,7 @@ export function WalletBox({ onInfoClick }: WalletBoxProps): JSX.Element {
     >
       <StyledDataTextRow label="MetaMask">
         {blankedAddress()}
-        <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
+        <CopyButton onCopy={() => copy(address)} inline />
       </StyledDataTextRow>
       <StyledDataTextRow label="Connected to">
         {blockchain ? toString(blockchain) : ''}
