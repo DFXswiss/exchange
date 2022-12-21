@@ -6,12 +6,13 @@ import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
 import StyledTabContainer from './StyledTabContainer';
 import StyledCoinList from './StyledCoinList';
-import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
+import StyledCoinListItem from './StyledCoinListItem';
 import { AssetIconVariant } from './DfxAssetIcon';
 import StyledModal, { StyledModalWidths } from './StyledModal';
 import { useState } from 'react';
 import DfxVideoHelpModalContent from './DfxVideoHelpModalContent';
 import StyledIconButton from './StyledIconButton';
+import { Protocol } from '../hooks/blockchain.hook';
 
 export default function DfxPageLayout() {
   const [showHelpModal, setShowHelpModal] = useState(false);

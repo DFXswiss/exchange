@@ -1,5 +1,4 @@
 import { Blockchain } from '../api/definitions/blockchain';
-import { Protocol } from '../stories/StyledCoinListItem';
 
 export interface BlockchainInterface {
   toBlockchain: (chainId: string | number) => Blockchain | undefined;
@@ -7,6 +6,11 @@ export interface BlockchainInterface {
   toProtocol: (blockchain: Blockchain) => Protocol;
   toMainToken: (blockchain: Blockchain) => string;
   toString: (blockchain: Blockchain) => string;
+}
+
+export enum Protocol {
+  ERC_20 = 'ERC-20',
+  BEP_20 = 'BEP-20',
 }
 
 // id taken from https://chainlist.org/

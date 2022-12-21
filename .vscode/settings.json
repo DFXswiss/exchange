@@ -16,7 +16,8 @@
     "Bahnhofstrasse",
     "SEPA",
     "ARBITRUM",
-    "Arbitrum"
+    "Arbitrum",
+    "BSCUSD"
   ],
   "files.exclude": {
     "node_modules": true

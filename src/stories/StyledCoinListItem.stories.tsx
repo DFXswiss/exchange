@@ -1,6 +1,7 @@
-import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
+import StyledCoinListItem from './StyledCoinListItem';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { AssetIconVariant } from './DfxAssetIcon';
+import { Protocol } from '../hooks/blockchain.hook';
 
 export default {
   title: 'Building Blocks/StyledCoinListItem',
