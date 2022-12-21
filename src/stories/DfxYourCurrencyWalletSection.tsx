@@ -1,8 +1,9 @@
 import { Asset } from '../api/definitions/asset';
 import { Fiat } from '../api/definitions/fiat';
+import { Protocol } from '../hooks/blockchain.hook';
 import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
 import StyledDropdown from './form/StyledDropdown';
-import StyledCoinListItem, { Protocol } from './StyledCoinListItem';
+import StyledCoinListItem from './StyledCoinListItem';
 
 interface DfxYourCurrencyWalletSectionProps {
   currencies: Fiat[];

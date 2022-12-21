@@ -2,8 +2,8 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Asset } from '../api/definitions/asset';
 import { Blockchain } from '../api/definitions/blockchain';
 import { Fiat } from '../api/definitions/fiat';
+import { Protocol } from '../hooks/blockchain.hook';
 import DfxYourCurrencyWalletSection from './DfxYourCurrencyWalletSection';
-import { Protocol } from './StyledCoinListItem';
 
 export default {
   title: 'Composites/DfxYourCurrencyWalletSection',
