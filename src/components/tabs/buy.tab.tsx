@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Asset } from '../../api/definitions/asset';
-import { Blockchain } from '../../api/definitions/blockchain';
 import { useSessionContext } from '../../contexts/session.context';
 import { IconVariant } from '../../stories/DfxIcon';
-import { Protocol } from '../../stories/StyledCoinListItem';
 import { StyledTabProps } from '../../stories/StyledTabContainer';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { BuyTabContentProcess } from './buy-tab-content/buy.process';
@@ -13,30 +11,24 @@ enum BuyTabStep {
   BUY_PROCESS,
 }
 
-export const BuyTab: StyledTabProps = {
-  title: 'Buy',
-  icon: IconVariant.BANK,
-  deactivated: false,
-  content: <BuyTabContent />,
-};
-
-export const BuyTabDefinitions = {
-  headings: {
-    [Blockchain.ETH]: 'Ethereum mainnet · ERC-20 token',
-    [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
-    [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
-    [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
-  },
-  protocols: {
-    [Blockchain.ETH]: Protocol.ERC_20,
-    [Blockchain.BSC]: Protocol.BEP_20,
-    [Blockchain.ARBITRUM]: Protocol.ERC_20,
-    [Blockchain.OPTIMISM]: Protocol.ERC_20,
-  },
-};
-
-function BuyTabContent(): JSX.Element {
+export function useBuyTab(): StyledTabProps {
   const [step, setStep] = useState<BuyTabStep>(BuyTabStep.OVERVIEW);
+
+  return {
+    title: 'Buy',
+    icon: IconVariant.BANK,
+    deactivated: false,
+    content: <BuyTabContent step={step} onStepUpdate={setStep} />,
+    onActivate: () => setStep(BuyTabStep.OVERVIEW),
+  };
+}
+
+interface BuyTabContentProps {
+  step: BuyTabStep;
+  onStepUpdate: (step: BuyTabStep) => void;
+}
+
+function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element {
   const [currentAsset, setCurrentAsset] = useState<Asset>();
   const { isLoggedIn, login } = useSessionContext();
 
@@ -48,7 +40,7 @@ function BuyTabContent(): JSX.Element {
             if (!asset.buyable) return;
             if (isLoggedIn) {
               setCurrentAsset(asset);
-              setStep(BuyTabStep.BUY_PROCESS);
+              onStepUpdate(BuyTabStep.BUY_PROCESS);
             } else {
               login();
             }
@@ -56,6 +48,6 @@ function BuyTabContent(): JSX.Element {
         />
       );
     case BuyTabStep.BUY_PROCESS:
-      return <BuyTabContentProcess onBack={() => setStep(BuyTabStep.OVERVIEW)} asset={currentAsset} />;
+      return <BuyTabContentProcess onBack={() => onStepUpdate(BuyTabStep.OVERVIEW)} asset={currentAsset} />;
   }
 }

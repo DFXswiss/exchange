@@ -8,4 +8,5 @@ export interface Asset {
   buyable: boolean;
   sellable: boolean;
   blockchain: Blockchain;
+  comingSoon?: boolean;
 }

@@ -12,6 +12,7 @@ interface UserInterface {
   isUserLoading: boolean;
   isUserUpdating: boolean;
   changeMail: (mail: string) => Promise<void>;
+  register: (userLink: () => void) => void;
 }
 
 const UserContext = createContext<UserInterface>(undefined as any);
@@ -30,6 +31,7 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   const [isUserUpdating, setIsUserUpdating] = useState<boolean>(false);
 
   const refLink = user?.ref && `${process.env.REACT_APP_REF_URL}${user.ref}`;
+  let userLinkAction: () => void | undefined;
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -49,13 +51,17 @@ export function UserContextProvider(props: PropsWithChildren): JSX.Element {
   async function changeMail(mail: string): Promise<void> {
     if (!user) return; // TODO (Krysh) add real error handling
     setIsUserUpdating(true);
-    return changeUser({ ...user, mail })
+    return changeUser({ ...user, mail }, userLinkAction)
       .then(setUser)
       .catch(console.error) // TODO (Krysh) add real error handling
       .finally(() => setIsUserUpdating(false));
   }
 
-  const context: UserInterface = { user, refLink, countries, isUserLoading, isUserUpdating, changeMail };
+  function register(userLink: () => void) {
+    userLinkAction = userLink;
+  }
+
+  const context: UserInterface = { user, refLink, countries, isUserLoading, isUserUpdating, changeMail, register };
 
   return <UserContext.Provider value={context}>{props.children}</UserContext.Provider>;
 }

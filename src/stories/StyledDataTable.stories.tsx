@@ -52,7 +52,12 @@ export const PaymentData: ComponentStory<typeof StyledDataTable> = (args) => {
             }}
           />
         </StyledDataTableRow>
-        <StyledDataTableRow label="Purpose of Payment">
+        <StyledDataTableRow
+          label="Purpose of Payment"
+          infoText={
+            'The purpose of payment remains identical for the selected asset and can be used for recurring payments and standing orders.'
+          }
+        >
           OC11-A025-BCF7
           <StyledIconButton
             icon={IconVariant.COPY}

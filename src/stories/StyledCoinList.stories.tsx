@@ -34,7 +34,21 @@ export const CoinListingRow: ComponentStory<typeof StyledCoinList> = (args) => {
           protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
-          asset={AssetIconVariant.DFI}
+          asset="BSC-USD"
+          onClick={() => {
+            console.log('clicked');
+          }}
+          protocol={Protocol.ERC_20}
+        />{' '}
+        <StyledCoinListItem
+          asset={AssetIconVariant.USDT}
+          onClick={() => {
+            console.log('clicked');
+          }}
+          protocol={Protocol.ERC_20}
+        />
+        <StyledCoinListItem
+          asset={AssetIconVariant.USDC}
           onClick={() => {
             console.log('clicked');
           }}

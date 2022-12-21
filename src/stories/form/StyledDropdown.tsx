@@ -49,9 +49,9 @@ export default function StyledDropdown<T>({
             disabled={disabled}
             {...props}
           >
-            <div className="flex flex-col gap-2 justify-between text-left">
+            <div className="flex flex-col gap-1 justify-between text-left">
               {value === undefined ? (
-                <p className="text-dfxGray-400 drop-shadow-none py-[0.3rem]">{placeholder}</p>
+                <p className="text-dfxGray-400 drop-shadow-none py-[0.25rem]">{placeholder}</p>
               ) : (
                 <>
                   <span className="text-dfxBlue-800 leading-none font-semibold">{labelFunc(value)}</span>
@@ -64,7 +64,7 @@ export default function StyledDropdown<T>({
             </div>
           </button>
           {isOpen && (
-            <div className="absolute bg-white rounded-b w-full">
+            <div className="absolute bg-white rounded-b w-full z-10">
               {items.map((item, index) => (
                 <button
                   key={index}

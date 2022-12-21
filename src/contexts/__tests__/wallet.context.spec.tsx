@@ -45,6 +45,7 @@ interface Mock {
   register: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
+  requestBalance: jest.Mock<any, any>;
   sign: jest.Mock<any, any>;
 }
 
@@ -59,12 +60,27 @@ interface Setup {
   register: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
+  requestBalance: jest.Mock<any, any>;
   sign: jest.Mock<any, any>;
 }
 
 describe('WalletContextProvider', () => {
-  function mockAndRenderTestElements({ isInstalled, register, requestAccount, requestBlockchain, sign }: Mock): Setup {
-    mockUseMetaMask.mockImplementation(() => ({ isInstalled, register, requestAccount, requestBlockchain, sign }));
+  function mockAndRenderTestElements({
+    isInstalled,
+    register,
+    requestAccount,
+    requestBlockchain,
+    requestBalance,
+    sign,
+  }: Mock): Setup {
+    mockUseMetaMask.mockImplementation(() => ({
+      isInstalled,
+      register,
+      requestAccount,
+      requestBlockchain,
+      requestBalance,
+      sign,
+    }));
 
     const { getByTestId } = render(
       <WalletContextProvider>
@@ -82,6 +98,7 @@ describe('WalletContextProvider', () => {
       register,
       requestAccount,
       requestBlockchain,
+      requestBalance,
       sign,
     };
   }
@@ -92,6 +109,7 @@ describe('WalletContextProvider', () => {
       register: jest.fn(),
       requestAccount: jest.fn(() => address),
       requestBlockchain: jest.fn(() => blockchain),
+      requestBalance: jest.fn(() => Promise.resolve('0')),
       sign: jest.fn(),
     };
   }

@@ -6,7 +6,7 @@ export default {
   component: StyledLoadingSpinner,
 } as ComponentMeta<typeof StyledLoadingSpinner>;
 
-export const IconButton: ComponentStory<typeof StyledLoadingSpinner> = (args) => {
+export const DemoIconButton: ComponentStory<typeof StyledLoadingSpinner> = (args) => {
   let whiteBG = 'p-10 max-w-sm';
   args.variant !== SpinnerVariant.LIGHT_MODE ? (whiteBG += ' bg-none') : (whiteBG += ' bg-white');
   return (
@@ -15,6 +15,6 @@ export const IconButton: ComponentStory<typeof StyledLoadingSpinner> = (args) =>
     </div>
   );
 };
-IconButton.args = {
+DemoIconButton.args = {
   variant: SpinnerVariant.DARK_MODE,
 };

@@ -47,6 +47,8 @@ export const AllIcons: ComponentStory<typeof DfxIcon> = (args) => {
       <DfxIcon {...args} icon={IconVariant.BANK} />
       <DfxIcon {...args} icon={IconVariant.SEPA_INSTANT} />
       <DfxIcon {...args} icon={IconVariant.PROCESS_DONE} />
+      <DfxIcon {...args} icon={IconVariant.EDIT} />
+      <DfxIcon {...args} icon={IconVariant.HELP} />
     </div>
   );
 };

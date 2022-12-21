@@ -9,8 +9,8 @@ export interface CreateBankAccount {
 }
 
 export interface UpdateBankAccount {
-  label: string;
-  preferredCurrency: Fiat;
+  label?: string;
+  preferredCurrency?: Fiat;
 }
 
 export interface BankAccountInterface {

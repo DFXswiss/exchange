@@ -12,13 +12,8 @@ import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
 import StyledButton, { StyledButtonWidths } from '../../../stories/StyledButton';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { AddBankAccount } from '../../buy/add-bank-account';
-import { BuyTabDefinitions } from '../buy.tab';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
-import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
-import StyledDataTableRow from '../../../stories/StyledDataTableRow';
-import StyledIconButton from '../../../stories/StyledIconButton';
-import { useClipboard } from '../../../hooks/clipboard.hook';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
@@ -28,6 +23,10 @@ import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountLi
 import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
+import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
+import { useBlockchain } from '../../../hooks/blockchain.hook';
+import { useFiat } from '../../../api/hooks/fiat.hook';
+import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -42,8 +41,10 @@ interface FormData {
 }
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts, receiveFor } = useBuyContext();
+  const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
+  const { toProtocol } = useBlockchain();
+  const { toDescription, toSymbol } = useFiat();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
@@ -59,13 +60,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
   const dataValid = validatedData != null;
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
-
-  const currencyDescription: Record<string, string> = {
-    ['EUR']: 'Euro',
-    ['USD']: 'US Dollar',
-    ['CHF']: 'Swiss Franc',
-    ['GBP']: 'British Pound',
-  };
 
   useEffect(() => {
     if (!dataValid) return;
@@ -120,7 +114,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
+      currency: data.currency as Fiat,
+      amount: Number(data.amount),
     };
+  }
+
+  function updateBankAccount() {
+    updateAccount(selectedBankAccount.id, { preferredCurrency: data.currency as Fiat });
   }
 
   const rules = Utils.createRules({
@@ -143,7 +143,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             {bankAccounts && (
               <StyledModalDropdown<BankAccount>
                 name="bankAccount"
-                labelFunc={(item) => item.iban}
+                labelFunc={(item) => Utils.formatIban(item.iban) ?? ''}
                 descriptionFunc={(item) => item.label}
                 label="Your Bank Account"
                 placeholder="Add or select your IBAN"
@@ -165,7 +165,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                     labelIcon={IconVariant.BANK}
                     items={currencies}
                     labelFunc={(item) => item.name}
-                    descriptionFunc={(item) => currencyDescription[item.name]}
+                    descriptionFunc={(item) => toDescription(item)}
                   />
                 </div>
                 <div className="basis-2/12 shrink-0 flex justify-center pt-9">
@@ -179,10 +179,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
                     <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
                   </div>
-                  <div className="border border-dfxGray-400 rounded px-2 py-1.5 drop-shadow-sm">
+                  <div className="border border-dfxGray-400 rounded px-2 py-1 drop-shadow-sm">
                     <StyledCoinListItem
                       asset={asset.name}
-                      protocol={BuyTabDefinitions.protocols[asset.blockchain]}
+                      protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
                       disabled
                     />
@@ -191,13 +191,16 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               </div>
             )}
             <StyledInput
+              type={'number'}
               label="Buy Amount"
               placeholder="0.00"
+              prefix={data?.currency && toSymbol(data.currency as Fiat)}
               name="amount"
               forceError={kycRequired || customAmountError != null}
               forceErrorMessage={customAmountError}
             />
           </StyledVerticalStack>
+          <StyledSpacer spacing={6} />
         </Form>
         {paymentInfo && dataValid && !kycRequired && (
           <>
@@ -205,7 +208,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             <StyledButton
               width={StyledButtonWidths.FULL}
               label="Click once your bank transfer is completed."
-              onClick={() => setShowsCompletion(true)}
+              onClick={() => {
+                updateBankAccount();
+                setShowsCompletion(true);
+              }}
               caps={false}
             />
           </>
@@ -220,64 +226,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           </StyledVerticalStack>
         )}
       </StyledTabContentWrapper>
-    </>
-  );
-}
-
-interface PaymentInformation {
-  iban: string;
-  isSepaInstant: boolean;
-  bic: string;
-  purpose: string;
-  recipient: string;
-  fee: string;
-}
-
-interface PaymentInformationContentProps {
-  info: PaymentInformation;
-}
-
-function PaymentInformationContent({ info }: PaymentInformationContentProps): JSX.Element {
-  const { copy } = useClipboard();
-  return (
-    <>
-      <StyledVerticalStack marginY={5} gap={2}>
-        <h2 className="text-center">Payment Information</h2>
-        <StyledInfoText iconColor={IconColors.BLUE}>
-          Please transfer the purchase amount using this information via your banking application. The purpose of
-          payment is important!
-        </StyledInfoText>
-      </StyledVerticalStack>
-      <StyledDataTable alignContent={AlignContent.RIGHT} showBorder>
-        <StyledDataTableRow label="IBAN">
-          <div>
-            <p>{info.iban}</p>
-            {info.isSepaInstant && (
-              <div className="text-white">
-                <DfxIcon icon={IconVariant.SEPA_INSTANT} color={IconColors.RED} />
-              </div>
-            )}
-          </div>
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
-        </StyledDataTableRow>
-        <StyledDataTableRow label="BIC">
-          {info.bic}
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.bic)} />
-        </StyledDataTableRow>
-        <StyledDataTableRow label="Purpose of payment">
-          {info.purpose}
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
-        </StyledDataTableRow>
-      </StyledDataTable>
-      <StyledDataTable label="Recipient" showBorder>
-        <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
-      </StyledDataTable>
-      <StyledDataTable alignContent={AlignContent.BETWEEN} showBorder={false} narrow>
-        <StyledDataTableRow discreet>
-          <p>DFX-Fee</p>
-          <p>{info.fee}</p>
-        </StyledDataTableRow>
-      </StyledDataTable>
     </>
   );
 }

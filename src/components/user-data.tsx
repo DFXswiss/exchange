@@ -27,9 +27,10 @@ export function UserData(): JSX.Element {
           ? undefined
           : {
               color: StyledButtonColors.WHITE,
-              label: 'add e-mail address',
+              label: 'Add E-mail address',
               func: () => setShowsUserEdit(true),
               isLoading: false,
+              deactivateMargin: true,
             },
     },
     { title: 'KYC status', value: status },
@@ -41,6 +42,7 @@ export function UserData(): JSX.Element {
         label: isComplete ? 'Increase limit' : 'Start KYC to increase',
         func: start,
         isLoading: false,
+        deactivateMargin: false,
       },
     },
   ];
@@ -56,11 +58,12 @@ export function UserData(): JSX.Element {
               label: 'Copy to share',
               func: () => copy(refLink),
               isLoading: isCopying,
+              deactivateMargin: false,
             }
           : undefined,
     },
     { title: 'Referral commission', value: `${user?.refFeePercent ?? 0 * 100} %` },
-    { title: 'Referral users', value: user?.refCount },
+    { title: 'Referred users', value: user?.refCount },
     { title: 'Referral volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
     { title: 'Referral bonus', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
   ];
@@ -102,6 +105,7 @@ export function UserData(): JSX.Element {
                     width={StyledButtonWidths.MIN}
                     caps={false}
                     isLoading={entry.button.isLoading}
+                    deactivateMargin={entry.button.deactivateMargin}
                   />
                 )}
               </StyledDataTableRow>

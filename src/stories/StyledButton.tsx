@@ -28,6 +28,8 @@ export interface StyledButtonProps {
   caps?: boolean;
   isLoading?: boolean;
   disabled?: boolean;
+  hidden?: boolean;
+  deactivateMargin?: boolean;
 }
 
 type SizeMapProps = {
@@ -72,6 +74,8 @@ export default function StyledButton({
   caps = true,
   isLoading = false,
   disabled = false,
+  hidden = false,
+  deactivateMargin = false,
 }: StyledButtonProps) {
   let buttonClasses =
     'inline-block flex gap-4 justify-center leading-tight shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out ';
@@ -96,9 +100,11 @@ export default function StyledButton({
   buttonClasses += [
     SIZE_MAPS[size].buttonClasses,
     renderedColor,
-    WIDTH_MAPS[width],
+    width === StyledButtonWidths.MIN && deactivateMargin ? '' : WIDTH_MAPS[width],
     caps ? 'uppercase' : 'normal-case',
   ].join(' ');
+
+  buttonClasses += hidden ? ' hidden' : '';
 
   return (
     <>

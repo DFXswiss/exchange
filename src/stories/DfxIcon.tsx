@@ -16,6 +16,9 @@ import {
   MdEast,
   MdWest,
   MdSettings,
+  MdEdit,
+  MdHelpOutline,
+  MdCheck,
 } from 'react-icons/md';
 import { ReactElement, useContext } from 'react';
 
@@ -30,13 +33,16 @@ export enum IconVariant {
   ARROW_LEFT = 'ARROW_LEFT',
   BACK = 'BACK',
   CANCEL = 'CANCEL',
+  CHECK = 'CHECK',
   CHEV_RIGHT = 'CHEV_RIGHT',
   CHEV_LEFT = 'CHEV_LEFT',
   CLOSE = 'CLOSE',
   COPY = 'COPY',
+  EDIT = 'EDIT',
   EXPAND_LESS = 'EXPAND_LESS',
   EXPAND_MORE = 'EXPAND_MORE',
   FORWARD = 'FORWARD',
+  HELP = 'HELP',
   INFO = 'INFO',
   INFO_OUTLINE = 'INFO_OUTLINE',
   SETTINGS = 'SETTINGS',
@@ -56,6 +62,7 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.UNFOLD_MORE]: <MdUnfoldMore />,
   [IconVariant.EXPAND_LESS]: <MdExpandLess />,
   [IconVariant.EXPAND_MORE]: <MdExpandMore />,
+  [IconVariant.CHECK]: <MdCheck />,
   [IconVariant.CHEV_LEFT]: <MdChevronLeft />,
   [IconVariant.CHEV_RIGHT]: <MdChevronRight />,
   [IconVariant.INFO_OUTLINE]: <MdInfoOutline />,
@@ -69,6 +76,8 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.BANK]: <DfxBankIcon />,
   [IconVariant.SEPA_INSTANT]: <DfxSepaInstantAvailable />,
   [IconVariant.PROCESS_DONE]: <DfxProcessDoneIcon />,
+  [IconVariant.EDIT]: <MdEdit />,
+  [IconVariant.HELP]: <MdHelpOutline />,
 };
 
 export enum IconSizes {

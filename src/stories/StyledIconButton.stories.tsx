@@ -7,10 +7,10 @@ export default {
   component: StyledIconButton,
 } as ComponentMeta<typeof StyledIconButton>;
 
-export const IconButton: ComponentStory<typeof StyledIconButton> = (args) => {
+export const DemoIconButton: ComponentStory<typeof StyledIconButton> = (args) => {
   return <StyledIconButton {...args} />;
 };
-IconButton.args = {
+DemoIconButton.args = {
   icon: IconVariant.BANK,
   color: IconColors.RED,
   size: IconSizes.MD,

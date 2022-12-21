@@ -1,11 +1,14 @@
 import { PropsWithChildren, useContext } from 'react';
+import { IconColors } from './DfxIcon';
 import { AlignContent, ThemeContext } from './StyledDataTable';
+import StyledInfoText, { StyledInfoTextSizes } from './StyledInfoText';
 import StyledLoadingSpinner, { SpinnerSizes, SpinnerVariant } from './StyledLoadingSpinner';
 
 interface StyledDataTableRowProps extends PropsWithChildren {
   label?: string;
   discreet?: boolean;
   isLoading?: boolean;
+  infoText?: string;
 }
 
 const ALIGN_MAPS: Record<AlignContent, string> = {
@@ -14,10 +17,16 @@ const ALIGN_MAPS: Record<AlignContent, string> = {
   [AlignContent.BETWEEN]: ' justify-between',
 };
 
-export default function StyledDataTableRow({ label, children, discreet, isLoading }: StyledDataTableRowProps) {
+export default function StyledDataTableRow({
+  label,
+  children,
+  discreet,
+  isLoading,
+  infoText,
+}: StyledDataTableRowProps) {
   const theme = useContext(ThemeContext);
 
-  let wrapperClasses = 'flex text-sm';
+  let wrapperClasses = 'flex flex-col gap-3 text-sm';
   let labelClasses = ' ';
   let rowDataClasses = 'flex gap-3 w-full';
 
@@ -42,15 +51,22 @@ export default function StyledDataTableRow({ label, children, discreet, isLoadin
 
   return (
     <div className={wrapperClasses}>
-      {label !== undefined && (
-        <div className="flex-none w-48">
-          <p className={labelClasses}>{label}</p>
-        </div>
-      )}
+      <div className="flex">
+        {label !== undefined && (
+          <div className="flex-none w-48">
+            <p className={labelClasses}>{label}</p>
+          </div>
+        )}
 
-      <div className={rowDataClasses}>
-        {isLoading ? <StyledLoadingSpinner size={SpinnerSizes.SM} variant={SpinnerVariant.PALE} /> : children}
+        <div className={rowDataClasses}>
+          {isLoading ? <StyledLoadingSpinner size={SpinnerSizes.SM} variant={SpinnerVariant.PALE} /> : children}
+        </div>
       </div>
+      {infoText !== undefined && (
+        <StyledInfoText textSize={StyledInfoTextSizes.XS} iconColor={IconColors.GRAY} discreet>
+          {infoText}
+        </StyledInfoText>
+      )}
     </div>
   );
 }
