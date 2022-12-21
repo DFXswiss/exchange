@@ -10,6 +10,7 @@ module.exports = {
         red: '#F5516C',
         blue: '#072440',
       },
+      link: '#f7f7f7',
       dfxBlue: {
         300: '#5A81BB',
         400: '#124370',
