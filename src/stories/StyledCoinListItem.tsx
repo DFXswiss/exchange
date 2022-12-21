@@ -14,7 +14,7 @@ export enum Protocol {
 }
 
 const NAME_MAPS: Record<AssetIconVariant, string> = {
-  [AssetIconVariant.USDT]: 'USD Tether',
+  [AssetIconVariant.USDT]: 'Tether',
   [AssetIconVariant.BNB]: 'BNB',
   [AssetIconVariant.DFI]: 'DFI',
   [AssetIconVariant.USDC]: 'USD Coin',
@@ -22,6 +22,7 @@ const NAME_MAPS: Record<AssetIconVariant, string> = {
   [AssetIconVariant.ETH]: 'Ethereum',
   [AssetIconVariant.DAI]: 'Dai',
   [AssetIconVariant.BTC]: 'Bitcoin',
+  [AssetIconVariant.BSCUSD]: 'Tether',
 };
 
 export default function StyledCoinListItem({
