@@ -1,3 +1,4 @@
+import { Protocol } from '../hooks/blockchain.hook';
 import DfxAssetIcon, { AssetIconVariant } from './DfxAssetIcon';
 
 export interface StyledCoinListItemProps {
@@ -8,13 +9,8 @@ export interface StyledCoinListItemProps {
   protocol: Protocol;
 }
 
-export enum Protocol {
-  ERC_20 = 'ERC-20',
-  BEP_20 = 'BEP-20',
-}
-
 const NAME_MAPS: Record<AssetIconVariant, string> = {
-  [AssetIconVariant.USDT]: 'USD Tether',
+  [AssetIconVariant.USDT]: 'Tether',
   [AssetIconVariant.BNB]: 'BNB',
   [AssetIconVariant.DFI]: 'DFI',
   [AssetIconVariant.USDC]: 'USD Coin',
