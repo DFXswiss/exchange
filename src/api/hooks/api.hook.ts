@@ -14,7 +14,7 @@ export interface CallConfig {
 }
 
 interface SpecialHandling {
-  action?: () => void;
+  action: () => void;
   statusCode: number;
 }
 

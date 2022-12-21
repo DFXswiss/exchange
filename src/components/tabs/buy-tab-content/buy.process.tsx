@@ -29,6 +29,7 @@ import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalS
 import StyledDropdown from '../../../stories/form/StyledDropdown';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
+import { useFiat } from '../../../api/hooks/fiat.hook';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -46,6 +47,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
   const { isAllowedToBuy, start, limit } = useKyc();
   const { toProtocol } = useBlockchain();
+  const { toDescription, toSymbol } = useFiat();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
@@ -61,20 +63,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
   const dataValid = validatedData != null;
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
-
-  const currencyDescription: Record<string, string> = {
-    ['EUR']: 'Euro',
-    ['USD']: 'US Dollar',
-    ['CHF']: 'Swiss Franc',
-    ['GBP']: 'British Pound',
-  };
-
-  const currencySymbol: Record<string, string> = {
-    ['EUR']: '€',
-    ['USD']: '$',
-    ['CHF']: '₣',
-    ['GBP']: '£',
-  };
 
   useEffect(() => {
     if (!dataValid) return;
@@ -178,7 +166,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                     labelIcon={IconVariant.BANK}
                     items={currencies}
                     labelFunc={(item) => item.name}
-                    descriptionFunc={(item) => currencyDescription[item.name]}
+                    descriptionFunc={(item) => toDescription(item)}
                   />
                 </div>
                 <div className="basis-2/12 shrink-0 flex justify-center pt-9">
@@ -207,7 +195,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               type={'number'}
               label="Buy Amount"
               placeholder="0.00"
-              prefix={data?.currency?.name && currencySymbol[data.currency.name]}
+              prefix={data?.currency && toSymbol(data.currency as Fiat)}
               name="amount"
               forceError={kycRequired || customAmountError != null}
               forceErrorMessage={customAmountError}
