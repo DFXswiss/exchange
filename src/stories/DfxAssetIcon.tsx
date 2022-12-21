@@ -15,7 +15,6 @@ export enum AssetIconVariant {
   ETH = 'ETH',
   DAI = 'DAI',
   BTC = 'BTC',
-  BSCUSD = 'BSC-USD',
 }
 
 export enum AssetIconSizes {
@@ -41,7 +40,6 @@ const VARIANT_MAPS: Record<AssetIconVariant, (props: BaseAssetIconProps) => Reac
   [AssetIconVariant.ETH]: ({ forceColor }) => <DfxAssetIconETH forceColor={forceColor} />,
   [AssetIconVariant.DAI]: ({ forceColor }) => <DfxAssetIconDAI forceColor={forceColor} />,
   [AssetIconVariant.BTC]: ({ forceColor }) => <DfxAssetIconBTC forceColor={forceColor} />,
-  [AssetIconVariant.BSCUSD]: ({ forceColor }) => <DfxAssetIconUSDT forceColor={forceColor} />,
 };
 
 export default function DfxAssetIcon({ size = AssetIconSizes.MD, asset, disabled }: DfxAssetIconProps) {

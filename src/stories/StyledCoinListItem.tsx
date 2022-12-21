@@ -18,7 +18,6 @@ const NAME_MAPS: Record<AssetIconVariant, string> = {
   [AssetIconVariant.ETH]: 'Ethereum',
   [AssetIconVariant.DAI]: 'Dai',
   [AssetIconVariant.BTC]: 'Bitcoin',
-  [AssetIconVariant.BSCUSD]: 'Binance Tether',
 };
 
 export default function StyledCoinListItem({
