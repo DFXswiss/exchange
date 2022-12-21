@@ -11,7 +11,7 @@ enum BuyTabStep {
   BUY_PROCESS,
 }
 
-export function BuyTab(): StyledTabProps {
+export function useBuyTab(): StyledTabProps {
   const [step, setStep] = useState<BuyTabStep>(BuyTabStep.OVERVIEW);
 
   return {

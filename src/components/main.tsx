@@ -12,7 +12,7 @@ import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../stories
 import StyledIconButton from '../stories/StyledIconButton';
 import StyledModal, { StyledModalTypes, StyledModalWidths } from '../stories/StyledModal';
 import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
-import { BuyTab } from './tabs/buy.tab';
+import { useBuyTab } from './tabs/buy.tab';
 import { UserBox } from './user-box';
 import { WalletBox } from './wallet-box';
 
@@ -134,7 +134,7 @@ export function Main(): JSX.Element {
             )}
           </div>
           {!isMobile ? (
-            <StyledTabContainer tabs={[BuyTab(), buildComingSoonTab('Sell'), buildComingSoonTab('Convert')]} />
+            <StyledTabContainer tabs={[useBuyTab(), buildComingSoonTab('Sell'), buildComingSoonTab('Convert')]} />
           ) : (
             <p className="text-center">Our DFX Exchange is not yet available on mobile. Please check back later</p>
           )}
