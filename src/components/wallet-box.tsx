@@ -2,17 +2,11 @@ import { useWalletContext } from '../contexts/wallet.context';
 import { useSessionContext } from '../contexts/session.context';
 import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
-import { IconVariant } from '../stories/DfxIcon';
 import { useClipboard } from '../hooks/clipboard.hook';
-import StyledIconButton from '../stories/StyledIconButton';
 import { useBlockchain } from '../hooks/blockchain.hook';
 import { CopyButton } from './copy-button';
 
-interface WalletBoxProps {
-  onInfoClick: () => void;
-}
-
-export function WalletBox({ onInfoClick }: WalletBoxProps): JSX.Element {
+export function WalletBox(): JSX.Element {
   const { isConnected } = useWalletContext();
   const { address, blockchain, isLoggedIn, login, logout } = useSessionContext();
   const { copy } = useClipboard();
@@ -32,10 +26,7 @@ export function WalletBox({ onInfoClick }: WalletBoxProps): JSX.Element {
         {blankedAddress()}
         <CopyButton onCopy={() => copy(address)} inline />
       </StyledDataTextRow>
-      <StyledDataTextRow label="Connected to">
-        {blockchain ? toString(blockchain) : ''}
-        <StyledIconButton icon={IconVariant.INFO_OUTLINE} onClick={onInfoClick} inline />
-      </StyledDataTextRow>
+      <StyledDataTextRow label="Connected to">{blockchain ? toString(blockchain) : ''}</StyledDataTextRow>
     </StyledDataBox>
   ) : (
     <></>

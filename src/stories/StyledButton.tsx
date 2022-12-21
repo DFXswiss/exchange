@@ -28,6 +28,7 @@ export interface StyledButtonProps {
   caps?: boolean;
   isLoading?: boolean;
   disabled?: boolean;
+  hidden?: boolean;
   deactivateMargin?: boolean;
 }
 
@@ -73,6 +74,7 @@ export default function StyledButton({
   caps = true,
   isLoading = false,
   disabled = false,
+  hidden = false,
   deactivateMargin = false,
 }: StyledButtonProps) {
   let buttonClasses =
@@ -101,6 +103,8 @@ export default function StyledButton({
     width === StyledButtonWidths.MIN && deactivateMargin ? '' : WIDTH_MAPS[width],
     caps ? 'uppercase' : 'normal-case',
   ].join(' ');
+
+  buttonClasses += hidden ? ' hidden' : '';
 
   return (
     <>

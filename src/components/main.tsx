@@ -112,9 +112,13 @@ export function Main(): JSX.Element {
               <DfxLogo />
             </a>
             {!isMobile && (
-              <div className={`flex gap-4 ${isConnected ? 'hidden' : ''}`}>
-                <StyledButton label="Connect to Metamask" onClick={login} />
-                <StyledIconButton size={IconSizes.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
+              <div className="flex gap-4">
+                <StyledButton label="Connect to Metamask" onClick={login} hidden={isConnected} />
+                <StyledIconButton
+                  size={IconSizes.LG}
+                  icon={isConnected ? IconVariant.INFO_OUTLINE : IconVariant.HELP}
+                  onClick={() => setShowsHelp(true)}
+                />
               </div>
             )}
           </div>
@@ -124,7 +128,7 @@ export function Main(): JSX.Element {
             </div>
             {!isMobile && (
               <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
-                <WalletBox onInfoClick={() => setShowsHelp(true)} />
+                <WalletBox />
                 <UserBox />
               </aside>
             )}
