@@ -7,7 +7,11 @@ import { useClipboard } from '../hooks/clipboard.hook';
 import StyledIconButton from '../stories/StyledIconButton';
 import { useBlockchain } from '../hooks/blockchain.hook';
 
-export function WalletBox(): JSX.Element {
+interface WalletBoxProps {
+  onInfoClick: () => void;
+}
+
+export function WalletBox({ onInfoClick }: WalletBoxProps): JSX.Element {
   const { isConnected } = useWalletContext();
   const { address, blockchain, isLoggedIn, login, logout } = useSessionContext();
   const { copy } = useClipboard();
@@ -27,7 +31,10 @@ export function WalletBox(): JSX.Element {
         {blankedAddress()}
         <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(address)} inline />
       </StyledDataTextRow>
-      <StyledDataTextRow label="Connected to">{blockchain ? toString(blockchain) : ''}</StyledDataTextRow>
+      <StyledDataTextRow label="Connected to">
+        {blockchain ? toString(blockchain) : ''}
+        <StyledIconButton icon={IconVariant.INFO_OUTLINE} onClick={onInfoClick} inline />
+      </StyledDataTextRow>
     </StyledDataBox>
   ) : (
     <></>

@@ -124,7 +124,7 @@ export function Main(): JSX.Element {
             </div>
             {!isMobile && (
               <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
-                <WalletBox />
+                <WalletBox onInfoClick={() => setShowsHelp(true)} />
                 <UserBox />
               </aside>
             )}

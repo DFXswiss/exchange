@@ -14,10 +14,6 @@ import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { AddBankAccount } from '../../buy/add-bank-account';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
-import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
-import StyledDataTableRow from '../../../stories/StyledDataTableRow';
-import StyledIconButton from '../../../stories/StyledIconButton';
-import { useClipboard } from '../../../hooks/clipboard.hook';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
@@ -30,6 +26,7 @@ import StyledDropdown from '../../../stories/form/StyledDropdown';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
+import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -117,6 +114,8 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
+      currency: data.currency as Fiat,
+      amount: Number(data.amount),
     };
   }
 
@@ -227,67 +226,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           </StyledVerticalStack>
         )}
       </StyledTabContentWrapper>
-    </>
-  );
-}
-
-interface PaymentInformation {
-  iban: string;
-  isSepaInstant: boolean;
-  bic: string;
-  purpose: string;
-  recipient: string;
-  fee: string;
-}
-
-interface PaymentInformationContentProps {
-  info: PaymentInformation;
-}
-
-function PaymentInformationContent({ info }: PaymentInformationContentProps): JSX.Element {
-  const { copy } = useClipboard();
-  return (
-    <>
-      <StyledVerticalStack marginY={5} gap={2}>
-        <h2 className="text-center">Payment Information</h2>
-        <StyledInfoText iconColor={IconColors.BLUE}>
-          Please transfer the purchase amount using this information via your banking application. The purpose of
-          payment is important!
-        </StyledInfoText>
-      </StyledVerticalStack>
-      <StyledDataTable alignContent={AlignContent.RIGHT} showBorder>
-        <StyledDataTableRow label="IBAN">
-          <div>
-            <p>{info.iban}</p>
-            {info.isSepaInstant && (
-              <div className="text-white">
-                <DfxIcon icon={IconVariant.SEPA_INSTANT} color={IconColors.RED} />
-              </div>
-            )}
-          </div>
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.iban)} />
-        </StyledDataTableRow>
-        <StyledDataTableRow label="BIC">
-          {info.bic}
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.bic)} />
-        </StyledDataTableRow>
-        <StyledDataTableRow
-          label="Purpose of payment"
-          infoText="The purpose of payment remains identical for the selected asset and can be used for recurring payments and standing orders."
-        >
-          {info.purpose}
-          <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(info.purpose)} />
-        </StyledDataTableRow>
-      </StyledDataTable>
-      <StyledDataTable label="Recipient" showBorder>
-        <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
-      </StyledDataTable>
-      <StyledDataTable alignContent={AlignContent.BETWEEN} showBorder={false} narrow>
-        <StyledDataTableRow discreet>
-          <p>DFX-Fee</p>
-          <p>{info.fee}</p>
-        </StyledDataTableRow>
-      </StyledDataTable>
     </>
   );
 }
