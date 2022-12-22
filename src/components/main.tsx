@@ -113,8 +113,12 @@ export function Main(): JSX.Element {
               <DfxLogo />
             </a>
             {!isMobile && (
-              <div className="flex gap-4">
-                <StyledButton label="Connect to Metamask" onClick={login} hidden={isConnected} />
+              <div className="flex gap-4 items-center">
+                {isConnected ? (
+                  <p className="text-dfxRed-100">How to</p>
+                ) : (
+                  <StyledButton label="Connect to Metamask" onClick={login} />
+                )}
                 <StyledIconButton
                   size={IconSizes.LG}
                   icon={isConnected ? IconVariant.INFO_OUTLINE : IconVariant.HELP}
