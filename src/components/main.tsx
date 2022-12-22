@@ -137,9 +137,12 @@ export function Main(): JSX.Element {
           {!isMobile ? (
             <StyledTabContainer tabs={[useBuyTab(), buildComingSoonTab('Sell'), buildComingSoonTab('Convert')]} />
           ) : (
-            <p className="text-center pb-12">
-              Our DFX Exchange is not yet available on mobile. Please check back later
-            </p>
+            <>
+              <p className="text-center py-12">
+                Our DFX Exchange is not yet available on mobile. Visit the DFX Exchange via your computer's web browser.
+              </p>
+              <p className="text-center pb-24">Please check back later for the mobile version.</p>
+            </>
           )}
         </div>
         <div className="flex flex-col gap-4 md:flex-row md:gap-40 justify-center pb-4">
