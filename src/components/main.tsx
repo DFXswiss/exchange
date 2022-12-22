@@ -137,10 +137,12 @@ export function Main(): JSX.Element {
           {!isMobile ? (
             <StyledTabContainer tabs={[useBuyTab(), buildComingSoonTab('Sell'), buildComingSoonTab('Convert')]} />
           ) : (
-            <p className="text-center">Our DFX Exchange is not yet available on mobile. Please check back later</p>
+            <p className="text-center pb-12">
+              Our DFX Exchange is not yet available on mobile. Please check back later
+            </p>
           )}
         </div>
-        <div className="flex flex-row gap-40 justify-center pb-4">
+        <div className="flex flex-col gap-4 md:flex-row md:gap-40 justify-center pb-4">
           <StyledLink label="Terms and conditions" url={process.env.REACT_APP_TNC_URL} />
           <StyledLink label="Privacy policy" url={process.env.REACT_APP_PPO_URL} />
           <StyledLink label="Imprint" url={process.env.REACT_APP_IMP_URL} />
