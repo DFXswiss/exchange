@@ -20,7 +20,7 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
           {assets.map((asset, assetIndex) => (
             <StyledCoinListItem
               key={assetIndex}
-              asset={asset.name}
+              asset={asset}
               protocol={toProtocol(blockchain)}
               onClick={() => onAssetClicked(asset)}
               comingSoon={asset.comingSoon}
