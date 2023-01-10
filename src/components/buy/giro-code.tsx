@@ -36,11 +36,5 @@ export function GiroCode({ info }: GiroCodeProps): JSX.Element {
     `.trim();
   }
 
-  return isValid() ? (
-    <div className="py-4">
-      <QRCode className="mx-auto" value={toValue(info)} size={128} fgColor={'#072440'} />
-    </div>
-  ) : (
-    <></>
-  );
+  return isValid() ? <QRCode className="mx-auto" value={toValue(info)} size={128} fgColor={'#072440'} /> : <></>;
 }
