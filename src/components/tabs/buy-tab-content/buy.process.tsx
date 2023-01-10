@@ -181,7 +181,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                   </div>
                   <div className="border border-dfxGray-400 rounded px-2 py-1 drop-shadow-sm">
                     <StyledCoinListItem
-                      asset={asset.name}
+                      asset={asset}
                       protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
                       disabled

@@ -7,12 +7,21 @@ import StyledDataTextRow from './StyledDataTextRow';
 import StyledTabContainer from './StyledTabContainer';
 import StyledCoinList from './StyledCoinList';
 import StyledCoinListItem from './StyledCoinListItem';
-import { AssetIconVariant } from './DfxAssetIcon';
 import StyledModal, { StyledModalWidths } from './StyledModal';
 import { useState } from 'react';
 import DfxVideoHelpModalContent from './DfxVideoHelpModalContent';
 import StyledIconButton from './StyledIconButton';
 import { Protocol } from '../hooks/blockchain.hook';
+import { Asset } from '../api/definitions/asset';
+
+const dummyAssets = {
+  eth: { name: 'ETH', description: 'Ethereum', comingSoon: false },
+  usdt: { name: 'USDT', description: 'Tether', comingSoon: false },
+  usdc: { name: 'USDC', description: 'USD Coin', comingSoon: false },
+  dfi: { name: 'DFI', description: 'DFI', comingSoon: false },
+  bnb: { name: 'BNB', description: 'BNB', comingSoon: false },
+  busd: { name: 'BUSD', description: 'Binance USD', comingSoon: false },
+};
 
 export default function DfxPageLayout() {
   const [showHelpModal, setShowHelpModal] = useState(false);
@@ -100,28 +109,28 @@ export default function DfxPageLayout() {
                   <>
                     <StyledCoinList heading="Ethereum mainnet · ERC-20 token">
                       <StyledCoinListItem
-                        asset={AssetIconVariant.ETH}
+                        asset={dummyAssets.eth as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
                       />
                       <StyledCoinListItem
-                        asset={AssetIconVariant.USDT}
+                        asset={dummyAssets.usdt as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
                       />
                       <StyledCoinListItem
-                        asset={AssetIconVariant.USDC}
+                        asset={dummyAssets.usdc as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
                       />
                       <StyledCoinListItem
-                        asset={AssetIconVariant.DFI}
+                        asset={dummyAssets.dfi as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}
@@ -130,21 +139,21 @@ export default function DfxPageLayout() {
                     </StyledCoinList>
                     <StyledCoinList heading="Binance Smart Chain · BEP-20 token">
                       <StyledCoinListItem
-                        asset={AssetIconVariant.BUSD}
+                        asset={dummyAssets.busd as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
                       />
                       <StyledCoinListItem
-                        asset={AssetIconVariant.BNB}
+                        asset={dummyAssets.bnb as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
                       />
                       <StyledCoinListItem
-                        asset={AssetIconVariant.DFI}
+                        asset={dummyAssets.dfi as Asset}
                         onClick={() => {
                           console.log('clicked');
                         }}

@@ -1,8 +1,17 @@
 import StyledCoinListItem from './StyledCoinListItem';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { AssetIconVariant } from './DfxAssetIcon';
 import StyledCoinList from './StyledCoinList';
 import { Protocol } from '../hooks/blockchain.hook';
+import { Asset } from '../api/definitions/asset';
+
+const dummyAssets = {
+  eth: { name: 'ETH', description: 'Ethereum', comingSoon: false },
+  usdt: { name: 'USDT', description: 'Tether', comingSoon: false },
+  usdc: { name: 'USDC', description: 'USD Coin', comingSoon: false },
+  dfi: { name: 'DFI', description: 'DFI', comingSoon: false },
+  bnb: { name: 'BNB', description: 'BNB', comingSoon: false },
+  busd: { name: 'BUSD', description: 'Binance USD', comingSoon: false },
+};
 
 export default {
   title: 'Composites/CoinListing',
@@ -14,42 +23,42 @@ export const CoinListingRow: ComponentStory<typeof StyledCoinList> = (args) => {
     <div className="bg-white p-10">
       <StyledCoinList {...args}>
         <StyledCoinListItem
-          asset={AssetIconVariant.ETH}
+          asset={dummyAssets.eth as Asset}
           onClick={() => {
             console.log('clicked');
           }}
           protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
-          asset={AssetIconVariant.USDT}
+          asset={dummyAssets.usdt as Asset}
           onClick={() => {
             console.log('clicked');
           }}
           protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
-          asset={AssetIconVariant.USDC}
+          asset={dummyAssets.usdc as Asset}
           onClick={() => {
             console.log('clicked');
           }}
           protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
-          asset="BSC-USD"
+          asset={dummyAssets.busd as Asset}
           onClick={() => {
             console.log('clicked');
           }}
           protocol={Protocol.ERC_20}
         />{' '}
         <StyledCoinListItem
-          asset={AssetIconVariant.USDT}
+          asset={dummyAssets.usdt as Asset}
           onClick={() => {
             console.log('clicked');
           }}
           protocol={Protocol.ERC_20}
         />
         <StyledCoinListItem
-          asset={AssetIconVariant.USDC}
+          asset={dummyAssets.usdc as Asset}
           onClick={() => {
             console.log('clicked');
           }}
