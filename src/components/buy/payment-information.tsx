@@ -58,10 +58,7 @@ export function PaymentInformationContent({ info }: PaymentInformationContentPro
           <CopyButton onCopy={() => copy(info.purpose)} />
         </StyledDataTableRow>
       </StyledDataTable>
-      <div className="flex flex-col items-center py-4 gap-1">
-        <GiroCode info={info} />
-        <p className="text-dfxBlue-800 font-semibold text-base">GiroCode</p>
-      </div>
+      <GiroCode info={info} />
       <StyledDataTable label="Recipient" showBorder>
         <StyledDataTableRow>{info.recipient}</StyledDataTableRow>
       </StyledDataTable>

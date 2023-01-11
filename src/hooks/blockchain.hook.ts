@@ -36,24 +36,28 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
+      [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
     },
     protocols: {
       [Blockchain.ETH]: Protocol.ERC_20,
       [Blockchain.BSC]: Protocol.BEP_20,
       [Blockchain.ARBITRUM]: Protocol.ERC_20,
       [Blockchain.OPTIMISM]: Protocol.ERC_20,
+      [Blockchain.POLYGON]: Protocol.ERC_20,
     },
     mainToken: {
       [Blockchain.ETH]: 'ETH',
       [Blockchain.BSC]: 'BNB',
       [Blockchain.ARBITRUM]: 'ETH',
       [Blockchain.OPTIMISM]: 'ETH',
+      [Blockchain.POLYGON]: 'MATIC',
     },
     stringValue: {
-      [Blockchain.ETH]: 'Ethereum (not yet supported)',
+      [Blockchain.ETH]: 'Ethereum',
       [Blockchain.BSC]: 'Binance Smart Chain',
-      [Blockchain.ARBITRUM]: 'Arbitrum (not yet supported)',
-      [Blockchain.OPTIMISM]: 'Optimism (not yet supported)',
+      [Blockchain.ARBITRUM]: 'Arbitrum',
+      [Blockchain.OPTIMISM]: 'Optimism',
+      [Blockchain.POLYGON]: 'Polygon (not yet supported)',
     },
   };
 

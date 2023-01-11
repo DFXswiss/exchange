@@ -1,6 +1,6 @@
 import { Blockchain } from './blockchain';
 
-export const AssetUrl = { get: 'asset?blockchains=BinanceSmartChain,Ethereum,Arbitrum,Optimism' };
+export const AssetUrl = { get: `asset?blockchains=${Object.values(Blockchain).join(',')}` };
 
 export interface Asset {
   id: number;
@@ -10,4 +10,5 @@ export interface Asset {
   sellable: boolean;
   blockchain: Blockchain;
   comingSoon: boolean;
+  sortOrder?: number;
 }

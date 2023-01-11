@@ -36,5 +36,12 @@ export function GiroCode({ info }: GiroCodeProps): JSX.Element {
     `.trim();
   }
 
-  return isValid() ? <QRCode className="mx-auto" value={toValue(info)} size={128} fgColor={'#072440'} /> : <></>;
+  return isValid() ? (
+    <div className="flex flex-col items-center py-4 gap-1">
+      <QRCode className="mx-auto" value={toValue(info)} size={128} fgColor={'#072440'} />
+      <p className="text-dfxBlue-800 font-semibold text-base">GiroCode</p>
+    </div>
+  ) : (
+    <></>
+  );
 }

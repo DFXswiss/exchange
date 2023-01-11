@@ -3,4 +3,5 @@ export enum Blockchain {
   BSC = 'BinanceSmartChain',
   ARBITRUM = 'Arbitrum',
   OPTIMISM = 'Optimism',
+  POLYGON = 'Polygon',
 }
