@@ -81,9 +81,7 @@ export default function StyledButton({
     'inline-block flex gap-4 justify-center leading-tight shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out ';
 
   let renderedColor: string;
-  let isDisabled = false;
-
-  disabled || isLoading ? (isDisabled = true) : null;
+  const isDisabled = disabled || isLoading;
 
   if (isDisabled) {
     renderedColor = COLOR_MAPS[StyledButtonColors.GRAY];

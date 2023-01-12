@@ -28,7 +28,7 @@ export default function StyledDropdown<T>({
 
   let buttonClasses = 'flex justify-between border border-dfxGray-400 px-4 py-3 shadow-sm w-full';
 
-  isOpen ? (buttonClasses += ' rounded-x rounded-t bg-dfxGray-400/50') : (buttonClasses += ' rounded');
+  buttonClasses += isOpen ? ' rounded-x rounded-t bg-dfxGray-400/50' : ' rounded';
 
   return (
     <Controller
@@ -36,7 +36,7 @@ export default function StyledDropdown<T>({
       render={({ field: { onChange, onBlur, value } }) => (
         <div className="relative">
           <div className="flex ml-3.5 mb-2.5">
-            {labelIcon !== undefined && <DfxIcon icon={labelIcon} size={IconSizes.SM} color={IconColors.BLUE} />}
+            {labelIcon != undefined && <DfxIcon icon={labelIcon} size={IconSizes.SM} color={IconColors.BLUE} />}
 
             <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">{label}</label>
           </div>
@@ -50,7 +50,7 @@ export default function StyledDropdown<T>({
             {...props}
           >
             <div className="flex flex-col gap-1 justify-between text-left">
-              {value === undefined ? (
+              {value == undefined ? (
                 <p className="text-dfxGray-400 drop-shadow-none py-[0.25rem]">{placeholder}</p>
               ) : (
                 <>

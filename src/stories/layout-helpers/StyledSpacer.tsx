@@ -6,9 +6,7 @@ export interface StyledSpacerProps {
 }
 
 export default function StyledSpacer({ showLine, spacing }: StyledSpacerProps) {
-  let spacerClasses = '';
-
-  showLine ? (spacerClasses = ' border-t border-dfxGray-400') : null;
+  const spacerClasses = showLine ? 'border-t border-dfxGray-400' : '';
 
   const margin = convertToRem(spacing);
 
