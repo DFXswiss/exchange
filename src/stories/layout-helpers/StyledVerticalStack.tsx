@@ -8,12 +8,9 @@ export interface StyledVerticalStackProps extends PropsWithChildren {
 }
 
 export default function StyledVerticalStack({ children, gap = 0, marginY, marginX }: StyledVerticalStackProps) {
-  let mY: string | undefined;
-  let mX: string | undefined;
-
   const spacing = convertToRem(gap);
-  marginY !== undefined ? (mY = convertToRem(marginY)) : (mY = '0');
-  marginX !== undefined ? (mX = convertToRem(marginX)) : (mX = '0');
+  const mY = marginY !== undefined ? convertToRem(marginY) : '0';
+  const mX = marginX !== undefined ? convertToRem(marginX) : '0';
 
   return (
     <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col'}>

@@ -36,14 +36,12 @@ export default function StyledInfoText({
 }: StyledInfoTextProps) {
   let wrapperClasses = 'flex gap-2' + TEXT_SIZE_MAPS[textSize].wrapperClasses;
   const iconSize = TEXT_SIZE_MAPS[textSize].iconSize;
-  let iconVariant: IconVariant;
-
-  invertedIcon ? (iconVariant = IconVariant.INFO) : (iconVariant = IconVariant.INFO_OUTLINE);
+  const iconVariant = invertedIcon ? IconVariant.INFO : IconVariant.INFO_OUTLINE;
 
   if (darkTheme) {
-    discreet ? (wrapperClasses += ' text-white/50') : (wrapperClasses += ' text-white');
+    wrapperClasses += discreet ? ' text-white/50' : ' text-white';
   } else {
-    discreet ? (wrapperClasses += ' text-dfxGray-700') : (wrapperClasses += ' text-dfxBlue-800');
+    wrapperClasses += discreet ? ' text-dfxGray-700' : ' text-dfxBlue-800';
   }
 
   return (

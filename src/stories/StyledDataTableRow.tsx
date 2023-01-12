@@ -30,13 +30,13 @@ export default function StyledDataTableRow({
   let labelClasses = ' ';
   let rowDataClasses = 'flex gap-3 w-full';
 
-  discreet ? (wrapperClasses += ' opacity-70') : null;
+  discreet && (wrapperClasses += ' opacity-70');
 
   theme.showBorder
     ? (wrapperClasses += ' px-3.5 py-2.5 border-t border-x last:border-y first:rounded-t last:rounded-b')
     : (wrapperClasses += ' py-2');
 
-  !theme.showBorder && theme.narrow ? (wrapperClasses += ' px-3.5') : null;
+  !theme.showBorder && theme.narrow && (wrapperClasses += ' px-3.5');
 
   if (theme.darkTheme) {
     labelClasses += ' text-dfxGray-600';
@@ -52,7 +52,7 @@ export default function StyledDataTableRow({
   return (
     <div className={wrapperClasses}>
       <div className="flex">
-        {label !== undefined && (
+        {label && (
           <div className="flex-none w-48">
             <p className={labelClasses}>{label}</p>
           </div>
@@ -62,7 +62,7 @@ export default function StyledDataTableRow({
           {isLoading ? <StyledLoadingSpinner size={SpinnerSizes.SM} variant={SpinnerVariant.PALE} /> : children}
         </div>
       </div>
-      {infoText !== undefined && (
+      {infoText && (
         <StyledInfoText textSize={StyledInfoTextSizes.XS} iconColor={IconColors.GRAY} discreet>
           {infoText}
         </StyledInfoText>
