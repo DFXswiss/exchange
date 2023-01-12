@@ -1,7 +1,7 @@
 import StyledCoinListItem from './StyledCoinListItem';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { AssetIconVariant } from './DfxAssetIcon';
 import { Protocol } from '../hooks/blockchain.hook';
+import { Asset } from '../api/definitions/asset';
 
 export default {
   title: 'Building Blocks/StyledCoinListItem',
@@ -16,6 +16,6 @@ export const SingleCoinListItem: ComponentStory<typeof StyledCoinListItem> = (ar
   );
 };
 SingleCoinListItem.args = {
-  asset: AssetIconVariant.BNB,
+  asset: { name: 'BNB', description: 'BNB', comingSoon: false } as Asset,
   protocol: Protocol.ERC_20,
 };

@@ -31,113 +31,15 @@ export function AssetContextProvider(props: PropsWithChildren): JSX.Element {
   }, [isLoggedIn]);
 
   function updateAssets(assets: Asset[]) {
-    setAssets(Utils.groupBy(assets.filter((a) => a.buyable).concat(dummyAssets), 'blockchain'));
+    setAssets(
+      Utils.groupBy(
+        assets.filter((a) => a.buyable || a.comingSoon).sort((a, b) => (a.sortOrder ?? 1) - (b.sortOrder ?? 1)),
+        'blockchain',
+      ),
+    );
   }
 
   const context: AssetInterface = { assets, assetsLoading };
 
   return <AssetContext.Provider value={context}>{props.children}</AssetContext.Provider>;
 }
-
-// TODO (Krysh) remove those as soon as available via API
-const dummyAssets: Asset[] = [
-  // ETH assets
-  {
-    id: 1001,
-    name: 'ETH',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ETH,
-  },
-  {
-    id: 1002,
-    name: 'USDC',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ETH,
-  },
-  {
-    id: 1003,
-    name: 'USDT',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ETH,
-  },
-  {
-    id: 1004,
-    name: 'DFI',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ETH,
-  },
-  // ARBITRUM assets
-  {
-    id: 2001,
-    name: 'ETH',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ARBITRUM,
-  },
-  {
-    id: 2002,
-    name: 'USDC',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ARBITRUM,
-  },
-  {
-    id: 2003,
-    name: 'USDT',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ARBITRUM,
-  },
-  {
-    id: 2004,
-    name: 'DFI',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.ARBITRUM,
-  },
-  // OPTIMISM assets
-  {
-    id: 3001,
-    name: 'ETH',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.OPTIMISM,
-  },
-  {
-    id: 3002,
-    name: 'USDC',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.OPTIMISM,
-  },
-  {
-    id: 3003,
-    name: 'USDT',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.OPTIMISM,
-  },
-  {
-    id: 3004,
-    name: 'DFI',
-    buyable: false,
-    comingSoon: true,
-    sellable: false,
-    blockchain: Blockchain.OPTIMISM,
-  },
-];

@@ -44,7 +44,7 @@ export default function DfxYourCurrencyWalletSection({
           <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
         </div>
         <div className="border border-dfxGray-400 rounded px-2 py-1.5 drop-shadow-sm">
-          <StyledCoinListItem asset={asset.name} protocol={assetProtocol} onClick={onAssetClick} disabled={true} />
+          <StyledCoinListItem asset={asset} protocol={assetProtocol} onClick={onAssetClick} disabled={true} />
         </div>
       </div>
     </div>

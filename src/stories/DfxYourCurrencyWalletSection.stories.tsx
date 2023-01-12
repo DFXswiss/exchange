@@ -18,9 +18,11 @@ const dummyCurrencies: Fiat[] = [
 const dummyAsset: Asset = {
   id: 1001,
   name: 'ETH',
+  description: 'Ethereum',
   buyable: false,
   sellable: false,
   blockchain: Blockchain.ETH,
+  comingSoon: false,
 };
 
 export const Default: ComponentStory<typeof DfxYourCurrencyWalletSection> = () => {
