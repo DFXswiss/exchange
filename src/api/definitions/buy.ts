@@ -21,6 +21,7 @@ export interface Buy {
   remittanceInfo: string;
   minDeposit: MinDeposit;
   sepaInstant: boolean;
+  giroCode?: string;
 }
 
 export interface BuyPaymentInfo {

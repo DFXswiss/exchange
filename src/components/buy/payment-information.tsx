@@ -17,6 +17,7 @@ export interface PaymentInformation {
   fee: string;
   currency?: Fiat;
   amount?: number;
+  giroCode?: string;
 }
 
 interface PaymentInformationContentProps {

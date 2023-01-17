@@ -116,6 +116,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       fee: `${buy.fee} %`,
       currency: data.currency as Fiat,
       amount: Number(data.amount),
+      giroCode: buy.giroCode,
     };
   }
 
