@@ -93,6 +93,7 @@ export enum IconColors {
   BLUE = 'BLUE',
   LIGHT_BLUE = 'LIGHT_BLUE',
   GRAY = 'GRAY',
+  DARK_GRAY = 'DARK_GRAY',
   BLACK = 'BLACK',
   WHITE = 'WHITE',
 }
@@ -102,6 +103,7 @@ const COLOR_MAPS: Record<IconColors, string> = {
   [IconColors.BLUE]: '#072440',
   [IconColors.LIGHT_BLUE]: '#5A81BB',
   [IconColors.GRAY]: '#D6DBE2',
+  [IconColors.DARK_GRAY]: '#9AA5B8',
   [IconColors.WHITE]: '#ffffff',
   [IconColors.BLACK]: '#000000',
 };
