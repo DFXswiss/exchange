@@ -1,4 +1,5 @@
 import StyledLoadingSpinner, { SpinnerSizes, SpinnerVariant } from './StyledLoadingSpinner';
+import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
 
 export enum StyledButtonSizes {
   BIG = 'BIG',
@@ -15,6 +16,7 @@ export enum StyledButtonWidths {
 export enum StyledButtonColors {
   RED = 'RED',
   GRAY = 'GRAY',
+  GRAY_OUTLINE = 'GRAY_OUTLINE',
   PALE_WHITE = 'PALE_WHITE',
   WHITE = 'WHITE',
 }
@@ -30,32 +32,58 @@ export interface StyledButtonProps {
   disabled?: boolean;
   hidden?: boolean;
   deactivateMargin?: boolean;
+  icon?: IconVariant;
+  iconAfterLabel?: boolean;
 }
 
 type SizeMapProps = {
   buttonClasses: string;
   loadingSpinnerSize: SpinnerSizes;
+  iconSize: IconSizes;
 };
 
 const SIZE_MAPS: Record<StyledButtonSizes, SizeMapProps> = {
   [StyledButtonSizes.BIG]: {
-    buttonClasses: 'font-bold text-base rounded px-7 py-2.5 ',
+    buttonClasses: 'font-bold text-base rounded px-7 py-2.5 gap-4 ',
     loadingSpinnerSize: SpinnerSizes.MD,
+    iconSize: IconSizes.MD,
   },
   [StyledButtonSizes.SMALL]: {
-    buttonClasses: 'text-sm rounded-md px-3.5 py-0.5 ',
+    buttonClasses: 'text-sm rounded-md px-3.5 py-0.5 gap-2 ',
     loadingSpinnerSize: SpinnerSizes.SM,
+    iconSize: IconSizes.XS,
   },
 };
 
-const COLOR_MAPS: Record<StyledButtonColors, string> = {
-  [StyledButtonColors.RED]:
-    'bg-primary-red text-white hover:bg-dfxRed-150 focus:bg-dfxRed-150 active:bg-dfxRed-100 hover:shadow-lg',
-  [StyledButtonColors.GRAY]: 'bg-dfxGray-800 text-dfxGray-700',
-  [StyledButtonColors.WHITE]:
-    'bg-dfxGray-400 text-primary-blue hover:bg-dfxGray-500 focus:bg-dfxGray-500 active:bg-dfxGray-600 hover:shadow-lg',
-  [StyledButtonColors.PALE_WHITE]:
-    'border border-white/20 text-white bg-white/10 hover:bg-white/20 focus:bg-white/20 active:bg-white/30',
+type ColorMapProps = {
+  buttonColorClasses: string;
+  iconColor: IconColors;
+};
+
+const COLOR_MAPS: Record<StyledButtonColors, ColorMapProps> = {
+  [StyledButtonColors.RED]: {
+    buttonColorClasses:
+      'bg-primary-red text-white hover:bg-dfxRed-150 focus:bg-dfxRed-150 active:bg-dfxRed-100 hover:shadow-lg',
+    iconColor: IconColors.WHITE,
+  },
+  [StyledButtonColors.GRAY]: {
+    buttonColorClasses: 'bg-dfxGray-800 text-dfxGray-700',
+    iconColor: IconColors.DARK_GRAY,
+  },
+  [StyledButtonColors.GRAY_OUTLINE]: {
+    buttonColorClasses: 'border border-dfxGray-700 text-dfxGray-700 hover:border-dfxGray-800 hover:text-dfxGray-800',
+    iconColor: IconColors.DARK_GRAY,
+  },
+  [StyledButtonColors.WHITE]: {
+    buttonColorClasses:
+      'bg-dfxGray-400 text-primary-blue hover:bg-dfxGray-500 focus:bg-dfxGray-500 active:bg-dfxGray-600 hover:shadow-lg',
+    iconColor: IconColors.BLUE,
+  },
+  [StyledButtonColors.PALE_WHITE]: {
+    buttonColorClasses:
+      'border border-white/20 text-white bg-white/10 hover:bg-white/20 focus:bg-white/20 active:bg-white/30',
+    iconColor: IconColors.WHITE,
+  },
 };
 
 const WIDTH_MAPS: Record<StyledButtonWidths, string> = {
@@ -76,22 +104,23 @@ export default function StyledButton({
   disabled = false,
   hidden = false,
   deactivateMargin = false,
+  icon,
+  iconAfterLabel = false,
 }: StyledButtonProps) {
   let buttonClasses =
-    'inline-block flex gap-4 justify-center leading-tight shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out ';
+    'inline-block flex justify-center leading-tight shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out ';
 
   let renderedColor: string;
   const isDisabled = disabled || isLoading;
 
   if (isDisabled) {
-    renderedColor = COLOR_MAPS[StyledButtonColors.GRAY];
+    renderedColor = COLOR_MAPS[StyledButtonColors.GRAY].buttonColorClasses;
   } else {
     if (color === StyledButtonColors.GRAY) {
       renderedColor =
-        COLOR_MAPS[color] +
-        ' hover:bg-dfxGray-700 hover:text-dfxGray-800 focus:bg-dfxGray-700 focus:text-dfxGray-800 active:bg-dfxGray-800 active:text-dfxGray-700';
+        COLOR_MAPS[color].buttonColorClasses + ' hover:bg-dfxGray-900  focus:bg-dfxGray-900 active:bg-dfxGray-800';
     } else {
-      renderedColor = COLOR_MAPS[color];
+      renderedColor = COLOR_MAPS[color].buttonColorClasses;
     }
   }
 
@@ -107,7 +136,15 @@ export default function StyledButton({
   return (
     <>
       <button type="button" className={buttonClasses} onClick={onClick} disabled={isDisabled}>
-        {label}
+        {iconAfterLabel && label}
+        {icon && (
+          <DfxIcon
+            icon={icon}
+            size={SIZE_MAPS[size].iconSize}
+            color={isDisabled ? IconColors.DARK_GRAY : COLOR_MAPS[color].iconColor}
+          />
+        )}
+        {!iconAfterLabel && label}
         {isLoading && (
           <div className="place-self-center">
             <StyledLoadingSpinner variant={SpinnerVariant.PALE} size={SIZE_MAPS[size].loadingSpinnerSize} />
