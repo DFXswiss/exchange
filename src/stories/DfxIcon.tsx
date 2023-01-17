@@ -19,6 +19,8 @@ import {
   MdEdit,
   MdHelpOutline,
   MdCheck,
+  MdDeleteOutline,
+  MdDelete,
 } from 'react-icons/md';
 import { ReactElement, useContext } from 'react';
 
@@ -32,12 +34,15 @@ export enum IconVariant {
   ARROW_RIGHT = 'ARROW_RIGHT',
   ARROW_LEFT = 'ARROW_LEFT',
   BACK = 'BACK',
+  BANK = 'BANK',
   CANCEL = 'CANCEL',
   CHECK = 'CHECK',
   CHEV_RIGHT = 'CHEV_RIGHT',
   CHEV_LEFT = 'CHEV_LEFT',
   CLOSE = 'CLOSE',
   COPY = 'COPY',
+  DELETE_OUTLINE = 'DELETE_OUTLINE',
+  DELETE = 'DELETE',
   EDIT = 'EDIT',
   EXPAND_LESS = 'EXPAND_LESS',
   EXPAND_MORE = 'EXPAND_MORE',
@@ -45,13 +50,12 @@ export enum IconVariant {
   HELP = 'HELP',
   INFO = 'INFO',
   INFO_OUTLINE = 'INFO_OUTLINE',
+  PROCESS_DONE = 'PROCESS_DONE',
+  SEPA_INSTANT = 'SEPA_INSTANT',
   SETTINGS = 'SETTINGS',
   UNFOLD_LESS = 'UNFOLD_LESS',
   UNFOLD_MORE = 'UNFOLD_MORE',
   WALLET = 'WALLET',
-  BANK = 'BANK',
-  SEPA_INSTANT = 'SEPA_INSTANT',
-  PROCESS_DONE = 'PROCESS_DONE',
 }
 
 export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
@@ -78,6 +82,8 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.PROCESS_DONE]: <DfxProcessDoneIcon />,
   [IconVariant.EDIT]: <MdEdit />,
   [IconVariant.HELP]: <MdHelpOutline />,
+  [IconVariant.DELETE]: <MdDelete />,
+  [IconVariant.DELETE_OUTLINE]: <MdDeleteOutline />,
 };
 
 export enum IconSizes {
