@@ -6,15 +6,6 @@ interface GiroCodeProps {
 }
 
 export function GiroCode({ info }: GiroCodeProps): JSX.Element {
-  const defaultValues = {
-    service: 'BCD',
-    version: '001',
-    encoding: '2',
-    transfer: 'SCT',
-    char: '',
-    ref: '',
-  };
-
   function isValid(): boolean {
     return Boolean(info.giroCode);
   }
