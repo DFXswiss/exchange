@@ -21,6 +21,8 @@ import {
   MdCheck,
   MdDeleteOutline,
   MdDelete,
+  MdOutlineCheckBoxOutlineBlank,
+  MdOutlineCheckBox,
 } from 'react-icons/md';
 import { ReactElement, useContext } from 'react';
 
@@ -56,6 +58,9 @@ export enum IconVariant {
   UNFOLD_LESS = 'UNFOLD_LESS',
   UNFOLD_MORE = 'UNFOLD_MORE',
   WALLET = 'WALLET',
+  CHECKBOX_EMPTY = 'CHECKBOX_EMPTY',
+  CHECKBOX_CHECKED = 'CHECKBOX_CHECKED',
+  SIGNATURE_POPUP = 'SIGNATURE_POPUP',
 }
 
 export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
@@ -67,6 +72,8 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.EXPAND_LESS]: <MdExpandLess />,
   [IconVariant.EXPAND_MORE]: <MdExpandMore />,
   [IconVariant.CHECK]: <MdCheck />,
+  [IconVariant.CHECKBOX_EMPTY]: <MdOutlineCheckBoxOutlineBlank />,
+  [IconVariant.CHECKBOX_CHECKED]: <MdOutlineCheckBox />,
   [IconVariant.CHEV_LEFT]: <MdChevronLeft />,
   [IconVariant.CHEV_RIGHT]: <MdChevronRight />,
   [IconVariant.INFO_OUTLINE]: <MdInfoOutline />,
@@ -84,6 +91,7 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.HELP]: <MdHelpOutline />,
   [IconVariant.DELETE]: <MdDelete />,
   [IconVariant.DELETE_OUTLINE]: <MdDeleteOutline />,
+  [IconVariant.SIGNATURE_POPUP]: <DfxSignaturePopupIcon />,
 };
 
 export enum IconSizes {
@@ -265,6 +273,58 @@ function DfxProcessDoneIcon() {
         <clipPath id="clip0_885_9990">
           <rect width="140" height="140" fill="white" transform="translate(15 11)" />
         </clipPath>
+      </defs>
+    </svg>
+  );
+}
+
+function DfxSignaturePopupIcon() {
+  return (
+    <svg width="260" height="134" viewBox="0 0 260 134" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M17.1831 23.7369C17.1831 10.5506 27.1218 0 39.5467 0C51.9735 0 61.9122 10.5486 61.9122 23.7369C61.9122 36.9251 50.7285 46.1559 39.5467 46.1559C27.1218 46.1559 17.1831 35.6053 17.1831 23.7369ZM52.1399 80.9951C52.1399 72.2718 56.4536 64.5253 63.0514 59.7876C56.6218 54.9616 48.5347 52.0832 39.5508 52.0832C18.1761 52.0852 0.875 68.3545 0.875 88.4488C1.89189 93.2346 4.94656 96.105 9.01813 96.105H56.9761C53.9334 91.8366 52.1419 86.6195 52.1419 80.9951H52.1399ZM78.1628 59.9901C66.6167 59.9901 57.2004 69.4255 57.2004 80.995C57.2004 92.5646 66.6167 102 78.1628 102C89.7089 102 99.1251 92.5646 99.1251 80.995C99.1251 69.4235 89.7089 59.9901 78.1628 59.9901ZM75.4524 91.4494L64.5028 80.5618L68.3102 76.7166L75.5205 83.8874L87.7251 72.1855L91.4624 76.0988L75.4524 91.4494Z"
+        fill="#D6DBE2"
+      />
+      <rect x="109.125" width="150" height="48" rx="13.9263" fill="#D6DBE2" />
+      <g filter="url(#filter0_d_1679_13861)">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M206.588 105.744L200.454 111.878L197.908 114.424L178.51 95.0265L179.742 93.795L197.919 111.973L199.246 110.646L196.025 107.425L202.159 101.291L205.38 104.512L206.611 105.744H206.588ZM139.514 38.67L200.833 99.9884L194.698 106.123L133.38 44.8042L130.834 36.9528C130.668 36.4436 131.154 35.9581 131.663 36.1239L139.514 38.67Z"
+          fill="#F5516C"
+        />
+      </g>
+      <path
+        d="M146.903 36.5787C146.903 36.5787 151.988 38.8133 155.176 32.1914C159.491 23.2221 166.236 9.13776 166.708 26.6971C167.005 37.6755 169.824 38.4443 174.98 31.9454C183.365 21.3668 182.934 37.6755 188.818 37.9933C194.169 38.2803 197.398 35.0821 197.398 35.0821"
+        stroke="#F5516C"
+        strokeWidth="3.09474"
+      />
+      <defs>
+        <filter
+          id="filter0_d_1679_13861"
+          x="115.801"
+          y="25.0908"
+          width="105.811"
+          height="108.333"
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="4" />
+          <feGaussianBlur stdDeviation="7.5" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" />
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1679_13861" />
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1679_13861" result="shape" />
+        </filter>
       </defs>
     </svg>
   );

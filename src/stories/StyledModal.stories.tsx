@@ -1,8 +1,13 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
+import DfxIcon, { IconVariant } from './DfxIcon';
+import StyledHorizontalStack from './layout-helpers/StyledHorizontalStack';
+import StyledSpacer from './layout-helpers/StyledSpacer';
+import StyledVerticalStack from './layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColors, StyledButtonWidths } from './StyledButton';
+import StyledCheckboxRow from './StyledCheckboxRow';
 
-import StyledModal, { StyledModalColors, StyledModalTypes } from './StyledModal';
+import StyledModal, { StyledModalColors, StyledModalTypes, StyledModalWidths } from './StyledModal';
 
 export default {
   title: 'Building Blocks/StyledModal',
@@ -109,4 +114,80 @@ export const AlertModal: ComponentStory<typeof StyledModal> = (args) => {
 
 AlertModal.args = {
   type: StyledModalTypes.ALERT,
+};
+
+export const DeleteBankAccountAlert: ComponentStory<typeof StyledModal> = (args) => {
+  const [showModal, setShowModal] = useState(true);
+  return (
+    <>
+      <StyledButton label="Open Alert Modal" caps={false} onClick={() => setShowModal(true)}></StyledButton>
+      <StyledModal {...args} onClose={setShowModal} isVisible={showModal}>
+        <h2>Remove IBAN from your DFX account?</h2>
+        <StyledSpacer spacing={7} />
+        <StyledHorizontalStack gap={5}>
+          <StyledButton
+            width={StyledButtonWidths.FULL}
+            color={StyledButtonColors.GRAY_OUTLINE}
+            label="Cancel"
+            onClick={() => {
+              setShowModal(false);
+            }}
+          />
+
+          <StyledButton
+            width={StyledButtonWidths.FULL}
+            color={StyledButtonColors.RED}
+            label="Remove"
+            onClick={() => {
+              setShowModal(false);
+            }}
+          />
+        </StyledHorizontalStack>
+      </StyledModal>
+    </>
+  );
+};
+
+DeleteBankAccountAlert.args = {
+  type: StyledModalTypes.ALERT,
+};
+
+export const SignaturePopupAlert: ComponentStory<typeof StyledModal> = (args) => {
+  const [showModal, setShowModal] = useState(true);
+  return (
+    <>
+      <StyledButton label="Open Alert Modal" caps={false} onClick={() => setShowModal(true)}></StyledButton>
+      <StyledModal {...args} onClose={setShowModal} isVisible={showModal}>
+        <StyledVerticalStack gap={5} center>
+          <DfxIcon icon={IconVariant.SIGNATURE_POPUP} />
+          <h2>
+            Log in to your DFX account by verifying with your signature that you are the sole owner of the provided
+            blockchain address.
+          </h2>
+          <StyledCheckboxRow
+            onChange={() => {
+              console.log('checked.');
+            }}
+            centered
+          >
+            Don't show this again.
+          </StyledCheckboxRow>
+
+          <StyledButton
+            width={StyledButtonWidths.MD}
+            color={StyledButtonColors.RED}
+            label="OK"
+            onClick={() => {
+              setShowModal(false);
+            }}
+          />
+        </StyledVerticalStack>
+      </StyledModal>
+    </>
+  );
+};
+
+SignaturePopupAlert.args = {
+  type: StyledModalTypes.ALERT,
+  width: StyledModalWidths.SMALL,
 };
