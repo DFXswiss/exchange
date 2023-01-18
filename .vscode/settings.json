@@ -2,22 +2,23 @@
   "editor.formatOnSave": true,
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
-    "PALEWHITE",
-    "Multichain",
-    "testid",
+    "Arbitrum",
+    "ARBITRUM",
+    "Bahnhofstrasse",
+    "BSCUSD",
+    "BTCB",
     "iban",
     "IBAN",
     "ibans",
     "ibantools",
-    "onlineid",
-    "videoid",
+    "Multichain",
     "noreferrer",
     "OLKILUL",
-    "Bahnhofstrasse",
+    "onlineid",
+    "PALEWHITE",
     "SEPA",
-    "ARBITRUM",
-    "Arbitrum",
-    "BSCUSD"
+    "testid",
+    "videoid"
   ],
   "files.exclude": {
     "node_modules": true

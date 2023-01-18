@@ -150,7 +150,14 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                 modal={{
                   heading: 'Select your bank account',
                   items: bankAccounts,
-                  itemContent: (b) => <StyledBankAccountListItem bankAccount={b} />,
+                  itemContent: (b) => (
+                    <StyledBankAccountListItem
+                      bankAccount={b}
+                      onDelete={() => {
+                        console.log('deleted.');
+                      }}
+                    />
+                  ), // ^  TODO Krysh: pass the correct onDelete-function...
                   form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
                 }}
               />
