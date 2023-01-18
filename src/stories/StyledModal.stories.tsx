@@ -154,6 +154,7 @@ DeleteBankAccountAlert.args = {
 
 export const SignaturePopupAlert: ComponentStory<typeof StyledModal> = (args) => {
   const [showModal, setShowModal] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   return (
     <>
       <StyledButton label="Open Alert Modal" caps={false} onClick={() => setShowModal(true)}></StyledButton>
@@ -164,12 +165,7 @@ export const SignaturePopupAlert: ComponentStory<typeof StyledModal> = (args) =>
             Log in to your DFX account by verifying with your signature that you are the sole owner of the provided
             blockchain address.
           </h2>
-          <StyledCheckboxRow
-            onChange={() => {
-              console.log('checked.');
-            }}
-            centered
-          >
+          <StyledCheckboxRow isChecked={isChecked} onChange={setIsChecked} centered>
             Don't show this again.
           </StyledCheckboxRow>
 
