@@ -17,6 +17,7 @@ export enum AssetIconVariant {
   BTC = 'BTC',
   WBTC = 'WBTC',
   BTCB = 'BTCB',
+  MATIC = 'MATIC',
 }
 
 export enum AssetIconSizes {
@@ -42,8 +43,9 @@ const VARIANT_MAPS: Record<AssetIconVariant, (props: BaseAssetIconProps) => Reac
   [AssetIconVariant.ETH]: ({ forceColor }) => <DfxAssetIconETH forceColor={forceColor} />,
   [AssetIconVariant.DAI]: ({ forceColor }) => <DfxAssetIconDAI forceColor={forceColor} />,
   [AssetIconVariant.BTC]: ({ forceColor }) => <DfxAssetIconBTC forceColor={forceColor} />,
-  [AssetIconVariant.WBTC]: ({ forceColor }) => <DfxAssetIconBTC forceColor={forceColor} />,
-  [AssetIconVariant.BTCB]: ({ forceColor }) => <DfxAssetIconBTC forceColor={forceColor} />,
+  [AssetIconVariant.WBTC]: ({ forceColor }) => <DfxAssetIconWBTC forceColor={forceColor} />,
+  [AssetIconVariant.BTCB]: ({ forceColor }) => <DfxAssetIconBTCB forceColor={forceColor} />,
+  [AssetIconVariant.MATIC]: ({ forceColor }) => <DfxAssetIconMATIC forceColor={forceColor} />,
 };
 
 export default function DfxAssetIcon({ size = AssetIconSizes.MD, asset, disabled }: DfxAssetIconProps) {
@@ -119,25 +121,41 @@ function DfxAssetIconETH({ forceColor }: BaseAssetIconProps) {
     <svg
       width={SIZE_MAPS[sizeContext]}
       height={SIZE_MAPS[sizeContext]}
-      viewBox="0 0 32 32"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clipPath="url(#clip0_4_53)">
+      <g clipPath="url(#clip0_1790_5260)">
         <path
-          d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z"
-          fill={forceColor ?? '#627EEA'}
+          d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z"
+          fill="white"
         />
-        <path d="M16.498 4V12.87L23.995 16.22L16.498 4Z" fill="white" fillOpacity="0.602" />
-        <path d="M16.498 4L9 16.22L16.498 12.87V4Z" fill="white" />
-        <path d="M16.498 21.968V27.995L24 17.616L16.498 21.968Z" fill="white" fillOpacity="0.602" />
-        <path d="M16.498 27.995V21.967L9 17.616L16.498 27.995Z" fill="white" />
-        <path d="M16.498 20.573L23.995 16.22L16.498 12.872V20.573Z" fill="white" fillOpacity="0.2" />
-        <path d="M9 16.22L16.498 20.573V12.872L9 16.22Z" fill="white" fillOpacity="0.602" />
+        <path
+          d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z"
+          stroke="black"
+          strokeOpacity="0.08"
+        />
+        <g clipPath="url(#clip1_1790_5260)">
+          <path
+            d="M12.2867 3L12.166 3.41016V15.3122L12.2867 15.4326L17.8235 12.1669L12.2867 3Z"
+            fill={forceColor ?? '#343434'}
+          />
+          <path d="M12.2867 3L6.75 12.1669L12.2867 15.4326V9.65583V3Z" fill={forceColor ?? '#8C8C8C'} />
+          <path
+            d="M12.2867 16.4789L12.2188 16.5618V20.8015L12.2867 21.0001L17.8269 13.2148L12.2867 16.4789Z"
+            fill={forceColor ?? '#3C3C3B'}
+          />
+          <path d="M12.2867 21.0001V16.4789L6.75 13.2148L12.2867 21.0001Z" fill={forceColor ?? '#8C8C8C'} />
+          <path d="M12.2871 15.433L17.8238 12.1673L12.2871 9.65625V15.433Z" fill={forceColor ?? '#141414'} />
+          <path d="M6.75 12.1673L12.2867 15.433V9.65625L6.75 12.1673Z" fill={forceColor ?? '#393939'} />
+        </g>
       </g>
       <defs>
-        <clipPath id="clip0_4_53">
-          <rect width="32" height="32" fill="white" />
+        <clipPath id="clip0_1790_5260">
+          <rect width="24" height="24" fill="white" />
+        </clipPath>
+        <clipPath id="clip1_1790_5260">
+          <rect width="11.0769" height="18" fill="white" transform="translate(6.75 3)" />
         </clipPath>
       </defs>
     </svg>
@@ -276,6 +294,96 @@ function DfxAssetIconBNB({ forceColor }: BaseAssetIconProps) {
         d="M21.6936 12.6461L21.7051 15.1231L18.1 17.2384V21.4795L16.0064 22.7064L13.9128 21.4795V17.2384L10.3077 15.1231V12.6461L12.4103 11.4077L15.9936 13.5333L19.5987 11.4077L21.7026 12.6461H21.6936ZM10.3064 8.41665L15.9949 5.06281L21.6936 8.41665L19.6 9.65511L15.9949 7.52947L12.4 9.65511L10.3064 8.41665Z"
         fill="white"
       />
+    </svg>
+  );
+}
+
+function DfxAssetIconMATIC({ forceColor }: BaseAssetIconProps) {
+  const sizeContext = useContext(SizeContext);
+  return (
+    <svg
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="12" cy="12" r="12" fill={forceColor ?? '#8247E5'} />
+      <path
+        d="M15.9463 9.37611C15.6659 9.21588 15.3054 9.21588 14.9849 9.37611L12.7416 10.6981L11.2193 11.5393L9.01604 12.8613C8.73563 13.0215 8.3751 13.0215 8.05462 12.8613L6.33207 11.8197C6.05165 11.6595 5.85136 11.339 5.85136 10.9785V8.97552C5.85136 8.65504 6.01159 8.33457 6.33207 8.13427L8.05462 7.13279C8.33504 6.97255 8.69557 6.97255 9.01604 7.13279L10.7386 8.17433C11.019 8.33457 11.2193 8.65504 11.2193 9.01558V10.3375L12.7416 9.45623V8.09421C12.7416 7.77374 12.5813 7.45326 12.2609 7.25297L9.0561 5.37018C8.77569 5.20994 8.41515 5.20994 8.09468 5.37018L4.80981 7.29303C4.48934 7.45326 4.3291 7.77374 4.3291 8.09421V11.8598C4.3291 12.1803 4.48934 12.5007 4.80981 12.701L8.05462 14.5838C8.33504 14.7441 8.69557 14.7441 9.01604 14.5838L11.2193 13.3019L12.7416 12.4206L14.9448 11.1387C15.2252 10.9785 15.5858 10.9785 15.9063 11.1387L17.6288 12.1402C17.9092 12.3004 18.1095 12.6209 18.1095 12.9815V14.9844C18.1095 15.3049 17.9493 15.6254 17.6288 15.8257L15.9463 16.8272C15.6659 16.9874 15.3054 16.9874 14.9849 16.8272L13.2623 15.8257C12.9819 15.6654 12.7816 15.345 12.7816 14.9844V13.7025L11.2594 14.5838V15.9058C11.2594 16.2263 11.4196 16.5467 11.7401 16.747L14.9849 18.6298C15.2653 18.7901 15.6258 18.7901 15.9463 18.6298L19.1911 16.747C19.4715 16.5868 19.6718 16.2663 19.6718 15.9058V12.1001C19.6718 11.7797 19.5116 11.4592 19.1911 11.2589L15.9463 9.37611Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
+function DfxAssetIconBTCB({ forceColor }: BaseAssetIconProps) {
+  const sizeContext = useContext(SizeContext);
+  return (
+    <svg
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="12" cy="12" r="12" fill="url(#paint0_linear_1759_5257)" />
+      <path
+        d="M14.6358 6.97782L15.2358 4.7279L13.8859 4.35291L13.3609 6.52784C12.9859 6.45284 12.6109 6.37784 12.2359 6.30285L12.7609 4.05292L11.3359 3.75293L10.811 6.00286C10.511 5.92786 10.211 5.85286 9.91099 5.77786L8.03605 5.32788L7.66106 6.82783C7.66106 6.82783 8.71102 7.05282 8.63603 7.05282C9.16101 7.20282 9.31101 7.57781 9.31101 7.8778L7.73606 14.0276C7.66106 14.1776 7.51106 14.4776 7.06108 14.3276L6.08611 14.1026L5.41113 15.6775L7.21107 16.1275L8.18604 16.3525L7.58606 18.6024L8.93602 18.9774L9.536 16.7275C9.91099 16.8025 10.286 16.9525 10.661 17.0275L10.136 19.2774L11.4859 19.6524L12.0859 17.4025C14.4108 17.8525 16.2108 17.7025 16.9608 15.5275C17.5607 13.8026 16.9608 12.8276 15.6858 12.2277C16.5858 12.0027 17.2607 11.4027 17.4107 10.2027C17.6357 8.47778 16.4358 7.57781 14.6358 6.97782ZM14.2608 14.5526C13.8109 16.2775 10.961 15.3026 10.061 15.0776L10.811 12.0777C11.7109 12.3027 14.7108 12.7526 14.2608 14.5526ZM14.7108 10.1277C14.3358 11.7027 11.9359 10.8777 11.1859 10.7277L11.8609 7.95279C12.6109 8.10279 15.0858 8.47778 14.7108 10.1277Z"
+        fill="white"
+      />
+      <defs>
+        <linearGradient id="paint0_linear_1759_5257" x1="12" y1="0" x2="12" y2="24" gradientUnits="userSpaceOnUse">
+          <stop stopColor={forceColor ?? '#FFB248'} />
+          <stop offset="1" stopColor={forceColor ?? '#F7951D'} />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+function DfxAssetIconWBTC({ forceColor }: BaseAssetIconProps) {
+  const sizeContext = useContext(SizeContext);
+  return (
+    <svg
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_1759_11423)">
+        <circle cx="12" cy="12" r="12" fill="white" />
+        <path
+          d="M19.5692 5.03784L18.9092 5.69784C22.1684 9.26184 22.1684 14.7242 18.9092 18.2882L19.5692 18.9482C23.1956 15.0146 23.1956 8.95704 19.5692 5.02344V5.03784Z"
+          fill={forceColor ?? '#5A5564'}
+        />
+        <path
+          d="M5.71249 5.09269C9.27649 1.83349 14.7389 1.83349 18.3029 5.09269L18.9629 4.43269C15.0293 0.806291 8.97169 0.806291 5.03809 4.43269L5.71249 5.09269Z"
+          fill={forceColor ?? '#5A5564'}
+        />
+        <path
+          d="M5.09269 18.293C1.83829 14.729 1.83829 9.2714 5.09269 5.7098L4.43269 5.0498C0.806291 8.9834 0.806291 15.041 4.43269 18.9746L5.09269 18.293Z"
+          fill={forceColor ?? '#5A5564'}
+        />
+        <path
+          d="M18.2924 18.9023C14.7284 22.1615 9.26599 22.1615 5.70199 18.9023L5.04199 19.5623C8.97559 23.1887 15.0332 23.1887 18.9668 19.5623L18.2924 18.9023Z"
+          fill={forceColor ?? '#5A5564'}
+        />
+        <path
+          d="M16.1592 9.80186C16.0272 8.42666 14.8416 7.96586 13.3416 7.82426V5.93066H12.1824V7.78826H11.256V5.93066H10.104V7.83626H7.75195V9.07706C7.75195 9.07706 8.60875 9.06266 8.59435 9.07706C8.91595 9.04106 9.20635 9.26666 9.25435 9.58586V14.8059C9.24715 14.9163 9.19675 15.0171 9.11275 15.0891C9.03115 15.1611 8.92315 15.1995 8.81515 15.1899C8.82955 15.2019 7.97275 15.1899 7.97275 15.1899L7.75195 16.5771H10.0824V18.5139H11.2416V16.6059H12.168V18.5067H13.3296V16.5915C15.288 16.4739 16.656 15.9891 16.8264 14.1555C16.9656 12.6795 16.2696 12.0195 15.1608 11.7555C15.8352 11.4243 16.2528 10.8099 16.1592 9.80186ZM14.5344 13.9275C14.5344 15.3675 12.0648 15.2043 11.28 15.2043V12.6483C12.0672 12.6483 14.5344 12.4251 14.5344 13.9299V13.9275ZM13.9968 10.3251C13.9968 11.6427 11.9352 11.4819 11.2824 11.4819V9.15866C11.9376 9.15866 13.9968 8.95226 13.9968 10.3251Z"
+          fill={forceColor ?? '#F09242'}
+        />
+        <path
+          d="M11.9976 24C5.3712 23.9976 0 18.6264 0 11.9976C0 5.3712 5.3736 0 12.0024 0C18.6288 0 24 5.3712 24 11.9976C24 18.624 18.6288 23.9976 12.0024 24H11.9976ZM11.9976 0.936C5.892 0.9408 0.9432 5.8944 0.948 12.0024C0.9528 18.1104 5.9064 23.0568 12.0144 23.052C18.1152 23.0472 23.0616 18.1008 23.064 11.9976C23.0664 5.8896 18.1176 0.9384 12.0096 0.936C12.0048 0.936 12 0.936 11.9976 0.936Z"
+          fill={forceColor ?? '#282138'}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1759_11423">
+          <rect width="24" height="24" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }
