@@ -1,18 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { useUserContext } from '../../api/contexts/user.context';
-import { IconColors } from '../../stories/DfxIcon';
+import { IconColor } from '../../stories/DfxIcon';
 import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
 import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
+import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../../stories/StyledButton';
 import StyledInfoText from '../../stories/StyledInfoText';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
 
 interface MailEditProps {
   infoText?: string;
-  infoTextIconColor?: IconColors;
+  infoTextIconColor?: IconColor;
   infoTextPlacement?: MailEditInfoTextPlacement;
   showCancelButton?: boolean;
   hideLabels?: boolean;
@@ -37,7 +37,7 @@ export function MailEdit({
   hideLabels = false,
   isOptional = false,
   infoText,
-  infoTextIconColor = IconColors.RED,
+  infoTextIconColor = IconColor.RED,
   infoTextPlacement = MailEditInfoTextPlacement.ABOVE_INPUT,
 }: MailEditProps): JSX.Element {
   const {
@@ -77,8 +77,8 @@ export function MailEdit({
             <StyledButton
               label="cancel"
               onClick={onCancel}
-              color={StyledButtonColors.PALE_WHITE}
-              width={StyledButtonWidths.FULL}
+              color={StyledButtonColor.PALE_WHITE}
+              width={StyledButtonWidth.FULL}
               caps
             />
           )}
@@ -87,7 +87,7 @@ export function MailEdit({
             label={isOptional ? 'finish' : 'save'}
             onClick={handleSubmit(saveUser)}
             isLoading={isUserUpdating}
-            width={StyledButtonWidths.FULL}
+            width={StyledButtonWidth.FULL}
             caps
           />
         </StyledHorizontalStack>
@@ -96,7 +96,7 @@ export function MailEdit({
   );
 }
 
-function InfoTextElement({ text, iconColor }: { text: string; iconColor: IconColors }): JSX.Element {
+function InfoTextElement({ text, iconColor }: { text: string; iconColor: IconColor }): JSX.Element {
   return (
     <StyledInfoText darkTheme iconColor={iconColor}>
       {text}

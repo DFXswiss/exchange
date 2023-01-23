@@ -5,11 +5,11 @@ import { Asset } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
 import { Buy } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
-import DfxIcon, { IconColors, IconSizes, IconVariant } from '../../../stories/DfxIcon';
+import DfxIcon, { IconColor, IconSize, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
 import StyledInput from '../../../stories/form/StyledInput';
 import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
-import StyledButton, { StyledButtonWidths } from '../../../stories/StyledButton';
+import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { AddBankAccount } from '../../buy/add-bank-account';
 import { Utils } from '../../../utils';
@@ -17,7 +17,7 @@ import Validations from '../../../validations';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKyc } from '../../../hooks/kyc.hook';
 import useDebounce from '../../../hooks/debounce.hook';
-import StyledModal, { StyledModalColors } from '../../../stories/StyledModal';
+import StyledModal, { StyledModalColor } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import StyledInfoText from '../../../stories/StyledInfoText';
@@ -133,7 +133,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   return (
     <>
       {/* MODALS */}
-      <StyledModal isVisible={showsCompletion} color={StyledModalColors.DFX_GRADIENT} onClose={setShowsCompletion}>
+      <StyledModal isVisible={showsCompletion} color={StyledModalColor.DFX_GRADIENT} onClose={setShowsCompletion}>
         <BuyCompletion onSubmit={onBack} onCancel={() => setShowsCompletion(false)} />
       </StyledModal>
       {/* CONTENT */}
@@ -177,12 +177,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                 </div>
                 <div className="basis-2/12 shrink-0 flex justify-center pt-9">
                   <div className=" ">
-                    <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSizes.LG} color={IconColors.GRAY} />
+                    <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSize.LG} color={IconColor.GRAY} />
                   </div>
                 </div>
                 <div className="basis-5/12 shrink-1">
                   <div className="flex ml-3.5 mb-2.5">
-                    <DfxIcon icon={IconVariant.WALLET} size={IconSizes.SM} color={IconColors.BLUE} />
+                    <DfxIcon icon={IconVariant.WALLET} size={IconSize.SM} color={IconColor.BLUE} />
 
                     <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
                   </div>
@@ -213,7 +213,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
           <>
             <PaymentInformationContent info={paymentInfo} />
             <StyledButton
-              width={StyledButtonWidths.FULL}
+              width={StyledButtonWidth.FULL}
               label="Click once your bank transfer is completed."
               onClick={() => {
                 updateBankAccount();
@@ -229,7 +229,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
               increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
             </StyledInfoText>
-            <StyledButton width={StyledButtonWidths.FULL} label="Complete KYC" onClick={start} />
+            <StyledButton width={StyledButtonWidth.FULL} label="Complete KYC" onClick={start} />
           </StyledVerticalStack>
         )}
       </StyledTabContentWrapper>

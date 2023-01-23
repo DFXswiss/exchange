@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import StyledLoadingSpinner, { SpinnerSizes, SpinnerVariant } from './StyledLoadingSpinner';
+import StyledLoadingSpinner, { SpinnerSize, SpinnerVariant } from './StyledLoadingSpinner';
 
 interface StyledDataTextRowProps extends PropsWithChildren {
   label: string;
@@ -16,7 +16,7 @@ export default function StyledDataTextRow({ label, children, isLoading }: Styled
         <p className={labelClasses}>{label}</p>
       </div>
       <div className={rowDataClasses}>
-        {isLoading ? <StyledLoadingSpinner size={SpinnerSizes.SM} variant={SpinnerVariant.PALE} /> : children}
+        {isLoading ? <StyledLoadingSpinner size={SpinnerSize.SM} variant={SpinnerVariant.PALE} /> : children}
       </div>
     </div>
   );

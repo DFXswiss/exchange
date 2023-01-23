@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKyc } from '../hooks/kyc.hook';
-import { IconColors } from '../stories/DfxIcon';
+import { IconColor } from '../stories/DfxIcon';
 import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
+import StyledButton, { StyledButtonColor, StyledButtonSize, StyledButtonWidth } from '../stories/StyledButton';
 import StyledDataTable from '../stories/StyledDataTable';
 import StyledDataTableRow from '../stories/StyledDataTableRow';
-import StyledModal, { StyledModalColors } from '../stories/StyledModal';
+import StyledModal, { StyledModalColor } from '../stories/StyledModal';
 import { Utils } from '../utils';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
 
@@ -26,7 +26,7 @@ export function UserData(): JSX.Element {
         user?.mail != null
           ? undefined
           : {
-              color: StyledButtonColors.WHITE,
+              color: StyledButtonColor.WHITE,
               label: 'Add E-mail address',
               func: () => setShowsUserEdit(true),
               isLoading: false,
@@ -38,7 +38,7 @@ export function UserData(): JSX.Element {
       title: 'Transaction limit',
       value: limit,
       button: {
-        color: StyledButtonColors.WHITE,
+        color: StyledButtonColor.WHITE,
         label: isComplete ? 'Increase limit' : 'Start KYC to increase',
         func: start,
         isLoading: false,
@@ -54,7 +54,7 @@ export function UserData(): JSX.Element {
       button:
         user?.ref != null
           ? {
-              color: StyledButtonColors.RED,
+              color: StyledButtonColor.RED,
               label: 'Copy to share',
               func: () => copy(refLink),
               isLoading: isCopying,
@@ -78,14 +78,14 @@ export function UserData(): JSX.Element {
       {/* MODALS */}
       <StyledModal
         heading="User data"
-        color={StyledModalColors.DFX_GRADIENT}
+        color={StyledModalColor.DFX_GRADIENT}
         isVisible={showsUserEdit}
         onClose={setShowsUserEdit}
       >
         <MailEdit
           onSubmit={() => setShowsUserEdit(false)}
           infoText="Enter your email address if you want to be informed about the progress of any purchase or sale."
-          infoTextIconColor={IconColors.WHITE}
+          infoTextIconColor={IconColor.WHITE}
           infoTextPlacement={MailEditInfoTextPlacement.BELOW_INPUT}
         />
       </StyledModal>
@@ -101,8 +101,8 @@ export function UserData(): JSX.Element {
                     onClick={entry.button.func}
                     label={entry.button.label}
                     color={entry.button.color}
-                    size={StyledButtonSizes.SMALL}
-                    width={StyledButtonWidths.MIN}
+                    size={StyledButtonSize.SMALL}
+                    width={StyledButtonWidth.MIN}
                     caps={false}
                     isLoading={entry.button.isLoading}
                     deactivateMargin={entry.button.deactivateMargin}

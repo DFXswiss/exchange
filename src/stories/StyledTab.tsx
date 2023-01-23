@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import DfxIcon, { IconColor, IconSize, IconVariant } from './DfxIcon';
 
 interface StyledTabProps extends PropsWithChildren {
   setActive: () => any;
@@ -80,7 +80,7 @@ type IconFlagProps = {
 function IconFlag({ icon }: IconFlagProps) {
   return (
     <div className="place-self-center ml-1">
-      <DfxIcon icon={icon} color={IconColors.BLUE} size={IconSizes.LG} />
+      <DfxIcon icon={icon} color={IconColor.BLUE} size={IconSize.LG} />
     </div>
   );
 }

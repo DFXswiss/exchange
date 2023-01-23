@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import DfxIcon, { IconVariant, IconSizes } from './DfxIcon';
+import DfxIcon, { IconVariant, IconSize } from './DfxIcon';
 
 export interface StyledCheckboxRowProps extends PropsWithChildren {
   darkTheme?: boolean;
@@ -17,12 +17,12 @@ export enum StyledCheckboxRowTextSize {
 
 type StyledCheckboxSizeMapsProps = {
   textClasses: string;
-  iconSize: IconSizes;
+  iconSize: IconSize;
 };
 
 const CHECKBOX_SIZE_MAPS: Record<StyledCheckboxRowTextSize, StyledCheckboxSizeMapsProps> = {
-  [StyledCheckboxRowTextSize.SM]: { textClasses: 'text-sm', iconSize: IconSizes.MD },
-  [StyledCheckboxRowTextSize.MD]: { textClasses: '', iconSize: IconSizes.LG },
+  [StyledCheckboxRowTextSize.SM]: { textClasses: 'text-sm', iconSize: IconSize.MD },
+  [StyledCheckboxRowTextSize.MD]: { textClasses: '', iconSize: IconSize.LG },
 };
 
 export default function StyledCheckboxRow({
