@@ -1,7 +1,7 @@
 import { Asset } from '../api/definitions/asset';
 import { Fiat } from '../api/definitions/fiat';
 import { Protocol } from '../hooks/blockchain.hook';
-import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import DfxIcon, { IconColor, IconSize, IconVariant } from './DfxIcon';
 import StyledDropdown from './form/StyledDropdown';
 import StyledCoinListItem from './StyledCoinListItem';
 
@@ -34,12 +34,12 @@ export default function DfxYourCurrencyWalletSection({
       </div>
       <div className="basis-2/12 shrink-0 flex justify-center pt-9">
         <div className=" ">
-          <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSizes.LG} color={IconColors.GRAY} />
+          <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSize.LG} color={IconColor.GRAY} />
         </div>
       </div>
       <div className="basis-5/12 shrink-1">
         <div className="flex ml-3.5 mb-2.5">
-          <DfxIcon icon={IconVariant.WALLET} size={IconSizes.SM} color={IconColors.BLUE} />
+          <DfxIcon icon={IconVariant.WALLET} size={IconSize.SM} color={IconColor.BLUE} />
 
           <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
         </div>

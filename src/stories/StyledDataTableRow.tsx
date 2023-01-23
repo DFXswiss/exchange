@@ -1,8 +1,8 @@
 import { PropsWithChildren, useContext } from 'react';
-import { IconColors } from './DfxIcon';
+import { IconColor } from './DfxIcon';
 import { AlignContent, ThemeContext } from './StyledDataTable';
-import StyledInfoText, { StyledInfoTextSizes } from './StyledInfoText';
-import StyledLoadingSpinner, { SpinnerSizes, SpinnerVariant } from './StyledLoadingSpinner';
+import StyledInfoText, { StyledInfoTextSize } from './StyledInfoText';
+import StyledLoadingSpinner, { SpinnerSize, SpinnerVariant } from './StyledLoadingSpinner';
 
 interface StyledDataTableRowProps extends PropsWithChildren {
   label?: string;
@@ -59,11 +59,11 @@ export default function StyledDataTableRow({
         )}
 
         <div className={rowDataClasses}>
-          {isLoading ? <StyledLoadingSpinner size={SpinnerSizes.SM} variant={SpinnerVariant.PALE} /> : children}
+          {isLoading ? <StyledLoadingSpinner size={SpinnerSize.SM} variant={SpinnerVariant.PALE} /> : children}
         </div>
       </div>
       {infoText && (
-        <StyledInfoText textSize={StyledInfoTextSizes.XS} iconColor={IconColors.GRAY} discreet>
+        <StyledInfoText textSize={StyledInfoTextSize.XS} iconColor={IconColor.GRAY} discreet>
           {infoText}
         </StyledInfoText>
       )}

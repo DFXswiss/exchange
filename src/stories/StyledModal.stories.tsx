@@ -4,10 +4,10 @@ import DfxIcon, { IconVariant } from './DfxIcon';
 import StyledHorizontalStack from './layout-helpers/StyledHorizontalStack';
 import StyledSpacer from './layout-helpers/StyledSpacer';
 import StyledVerticalStack from './layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColors, StyledButtonWidths } from './StyledButton';
+import StyledButton, { StyledButtonColor, StyledButtonWidth } from './StyledButton';
 import StyledCheckboxRow from './StyledCheckboxRow';
 
-import StyledModal, { StyledModalColors, StyledModalTypes, StyledModalWidths } from './StyledModal';
+import StyledModal, { StyledModalColor, StyledModalType, StyledModalWidth } from './StyledModal';
 
 export default {
   title: 'Building Blocks/StyledModal',
@@ -30,8 +30,8 @@ export const RegularModalWithHeading: ComponentStory<typeof StyledModal> = (args
           <br></br>
         </p>
         <StyledButton
-          width={StyledButtonWidths.FULL}
-          color={StyledButtonColors.RED}
+          width={StyledButtonWidth.FULL}
+          color={StyledButtonColor.RED}
           label="Oder über den Button"
           caps={false}
           onClick={() => {
@@ -45,7 +45,7 @@ export const RegularModalWithHeading: ComponentStory<typeof StyledModal> = (args
 
 RegularModalWithHeading.args = {
   heading: 'Eine Überschrift',
-  color: StyledModalColors.DFX_GRADIENT,
+  color: StyledModalColor.DFX_GRADIENT,
   closeWithX: true,
 };
 
@@ -65,8 +65,8 @@ export const WhiteModalWithHeading: ComponentStory<typeof StyledModal> = (args) 
           <br></br>
         </p>
         <StyledButton
-          width={StyledButtonWidths.FULL}
-          color={StyledButtonColors.RED}
+          width={StyledButtonWidth.FULL}
+          color={StyledButtonColor.RED}
           label="Schließen nur über den Button"
           caps={false}
           onClick={() => {
@@ -80,7 +80,7 @@ export const WhiteModalWithHeading: ComponentStory<typeof StyledModal> = (args) 
 
 WhiteModalWithHeading.args = {
   heading: 'Eine Überschrift',
-  color: StyledModalColors.WHITE,
+  color: StyledModalColor.WHITE,
   closeWithX: false,
 };
 
@@ -99,8 +99,8 @@ export const AlertModal: ComponentStory<typeof StyledModal> = (args) => {
           <br></br>
         </p>
         <StyledButton
-          width={StyledButtonWidths.MD}
-          color={StyledButtonColors.RED}
+          width={StyledButtonWidth.MD}
+          color={StyledButtonColor.RED}
           label="Schließen nur über den Button"
           caps={false}
           onClick={() => {
@@ -113,7 +113,7 @@ export const AlertModal: ComponentStory<typeof StyledModal> = (args) => {
 };
 
 AlertModal.args = {
-  type: StyledModalTypes.ALERT,
+  type: StyledModalType.ALERT,
 };
 
 export const DeleteBankAccountAlert: ComponentStory<typeof StyledModal> = (args) => {
@@ -126,8 +126,8 @@ export const DeleteBankAccountAlert: ComponentStory<typeof StyledModal> = (args)
         <StyledSpacer spacing={7} />
         <StyledHorizontalStack gap={5}>
           <StyledButton
-            width={StyledButtonWidths.FULL}
-            color={StyledButtonColors.GRAY_OUTLINE}
+            width={StyledButtonWidth.FULL}
+            color={StyledButtonColor.GRAY_OUTLINE}
             label="Cancel"
             onClick={() => {
               setShowModal(false);
@@ -135,8 +135,8 @@ export const DeleteBankAccountAlert: ComponentStory<typeof StyledModal> = (args)
           />
 
           <StyledButton
-            width={StyledButtonWidths.FULL}
-            color={StyledButtonColors.RED}
+            width={StyledButtonWidth.FULL}
+            color={StyledButtonColor.RED}
             label="Remove"
             onClick={() => {
               setShowModal(false);
@@ -149,7 +149,7 @@ export const DeleteBankAccountAlert: ComponentStory<typeof StyledModal> = (args)
 };
 
 DeleteBankAccountAlert.args = {
-  type: StyledModalTypes.ALERT,
+  type: StyledModalType.ALERT,
 };
 
 export const SignaturePopupAlert: ComponentStory<typeof StyledModal> = (args) => {
@@ -170,8 +170,8 @@ export const SignaturePopupAlert: ComponentStory<typeof StyledModal> = (args) =>
           </StyledCheckboxRow>
 
           <StyledButton
-            width={StyledButtonWidths.MD}
-            color={StyledButtonColors.RED}
+            width={StyledButtonWidth.MD}
+            color={StyledButtonColor.RED}
             label="OK"
             onClick={() => {
               setShowModal(false);
@@ -184,6 +184,6 @@ export const SignaturePopupAlert: ComponentStory<typeof StyledModal> = (args) =>
 };
 
 SignaturePopupAlert.args = {
-  type: StyledModalTypes.ALERT,
-  width: StyledModalWidths.SMALL,
+  type: StyledModalType.ALERT,
+  width: StyledModalWidth.SMALL,
 };

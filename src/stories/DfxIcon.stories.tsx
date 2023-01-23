@@ -1,4 +1,4 @@
-import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import DfxIcon, { IconColor, IconSize, IconVariant } from './DfxIcon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
@@ -12,7 +12,7 @@ export const SingleIcon: ComponentStory<typeof DfxIcon> = (args) => {
 
 SingleIcon.args = {
   icon: IconVariant.COPY,
-  color: IconColors.RED,
+  color: IconColor.RED,
 };
 
 export const ProcessDoneIcon: ComponentStory<typeof DfxIcon> = (args) => {
@@ -21,7 +21,7 @@ export const ProcessDoneIcon: ComponentStory<typeof DfxIcon> = (args) => {
 
 ProcessDoneIcon.args = {
   icon: IconVariant.PROCESS_DONE,
-  size: IconSizes.XL,
+  size: IconSize.XL,
 };
 
 export const AllIcons: ComponentStory<typeof DfxIcon> = (args) => {

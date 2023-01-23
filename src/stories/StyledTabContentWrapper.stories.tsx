@@ -1,12 +1,12 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import DfxIcon, { IconSizes, IconVariant } from './DfxIcon';
+import DfxIcon, { IconSize, IconVariant } from './DfxIcon';
 import StyledTabContainer from './StyledTabContainer';
 import StyledTabContentWrapper from './StyledTabContentWrapper';
 import StyledDataTable from './StyledDataTable';
 import StyledDataTableRow from './StyledDataTableRow';
 import StyledIconButton from './StyledIconButton';
 import StyledSpacer from './layout-helpers/StyledSpacer';
-import StyledLoadingSpinner, { SpinnerSizes } from './StyledLoadingSpinner';
+import StyledLoadingSpinner, { SpinnerSize } from './StyledLoadingSpinner';
 import StyledHorizontalStack from './layout-helpers/StyledHorizontalStack';
 import StyledVerticalStack from './layout-helpers/StyledVerticalStack';
 
@@ -31,7 +31,7 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
               }}
             >
               <h1>Democontent</h1>
-              <StyledLoadingSpinner size={SpinnerSizes.MD} />
+              <StyledLoadingSpinner size={SpinnerSize.MD} />
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo assumenda minima, quae possimus beatae
                 quisquam iste vel aspernatur, ab velit, exercitationem nobis atque veritatis vitae expedita dolor magni
@@ -42,11 +42,11 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
               <StyledVerticalStack gap={8} marginY={20}>
                 <h2>Horizontal Stack test</h2>
                 <StyledHorizontalStack gap={4} marginX={4} marginY={10}>
-                  <DfxIcon size={IconSizes.XL} icon={IconVariant.BANK} />
+                  <DfxIcon size={IconSize.XL} icon={IconVariant.BANK} />
 
-                  <DfxIcon size={IconSizes.XL} icon={IconVariant.CLOSE} />
-                  <DfxIcon size={IconSizes.XL} icon={IconVariant.INFO} />
-                  <DfxIcon size={IconSizes.XL} icon={IconVariant.COPY} />
+                  <DfxIcon size={IconSize.XL} icon={IconVariant.CLOSE} />
+                  <DfxIcon size={IconSize.XL} icon={IconVariant.INFO} />
+                  <DfxIcon size={IconSize.XL} icon={IconVariant.COPY} />
                 </StyledHorizontalStack>
               </StyledVerticalStack>
 
@@ -69,7 +69,7 @@ export const Default: ComponentStory<typeof StyledTabContentWrapper> = () => {
                       console.log('copied.');
                     }}
                   />
-                  <StyledLoadingSpinner size={SpinnerSizes.SM} />
+                  <StyledLoadingSpinner size={SpinnerSize.SM} />
                 </StyledDataTableRow>
                 <StyledDataTableRow label="Purpose of Payment">
                   OC11-A025-BCF7

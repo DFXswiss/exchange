@@ -7,7 +7,7 @@ import Form from '../../stories/form/Form';
 import StyledInput from '../../stories/form/StyledInput';
 import StyledSpacer from '../../stories/layout-helpers/StyledSpacer';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../../stories/StyledButton';
+import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../../stories/StyledButton';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
 
@@ -40,12 +40,12 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
         <StyledSpacer spacing={-1} />
         <StyledButton
           disabled={!isValid}
-          color={StyledButtonColors.RED}
+          color={StyledButtonColor.RED}
           label="Add Bank Account"
           onClick={handleSubmit(createBankAccount)}
           isLoading={isAccountLoading}
           caps
-          width={StyledButtonWidths.FULL}
+          width={StyledButtonWidth.FULL}
         />
       </StyledVerticalStack>
     </Form>

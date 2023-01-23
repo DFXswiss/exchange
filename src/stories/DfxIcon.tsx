@@ -28,8 +28,8 @@ import { ReactElement, useContext } from 'react';
 
 interface DfxIconProps {
   icon: IconVariant;
-  color?: IconColors;
-  size?: IconSizes;
+  color?: IconColor;
+  size?: IconSize;
 }
 
 export enum IconVariant {
@@ -94,7 +94,7 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.SIGNATURE_POPUP]: <DfxSignaturePopupIcon />,
 };
 
-export enum IconSizes {
+export enum IconSize {
   XS = 'EXTRA SMALL',
   SM = 'SMALL',
   MD = 'MEDIUM',
@@ -102,7 +102,7 @@ export enum IconSizes {
   XL = 'EXTRA LARGE',
 }
 
-export enum IconColors {
+export enum IconColor {
   RED = 'RED',
   BLUE = 'BLUE',
   LIGHT_BLUE = 'LIGHT_BLUE',
@@ -112,25 +112,25 @@ export enum IconColors {
   WHITE = 'WHITE',
 }
 
-const COLOR_MAPS: Record<IconColors, string> = {
-  [IconColors.RED]: '#F5516C',
-  [IconColors.BLUE]: '#072440',
-  [IconColors.LIGHT_BLUE]: '#5A81BB',
-  [IconColors.GRAY]: '#D6DBE2',
-  [IconColors.DARK_GRAY]: '#9AA5B8',
-  [IconColors.WHITE]: '#ffffff',
-  [IconColors.BLACK]: '#000000',
+const COLOR_MAPS: Record<IconColor, string> = {
+  [IconColor.RED]: '#F5516C',
+  [IconColor.BLUE]: '#072440',
+  [IconColor.LIGHT_BLUE]: '#5A81BB',
+  [IconColor.GRAY]: '#D6DBE2',
+  [IconColor.DARK_GRAY]: '#9AA5B8',
+  [IconColor.WHITE]: '#ffffff',
+  [IconColor.BLACK]: '#000000',
 };
 
-const SIZE_MAPS: Record<IconSizes, string> = {
-  [IconSizes.XS]: '16px',
-  [IconSizes.SM]: '18px',
-  [IconSizes.MD]: '20px',
-  [IconSizes.LG]: '24px',
-  [IconSizes.XL]: '32px',
+const SIZE_MAPS: Record<IconSize, string> = {
+  [IconSize.XS]: '16px',
+  [IconSize.SM]: '18px',
+  [IconSize.MD]: '20px',
+  [IconSize.LG]: '24px',
+  [IconSize.XL]: '32px',
 };
 
-export default function DfxIcon({ icon, color = IconColors.RED, size = IconSizes.MD }: DfxIconProps) {
+export default function DfxIcon({ icon, color = IconColor.RED, size = IconSize.MD }: DfxIconProps) {
   return (
     <IconContext.Provider value={{ color: COLOR_MAPS[color], size: SIZE_MAPS[size] }}>
       {VARIANT_MAPS[icon]}

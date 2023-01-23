@@ -1,19 +1,19 @@
-import DfxIcon, { IconVariant, IconColors, IconSizes } from './DfxIcon';
+import DfxIcon, { IconVariant, IconColor, IconSize } from './DfxIcon';
 
 export interface StyledIconButtonProps {
   onClick: () => void;
-  size?: IconSizes;
+  size?: IconSize;
   icon: IconVariant;
-  color?: IconColors;
+  color?: IconColor;
   inline?: boolean;
 }
 
 export default function StyledIconButton({
   onClick,
-  size = IconSizes.MD,
+  size = IconSize.MD,
   icon,
   inline = false,
-  color = IconColors.RED,
+  color = IconColor.RED,
 }: StyledIconButtonProps) {
   let buttonClass = 'inline-block h-full align-top';
   inline ? (buttonClass += ' px-2 pt-0.5') : null;
