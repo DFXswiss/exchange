@@ -1,7 +1,7 @@
 import { createContext, ReactElement, useContext } from 'react';
 
 interface DfxAssetIconProps {
-  size?: AssetIconSizes;
+  size?: AssetIconSize;
   asset: AssetIconVariant;
   disabled?: boolean;
 }
@@ -20,18 +20,18 @@ export enum AssetIconVariant {
   MATIC = 'MATIC',
 }
 
-export enum AssetIconSizes {
+export enum AssetIconSize {
   SM = 'SMALL',
   MD = 'MEDIUM',
   LG = 'LARGE',
 }
 
-export const SizeContext = createContext(AssetIconSizes.MD);
+export const SizeContext = createContext(AssetIconSize.MD);
 
-const SIZE_MAPS: Record<AssetIconSizes, string> = {
-  [AssetIconSizes.SM]: '16px',
-  [AssetIconSizes.MD]: '24px',
-  [AssetIconSizes.LG]: '32px',
+const SIZE_MAPS: Record<AssetIconSize, string> = {
+  [AssetIconSize.SM]: '16px',
+  [AssetIconSize.MD]: '24px',
+  [AssetIconSize.LG]: '32px',
 };
 
 const VARIANT_MAPS: Record<AssetIconVariant, (props: BaseAssetIconProps) => ReactElement> = {
@@ -48,7 +48,7 @@ const VARIANT_MAPS: Record<AssetIconVariant, (props: BaseAssetIconProps) => Reac
   [AssetIconVariant.MATIC]: ({ forceColor }) => <DfxAssetIconMATIC forceColor={forceColor} />,
 };
 
-export default function DfxAssetIcon({ size = AssetIconSizes.MD, asset, disabled }: DfxAssetIconProps) {
+export default function DfxAssetIcon({ size = AssetIconSize.MD, asset, disabled }: DfxAssetIconProps) {
   const icon = VARIANT_MAPS[asset];
   return (
     <SizeContext.Provider value={size}>
