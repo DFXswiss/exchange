@@ -22,8 +22,8 @@ export default function StyledHorizontalStack({
   const mX = marginX != undefined ? convertToRem(marginX) : '0';
 
   let classNames = 'flex ';
-  classNames += center && ' justify-center ';
-  classNames += spanAcross && ' justify-between ';
+  center && (classNames += 'justify-center ');
+  spanAcross && (classNames += 'justify-between ');
 
   return (
     <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={classNames}>

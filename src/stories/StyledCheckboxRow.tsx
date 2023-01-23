@@ -7,10 +7,10 @@ export interface StyledCheckboxRowProps extends PropsWithChildren {
   isChecked?: boolean;
   withBackground?: boolean;
   centered?: boolean;
-  textSize?: StyledCheckboxRowTextSizes;
+  textSize?: StyledCheckboxRowTextSize;
 }
 
-export enum StyledCheckboxRowTextSizes {
+export enum StyledCheckboxRowTextSize {
   SM = 'SM',
   MD = 'MD',
 }
@@ -20,9 +20,9 @@ type StyledCheckboxSizeMapsProps = {
   iconSize: IconSizes;
 };
 
-const CHECKBOX_SIZE_MAPS: Record<StyledCheckboxRowTextSizes, StyledCheckboxSizeMapsProps> = {
-  [StyledCheckboxRowTextSizes.SM]: { textClasses: 'text-sm', iconSize: IconSizes.MD },
-  [StyledCheckboxRowTextSizes.MD]: { textClasses: '', iconSize: IconSizes.LG },
+const CHECKBOX_SIZE_MAPS: Record<StyledCheckboxRowTextSize, StyledCheckboxSizeMapsProps> = {
+  [StyledCheckboxRowTextSize.SM]: { textClasses: 'text-sm', iconSize: IconSizes.MD },
+  [StyledCheckboxRowTextSize.MD]: { textClasses: '', iconSize: IconSizes.LG },
 };
 
 export default function StyledCheckboxRow({
@@ -32,7 +32,7 @@ export default function StyledCheckboxRow({
   onChange,
   centered = false,
   isChecked = false,
-  textSize = StyledCheckboxRowTextSizes.MD,
+  textSize = StyledCheckboxRowTextSize.MD,
 }: StyledCheckboxRowProps) {
   function changeCheckbox(checkBoxState: boolean) {
     onChange?.(checkBoxState);
