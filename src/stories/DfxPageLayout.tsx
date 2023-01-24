@@ -15,7 +15,7 @@ import { Protocol } from '../hooks/blockchain.hook';
 import { Asset } from '../api/definitions/asset';
 
 const dummyAssets = {
-  eth: { name: 'ETH', description: 'Ethereum', comingSoon: false },
+  eth: { name: 'BUSD', description: 'Binance-wrapped USDC', comingSoon: false },
   usdt: { name: 'USDT', description: 'Tether', comingSoon: false },
   usdc: { name: 'USDC', description: 'USD Coin', comingSoon: false },
   dfi: { name: 'DFI', description: 'DFI', comingSoon: false },
@@ -114,6 +114,35 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
+                      />
+                      <StyledCoinListItem
+                        asset={dummyAssets.eth as Asset}
+                        onClick={() => {
+                          console.log('clicked');
+                        }}
+                        protocol={Protocol.ERC_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
+                      />
+                      <StyledCoinListItem
+                        asset={dummyAssets.eth as Asset}
+                        onClick={() => {
+                          console.log('clicked');
+                        }}
+                        protocol={Protocol.ERC_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.usdt as Asset}
@@ -121,6 +150,11 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.usdc as Asset}
@@ -128,6 +162,11 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.dfi as Asset}
@@ -135,6 +174,11 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                     </StyledCoinList>
                     <StyledCoinList heading="Binance Smart Chain · BEP-20 token">
@@ -144,6 +188,11 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.bnb as Asset}
@@ -151,6 +200,11 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.dfi as Asset}
@@ -158,6 +212,11 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupContractAddress="0x9c9...2db39"
+                        popupDescription="Click on the MetaMask symbol in order to add
+                        this asset in your portfolio overview of your MetaMask or copy the address to add it manually. "
+                        popupExplorerLink="https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
+                        popupTitle="Binance Smart Chain"
                       />
                     </StyledCoinList>
                   </>

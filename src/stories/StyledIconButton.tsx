@@ -15,7 +15,7 @@ export default function StyledIconButton({
   inline = false,
   color = IconColor.RED,
 }: StyledIconButtonProps) {
-  let buttonClass = 'inline-block h-full align-top';
+  let buttonClass = 'inline-block h-full align-top hover:scale-110 transition ease-in-out delay-100';
   inline ? (buttonClass += ' px-2 pt-0.5') : null;
   return (
     <button type="button" className={buttonClass} onClick={onClick}>
