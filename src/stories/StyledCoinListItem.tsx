@@ -41,18 +41,18 @@ export default function StyledCoinListItem({
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   const name = asset.comingSoon ? 'Coming soon' : asset.description;
-  const buttonClasses = 'flex gap-2 rounded-l px-3 py-2 z-10 flex-1';
+  const buttonClasses = 'flex gap-2 rounded-l px-3 py-2 z-10 flex-1 active:bg-dfxGray-400/80';
   let wrapperClasses = 'group flex rounded place-self-start';
-  let threeDotsClasses = 'hover:bg-dfxGray-400/90 rounded-r grow-0';
+  let threeDotsClasses = ' rounded-r grow-0';
 
   if (!(disabled || asset.comingSoon)) {
-    wrapperClasses += ' hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 active:bg-dfxGray-400/80';
-    threeDotsClasses += ' group-hover:block';
+    wrapperClasses += ' hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 ';
+    threeDotsClasses += ' group-hover:visible active:bg-dfxGray-500';
     if (open) {
-      threeDotsClasses += ' bg-dfxGray-400 block';
+      threeDotsClasses += ' bg-dfxGray-500 visible';
       wrapperClasses += ' bg-dfxGray-400/50';
     } else {
-      threeDotsClasses += ' hidden';
+      threeDotsClasses += ' invisible hover:bg-dfxGray-400/90';
     }
   }
 
@@ -81,7 +81,7 @@ export default function StyledCoinListItem({
         <button
           className={threeDotsClasses}
           onClick={() => {
-            setPopupOpen(true);
+            setPopupOpen(!open);
           }}
         >
           <DfxIcon icon={IconVariant.THREE_DOTS_VERT} color={IconColor.BLUE} />
