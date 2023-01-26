@@ -1,4 +1,4 @@
-import { Asset } from '../api/definitions/asset';
+import { Asset, AddAssetToMetaMaskDesc } from '../api/definitions/asset';
 import { Protocol } from '../hooks/blockchain.hook';
 import DfxAssetIcon, { AssetIconVariant } from './DfxAssetIcon';
 import DfxIcon, { IconColor, IconVariant } from './DfxIcon';
@@ -13,23 +13,9 @@ export interface StyledCoinListItemProps {
   disabled?: boolean;
   onClick: () => void;
   protocol: Protocol;
-  //TODO: refactor as Asset-Props: these popup-Props should come from Asset-Object
-  popupTitle: string;
-  popupContractAddress: string;
-  popupExplorerLink: string;
-  popupDescription: string;
 }
 
-export default function StyledCoinListItem({
-  asset,
-  onClick,
-  protocol,
-  disabled,
-  popupContractAddress,
-  popupDescription,
-  popupExplorerLink,
-  popupTitle,
-}: StyledCoinListItemProps) {
+export default function StyledCoinListItem({ asset, onClick, protocol, disabled }: StyledCoinListItemProps) {
   const [open, setPopupOpen] = useState(false);
   const { x, y, strategy, refs, context } = useFloating({
     open,
@@ -100,11 +86,12 @@ export default function StyledCoinListItem({
           className="bg-white z-20 rounded shadow-xl text-sm border border-dfxGray-600/20 p-4 max-w-sm text-dfxBlue-800"
         >
           <StyledVerticalStack gap={4}>
-            <h4 className="font-bold">{popupTitle}</h4>
+            <h4 className="font-bold">{asset.description}</h4>
+
             <StyledHorizontalStack spanAcross>
               <span className="font-bold">Contract</span>
               <StyledHorizontalStack gap={2}>
-                <span className="font-bold">{popupContractAddress}</span>
+                <span className="font-bold">{asset.contractAddress}</span>
                 <StyledIconButton
                   icon={IconVariant.COPY}
                   onClick={() => {
@@ -114,18 +101,20 @@ export default function StyledCoinListItem({
                 <StyledIconButton
                   icon={IconVariant.METAMASK_LOGO}
                   onClick={() => {
-                    console.log(`added ${popupContractAddress} to metamask.`);
+                    console.log(`added ${asset.contractAddress} to metamask.`);
                   }}
                 />
-                <StyledIconButton
-                  icon={IconVariant.OPEN_IN_NEW}
-                  onClick={() => {
-                    window.open(popupExplorerLink, '_blank');
-                  }}
-                />
+                {asset.blockchainExplorerLink && (
+                  <StyledIconButton
+                    icon={IconVariant.OPEN_IN_NEW}
+                    onClick={() => {
+                      window.open(asset.blockchainExplorerLink, '_blank');
+                    }}
+                  />
+                )}
               </StyledHorizontalStack>
             </StyledHorizontalStack>
-            <p className="text-dfxGray-700 text-xs">{popupDescription}</p>
+            <p className="text-dfxGray-700 text-xs">{AddAssetToMetaMaskDesc}</p>
           </StyledVerticalStack>
         </div>
       )}
