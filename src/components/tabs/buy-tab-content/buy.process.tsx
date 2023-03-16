@@ -27,6 +27,7 @@ import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
+import { Blockchain } from '../../../api/definitions/blockchain';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -71,7 +72,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       amount,
       asset: validatedData.asset,
     })
-      .then((value) => checkForMinDeposit(value, amount))
+      .then((value) => checkForMinDeposit(value, validatedData.asset.blockchain, amount))
       .then((value) => toPaymentInformation(value))
       .then(setPaymentInfo);
   }, [validatedData]);
@@ -91,13 +92,17 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     }
   }
 
-  function checkForMinDeposit(buy: Buy, amount: number): Buy | undefined {
+  function checkForMinDeposit(buy: Buy, blockchain: Blockchain, amount: number): Buy | undefined {
     if (buy.minDeposit.amount > amount) {
-      setCustomAmountError(
-        `Entered amount is below minimum deposit of ${Utils.formatAmount(buy.minDeposit.amount)} ${
-          buy.minDeposit.asset
-        }`,
-      );
+      const amount = Utils.formatAmount(buy.minDeposit.amount);
+      const asset = buy.minDeposit.asset;
+
+      const errorMessage =
+        blockchain === Blockchain.ETH
+          ? `Due to high transaction costs on the Ethereum mainnet, please use Layer-2 Arbitrum for volumes below ${amount} ${asset}. Ethereum and Arbitrum both use the ERC-20 standard.`
+          : `Entered amount is below minimum deposit of ${amount} ${asset}`;
+
+      setCustomAmountError(errorMessage);
       return undefined;
     } else {
       setCustomAmountError(undefined);
