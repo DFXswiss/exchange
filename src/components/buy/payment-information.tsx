@@ -15,6 +15,7 @@ export interface PaymentInformation {
   purpose: string;
   recipient: string;
   fee: string;
+  minFee?: string;
   currency?: Fiat;
   amount?: number;
 }
@@ -65,7 +66,7 @@ export function PaymentInformationContent({ info }: PaymentInformationContentPro
       <StyledDataTable alignContent={AlignContent.BETWEEN} showBorder={false} narrow>
         <StyledDataTableRow discreet>
           <p>DFX-Fee</p>
-          <p>{info.fee}</p>
+          <p>{info.minFee ? `${info.fee} (min. ${info.minFee})` : info.fee}</p>
         </StyledDataTableRow>
       </StyledDataTable>
     </>

@@ -72,7 +72,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       amount,
       asset: validatedData.asset,
     })
-      .then((value) => checkForMinDeposit(value, validatedData.asset.blockchain, amount))
+      .then((value) => checkForMinDeposit(value, validatedData.asset.blockchain, amount, validatedData.currency.name))
       .then((value) => toPaymentInformation(value))
       .then(setPaymentInfo);
   }, [validatedData]);
@@ -92,15 +92,14 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     }
   }
 
-  function checkForMinDeposit(buy: Buy, blockchain: Blockchain, amount: number): Buy | undefined {
-    if (buy.minDeposit.amount > amount) {
-      const amount = Utils.formatAmount(buy.minDeposit.amount);
-      const asset = buy.minDeposit.asset;
+  function checkForMinDeposit(buy: Buy, blockchain: Blockchain, amount: number, currency: string): Buy | undefined {
+    if (buy.minVolume > amount) {
+      const amount = Utils.formatAmount(buy.minVolume);
 
       const errorMessage =
         blockchain === Blockchain.ETH
-          ? `Due to high transaction costs on the Ethereum mainnet, please use Layer-2 Arbitrum for volumes below ${amount} ${asset}. Ethereum and Arbitrum both use the ERC-20 standard.`
-          : `Entered amount is below minimum deposit of ${amount} ${asset}`;
+          ? `Due to high transaction costs on the Ethereum mainnet, please use Layer-2 Arbitrum for volumes below ${amount} ${currency}. Ethereum and Arbitrum both use the ERC-20 standard.`
+          : `Entered amount is below minimum deposit of ${amount} ${currency}`;
 
       setCustomAmountError(errorMessage);
       return undefined;
@@ -119,6 +118,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       fee: `${buy.fee} %`,
+      minFee: buy.minFee > 0 ? `${buy.minFee}${data.currency ? toSymbol(data.currency as Fiat) : ''}` : undefined,
       currency: data.currency as Fiat,
       amount: Number(data.amount),
     };
