@@ -2,7 +2,6 @@ import * as IbanTools from 'ibantools';
 import BlockedIbans from './static/blocked-iban.json';
 import { Country } from './api/definitions/country';
 import regex from './regex';
-import { Utils } from './utils';
 
 class ValidationsClass {
   public get Required() {
