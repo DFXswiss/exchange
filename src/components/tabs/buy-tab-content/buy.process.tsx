@@ -48,6 +48,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -62,9 +63,13 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
 
   useEffect(() => {
-    if (!dataValid) return;
+    if (!dataValid) {
+      setPaymentInfo(undefined);
+      return;
+    }
 
     const amount = Number(validatedData.amount);
+    setIsLoading(true);
     receiveFor({
       iban: validatedData.bankAccount.iban,
       currency: validatedData.currency,
@@ -73,7 +78,8 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     })
       .then((value) => checkForMinDeposit(value, amount, validatedData.currency.name))
       .then((value) => toPaymentInformation(value))
-      .then(setPaymentInfo);
+      .then(setPaymentInfo)
+      .finally(() => setIsLoading(false));
   }, [validatedData]);
 
   useEffect(() => {
@@ -198,6 +204,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               name="amount"
               forceError={kycRequired || customAmountError != null}
               forceErrorMessage={customAmountError}
+              loading={isLoading}
             />
           </StyledVerticalStack>
           {paymentInfo && (

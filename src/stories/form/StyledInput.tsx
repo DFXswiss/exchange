@@ -2,6 +2,7 @@ import { forwardRef, HTMLInputTypeAttribute } from 'react';
 import { Controller } from 'react-hook-form';
 import StyledVerticalStack from '../layout-helpers/StyledVerticalStack';
 import { ControlProps } from './Form';
+import StyledLoadingSpinner from '../StyledLoadingSpinner';
 
 interface StyledInputProps extends ControlProps {
   type?: HTMLInputTypeAttribute;
@@ -11,6 +12,7 @@ interface StyledInputProps extends ControlProps {
   forceErrorMessage?: string;
   hideLabel?: boolean;
   darkTheme?: boolean;
+  loading?: boolean;
 }
 
 const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
@@ -29,6 +31,7 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
       forceErrorMessage,
       hideLabel = false,
       darkTheme = false,
+      loading = false,
       ...props
     }: StyledInputProps,
     ref,
@@ -50,10 +53,15 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
             <label hidden={hideLabel} className={'text-base font-semibold pl-3 ' + [textColor].join(' ')}>
               {label}
             </label>
-            <div>
+            <div className="relative">
               {prefix && (
                 <div className="text-dfxGray-800 absolute h-[50px] w-8 flex justify-center items-center">
                   <p>{prefix}</p>
+                </div>
+              )}
+              {loading && (
+                <div className="absolute right-3 h-[50px] w-8 flex justify-center items-center">
+                  <StyledLoadingSpinner />
                 </div>
               )}
               <input
