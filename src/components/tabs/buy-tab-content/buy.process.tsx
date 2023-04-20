@@ -27,7 +27,6 @@ import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
-import { Blockchain } from '../../../api/definitions/blockchain';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -49,6 +48,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -63,18 +63,23 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
 
   useEffect(() => {
-    if (!dataValid) return;
+    if (!dataValid) {
+      setPaymentInfo(undefined);
+      return;
+    }
 
     const amount = Number(validatedData.amount);
+    setIsLoading(true);
     receiveFor({
       iban: validatedData.bankAccount.iban,
       currency: validatedData.currency,
       amount,
       asset: validatedData.asset,
     })
-      .then((value) => checkForMinDeposit(value, validatedData.asset.blockchain, amount))
+      .then((value) => checkForMinDeposit(value, amount, validatedData.currency.name))
       .then((value) => toPaymentInformation(value))
-      .then(setPaymentInfo);
+      .then(setPaymentInfo)
+      .finally(() => setIsLoading(false));
   }, [validatedData]);
 
   useEffect(() => {
@@ -92,17 +97,11 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     }
   }
 
-  function checkForMinDeposit(buy: Buy, blockchain: Blockchain, amount: number): Buy | undefined {
-    if (buy.minDeposit.amount > amount) {
-      const amount = Utils.formatAmount(buy.minDeposit.amount);
-      const asset = buy.minDeposit.asset;
-
-      const errorMessage =
-        blockchain === Blockchain.ETH
-          ? `Due to high transaction costs on the Ethereum mainnet, please use Layer-2 Arbitrum for volumes below ${amount} ${asset}. Ethereum and Arbitrum both use the ERC-20 standard.`
-          : `Entered amount is below minimum deposit of ${amount} ${asset}`;
-
-      setCustomAmountError(errorMessage);
+  function checkForMinDeposit(buy: Buy, amount: number, currency: string): Buy | undefined {
+    if (buy.minVolume > amount) {
+      setCustomAmountError(
+        `Entered amount is below minimum deposit of ${Utils.formatAmount(buy.minVolume)} ${currency}`,
+      );
       return undefined;
     } else {
       setCustomAmountError(undefined);
@@ -118,7 +117,9 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       purpose: buy.remittanceInfo,
       isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
+      estimatedAmount: `≈ ${buy.estimatedAmount} ${asset?.name ?? ''} (incl. all fees)`,
       fee: `${buy.fee} %`,
+      minFee: buy.minFee > 0 ? `${buy.minFee}${data.currency ? toSymbol(data.currency as Fiat) : ''}` : undefined,
       currency: data.currency as Fiat,
       amount: Number(data.amount),
     };
@@ -203,8 +204,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               name="amount"
               forceError={kycRequired || customAmountError != null}
               forceErrorMessage={customAmountError}
+              loading={isLoading}
             />
           </StyledVerticalStack>
+          {paymentInfo && (
+            <p className="text-dfxBlue-800 text-start w-full text-xs pl-7 pt-1">{paymentInfo.estimatedAmount}</p>
+          )}
           <StyledSpacer spacing={6} />
         </Form>
         {paymentInfo && dataValid && !kycRequired && (

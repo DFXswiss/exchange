@@ -1,4 +1,4 @@
-import DfxAssetIcon, { AssetIconSizes, AssetIconVariant } from './DfxAssetIcon';
+import DfxAssetIcon, { AssetIconSize, AssetIconVariant } from './DfxAssetIcon';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
@@ -11,6 +11,6 @@ export const Default: ComponentStory<typeof DfxAssetIcon> = (args) => {
 };
 
 Default.args = {
-  size: AssetIconSizes.LG,
+  size: AssetIconSize.LG,
   asset: AssetIconVariant.USDT,
 };
