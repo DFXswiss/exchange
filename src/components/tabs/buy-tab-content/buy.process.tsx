@@ -117,7 +117,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       purpose: buy.remittanceInfo,
       isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
-      estimatedAmount: `≈ ${buy.estimatedAmount} ${asset?.name ?? ''}`,
+      estimatedAmount: `≈ ${buy.estimatedAmount} ${asset?.name ?? ''} (incl. all fees)`,
       fee: `${buy.fee} %`,
       minFee: buy.minFee > 0 ? `${buy.minFee}${data.currency ? toSymbol(data.currency as Fiat) : ''}` : undefined,
       currency: data.currency as Fiat,
