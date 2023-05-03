@@ -14,13 +14,16 @@ import StyledIconButton from './StyledIconButton';
 import { Protocol } from '../hooks/blockchain.hook';
 import { Asset } from '../api/definitions/asset';
 
+const AddAssetToMetaMaskDesc =
+  'Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually.';
+
 const dummyAssets = {
   eth: {
     name: 'BUSD',
     description: 'Binance-wrapped USDC',
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
-    contractAddress: '0x234f...2313',
+    chainId: '0x234f...2313',
     blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   usdt: {
@@ -28,7 +31,7 @@ const dummyAssets = {
     description: 'Tether',
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
-    contractAddress: '0x234f...2313',
+    chainId: '0x234f...2313',
     blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   usdc: {
@@ -36,7 +39,7 @@ const dummyAssets = {
     description: 'USD Coin',
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
-    contractAddress: '0x234f...2313',
+    chainId: '0x234f...2313',
     blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   dfi: {
@@ -44,7 +47,7 @@ const dummyAssets = {
     description: 'DFI',
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
-    contractAddress: '0x234f...2313',
+    chainId: '0x234f...2313',
     blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   bnb: {
@@ -52,7 +55,7 @@ const dummyAssets = {
     description: 'BNB',
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
-    contractAddress: '0x234f...2313',
+    chainId: '0x234f...2313',
     blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   busd: {
@@ -60,7 +63,7 @@ const dummyAssets = {
     description: 'Binance USD',
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
-    contractAddress: '0x234f...2313',
+    chainId: '0x234f...2313',
     blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
 };
@@ -156,6 +159,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.eth as Asset}
@@ -163,6 +168,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.eth as Asset}
@@ -170,6 +177,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.usdt as Asset}
@@ -177,6 +186,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.usdc as Asset}
@@ -184,6 +195,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.dfi as Asset}
@@ -191,6 +204,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                     </StyledCoinList>
                     <StyledCoinList heading="Binance Smart Chain · BEP-20 token">
@@ -200,6 +215,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.bnb as Asset}
@@ -207,6 +224,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.dfi as Asset}
@@ -214,6 +233,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                     </StyledCoinList>
                   </>

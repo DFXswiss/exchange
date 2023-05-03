@@ -19,12 +19,11 @@ SingleCoinListItem.args = {
   asset: {
     name: 'BNB',
     description: 'BNB Morbi leo risus, porta ac consectetur ac, vestibul',
+    chainId: '0x93...23452',
+    blockchainExplorerLink: 'http://duckduckgo.com',
     comingSoon: false,
   } as Asset,
   protocol: Protocol.ERC_20,
-  popupContractAddress: '0x93...23452',
-  popupTitle: 'Binance Smart Chain',
-  popupExplorerLink: 'http://duckduckgo.com',
-  popupDescription:
+  popupLabel:
     'Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
 };

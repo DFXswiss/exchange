@@ -1,5 +1,6 @@
-import { Asset, AddAssetToMetaMaskDesc } from '../api/definitions/asset';
+import { Asset } from '../api/definitions/asset';
 import { Protocol } from '../hooks/blockchain.hook';
+import { useClipboard } from '../hooks/clipboard.hook';
 import DfxAssetIcon, { AssetIconVariant } from './DfxAssetIcon';
 import DfxIcon, { IconColor, IconVariant } from './DfxIcon';
 import StyledHorizontalStack from './layout-helpers/StyledHorizontalStack';
@@ -13,33 +14,51 @@ export interface StyledCoinListItemProps {
   disabled?: boolean;
   onClick: () => void;
   protocol: Protocol;
+  popupLabel?: string;
+  onAdd?: (contractAddress: string) => void;
+  alwaysShowDots?: boolean;
 }
 
-export default function StyledCoinListItem({ asset, onClick, protocol, disabled }: StyledCoinListItemProps) {
-  const [open, setPopupOpen] = useState(false);
+export default function StyledCoinListItem({
+  asset,
+  onClick,
+  protocol,
+  disabled,
+  popupLabel,
+  onAdd,
+  alwaysShowDots,
+}: StyledCoinListItemProps) {
+  const { isCopying, copy } = useClipboard();
+  const [open, setOpen] = useState(false);
   const { x, y, strategy, refs, context } = useFloating({
     open,
     placement: 'bottom-start',
     middleware: [offset(12), flip(), shift()],
-    onOpenChange: setPopupOpen,
+    onOpenChange: setOpen,
   });
   const dismiss = useDismiss(context, { outsidePress: true });
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   const name = asset.comingSoon ? 'Coming soon' : asset.description;
-  const buttonClasses = 'flex gap-2 rounded-l px-3 py-2 z-10 flex-1 active:bg-dfxGray-400/80';
+  let buttonClasses = 'flex gap-2 rounded-l px-3 py-2 z-10 flex-1';
   let wrapperClasses = 'group flex rounded place-self-start';
   let threeDotsClasses = ' rounded-r grow-0';
 
   if (!(disabled || asset.comingSoon)) {
+    buttonClasses += ' active:bg-dfxGray-400/80';
+  }
+
+  if (!asset.comingSoon) {
     wrapperClasses += ' hover:bg-dfxGray-400/50 focus:bg-dfxGray-400/50 ';
     threeDotsClasses += ' group-hover:visible active:bg-dfxGray-500';
     if (open) {
       threeDotsClasses += ' bg-dfxGray-500 visible';
       wrapperClasses += ' bg-dfxGray-400/50';
     } else {
-      threeDotsClasses += ' invisible hover:bg-dfxGray-400/90';
+      if (!alwaysShowDots) threeDotsClasses += ' invisible hover:bg-dfxGray-400/90';
     }
+  } else {
+    threeDotsClasses += ' invisible';
   }
 
   return (
@@ -64,14 +83,16 @@ export default function StyledCoinListItem({ asset, onClick, protocol, disabled 
             <span className="text-dfxGray-800 text-xs leading-tight block">{name}</span>
           </div>
         </button>
-        <button
-          className={threeDotsClasses}
-          onClick={() => {
-            setPopupOpen(!open);
-          }}
-        >
-          <DfxIcon icon={IconVariant.THREE_DOTS_VERT} color={IconColor.BLUE} />
-        </button>
+        {popupLabel && onAdd && asset.chainId && (
+          <button
+            className={threeDotsClasses}
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            <DfxIcon icon={IconVariant.THREE_DOTS_VERT} color={IconColor.BLUE} />
+          </button>
+        )}
       </div>
       {open && (
         <div
@@ -91,30 +112,22 @@ export default function StyledCoinListItem({ asset, onClick, protocol, disabled 
             <StyledHorizontalStack spanAcross>
               <span className="font-bold">Contract</span>
               <StyledHorizontalStack gap={2}>
-                <span className="font-bold">{asset.contractAddress}</span>
-                <StyledIconButton
-                  icon={IconVariant.COPY}
-                  onClick={() => {
-                    console.log('copied.');
-                  }}
-                />
-                <StyledIconButton
-                  icon={IconVariant.METAMASK_LOGO}
-                  onClick={() => {
-                    console.log(`added ${asset.contractAddress} to metamask.`);
-                  }}
-                />
+                <span className="font-bold">{`${asset.chainId?.substring(0, 5)}...${asset.chainId?.substring(
+                  asset.chainId?.length - 5,
+                )}`}</span>
+                <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(asset.chainId)} isLoading={isCopying} />
+                {asset.chainId && onAdd && (
+                  <StyledIconButton icon={IconVariant.METAMASK_LOGO} onClick={() => onAdd(asset.chainId ?? '')} />
+                )}
                 {asset.blockchainExplorerLink && (
                   <StyledIconButton
                     icon={IconVariant.OPEN_IN_NEW}
-                    onClick={() => {
-                      window.open(asset.blockchainExplorerLink, '_blank');
-                    }}
+                    onClick={() => window.open(asset.blockchainExplorerLink, '_blank')}
                   />
                 )}
               </StyledHorizontalStack>
             </StyledHorizontalStack>
-            <p className="text-dfxGray-700 text-xs">{AddAssetToMetaMaskDesc}</p>
+            <p className="text-dfxGray-700 text-xs">{popupLabel}</p>
           </StyledVerticalStack>
         </div>
       )}
