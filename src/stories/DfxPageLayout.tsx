@@ -14,13 +14,58 @@ import StyledIconButton from './StyledIconButton';
 import { Protocol } from '../hooks/blockchain.hook';
 import { Asset } from '../api/definitions/asset';
 
+const AddAssetToMetaMaskDesc =
+  'Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually.';
+
 const dummyAssets = {
-  eth: { name: 'ETH', description: 'Ethereum', comingSoon: false },
-  usdt: { name: 'USDT', description: 'Tether', comingSoon: false },
-  usdc: { name: 'USDC', description: 'USD Coin', comingSoon: false },
-  dfi: { name: 'DFI', description: 'DFI', comingSoon: false },
-  bnb: { name: 'BNB', description: 'BNB', comingSoon: false },
-  busd: { name: 'BUSD', description: 'Binance USD', comingSoon: false },
+  eth: {
+    name: 'BUSD',
+    description: 'Binance-wrapped USDC',
+    comingSoon: false,
+    blockchain: 'Binance Smart Chain',
+    chainId: '0x234f...2313',
+    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+  },
+  usdt: {
+    name: 'USDT',
+    description: 'Tether',
+    comingSoon: false,
+    blockchain: 'Binance Smart Chain',
+    chainId: '0x234f...2313',
+    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+  },
+  usdc: {
+    name: 'USDC',
+    description: 'USD Coin',
+    comingSoon: false,
+    blockchain: 'Binance Smart Chain',
+    chainId: '0x234f...2313',
+    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+  },
+  dfi: {
+    name: 'DFI',
+    description: 'DFI',
+    comingSoon: false,
+    blockchain: 'Binance Smart Chain',
+    chainId: '0x234f...2313',
+    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+  },
+  bnb: {
+    name: 'BNB',
+    description: 'BNB',
+    comingSoon: false,
+    blockchain: 'Binance Smart Chain',
+    chainId: '0x234f...2313',
+    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+  },
+  busd: {
+    name: 'BUSD',
+    description: 'Binance USD',
+    comingSoon: false,
+    blockchain: 'Binance Smart Chain',
+    chainId: '0x234f...2313',
+    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+  },
 };
 
 export default function DfxPageLayout() {
@@ -114,6 +159,26 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
+                      />
+                      <StyledCoinListItem
+                        asset={dummyAssets.eth as Asset}
+                        onClick={() => {
+                          console.log('clicked');
+                        }}
+                        protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
+                      />
+                      <StyledCoinListItem
+                        asset={dummyAssets.eth as Asset}
+                        onClick={() => {
+                          console.log('clicked');
+                        }}
+                        protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.usdt as Asset}
@@ -121,6 +186,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.usdc as Asset}
@@ -128,6 +195,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.dfi as Asset}
@@ -135,6 +204,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.ERC_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                     </StyledCoinList>
                     <StyledCoinList heading="Binance Smart Chain · BEP-20 token">
@@ -144,6 +215,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.bnb as Asset}
@@ -151,6 +224,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                       <StyledCoinListItem
                         asset={dummyAssets.dfi as Asset}
@@ -158,6 +233,8 @@ export default function DfxPageLayout() {
                           console.log('clicked');
                         }}
                         protocol={Protocol.BEP_20}
+                        popupLabel={AddAssetToMetaMaskDesc}
+                        onAdd={console.log}
                       />
                     </StyledCoinList>
                   </>

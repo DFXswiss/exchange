@@ -197,7 +197,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                       asset={asset}
                       protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
+                      popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
+                      onAdd={(contractAddress) => console.log('TODO add to metamask', contractAddress)}
                       disabled
+                      alwaysShowDots
                     />
                   </div>
                 </div>
