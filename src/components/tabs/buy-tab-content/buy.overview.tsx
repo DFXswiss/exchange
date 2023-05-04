@@ -1,6 +1,7 @@
 import { useAssetContext } from '../../../api/contexts/asset.context';
 import { Asset } from '../../../api/definitions/asset';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
+import { useMetaMask } from '../../../hooks/metamask.hook';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledCoinList from '../../../stories/StyledCoinList';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
@@ -12,6 +13,7 @@ interface BuyTabContentOverviewProps {
 export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewProps): JSX.Element {
   const { assets } = useAssetContext();
   const { toHeader, toProtocol } = useBlockchain();
+  const { addContract } = useMetaMask();
 
   return (
     <StyledVerticalStack gap={0}>
@@ -24,7 +26,7 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
               protocol={toProtocol(blockchain)}
               onClick={() => onAssetClicked(asset)}
               popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
-              onAdd={(contractAddress) => console.log('TODO add to metamask', contractAddress)}
+              onAdd={addContract}
             />
           ))}
         </StyledCoinList>

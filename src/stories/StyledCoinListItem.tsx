@@ -7,6 +7,7 @@ import StyledHorizontalStack from './layout-helpers/StyledHorizontalStack';
 import StyledVerticalStack from './layout-helpers/StyledVerticalStack';
 import StyledIconButton from './StyledIconButton';
 import { useFloating, offset, flip, shift, useDismiss, useInteractions } from '@floating-ui/react';
+import { renderToString } from 'react-dom/server';
 import { useState } from 'react';
 
 export interface StyledCoinListItemProps {
@@ -15,7 +16,7 @@ export interface StyledCoinListItemProps {
   onClick: () => void;
   protocol: Protocol;
   popupLabel?: string;
-  onAdd?: (contractAddress: string) => void;
+  onAdd?: (contractAddress: string, svgData: string) => void;
   alwaysShowDots?: boolean;
 }
 
@@ -112,7 +113,17 @@ export default function StyledCoinListItem({
                 )}`}</span>
                 <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(asset.chainId)} isLoading={isCopying} />
                 {asset.chainId && onAdd && (
-                  <StyledIconButton icon={IconVariant.METAMASK_LOGO} onClick={() => onAdd(asset.chainId ?? '')} />
+                  <StyledIconButton
+                    icon={IconVariant.METAMASK_LOGO}
+                    onClick={() =>
+                      onAdd(
+                        asset.chainId ?? '',
+                        renderToString(
+                          <DfxAssetIcon asset={asset.name as AssetIconVariant} disabled={asset.comingSoon} />,
+                        ),
+                      )
+                    }
+                  />
                 )}
                 {asset.blockchainExplorerLink && (
                   <StyledIconButton

@@ -27,6 +27,7 @@ import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
+import { useMetaMask } from '../../../hooks/metamask.hook';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -45,6 +46,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const { isAllowedToBuy, start, limit } = useKyc();
   const { toProtocol } = useBlockchain();
   const { toDescription, toSymbol } = useFiat();
+  const { addContract } = useMetaMask();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
@@ -191,7 +193,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                       protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
                       popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
-                      onAdd={(contractAddress) => console.log('TODO add to metamask', contractAddress)}
+                      onAdd={addContract}
                       disabled
                       alwaysShowDots
                     />
