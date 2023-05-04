@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 import StyledButton from './StyledButton';
 
-import StyledModal, { StyledModalWidths } from './StyledModal';
+import StyledModal, { StyledModalWidth } from './StyledModal';
 
 export default {
   title: 'Layout/DfxHelpModal',
@@ -15,7 +15,7 @@ export const Default: ComponentStory<typeof DfxHelpContent> = (args) => {
   return (
     <>
       <StyledButton label="Get Help" onClick={() => setShowModal(true)}></StyledButton>
-      <StyledModal onClose={setShowModal} isVisible={showModal} width={StyledModalWidths.FULL_WIDTH} heading="Help">
+      <StyledModal onClose={setShowModal} isVisible={showModal} width={StyledModalWidth.FULL_WIDTH} heading="Help">
         <DfxHelpContent {...args} />
       </StyledModal>
     </>

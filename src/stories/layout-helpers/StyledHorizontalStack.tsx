@@ -4,6 +4,7 @@ import { convertToRem } from './LayoutFunctions';
 export interface StyledHorizontalStackProps extends PropsWithChildren {
   gap?: number;
   spanAcross?: boolean;
+  center?: boolean;
   marginX?: number;
   marginY?: number;
 }
@@ -14,17 +15,15 @@ export default function StyledHorizontalStack({
   spanAcross,
   marginY,
   marginX,
+  center,
 }: StyledHorizontalStackProps) {
-  let mY: string | undefined;
-  let mX: string | undefined;
-
   const spacing = convertToRem(gap);
-  marginY !== undefined ? (mY = convertToRem(marginY)) : (mY = '0');
-  marginX !== undefined ? (mX = convertToRem(marginX)) : (mX = '0');
+  const mY = marginY != undefined ? convertToRem(marginY) : '0';
+  const mX = marginX != undefined ? convertToRem(marginX) : '0';
 
-  let classNames = 'flex';
-
-  spanAcross ? (classNames += ' justify-between') : null;
+  let classNames = 'flex ';
+  center && (classNames += 'justify-center ');
+  spanAcross && (classNames += 'justify-between ');
 
   return (
     <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={classNames}>

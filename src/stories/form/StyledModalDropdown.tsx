@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Controller } from 'react-hook-form';
-import DfxIcon, { IconSizes, IconVariant } from '../DfxIcon';
+import DfxIcon, { IconSize, IconVariant } from '../DfxIcon';
 import StyledVerticalStack from '../layout-helpers/StyledVerticalStack';
-import StyledModal, { StyledModalColors } from '../StyledModal';
+import StyledModal, { StyledModalColor } from '../StyledModal';
 import { ControlProps } from './Form';
 
 interface StyledModalDropdownProps<T> extends ControlProps {
@@ -38,7 +38,7 @@ export default function StyledModalDropdown<T>({
             isVisible={showModal}
             onClose={setShowModal}
             heading={modal.heading}
-            color={StyledModalColors.WHITE}
+            color={StyledModalColor.WHITE}
           >
             {modal.items.length > 0 && (
               <StyledVerticalStack gap={4}>
@@ -95,7 +95,7 @@ export default function StyledModalDropdown<T>({
                 )}
               </div>
               <div className="place-self-center">
-                <DfxIcon icon={IconVariant.UNFOLD_MORE} size={IconSizes.LG} />
+                <DfxIcon icon={IconVariant.UNFOLD_MORE} size={IconSize.LG} />
               </div>
             </button>
           </StyledVerticalStack>

@@ -39,7 +39,7 @@ export default function StyledDataTable({
     labelClasses += ' text-dfxBlue-800';
     headingClasses += ' text-dfxBlue-800';
   }
-  showBorder ? (headingClasses += ' ml-3.5') : (headingClasses += ' ');
+  showBorder && (headingClasses += ' ml-3.5');
   return (
     <ThemeContext.Provider value={{ darkTheme, showBorder, alignContent, narrow }}>
       <div className="mb-2.5">

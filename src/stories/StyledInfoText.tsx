@@ -1,15 +1,15 @@
 import { PropsWithChildren } from 'react';
-import DfxIcon, { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import DfxIcon, { IconColor, IconSize, IconVariant } from './DfxIcon';
 
 export interface StyledInfoTextProps extends PropsWithChildren {
   darkTheme?: boolean;
-  textSize?: StyledInfoTextSizes;
+  textSize?: StyledInfoTextSize;
   invertedIcon?: boolean;
-  iconColor?: IconColors;
+  iconColor?: IconColor;
   discreet?: boolean;
 }
 
-export enum StyledInfoTextSizes {
+export enum StyledInfoTextSize {
   XS = 'XS',
   SM = 'SM',
   MD = 'MD',
@@ -17,33 +17,31 @@ export enum StyledInfoTextSizes {
 
 type TextSizeMapsProps = {
   wrapperClasses: string;
-  iconSize: IconSizes;
+  iconSize: IconSize;
 };
 
-const TEXT_SIZE_MAPS: Record<StyledInfoTextSizes, TextSizeMapsProps> = {
-  [StyledInfoTextSizes.XS]: { wrapperClasses: ' text-xs', iconSize: IconSizes.SM },
-  [StyledInfoTextSizes.SM]: { wrapperClasses: ' text-sm', iconSize: IconSizes.MD },
-  [StyledInfoTextSizes.MD]: { wrapperClasses: '', iconSize: IconSizes.LG },
+const TEXT_SIZE_MAPS: Record<StyledInfoTextSize, TextSizeMapsProps> = {
+  [StyledInfoTextSize.XS]: { wrapperClasses: ' text-xs', iconSize: IconSize.SM },
+  [StyledInfoTextSize.SM]: { wrapperClasses: ' text-sm', iconSize: IconSize.MD },
+  [StyledInfoTextSize.MD]: { wrapperClasses: '', iconSize: IconSize.LG },
 };
 
 export default function StyledInfoText({
   darkTheme,
   children,
-  textSize = StyledInfoTextSizes.SM,
+  textSize = StyledInfoTextSize.SM,
   invertedIcon,
-  iconColor = IconColors.RED,
+  iconColor = IconColor.RED,
   discreet,
 }: StyledInfoTextProps) {
   let wrapperClasses = 'flex gap-2' + TEXT_SIZE_MAPS[textSize].wrapperClasses;
   const iconSize = TEXT_SIZE_MAPS[textSize].iconSize;
-  let iconVariant: IconVariant;
-
-  invertedIcon ? (iconVariant = IconVariant.INFO) : (iconVariant = IconVariant.INFO_OUTLINE);
+  const iconVariant = invertedIcon ? IconVariant.INFO : IconVariant.INFO_OUTLINE;
 
   if (darkTheme) {
-    discreet ? (wrapperClasses += ' text-white/50') : (wrapperClasses += ' text-white');
+    wrapperClasses += discreet ? ' text-white/50' : ' text-white';
   } else {
-    discreet ? (wrapperClasses += ' text-dfxGray-700') : (wrapperClasses += ' text-dfxBlue-800');
+    wrapperClasses += discreet ? ' text-dfxGray-700' : ' text-dfxBlue-800';
   }
 
   return (

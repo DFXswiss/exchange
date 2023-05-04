@@ -1,6 +1,6 @@
 import StyledIconButton from './StyledIconButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import { IconColor, IconSize, IconVariant } from './DfxIcon';
 
 export default {
   title: 'Building Blocks/StyledIconButton',
@@ -12,8 +12,8 @@ export const DemoIconButton: ComponentStory<typeof StyledIconButton> = (args) =>
 };
 DemoIconButton.args = {
   icon: IconVariant.BANK,
-  color: IconColors.RED,
-  size: IconSizes.MD,
+  color: IconColor.RED,
+  size: IconSize.MD,
   onClick: () => {
     alert('button clicked.');
   },

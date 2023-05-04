@@ -24,6 +24,7 @@ export const ThreeListItems: ComponentStory<typeof StyledBankAccountListItem> = 
     <StyledBankAccountListItem
       bankAccount={{ id: 2, iban: 'DE44 5920 0754 2344', sepaInstant: true, label: 'Commerzbank' }}
     />
+
     <StyledBankAccountListItem
       bankAccount={{ id: 3, iban: 'CH68 5390 2384 2349', sepaInstant: true, label: 'GLS GemeinschaftsBank Bochum' }}
     />

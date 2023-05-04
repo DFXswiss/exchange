@@ -5,18 +5,18 @@ export interface StyledVerticalStackProps extends PropsWithChildren {
   gap?: number;
   marginY?: number;
   marginX?: number;
+  center?: boolean;
 }
 
-export default function StyledVerticalStack({ children, gap = 0, marginY, marginX }: StyledVerticalStackProps) {
-  let mY: string | undefined;
-  let mX: string | undefined;
-
+export default function StyledVerticalStack({ children, gap = 0, marginY, marginX, center }: StyledVerticalStackProps) {
   const spacing = convertToRem(gap);
-  marginY !== undefined ? (mY = convertToRem(marginY)) : (mY = '0');
-  marginX !== undefined ? (mX = convertToRem(marginX)) : (mX = '0');
+  const mY = marginY != undefined ? convertToRem(marginY) : '0';
+  const mX = marginX != undefined ? convertToRem(marginX) : '0';
+  let classNames = 'flex flex-col ';
+  center && (classNames += 'items-center');
 
   return (
-    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={'flex flex-col'}>
+    <div style={{ gap: spacing, margin: mY + ' ' + mX }} className={classNames}>
       {children}
     </div>
   );

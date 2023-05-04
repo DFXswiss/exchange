@@ -1,6 +1,6 @@
 import { Fiat } from '../../api/definitions/fiat';
 import { useClipboard } from '../../hooks/clipboard.hook';
-import DfxIcon, { IconColors, IconVariant } from '../../stories/DfxIcon';
+import DfxIcon, { IconColor, IconVariant } from '../../stories/DfxIcon';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import StyledDataTable, { AlignContent } from '../../stories/StyledDataTable';
 import StyledDataTableRow from '../../stories/StyledDataTableRow';
@@ -31,7 +31,7 @@ export function PaymentInformationContent({ info }: PaymentInformationContentPro
     <>
       <StyledVerticalStack marginY={5} gap={2}>
         <h2 className="text-center">Payment Information</h2>
-        <StyledInfoText iconColor={IconColors.BLUE}>
+        <StyledInfoText iconColor={IconColor.BLUE}>
           Please transfer the purchase amount using this information via your banking application. The purpose of
           payment is important!
         </StyledInfoText>
@@ -42,7 +42,7 @@ export function PaymentInformationContent({ info }: PaymentInformationContentPro
             <p>{info.iban}</p>
             {info.isSepaInstant && (
               <div className="text-white">
-                <DfxIcon icon={IconVariant.SEPA_INSTANT} color={IconColors.RED} />
+                <DfxIcon icon={IconVariant.SEPA_INSTANT} color={IconColor.RED} />
               </div>
             )}
           </div>

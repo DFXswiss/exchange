@@ -10,7 +10,6 @@ export interface StyledVideoGridProps {
 }
 
 export default function StyledVideoGrid({ videoSources, numCols = 3 }: StyledVideoGridProps) {
-  //const gridColStyle = 'grid-column: span ' + numCols + ' / span ' + numCols;
   const gridFractal = '1fr ';
   return (
     <div style={{ gridTemplateColumns: gridFractal.repeat(numCols) }} className="grid gap-6">

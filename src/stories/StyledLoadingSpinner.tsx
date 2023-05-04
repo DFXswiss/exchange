@@ -2,7 +2,7 @@ import { SpinnerCircular } from 'spinners-react';
 
 export interface StyledLoadingSpinnerProps {
   variant?: SpinnerVariant;
-  size?: SpinnerSizes;
+  size?: SpinnerSize;
 }
 
 export enum SpinnerVariant {
@@ -11,22 +11,22 @@ export enum SpinnerVariant {
   PALE = 'PALE',
 }
 
-export enum SpinnerSizes {
+export enum SpinnerSize {
   SM = 'SMALL',
   MD = 'MEDIUM',
   LG = 'LARGE',
 }
 
-const SIZE_MAPS: Record<SpinnerSizes, number> = {
-  [SpinnerSizes.SM]: 10,
-  [SpinnerSizes.MD]: 20,
-  [SpinnerSizes.LG]: 30,
+const SIZE_MAPS: Record<SpinnerSize, number> = {
+  [SpinnerSize.SM]: 10,
+  [SpinnerSize.MD]: 20,
+  [SpinnerSize.LG]: 30,
 };
 
-const THICKNESS_MAPS: Record<SpinnerSizes, number> = {
-  [SpinnerSizes.SM]: 350,
-  [SpinnerSizes.MD]: 250,
-  [SpinnerSizes.LG]: 200,
+const THICKNESS_MAPS: Record<SpinnerSize, number> = {
+  [SpinnerSize.SM]: 350,
+  [SpinnerSize.MD]: 250,
+  [SpinnerSize.LG]: 200,
 };
 
 type VariantProps = {
@@ -42,7 +42,7 @@ const VARIANT_MAPS: Record<SpinnerVariant, VariantProps> = {
 
 export default function StyledLoadingSpinner({
   variant = SpinnerVariant.DARK_MODE,
-  size = SpinnerSizes.MD,
+  size = SpinnerSize.MD,
 }: StyledLoadingSpinnerProps) {
   return (
     <SpinnerCircular

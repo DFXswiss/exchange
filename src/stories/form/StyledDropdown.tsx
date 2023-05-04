@@ -1,6 +1,6 @@
 import { ControlProps } from './Form';
 import { useState } from 'react';
-import DfxIcon, { IconColors, IconSizes, IconVariant } from '../DfxIcon';
+import DfxIcon, { IconColor, IconSize, IconVariant } from '../DfxIcon';
 import { Controller } from 'react-hook-form';
 
 export interface StyledDropdownProps<T> extends ControlProps {
@@ -28,7 +28,7 @@ export default function StyledDropdown<T>({
 
   let buttonClasses = 'flex justify-between border border-dfxGray-400 px-4 py-3 shadow-sm w-full';
 
-  isOpen ? (buttonClasses += ' rounded-x rounded-t bg-dfxGray-400/50') : (buttonClasses += ' rounded');
+  buttonClasses += isOpen ? ' rounded-x rounded-t bg-dfxGray-400/50' : ' rounded';
 
   return (
     <Controller
@@ -36,7 +36,7 @@ export default function StyledDropdown<T>({
       render={({ field: { onChange, onBlur, value } }) => (
         <div className="relative">
           <div className="flex ml-3.5 mb-2.5">
-            {labelIcon !== undefined && <DfxIcon icon={labelIcon} size={IconSizes.SM} color={IconColors.BLUE} />}
+            {labelIcon != undefined && <DfxIcon icon={labelIcon} size={IconSize.SM} color={IconColor.BLUE} />}
 
             <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">{label}</label>
           </div>
@@ -50,8 +50,8 @@ export default function StyledDropdown<T>({
             {...props}
           >
             <div className="flex flex-col gap-1 justify-between text-left">
-              {value === undefined ? (
-                <p className="text-dfxGray-400 drop-shadow-none py-[0.25rem]">{placeholder}</p>
+              {value == undefined ? (
+                <p className="text-dfxGray-600 drop-shadow-none py-[0.25rem]">{placeholder}</p>
               ) : (
                 <>
                   <span className="text-dfxBlue-800 leading-none font-semibold">{labelFunc(value)}</span>
@@ -60,7 +60,7 @@ export default function StyledDropdown<T>({
               )}
             </div>
             <div className="place-self-center">
-              <DfxIcon icon={isOpen ? IconVariant.EXPAND_LESS : IconVariant.EXPAND_MORE} size={IconSizes.LG} />
+              <DfxIcon icon={isOpen ? IconVariant.EXPAND_LESS : IconVariant.EXPAND_MORE} size={IconSize.LG} />
             </div>
           </button>
           {isOpen && (

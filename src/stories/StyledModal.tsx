@@ -1,29 +1,29 @@
 import { PropsWithChildren } from 'react';
-import { IconColors, IconSizes, IconVariant } from './DfxIcon';
+import { IconColor, IconSize, IconVariant } from './DfxIcon';
 import StyledIconButton from './StyledIconButton';
 
-export enum StyledModalColors {
+export enum StyledModalColor {
   WHITE = 'WHITE',
   DFX_GRADIENT = 'DFX_GRADIENT',
 }
 
-export enum StyledModalTypes {
+export enum StyledModalType {
   REGULAR = 'REGULAR',
   ALERT = 'ALERT',
 }
 
-export enum StyledModalWidths {
+export enum StyledModalWidth {
   SMALL = 'SMALL',
   REGULAR = 'REGULAR',
   LARGE = 'LARGE',
   FULL_WIDTH = 'FULL_WIDTH',
 }
 
-const WIDTH_MAPS: Record<StyledModalWidths, string> = {
-  [StyledModalWidths.SMALL]: 'min-w-[25rem] max-w-lg',
-  [StyledModalWidths.REGULAR]: 'min-w-[37.5rem] max-w-2xl',
-  [StyledModalWidths.LARGE]: 'w-[90%] max-w-4xl',
-  [StyledModalWidths.FULL_WIDTH]: 'w-[90%] max-w-7xl',
+const WIDTH_MAPS: Record<StyledModalWidth, string> = {
+  [StyledModalWidth.SMALL]: 'min-w-[25rem] max-w-lg',
+  [StyledModalWidth.REGULAR]: 'min-w-[37.5rem] max-w-2xl',
+  [StyledModalWidth.LARGE]: 'w-[90%] max-w-4xl',
+  [StyledModalWidth.FULL_WIDTH]: 'w-[90%] max-w-7xl',
 };
 
 interface StyledModalProps extends PropsWithChildren {
@@ -31,35 +31,35 @@ interface StyledModalProps extends PropsWithChildren {
   onClose?: (showModal: boolean) => any;
   closeWithX?: boolean;
   heading?: string;
-  color?: StyledModalColors;
-  type?: StyledModalTypes;
-  width?: StyledModalWidths;
+  color?: StyledModalColor;
+  type?: StyledModalType;
+  width?: StyledModalWidth;
 }
 
 export default function StyledModal({
   isVisible,
-  type = StyledModalTypes.REGULAR,
-  color = StyledModalColors.DFX_GRADIENT,
+  type = StyledModalType.REGULAR,
+  color = StyledModalColor.DFX_GRADIENT,
   onClose,
   heading,
   closeWithX = true,
   children,
-  width = StyledModalWidths.REGULAR,
+  width = StyledModalWidth.REGULAR,
 }: StyledModalProps) {
   function setShowModal(modalState: boolean) {
     onClose?.(modalState);
   }
 
-  const showHeader = heading !== undefined && heading !== '' && type === StyledModalTypes.REGULAR;
+  const showHeader = heading !== undefined && heading !== '' && type === StyledModalType.REGULAR;
 
   const parentClasses = 'relative my-6 mx-auto ' + WIDTH_MAPS[width];
   let containerClasses =
-    'rounded-lg shadow-lg max-h-[80vh] relative flex flex-col w-full outline-none focus:outline-none';
+    'rounded-lg shadow-lg max-h-[80vh] relative flex flex-col w-full outline-none focus:outline-none overflow-auto';
   let headingClasses = 'p-3 border-b rounded-t';
   let bodyClasses = 'relative px-14 pb-10 flex-auto overflow-auto';
 
-  if (type !== StyledModalTypes.ALERT) {
-    color === StyledModalColors.DFX_GRADIENT
+  if (type !== StyledModalType.ALERT) {
+    color === StyledModalColor.DFX_GRADIENT
       ? ((containerClasses += ' bg-dfxGradient text-white border border-white/20'),
         (headingClasses += ' border-white/20'))
       : ((containerClasses += ' bg-white text-dfxBlue-800'), (headingClasses += ' border-dfxGray-400'));
@@ -70,7 +70,7 @@ export default function StyledModal({
 
   showHeader ? (bodyClasses += ' pt-6') : (bodyClasses += ' pt-12');
 
-  const zIndex = type === StyledModalTypes.ALERT ? 'z-[100]' : 'z-40';
+  const zIndex = type === StyledModalType.ALERT ? 'z-[100]' : 'z-40';
 
   return (
     <>
@@ -82,11 +82,11 @@ export default function StyledModal({
             <div className={parentClasses}>
               {/*content*/}
               <div className={containerClasses}>
-                {closeWithX && type === StyledModalTypes.REGULAR && (
+                {closeWithX && type === StyledModalType.REGULAR && (
                   <div className="absolute right-4 top-4 z-50">
                     <StyledIconButton
-                      color={color === StyledModalColors.DFX_GRADIENT ? IconColors.WHITE : IconColors.BLUE}
-                      size={IconSizes.LG}
+                      color={color === StyledModalColor.DFX_GRADIENT ? IconColor.WHITE : IconColor.BLUE}
+                      size={IconSize.LG}
                       icon={IconVariant.CLOSE}
                       onClick={() => setShowModal(false)}
                     />

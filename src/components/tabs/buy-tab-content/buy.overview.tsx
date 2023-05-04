@@ -23,6 +23,8 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
               asset={asset}
               protocol={toProtocol(blockchain)}
               onClick={() => onAssetClicked(asset)}
+              popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
+              onAdd={(contractAddress) => console.log('TODO add to metamask', contractAddress)}
             />
           ))}
         </StyledCoinList>

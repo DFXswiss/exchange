@@ -1,8 +1,8 @@
 import StyledDataBox from './StyledDataBox';
 import StyledDataTextRow from './StyledDataTextRow';
-import StyledButton, { StyledButtonSizes, StyledButtonWidths } from './StyledButton';
+import StyledButton, { StyledButtonSize, StyledButtonWidth } from './StyledButton';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { IconVariant, IconColors, IconSizes } from './DfxIcon';
+import { IconVariant, IconColor, IconSize } from './DfxIcon';
 import StyledIconButton from './StyledIconButton';
 
 export default {
@@ -48,8 +48,8 @@ WithRows.args = {
   heading: 'With Rows and Settings',
   rightIconButton: {
     icon: IconVariant.SETTINGS,
-    color: IconColors.RED,
-    size: IconSizes.LG,
+    color: IconColor.RED,
+    size: IconSize.LG,
     onClick: () => {
       console.log('clicked');
     },
@@ -67,9 +67,9 @@ export const WithIntegratedButton: ComponentStory<typeof StyledDataBox> = (args)
           onClick={() => {
             console.log('button clicked');
           }}
-          size={StyledButtonSizes.SMALL}
+          size={StyledButtonSize.SMALL}
           label="Copy link to share"
-          width={StyledButtonWidths.MIN}
+          width={StyledButtonWidth.MIN}
         />
       </StyledDataTextRow>
     </StyledDataBox>
