@@ -1,14 +1,12 @@
 import { BankAccount } from '../../api/definitions/bank-account';
 import { Utils } from '../../utils';
-import DfxIcon, { IconVariant, IconColor, IconSize } from '../DfxIcon';
-import StyledIconButton from '../StyledIconButton';
+import DfxIcon, { IconVariant, IconColor } from '../DfxIcon';
 
 export interface StyledBankAccountListItemProps {
   bankAccount: BankAccount;
-  onDelete: () => void;
 }
 
-export default function StyledBankAccountListItem({ bankAccount, onDelete }: StyledBankAccountListItemProps) {
+export default function StyledBankAccountListItem({ bankAccount }: StyledBankAccountListItemProps) {
   const isLabelAvailable = bankAccount.label && bankAccount.label.length > 0;
   return (
     <div className="flex  mb-3 last:mb-0 group justify-between rounded py-1 px-3 hover:bg-dfxGray-400/50 ">
@@ -21,14 +19,14 @@ export default function StyledBankAccountListItem({ bankAccount, onDelete }: Sty
           <p className="text-dfxBlue-800">{Utils.formatIban(bankAccount.iban)}</p>
         </div>
       </div>
-      <div className="hidden group-hover:block">
+      {/* <div className="hidden group-hover:block">
         <StyledIconButton
           icon={IconVariant.DELETE_OUTLINE}
           color={IconColor.RED}
           size={IconSize.LG}
           onClick={onDelete}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
