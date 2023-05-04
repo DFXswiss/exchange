@@ -54,7 +54,7 @@ export default function StyledModal({
 
   const parentClasses = 'relative my-6 mx-auto ' + WIDTH_MAPS[width];
   let containerClasses =
-    'rounded-lg shadow-lg max-h-[80vh] relative flex flex-col w-full outline-none focus:outline-none';
+    'rounded-lg shadow-lg max-h-[80vh] relative flex flex-col w-full outline-none focus:outline-none overflow-auto';
   let headingClasses = 'p-3 border-b rounded-t';
   let bodyClasses = 'relative px-14 pb-10 flex-auto overflow-auto';
 

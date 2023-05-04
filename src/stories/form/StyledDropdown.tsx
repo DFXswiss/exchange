@@ -51,7 +51,7 @@ export default function StyledDropdown<T>({
           >
             <div className="flex flex-col gap-1 justify-between text-left">
               {value == undefined ? (
-                <p className="text-dfxGray-400 drop-shadow-none py-[0.25rem]">{placeholder}</p>
+                <p className="text-dfxGray-600 drop-shadow-none py-[0.25rem]">{placeholder}</p>
               ) : (
                 <>
                   <span className="text-dfxBlue-800 leading-none font-semibold">{labelFunc(value)}</span>
