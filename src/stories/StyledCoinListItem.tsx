@@ -42,7 +42,7 @@ export default function StyledCoinListItem({
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   const name = asset.comingSoon ? 'Coming soon' : asset.description;
-  let buttonClasses = 'flex gap-2 rounded-l px-3 py-2 z-10 flex-1';
+  let buttonClasses = 'flex gap-2 rounded-l px-3 py-1.5 z-10 flex-1';
   let wrapperClasses = 'group flex rounded place-self-start';
   let threeDotsClasses = ' rounded-r grow-0';
 
