@@ -26,7 +26,7 @@ export default function StyledDropdown<T>({
 }: StyledDropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
-  let buttonClasses = 'flex justify-between border border-dfxGray-400 px-4 py-3 shadow-sm w-full';
+  let buttonClasses = 'flex justify-between border border-dfxGray-400 px-4 py-2 shadow-sm w-full';
 
   buttonClasses += isOpen ? ' rounded-x rounded-t bg-dfxGray-400/50' : ' rounded';
 

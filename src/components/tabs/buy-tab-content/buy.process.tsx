@@ -187,7 +187,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
 
                     <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
                   </div>
-                  <div className="border border-dfxGray-400 rounded px-2 py-1 drop-shadow-sm">
+                  <div className="border border-dfxGray-400 rounded drop-shadow-sm">
                     <StyledCoinListItem
                       asset={asset}
                       protocol={toProtocol(asset.blockchain)}
