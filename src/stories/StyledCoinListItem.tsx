@@ -9,6 +9,7 @@ import StyledIconButton from './StyledIconButton';
 import { useFloating, offset, flip, shift, useDismiss, useInteractions } from '@floating-ui/react';
 import { renderToString } from 'react-dom/server';
 import { useState } from 'react';
+import { CopyButton } from '../components/copy-button';
 
 export interface StyledCoinListItemProps {
   asset: Asset;
@@ -29,7 +30,7 @@ export default function StyledCoinListItem({
   onAdd,
   alwaysShowDots,
 }: StyledCoinListItemProps) {
-  const { isCopying, copy } = useClipboard();
+  const { copy } = useClipboard();
   const [open, setOpen] = useState(false);
   const { x, y, strategy, refs, context } = useFloating({
     open,
@@ -111,16 +112,14 @@ export default function StyledCoinListItem({
                 <span className="font-bold">{`${asset.chainId?.substring(0, 5)}...${asset.chainId?.substring(
                   asset.chainId?.length - 5,
                 )}`}</span>
-                <StyledIconButton icon={IconVariant.COPY} onClick={() => copy(asset.chainId)} isLoading={isCopying} />
+                <CopyButton onCopy={() => copy(asset.chainId)} />
                 {asset.chainId && onAdd && (
                   <StyledIconButton
                     icon={IconVariant.METAMASK_LOGO}
                     onClick={() =>
                       onAdd(
                         asset.chainId ?? '',
-                        renderToString(
-                          <DfxAssetIcon asset={asset.name as AssetIconVariant} disabled={asset.comingSoon} />,
-                        ),
+                        renderToString(<DfxAssetIcon asset={asset.name as AssetIconVariant} />),
                       )
                     }
                   />

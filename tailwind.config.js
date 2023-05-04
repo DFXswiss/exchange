@@ -64,6 +64,10 @@ module.exports = {
       lg: '0.9375rem', // 15px
       full: '9999px',
     },
-    extend: {},
+    extend: {
+      zIndex: {
+        1: 1,
+      },
+    },
   },
 };

@@ -181,7 +181,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                     <DfxIcon icon={IconVariant.ARROW_RIGHT} size={IconSize.LG} color={IconColor.GRAY} />
                   </div>
                 </div>
-                <div className="basis-5/12 shrink-1">
+                <div className="basis-5/12 shrink-1 z-1">
                   <div className="flex ml-3.5 mb-2.5">
                     <DfxIcon icon={IconVariant.WALLET} size={IconSize.SM} color={IconColor.BLUE} />
 
