@@ -12,5 +12,5 @@ export interface Asset {
   comingSoon: boolean;
   sortOrder?: number;
   chainId?: string;
-  blockchainExplorerLink?: string;
+  explorerUrl?: string;
 }

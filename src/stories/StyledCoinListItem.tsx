@@ -124,10 +124,10 @@ export default function StyledCoinListItem({
                     }
                   />
                 )}
-                {asset.blockchainExplorerLink && (
+                {asset.explorerUrl && (
                   <StyledIconButton
                     icon={IconVariant.OPEN_IN_NEW}
-                    onClick={() => window.open(asset.blockchainExplorerLink, '_blank')}
+                    onClick={() => window.open(asset.explorerUrl, '_blank')}
                   />
                 )}
               </StyledHorizontalStack>
