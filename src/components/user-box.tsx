@@ -3,11 +3,11 @@ import { useUserContext } from '../api/contexts/user.context';
 import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 import { useClipboard } from '../hooks/clipboard.hook';
-import { IconColors, IconSizes, IconVariant } from '../stories/DfxIcon';
-import StyledButton, { StyledButtonColors, StyledButtonSizes, StyledButtonWidths } from '../stories/StyledButton';
+import { IconColor, IconSize, IconVariant } from '../stories/DfxIcon';
+import StyledButton, { StyledButtonColor, StyledButtonSize, StyledButtonWidth } from '../stories/StyledButton';
 import StyledDataBox from '../stories/StyledDataBox';
 import StyledDataTextRow from '../stories/StyledDataTextRow';
-import StyledModal, { StyledModalColors } from '../stories/StyledModal';
+import StyledModal, { StyledModalColor } from '../stories/StyledModal';
 import { MailEdit } from './edit/mail.edit';
 import { UserData } from './user-data';
 
@@ -24,7 +24,7 @@ export function UserBox(): JSX.Element {
       {/* MODALS */}
       <StyledModal
         heading="E-mail address"
-        color={StyledModalColors.DFX_GRADIENT}
+        color={StyledModalColor.DFX_GRADIENT}
         isVisible={showsEmailEdit}
         onClose={setShowsEmailEdit}
       >
@@ -32,7 +32,7 @@ export function UserBox(): JSX.Element {
       </StyledModal>
       <StyledModal
         heading="Your Data"
-        color={StyledModalColors.DFX_GRADIENT}
+        color={StyledModalColor.DFX_GRADIENT}
         isVisible={showsUserData}
         onClose={setShowsUserData}
       >
@@ -43,8 +43,8 @@ export function UserBox(): JSX.Element {
         heading="Your Data"
         rightIconButton={{
           icon: IconVariant.SETTINGS,
-          color: IconColors.RED,
-          size: IconSizes.LG,
+          color: IconColor.RED,
+          size: IconSize.LG,
           onClick: () => setShowsUserData(true),
         }}
       >
@@ -52,9 +52,9 @@ export function UserBox(): JSX.Element {
           {user?.mail ?? (
             <StyledButton
               label="Add E-mail address"
-              size={StyledButtonSizes.SMALL}
-              width={StyledButtonWidths.MIN}
-              color={StyledButtonColors.WHITE}
+              size={StyledButtonSize.SMALL}
+              width={StyledButtonWidth.MIN}
+              color={StyledButtonColor.WHITE}
               caps={false}
               onClick={() => setShowsEmailEdit(true)}
               deactivateMargin
@@ -66,8 +66,8 @@ export function UserBox(): JSX.Element {
             {user.ref}
             <StyledButton
               label="Copy link to share"
-              size={StyledButtonSizes.SMALL}
-              width={StyledButtonWidths.MIN}
+              size={StyledButtonSize.SMALL}
+              width={StyledButtonWidth.MIN}
               caps={false}
               onClick={() => copy(refLink)}
               isLoading={isCopying}

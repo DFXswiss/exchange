@@ -40,6 +40,7 @@ export enum AssetIconVariant {
   LINK = 'LINK',
   UNI = 'UNI',
   QNT = 'QNT',
+  XCHF = 'XCHF',
 }
 
 export enum AssetIconSize {
@@ -90,6 +91,7 @@ const VARIANT_MAPS: Record<AssetIconVariant, (props: BaseAssetIconProps) => Reac
   [AssetIconVariant.LINK]: ({ forceColor }) => <DfxAssetIconLINK forceColor={forceColor} />,
   [AssetIconVariant.UNI]: ({ forceColor }) => <DfxAssetIconUNI forceColor={forceColor} />,
   [AssetIconVariant.QNT]: ({ forceColor }) => <DfxAssetIconQNT forceColor={forceColor} />,
+  [AssetIconVariant.XCHF]: ({ forceColor }) => <DfxAssetIconXCHF forceColor={forceColor} />,
 };
 
 export default function DfxAssetIcon({ size = AssetIconSize.MD, asset, disabled }: DfxAssetIconProps) {
@@ -3183,6 +3185,24 @@ function DfxAssetIconQNT({ forceColor }: BaseAssetIconProps) {
       <path
         d="m399.2 180.8 7.9 99.6 36.1-4.7s9.4-3.2 7.9-20.5c-1.6-19-4.7-58.5-4.7-58.5s1.6-9.5-20.4-12.6c-26.8-4.9-26.8-3.3-26.8-3.3zM407 280.4l-72.3 58.5 33 64.8s7.9 25.3 31.4-3.2c22-28.5 31.4-33.2 29.8-50.6-1.4-17.4-6.2-58.5-21.9-69.5zM333.2 338.8l-99-44.3L147.8 470s-6.3 12.6 15.7 14.2c22 3.2 58.1 11.1 77-7.9 18.9-17.3 92.7-137.5 92.7-137.5zM234.2 293l-9.4-117-213.7 14.3s-12.6 1.6-11 25.3C1.7 247.2 4.8 282 4.8 282s-1.6 14.2 26.7 15.8c28.3 1.5 199.6 1.5 202.7-4.8z"
         fill={forceColor ?? '#000'}
+      />
+    </svg>
+  );
+}
+function DfxAssetIconXCHF({ forceColor }: BaseAssetIconProps) {
+  const sizeContext = useContext(SizeContext);
+  return (
+    <svg
+      width={SIZE_MAPS[sizeContext]}
+      height={SIZE_MAPS[sizeContext]}
+      viewBox="0 0 300 150"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill={forceColor ?? '#ce0e2d'}
+        fillRule="evenodd"
+        d="m80.168 147.035-6.86-16.808-36.277 89.125h21.992L148.027.422 249.25 249.293H121.71l-21.241-52.258 12.031-29.664 21.148 51.98h79.32l-64.94-159.746-77.165 189.688H.848l72.46-178.246L92.2 117.516zm0 0"
       />
     </svg>
   );

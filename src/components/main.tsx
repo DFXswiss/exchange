@@ -3,15 +3,15 @@ import { isMobile } from 'react-device-detect';
 import { useUserContext } from '../api/contexts/user.context';
 import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
-import { IconSizes, IconVariant } from '../stories/DfxIcon';
+import { IconSize, IconVariant } from '../stories/DfxIcon';
 import DfxLogo from '../stories/DfxLogo';
 import DfxTitleSection from '../stories/DfxTitleSection';
 import DfxVideoHelpModalContent from '../stories/DfxVideoHelpModalContent';
 import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColors, StyledButtonWidths } from '../stories/StyledButton';
+import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../stories/StyledButton';
 import StyledIconButton from '../stories/StyledIconButton';
 import { StyledLink } from '../stories/StyledLink';
-import StyledModal, { StyledModalTypes, StyledModalWidths } from '../stories/StyledModal';
+import StyledModal, { StyledModalType, StyledModalWidth } from '../stories/StyledModal';
 import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
 import { useBuyTab } from './tabs/buy.tab';
 import { UserBox } from './user-box';
@@ -41,7 +41,7 @@ export function Main(): JSX.Element {
   return (
     <>
       {/* MODALS */}
-      <StyledModal type={StyledModalTypes.ALERT} isVisible={needsSignUp}>
+      <StyledModal type={StyledModalType.ALERT} isVisible={needsSignUp}>
         <StyledVerticalStack>
           <h1>Terms and Conditions.</h1>
           <p>
@@ -58,8 +58,8 @@ export function Main(): JSX.Element {
           </a>
           <div className="mx-auto">
             <StyledButton
-              width={StyledButtonWidths.SM}
-              color={StyledButtonColors.RED}
+              width={StyledButtonWidth.SM}
+              color={StyledButtonColor.RED}
               label="Next"
               caps={false}
               onClick={() => signUp()}
@@ -68,7 +68,7 @@ export function Main(): JSX.Element {
           </div>
         </StyledVerticalStack>
       </StyledModal>
-      <StyledModal onClose={setShowsHelp} isVisible={showsHelp} width={StyledModalWidths.FULL_WIDTH} heading="Help">
+      <StyledModal onClose={setShowsHelp} isVisible={showsHelp} width={StyledModalWidth.FULL_WIDTH} heading="Help">
         <DfxVideoHelpModalContent
           title="Get started with the DFX Exchange"
           description="We are the crypto exchange you don't need to trust your funds. Your keys, your coins, here is how it works:"
@@ -92,7 +92,7 @@ export function Main(): JSX.Element {
           numCols={3}
         />
       </StyledModal>
-      <StyledModal isVisible={showsUserLink} onClose={setShowsUserLink} type={StyledModalTypes.ALERT}>
+      <StyledModal isVisible={showsUserLink} onClose={setShowsUserLink} type={StyledModalType.ALERT}>
         <StyledVerticalStack gap={4}>
           <h1>Welcome back!</h1>
           <p>
@@ -101,7 +101,7 @@ export function Main(): JSX.Element {
           </p>
           <p>If you don't want to link this address to your account, simply ignore the E-Mail.</p>
           <div className="mx-auto">
-            <StyledButton width={StyledButtonWidths.SM} onClick={() => setShowsUserLink(false)} label="Got it." />
+            <StyledButton width={StyledButtonWidth.SM} onClick={() => setShowsUserLink(false)} label="Got it." />
           </div>
         </StyledVerticalStack>
       </StyledModal>
@@ -119,7 +119,7 @@ export function Main(): JSX.Element {
                 ) : (
                   <StyledButton label="Connect to Metamask" onClick={login} />
                 )}
-                <StyledIconButton size={IconSizes.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
+                <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>
             )}
           </div>

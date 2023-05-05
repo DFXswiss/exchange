@@ -4,7 +4,7 @@ import StyledIconButton from './StyledIconButton';
 
 export interface StyledTabContentWrapperProps extends PropsWithChildren {
   showBackArrow?: boolean;
-  onBackClick: () => void;
+  onBackClick?: () => void;
 }
 
 export default function StyledTabContentWrapper({
@@ -14,7 +14,7 @@ export default function StyledTabContentWrapper({
 }: StyledTabContentWrapperProps) {
   return (
     <div className="w-full">
-      {showBackArrow && (
+      {showBackArrow && onBackClick && (
         <div className="absolute">
           <StyledIconButton icon={IconVariant.BACK} onClick={onBackClick} />
         </div>

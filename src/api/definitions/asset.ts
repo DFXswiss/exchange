@@ -2,6 +2,11 @@ import { Blockchain } from './blockchain';
 
 export const AssetUrl = { get: `asset?blockchains=${Object.values(Blockchain).join(',')}` };
 
+export enum AssetType {
+  COIN = 'Coin',
+  TOKEN = 'Token',
+}
+
 export interface Asset {
   id: number;
   name: string;
@@ -11,4 +16,7 @@ export interface Asset {
   blockchain: Blockchain;
   comingSoon: boolean;
   sortOrder?: number;
+  chainId?: string;
+  explorerUrl?: string;
+  type: AssetType;
 }

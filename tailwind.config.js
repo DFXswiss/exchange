@@ -28,7 +28,9 @@ module.exports = {
         500: '#D6DBE2',
         600: '#B8C4D8',
         700: '#9AA5B8',
+        750: '#808BA1',
         800: '#65728A',
+        900: '#4B5466',
       },
       dfxRedBlue: {
         200: '#DE4D68',
@@ -62,6 +64,10 @@ module.exports = {
       lg: '0.9375rem', // 15px
       full: '9999px',
     },
-    extend: {},
+    extend: {
+      zIndex: {
+        1: 1,
+      },
+    },
   },
 };

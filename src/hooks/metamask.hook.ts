@@ -1,6 +1,7 @@
 import Web3 from 'web3';
 import { Blockchain } from '../api/definitions/blockchain';
 import { useBlockchain } from './blockchain.hook';
+import { Buffer } from 'buffer';
 
 export interface MetaMaskInterface {
   isInstalled: boolean;
@@ -12,6 +13,7 @@ export interface MetaMaskInterface {
   requestBlockchain: () => Promise<Blockchain | undefined>;
   requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
+  addContract: (address: string, svgData: string) => Promise<boolean>;
 }
 
 export function useMetaMask(): MetaMaskInterface {
@@ -60,11 +62,64 @@ export function useMetaMask(): MetaMaskInterface {
     return web3.eth.personal.sign(message, address, '');
   }
 
+  async function addContract(address: string, svgData: string): Promise<boolean> {
+    const tokenContract = new web3.eth.Contract(
+      [
+        {
+          constant: true,
+          inputs: [],
+          name: 'symbol',
+          outputs: [
+            {
+              name: '',
+              type: 'string',
+            },
+          ],
+          payable: false,
+          stateMutability: 'view',
+          type: 'function',
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: 'decimals',
+          outputs: [
+            {
+              name: '',
+              type: 'uint8',
+            },
+          ],
+          payable: false,
+          stateMutability: 'view',
+          type: 'function',
+        },
+      ],
+      address,
+    );
+
+    const symbol = await tokenContract.methods.symbol().call();
+    const decimals = await tokenContract.methods.decimals().call();
+
+    return ethereum.sendAsync({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address,
+          symbol,
+          decimals,
+          image: `data:image/svg+xml;base64,${Buffer.from(svgData).toString('base64')}`,
+        },
+      },
+      id: Math.round(Math.random() * 10000),
+    });
+  }
+
   function verifyAccount(accounts: string[]): string | undefined {
     if ((accounts?.length ?? 0) <= 0) return undefined;
     // check if address is valid
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
-  return { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign };
+  return { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign, addContract };
 }

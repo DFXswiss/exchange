@@ -35,9 +35,7 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
       firstRender.current = false;
       return;
     }
-    if (address) {
-      createApiSession(address);
-    } else {
+    if (!address) {
       deleteSession();
     }
   }, [address]);
