@@ -4,10 +4,16 @@ export interface StoreInterface {
     set: (token: string) => void;
     remove: () => void;
   };
+  showsSignatureInfo: {
+    get: () => boolean;
+    set: (value: boolean) => void;
+    remove: () => void;
+  };
 }
 
 enum StoreKey {
   AUTH_TOKEN = 'authenticationToken',
+  SHOWS_SIGNATURE_INFO = 'showsSignatureInfo',
 }
 
 export function useStore(): StoreInterface {
@@ -30,6 +36,11 @@ export function useStore(): StoreInterface {
       get: () => get(StoreKey.AUTH_TOKEN),
       set: (value: string) => set(StoreKey.AUTH_TOKEN, value),
       remove: () => remove(StoreKey.AUTH_TOKEN),
+    },
+    showsSignatureInfo: {
+      get: () => (get(StoreKey.SHOWS_SIGNATURE_INFO) ?? 'true') === 'true',
+      set: (value: boolean) => set(StoreKey.SHOWS_SIGNATURE_INFO, value ? 'true' : 'false'),
+      remove: () => remove(StoreKey.SHOWS_SIGNATURE_INFO),
     },
   };
 }
