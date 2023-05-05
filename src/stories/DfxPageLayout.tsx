@@ -24,7 +24,7 @@ const dummyAssets = {
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
     chainId: '0x234f...2313',
-    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+    explorerUrl: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   usdt: {
     name: 'USDT',
@@ -32,7 +32,7 @@ const dummyAssets = {
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
     chainId: '0x234f...2313',
-    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+    explorerUrl: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   usdc: {
     name: 'USDC',
@@ -40,7 +40,7 @@ const dummyAssets = {
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
     chainId: '0x234f...2313',
-    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+    explorerUrl: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   dfi: {
     name: 'DFI',
@@ -48,7 +48,7 @@ const dummyAssets = {
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
     chainId: '0x234f...2313',
-    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+    explorerUrl: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   bnb: {
     name: 'BNB',
@@ -56,7 +56,7 @@ const dummyAssets = {
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
     chainId: '0x234f...2313',
-    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+    explorerUrl: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
   busd: {
     name: 'BUSD',
@@ -64,7 +64,7 @@ const dummyAssets = {
     comingSoon: false,
     blockchain: 'Binance Smart Chain',
     chainId: '0x234f...2313',
-    blockchainExplorerLink: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+    explorerUrl: 'https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
   },
 };
 

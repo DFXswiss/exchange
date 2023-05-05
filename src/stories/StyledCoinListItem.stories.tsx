@@ -20,7 +20,7 @@ SingleCoinListItem.args = {
     name: 'BNB',
     description: 'BNB Morbi leo risus, porta ac consectetur ac, vestibul',
     chainId: '0x93...23452',
-    blockchainExplorerLink: 'http://duckduckgo.com',
+    explorerUrl: 'http://duckduckgo.com',
     comingSoon: false,
   } as Asset,
   protocol: Protocol.ERC_20,
