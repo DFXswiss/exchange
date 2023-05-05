@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Asset } from '../api/definitions/asset';
+import { Asset, AssetType } from '../api/definitions/asset';
 import { Blockchain } from '../api/definitions/blockchain';
 import { Fiat } from '../api/definitions/fiat';
 import { Protocol } from '../hooks/blockchain.hook';
@@ -23,6 +23,7 @@ const dummyAsset: Asset = {
   sellable: false,
   blockchain: Blockchain.ETH,
   comingSoon: false,
+  type: AssetType.COIN,
 };
 
 export const Default: ComponentStory<typeof DfxYourCurrencyWalletSection> = () => {
