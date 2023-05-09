@@ -43,6 +43,9 @@ module.exports = {
         900: '#402F4B',
         1000: '#2D2B47',
       },
+      dfxGreen: {
+        100: '#31F05B',
+      },
     },
     fontSize: {
       '2xs': '0.625rem', // 10px
@@ -67,6 +70,15 @@ module.exports = {
     extend: {
       zIndex: {
         1: 1,
+      },
+      borderWidth: {
+        0.5: '0.5px',
+      },
+      height: {
+        2.5: '10px',
+      },
+      width: {
+        2.5: '10px',
       },
     },
   },

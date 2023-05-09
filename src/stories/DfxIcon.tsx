@@ -25,6 +25,7 @@ import {
   MdOutlineCheckBox,
   MdMoreVert,
   MdOpenInNew,
+  MdSearch,
 } from 'react-icons/md';
 import { ReactElement, useContext } from 'react';
 
@@ -66,6 +67,8 @@ export enum IconVariant {
   THREE_DOTS_VERT = 'THREE_DOTS_VERT',
   OPEN_IN_NEW = 'OPEN_IN_NEW',
   METAMASK_LOGO = 'METAMASK_LOGO',
+  SELL = 'SELL',
+  SEARCH = 'SEARCH',
 }
 
 export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
@@ -100,6 +103,8 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.THREE_DOTS_VERT]: <MdMoreVert />,
   [IconVariant.OPEN_IN_NEW]: <MdOpenInNew />,
   [IconVariant.METAMASK_LOGO]: <MetamaskLogo />,
+  [IconVariant.SELL]: <SellToFiat />,
+  [IconVariant.SEARCH]: <MdSearch />,
 };
 
 export enum IconSize {
@@ -334,6 +339,24 @@ function DfxSignaturePopupIcon() {
           <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1679_13861" result="shape" />
         </filter>
       </defs>
+    </svg>
+  );
+}
+
+function SellToFiat() {
+  const icContext = useContext(IconContext);
+  return (
+    <svg
+      width={icContext.size}
+      height={icContext.size}
+      viewBox="0 0 21 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20.5 2.79545V14.9091H2.79545V13.0455H18.6364V2.79545H20.5ZM16.7727 11.1818H0V0H16.7727V11.1818ZM11.1818 5.59091C11.1818 4.04409 9.93318 2.79545 8.38636 2.79545C6.83955 2.79545 5.59091 4.04409 5.59091 5.59091C5.59091 7.13773 6.83955 8.38636 8.38636 8.38636C9.93318 8.38636 11.1818 7.13773 11.1818 5.59091Z"
+        fill={icContext.color}
+      />
     </svg>
   );
 }

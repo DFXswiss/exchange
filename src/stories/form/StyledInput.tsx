@@ -39,7 +39,7 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
     const textColor = darkTheme ? 'text-white' : 'text-dfxBlue-800';
     const backgroundColor = darkTheme ? 'bg-white bg-opacity-5' : 'bg-white';
     const placeholderColor = darkTheme ? 'placeholder:text-dfxGray-800' : 'placeholder:text-dfxGray-600';
-    const borderColor = darkTheme ? 'border-none' : 'border border-dfxGray-500';
+    const borderColor = darkTheme ? 'border-none' : 'border border-dfxGray-400';
     const outlineColor = darkTheme ? 'outline-none' : 'outline-2 outline-dfxBlue-400';
     const leftMargin = prefix ? 'pl-7' : '';
 

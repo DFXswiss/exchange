@@ -145,7 +145,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
         <BuyCompletion onSubmit={onBack} onCancel={() => setShowsCompletion(false)} />
       </StyledModal>
       {/* CONTENT */}
-      <StyledTabContentWrapper showBackArrow={true} onBackClick={onBack}>
+      <StyledTabContentWrapper showBackArrow onBackClick={onBack}>
         <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
           <StyledVerticalStack gap={8}>
             {bankAccounts && (
