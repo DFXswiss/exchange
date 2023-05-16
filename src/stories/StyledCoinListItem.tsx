@@ -90,7 +90,7 @@ export default function StyledCoinListItem({
             <span className="text-dfxGray-800 text-xs leading-tight block">{name}</span>
           </div>
         </button>
-        {popupLabel && onAdd && asset.chainId && (
+        {popupLabel && onAdd && asset.type !== AssetType.COIN && asset.chainId && (
           <button className={threeDotsClasses} onClick={() => setOpen((o) => !o)}>
             <DfxIcon icon={IconVariant.THREE_DOTS_VERT} color={IconColor.BLUE} />
           </button>
