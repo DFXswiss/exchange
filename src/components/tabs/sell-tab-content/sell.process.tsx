@@ -34,7 +34,7 @@ interface FormData {
 export function SellTabContentProcess({ asset }: SellTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts } = useBuyContext();
   const { toProtocol } = useBlockchain();
-  const { toDescription, toSymbol } = useFiat();
+  const { toDescription } = useFiat();
   const { addContract } = useMetaMask();
   const {
     control,
@@ -55,7 +55,7 @@ export function SellTabContentProcess({ asset }: SellTabContentProcessProps): JS
   });
 
   return (
-    <StyledTabContentWrapper>
+    <StyledTabContentWrapper leftBorder>
       <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
         <StyledVerticalStack gap={8}>
           {bankAccounts && (

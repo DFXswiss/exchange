@@ -11,15 +11,29 @@ export interface MetaMaskInterface {
   ) => void;
   requestAccount: () => Promise<string | undefined>;
   requestBlockchain: () => Promise<Blockchain | undefined>;
+  requestChangeToBlockchain: (blockchain?: Blockchain) => Promise<void>;
   requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
   addContract: (address: string, svgData: string) => Promise<boolean>;
 }
 
+interface MetaMaskError {
+  code: number;
+  message: string;
+}
+
+export interface MetaMaskChainInterface {
+  chainId: string;
+  chainName: string;
+  nativeCurrency: { name: string; symbol: string; decimals: number };
+  rpcUrls: string[];
+  blockExplorerUrls: string[];
+}
+
 export function useMetaMask(): MetaMaskInterface {
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
-  const { toBlockchain } = useBlockchain();
+  const { toBlockchain, toChainId, toChainObject } = useBlockchain();
 
   const isInstalled = Boolean(ethereum && ethereum.isMetaMask);
 
@@ -52,6 +66,32 @@ export function useMetaMask(): MetaMaskInterface {
 
   async function requestBlockchain(): Promise<Blockchain | undefined> {
     return toBlockchain(await web3.eth.getChainId());
+  }
+
+  async function requestChangeToBlockchain(blockchain?: Blockchain): Promise<void> {
+    if (!blockchain) return;
+    const id = toChainId(blockchain);
+    if (!id) return;
+    const chainId = web3.utils.toHex(id);
+    return ethereum.sendAsync(
+      {
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId }],
+      },
+      (e?: MetaMaskError) => {
+        // 4902 chain is not yet added to MetaMask, therefore add chainId to MetaMask
+        if (e && e.code === 4902) {
+          requestAddChainId(blockchain);
+        }
+      },
+    );
+  }
+
+  async function requestAddChainId(blockchain: Blockchain): Promise<void> {
+    return ethereum.sendAsync({
+      method: 'wallet_addEthereumChain',
+      params: [toChainObject(blockchain)],
+    });
   }
 
   async function requestBalance(account: string): Promise<string | undefined> {
@@ -121,5 +161,14 @@ export function useMetaMask(): MetaMaskInterface {
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
-  return { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign, addContract };
+  return {
+    isInstalled,
+    register,
+    requestAccount,
+    requestBlockchain,
+    requestChangeToBlockchain,
+    requestBalance,
+    sign,
+    addContract,
+  };
 }

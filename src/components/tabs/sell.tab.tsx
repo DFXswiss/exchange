@@ -6,12 +6,15 @@ import { IconVariant } from '../../stories/DfxIcon';
 import StyledBalanceSelection from '../../stories/StyledBalanceSelection';
 import StyledNetworkSelection from '../../stories/StyledNetworkSelection';
 import { StyledTabProps } from '../../stories/StyledTabContainer';
-import StyledTabContentWrapper from '../../stories/StyledTabContentWrapper';
 import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
 import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
 import { Asset } from '../../api/definitions/asset';
 import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useState } from 'react';
+import { useAuthContext } from '../../api/contexts/auth.context';
+import { useWalletContext } from '../../contexts/wallet.context';
+import { useBlockchain } from '../../hooks/blockchain.hook';
+import { useMetaMask } from '../../hooks/metamask.hook';
 
 export function useSellTab(): StyledTabProps {
   return {
@@ -25,19 +28,26 @@ export function useSellTab(): StyledTabProps {
 }
 
 function SellTabContent(): JSX.Element {
+  const { session } = useAuthContext();
+  const { blockchain } = useWalletContext();
   const { assets } = useAssetContext();
+  const { toString } = useBlockchain();
+  const { requestChangeToBlockchain } = useMetaMask();
   const [selectedAsset, setSelectedAsset] = useState<Asset>();
 
   return (
     <StyledVerticalStack gap={5}>
       <StyledNetworkSelection
-        networks={[
-          { network: 'Ethereum', isActive: true },
-          { network: 'another one', isActive: false },
-        ]}
-        onNetworkChange={console.log}
+        networks={
+          session?.blockchains
+            .filter((b) => b !== Blockchain.POLYGON)
+            .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
+        }
+        onNetworkChange={(network) =>
+          requestChangeToBlockchain(session?.blockchains.find((b) => toString(b) === network))
+        }
       />
-      <StyledHorizontalStack gap={0}>
+      <StyledHorizontalStack gap={5}>
         <StyledBalanceSelection
           balances={[
             {

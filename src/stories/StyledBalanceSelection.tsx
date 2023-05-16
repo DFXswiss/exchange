@@ -17,7 +17,7 @@ export default function StyledBalanceSelection({
   const [filter, setFilter] = useState('');
 
   return (
-    <div className="flex flex-col gap-5 w-72">
+    <div className="flex flex-col gap-5 w-72 shrink-0">
       <div className="relative">
         <div className="absolute left-2 top-[9px]">
           <DfxIcon icon={IconVariant.SEARCH} color={IconColor.BLUE} size={IconSize.LG} />

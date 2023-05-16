@@ -1,7 +1,10 @@
 import { Blockchain } from '../api/definitions/blockchain';
+import { MetaMaskChainInterface } from './metamask.hook';
 
 export interface BlockchainInterface {
   toBlockchain: (chainId: string | number) => Blockchain | undefined;
+  toChainId: (blockchain: Blockchain) => string | number | undefined;
+  toChainObject: (blockchain: Blockchain) => MetaMaskChainInterface | undefined;
   toHeader: (blockchain: Blockchain) => string;
   toProtocol: (blockchain: Blockchain) => Protocol;
   toMainToken: (blockchain: Blockchain) => string;
@@ -25,6 +28,69 @@ export function useBlockchain(): BlockchainInterface {
         return Blockchain.ARBITRUM;
       case 10:
         return Blockchain.OPTIMISM;
+      default:
+        return undefined;
+    }
+  }
+
+  function toChainId(blockchain: Blockchain): string | number | undefined {
+    switch (blockchain) {
+      case Blockchain.ETH:
+        return 1;
+      case Blockchain.BSC:
+        return 56;
+      case Blockchain.ARBITRUM:
+        return 42161;
+      case Blockchain.OPTIMISM:
+        return 10;
+      default:
+        return undefined;
+    }
+  }
+
+  function toChainObject(blockchain: Blockchain): MetaMaskChainInterface | undefined {
+    let chainId = toChainId(blockchain)?.toString(16);
+    if (!chainId) return undefined;
+    chainId = `0x${chainId}`;
+    const chainName = definitions.stringValue[blockchain];
+    switch (blockchain) {
+      case Blockchain.BSC:
+        return {
+          chainId,
+          chainName,
+          nativeCurrency: {
+            name: 'BNB',
+            symbol: 'bnb',
+            decimals: 18,
+          },
+          rpcUrls: ['https://bsc-dataseed.binance.org/'],
+          blockExplorerUrls: ['https://bscscan.com/'],
+        };
+      case Blockchain.ARBITRUM:
+        return {
+          chainId,
+          chainName,
+          nativeCurrency: {
+            name: 'Ether',
+            symbol: 'ETH',
+            decimals: 18,
+          },
+          rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+          blockExplorerUrls: ['https://arbiscan.io/'],
+        };
+      case Blockchain.OPTIMISM:
+        return {
+          chainId,
+          chainName,
+          nativeCurrency: {
+            name: 'Ether',
+            symbol: 'ETH',
+            decimals: 18,
+          },
+          rpcUrls: ['https://mainnet.optimism.io'],
+          blockExplorerUrls: ['https://optimistic.etherscan.io/'],
+        };
+      case Blockchain.ETH:
       default:
         return undefined;
     }
@@ -63,6 +129,8 @@ export function useBlockchain(): BlockchainInterface {
 
   return {
     toBlockchain,
+    toChainId,
+    toChainObject,
     toHeader: (blockchain: Blockchain) => definitions.headings[blockchain],
     toProtocol: (blockchain: Blockchain) => definitions.protocols[blockchain],
     toMainToken: (blockchain: Blockchain) => definitions.mainToken[blockchain],
