@@ -12,7 +12,27 @@ interface StyledInputProps extends ControlProps {
   forceErrorMessage?: string;
   hideLabel?: boolean;
   darkTheme?: boolean;
+  full?: boolean;
   loading?: boolean;
+  small?: boolean;
+  smallLabel?: boolean;
+}
+
+function getLeftMargin(prefix: string): string {
+  switch (prefix.length) {
+    case 1:
+      return 'pl-7';
+    case 2:
+      return 'pl-9';
+    case 3:
+      return 'pl-12';
+    case 4:
+      return 'pl-15';
+    case 5:
+      return 'pl-16';
+    default:
+      return '';
+  }
 }
 
 const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
@@ -32,6 +52,9 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
       hideLabel = false,
       darkTheme = false,
       loading = false,
+      full = false,
+      small = false,
+      smallLabel = false,
       ...props
     }: StyledInputProps,
     ref,
@@ -39,9 +62,9 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
     const textColor = darkTheme ? 'text-white' : 'text-dfxBlue-800';
     const backgroundColor = darkTheme ? 'bg-white bg-opacity-5' : 'bg-white';
     const placeholderColor = darkTheme ? 'placeholder:text-dfxGray-800' : 'placeholder:text-dfxGray-600';
-    const borderColor = darkTheme ? 'border-none' : 'border border-dfxGray-400';
+    const borderColor = darkTheme ? 'border-none' : 'border border-dfxGray-500';
     const outlineColor = darkTheme ? 'outline-none' : 'outline-2 outline-dfxBlue-400';
-    const leftMargin = prefix ? 'pl-7' : '';
+    const leftMargin = prefix ? getLeftMargin(prefix) : '';
 
     const textOrErrorColor = forceError ? 'text-dfxRed-100' : textColor;
 
@@ -49,27 +72,37 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <StyledVerticalStack gap={1}>
-            <label hidden={hideLabel} className={'text-base font-semibold pl-3 ' + [textColor].join(' ')}>
+          <StyledVerticalStack gap={1} full={full}>
+            <label
+              hidden={hideLabel}
+              className={
+                `text-start ${smallLabel ? 'text-sm' : 'text-base'} font-semibold pl-3 pl- ` + [textColor].join(' ')
+              }
+            >
               {label}
             </label>
             <div className="relative">
               {prefix && (
-                <div className="text-dfxGray-800 absolute h-[50px] w-8 flex justify-center items-center">
+                <div
+                  className={`text-dfxGray-800 absolute h-[50px] ${
+                    prefix.length > 0 ? 'left-3' : ''
+                  } flex justify-center items-center`}
+                >
                   <p>{prefix}</p>
                 </div>
               )}
               {loading && (
-                <div className="absolute right-3 h-[50px] w-8 flex justify-center items-center">
+                <div className="absolute right-3 h-[50px] w-8 flex justify-center items-center pl-">
                   <StyledLoadingSpinner />
                 </div>
               )}
               <input
                 className={
-                  'text-base font-normal rounded-md p-3 w-full ' +
+                  `text-base font-normal rounded-md p-3 ${small ? 'w-24' : 'w-full'} ` +
                   [textOrErrorColor, backgroundColor, placeholderColor, borderColor, outlineColor, leftMargin].join(' ')
                 }
                 type={type}
+                inputMode={type === 'number' ? 'decimal' : undefined}
                 onBlur={onBlur}
                 onChange={(value) => onChange(value.target.value)}
                 placeholder={placeholder}
@@ -81,7 +114,7 @@ const StyledInput = forwardRef<HTMLInputElement, StyledInputProps>(
               />
             </div>
             {(forceErrorMessage || error) && (
-              <p className="text-sm text-dfxRed-100 pl-3">{forceErrorMessage ?? error?.message}</p>
+              <p className="text-start text-sm text-dfxRed-100 pl-3">{forceErrorMessage ?? error?.message}</p>
             )}
           </StyledVerticalStack>
         )}

@@ -64,7 +64,8 @@ export default function StyledModal({
         (headingClasses += ' border-white/20'))
       : ((containerClasses += ' bg-white text-dfxBlue-800'), (headingClasses += ' border-dfxGray-400'));
   } else {
-    containerClasses += ' bg-dfxGray-400 text-dfxBlue-800';
+    containerClasses +=
+      color === StyledModalColor.WHITE ? ' bg-white text-dfxBlue-800' : ' bg-dfxGray-400 text-dfxBlue-800';
     bodyClasses += ' text-center';
   }
 

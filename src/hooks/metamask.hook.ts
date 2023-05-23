@@ -2,6 +2,9 @@ import Web3 from 'web3';
 import { Blockchain } from '../api/definitions/blockchain';
 import { useBlockchain } from './blockchain.hook';
 import { Buffer } from 'buffer';
+import BigNumber from 'bignumber.js';
+import ERC20_ABI from '../static/erc20.abi.json';
+import { Asset, AssetType } from '../api/definitions/asset';
 
 export interface MetaMaskInterface {
   isInstalled: boolean;
@@ -15,6 +18,12 @@ export interface MetaMaskInterface {
   requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
   addContract: (address: string, svgData: string) => Promise<boolean>;
+  readBalance: (asset: Asset, address?: string) => Promise<AssetBalance>;
+}
+
+export interface AssetBalance {
+  asset: Asset;
+  balance: BigNumber;
 }
 
 interface MetaMaskError {
@@ -103,39 +112,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function addContract(address: string, svgData: string): Promise<boolean> {
-    const tokenContract = new web3.eth.Contract(
-      [
-        {
-          constant: true,
-          inputs: [],
-          name: 'symbol',
-          outputs: [
-            {
-              name: '',
-              type: 'string',
-            },
-          ],
-          payable: false,
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          constant: true,
-          inputs: [],
-          name: 'decimals',
-          outputs: [
-            {
-              name: '',
-              type: 'uint8',
-            },
-          ],
-          payable: false,
-          stateMutability: 'view',
-          type: 'function',
-        },
-      ],
-      address,
-    );
+    const tokenContract = new web3.eth.Contract(ERC20_ABI as any, address);
 
     const symbol = await tokenContract.methods.symbol().call();
     const decimals = await tokenContract.methods.decimals().call();
@@ -161,6 +138,32 @@ export function useMetaMask(): MetaMaskInterface {
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
+  function toUsableNumber(balance: any): BigNumber {
+    return new BigNumber(web3.utils.fromWei(balance, 'ether'));
+  }
+
+  async function readBalance(asset: Asset, address?: string): Promise<AssetBalance> {
+    if (!address || !asset) return { asset, balance: new BigNumber(0) };
+    if (asset.type === AssetType.COIN) {
+      return web3.eth.getBalance(address).then((balance) => ({ asset, balance: toUsableNumber(balance) }));
+    }
+    try {
+      const tokenContract = new web3.eth.Contract(ERC20_ABI as any, asset.chainId);
+      return (
+        tokenContract.methods
+          .balanceOf(address)
+          .call()
+          .then((balance: any) => ({ asset, balance: toUsableNumber(balance) }))
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          .catch(() => {
+            return { asset, balance: new BigNumber(0) };
+          })
+      );
+    } catch {
+      return { asset, balance: new BigNumber(0) };
+    }
+  }
+
   return {
     isInstalled,
     register,
@@ -170,5 +173,6 @@ export function useMetaMask(): MetaMaskInterface {
     requestBalance,
     sign,
     addContract,
+    readBalance,
   };
 }

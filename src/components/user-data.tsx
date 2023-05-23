@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
-import { useKyc } from '../hooks/kyc.hook';
+import { useKycHelper } from '../hooks/kyc-helper.hook';
 import { IconColor } from '../stories/DfxIcon';
 import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import StyledButton, { StyledButtonColor, StyledButtonSize, StyledButtonWidth } from '../stories/StyledButton';
@@ -13,9 +13,8 @@ import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
 
 export function UserData(): JSX.Element {
   const { user, refLink } = useUserContext();
-  const { isComplete } = useKyc();
   const { copy, isCopying } = useClipboard();
-  const { start, status, limit } = useKyc();
+  const { start, status, limit, isComplete } = useKycHelper();
   const [showsUserEdit, setShowsUserEdit] = useState(false);
 
   const userData = [

@@ -47,9 +47,11 @@ export default function StyledBalance({
           </div>
         </div>
         <div className="flex flex-col">
-          <h4 className="font-semibold text-dfxBlue-800">{balance.toString()}</h4>
+          <h4 className="font-semibold text-dfxBlue-800">{balance.decimalPlaces(6).toString()}</h4>
           {balanceInUsd && (
-            <span className="text-dfxGray-800 font-normal text-xs text-end">${balanceInUsd.toString()}</span>
+            <span className="text-dfxGray-800 font-normal text-xs text-end">
+              ${balanceInUsd.decimalPlaces(2).toString()}
+            </span>
           )}
         </div>
       </button>

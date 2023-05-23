@@ -80,6 +80,12 @@ module.exports = {
       width: {
         2.5: '10px',
       },
+      maxHeight: {
+        150: '600px',
+      },
+      padding: {
+        15: '60px',
+      },
     },
   },
 };

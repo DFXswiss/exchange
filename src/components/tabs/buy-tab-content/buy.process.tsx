@@ -15,12 +15,11 @@ import { AddBankAccount } from '../../buy/add-bank-account';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
-import { useKyc } from '../../../hooks/kyc.hook';
+import { useKycHelper } from '../../../hooks/kyc-helper.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import StyledModal, { StyledModalColor } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
 import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
-import StyledInfoText from '../../../stories/StyledInfoText';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
@@ -28,6 +27,7 @@ import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
 import { useMetaMask } from '../../../hooks/metamask.hook';
+import { KycHint } from '../../kyc-hint';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -43,7 +43,7 @@ interface FormData {
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
-  const { isAllowedToBuy, start, limit } = useKyc();
+  const { isAllowedToBuy } = useKycHelper();
   const { toProtocol } = useBlockchain();
   const { toDescription, toSymbol } = useFiat();
   const { addContract } = useMetaMask();
@@ -231,15 +231,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
             />
           </>
         )}
-        {kycRequired && (
-          <StyledVerticalStack gap={4} marginY={4}>
-            <StyledInfoText invertedIcon>
-              Your account needs to get verified once your daily transaction volume exceeds {limit}. If you want to
-              increase your daily trading limit, please complete our KYC (Know-Your-Customer) process.
-            </StyledInfoText>
-            <StyledButton width={StyledButtonWidth.FULL} label="Complete KYC" onClick={start} />
-          </StyledVerticalStack>
-        )}
+        {kycRequired && <KycHint />}
       </StyledTabContentWrapper>
     </>
   );
