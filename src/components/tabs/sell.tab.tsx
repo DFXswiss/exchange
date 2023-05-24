@@ -28,14 +28,22 @@ export function useSellTab(): StyledTabProps {
     title: 'Sell',
     icon: IconVariant.SELL,
     deactivated: false,
-    content: <SellTabContent needsUserDataForm={!user?.kycDataComplete} />,
+    content: isLoggedIn ? (
+      <SellTabContent needsUserDataForm={user != null && !user.kycDataComplete} />
+    ) : (
+      <EmptySellTabContent />
+    ),
     onActivate: () => {
       if (!isLoggedIn) login();
     },
   };
 }
 
-function SellTabContent({ needsUserDataForm }: { needsUserDataForm?: boolean }): JSX.Element {
+function EmptySellTabContent(): JSX.Element {
+  return <>Please connect to Metamask and DFX to use Sell</>;
+}
+
+function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
   const { session } = useAuthContext();
   const { blockchain, address } = useWalletContext();
   const { assets } = useAssetContext();
@@ -43,7 +51,6 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm?: boolean }):
   const { requestChangeToBlockchain, readBalance } = useMetaMask();
   const [selectedAsset, setSelectedAsset] = useState<Asset>();
   const [assetBalances, setAssetBalances] = useState<AssetBalance[]>();
-  const [showsUserDataForm, setShowsUserDataForm] = useState(needsUserDataForm ?? false);
 
   const sellableAssets = useMemo(
     () => blockchain && assets.get(blockchain)?.filter((asset) => asset.sellable),
@@ -60,8 +67,8 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm?: boolean }):
 
   return (
     <>
-      <StyledModal isVisible={showsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
-        <UserDataForm onFinish={() => setShowsUserDataForm(false)} />
+      <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
+        <UserDataForm onFinish={() => undefined} />
       </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
