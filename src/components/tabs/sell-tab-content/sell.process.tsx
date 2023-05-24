@@ -30,6 +30,7 @@ import { KycHint } from '../../kyc-hint';
 import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
 import StyledDataTableRow from '../../../stories/StyledDataTableRow';
 import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
+import { useWalletContext } from '../../../contexts/wallet.context';
 
 interface SellTabContentProcessProps {
   asset?: Asset;
@@ -47,7 +48,8 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   const { currencies, bankAccounts, updateAccount } = useBuyContext();
   const { toProtocol } = useBlockchain();
   const { toDescription } = useFiat();
-  const { addContract } = useMetaMask();
+  const { address } = useWalletContext();
+  const { addContract, createTransaction } = useMetaMask();
   const { isAllowedToSell } = useKycHelper();
   const { receiveFor } = useSell();
   const [customAmountError, setCustomAmountError] = useState<string>();
@@ -67,7 +69,10 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
 
   const dataValid = validatedData != null;
 
-  useEffect(() => asset && setValue('asset', asset), [asset]);
+  useEffect(() => {
+    asset && setValue('asset', asset);
+    setValue('amount', '');
+  }, [asset]);
 
   useEffect(() => {
     if (selectedBankAccount && selectedBankAccount.preferredCurrency)
@@ -149,8 +154,14 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   }
 
   async function handleNext(): Promise<void> {
+    if (!validatedData || !validatedData.amount || !validatedData.asset || !address || !paymentInfo) return;
     await updateBankAccount();
-    console.log('todo metamask tx');
+    await createTransaction(
+      new BigNumber(validatedData.amount),
+      validatedData.asset,
+      address,
+      paymentInfo.depositAddress,
+    );
   }
 
   const rules = Utils.createRules({

@@ -5,6 +5,7 @@ import { Buffer } from 'buffer';
 import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
 import { Asset, AssetType } from '../api/definitions/asset';
+import { Contract } from 'web3-eth-contract';
 
 export interface MetaMaskInterface {
   isInstalled: boolean;
@@ -19,6 +20,7 @@ export interface MetaMaskInterface {
   sign: (address: string, message: string) => Promise<string>;
   addContract: (address: string, svgData: string) => Promise<boolean>;
   readBalance: (asset: Asset, address?: string) => Promise<AssetBalance>;
+  createTransaction: (amount: BigNumber, asset: Asset, from: string, to: string) => Promise<void>;
 }
 
 export interface AssetBalance {
@@ -112,7 +114,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function addContract(address: string, svgData: string): Promise<boolean> {
-    const tokenContract = new web3.eth.Contract(ERC20_ABI as any, address);
+    const tokenContract = createContract(address);
 
     const symbol = await tokenContract.methods.symbol().call();
     const decimals = await tokenContract.methods.decimals().call();
@@ -148,7 +150,7 @@ export function useMetaMask(): MetaMaskInterface {
       return web3.eth.getBalance(address).then((balance) => ({ asset, balance: toUsableNumber(balance) }));
     }
     try {
-      const tokenContract = new web3.eth.Contract(ERC20_ABI as any, asset.chainId);
+      const tokenContract = createContract(asset.chainId);
       return (
         tokenContract.methods
           .balanceOf(address)
@@ -164,6 +166,20 @@ export function useMetaMask(): MetaMaskInterface {
     }
   }
 
+  async function createTransaction(amount: BigNumber, asset: Asset, from: string, to: string): Promise<void> {
+    if (asset.type === AssetType.COIN) {
+      const transactionData = { from, to, value: web3.utils.toWei(amount.toString(), 'ether') };
+      await web3.eth.sendTransaction(transactionData);
+    } else {
+      const tokenContract = createContract(asset.chainId);
+      await tokenContract.methods.transfer(to, web3.utils.toWei(amount.toString(), 'ether')).send({ from });
+    }
+  }
+
+  function createContract(chainId?: string): Contract {
+    return new web3.eth.Contract(ERC20_ABI as any, chainId);
+  }
+
   return {
     isInstalled,
     register,
@@ -174,5 +190,6 @@ export function useMetaMask(): MetaMaskInterface {
     sign,
     addContract,
     readBalance,
+    createTransaction,
   };
 }
