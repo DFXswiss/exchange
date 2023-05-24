@@ -19,16 +19,19 @@ import { UserDataForm } from '../user-data-form';
 import { useUserContext } from '../../api/contexts/user.context';
 import { StyledModalType } from '../../stories/StyledModal';
 import { StyledModalColor } from '../../stories/StyledModal';
+import { useSessionContext } from '../../contexts/session.context';
 
 export function useSellTab(): StyledTabProps {
+  const { isLoggedIn, login } = useSessionContext();
   const { user } = useUserContext();
   return {
     title: 'Sell',
     icon: IconVariant.SELL,
     deactivated: false,
     content: <SellTabContent needsUserDataForm={!user?.kycDataComplete} />,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onActivate: () => {},
+    onActivate: () => {
+      if (!isLoggedIn) login();
+    },
   };
 }
 
