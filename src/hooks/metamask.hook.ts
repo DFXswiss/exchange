@@ -20,7 +20,7 @@ export interface MetaMaskInterface {
   sign: (address: string, message: string) => Promise<string>;
   addContract: (address: string, svgData: string) => Promise<boolean>;
   readBalance: (asset: Asset, address?: string) => Promise<AssetBalance>;
-  createTransaction: (amount: BigNumber, asset: Asset, from: string, to: string) => Promise<void>;
+  createTransaction: (amount: BigNumber, asset: Asset, from: string, to: string) => Promise<string>;
 }
 
 export interface AssetBalance {
@@ -140,8 +140,8 @@ export function useMetaMask(): MetaMaskInterface {
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
-  function toUsableNumber(balance: any): BigNumber {
-    return new BigNumber(web3.utils.fromWei(balance, 'ether'));
+  function toUsableNumber(balance: any, decimals = 18): BigNumber {
+    return new BigNumber(balance).dividedBy(Math.pow(10, decimals));
   }
 
   async function readBalance(asset: Asset, address?: string): Promise<AssetBalance> {
@@ -151,28 +151,29 @@ export function useMetaMask(): MetaMaskInterface {
     }
     try {
       const tokenContract = createContract(asset.chainId);
-      return (
-        tokenContract.methods
-          .balanceOf(address)
-          .call()
-          .then((balance: any) => ({ asset, balance: toUsableNumber(balance) }))
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          .catch(() => {
-            return { asset, balance: new BigNumber(0) };
-          })
-      );
+      const decimals = await tokenContract.methods.decimals().call();
+      return tokenContract.methods
+        .balanceOf(address)
+        .call()
+        .then((balance: any) => ({ asset, balance: toUsableNumber(balance, decimals) }))
+        .catch(() => {
+          return { asset, balance: new BigNumber(0) };
+        });
     } catch {
       return { asset, balance: new BigNumber(0) };
     }
   }
 
-  async function createTransaction(amount: BigNumber, asset: Asset, from: string, to: string): Promise<void> {
+  async function createTransaction(amount: BigNumber, asset: Asset, from: string, to: string): Promise<string> {
     if (asset.type === AssetType.COIN) {
       const transactionData = { from, to, value: web3.utils.toWei(amount.toString(), 'ether') };
-      await web3.eth.sendTransaction(transactionData);
+      return web3.eth.sendTransaction(transactionData).then((value) => value.transactionHash);
     } else {
       const tokenContract = createContract(asset.chainId);
-      await tokenContract.methods.transfer(to, web3.utils.toWei(amount.toString(), 'ether')).send({ from });
+      return tokenContract.methods
+        .transfer(to, web3.utils.toWei(amount.toString(), 'ether'))
+        .send({ from })
+        .then((value: any) => value.transactionHash);
     }
   }
 

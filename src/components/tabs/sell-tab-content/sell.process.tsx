@@ -31,6 +31,9 @@ import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable'
 import StyledDataTableRow from '../../../stories/StyledDataTableRow';
 import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
 import { useWalletContext } from '../../../contexts/wallet.context';
+import { CopyButton } from '../../copy-button';
+import StyledHorizontalStack from '../../../stories/layout-helpers/StyledHorizontalStack';
+import { useClipboard } from '../../../hooks/clipboard.hook';
 
 interface SellTabContentProcessProps {
   asset?: Asset;
@@ -52,8 +55,10 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   const { addContract, createTransaction } = useMetaMask();
   const { isAllowedToSell } = useKycHelper();
   const { receiveFor } = useSell();
+  const { copy } = useClipboard();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [sellTxId, setSellTxId] = useState<string>();
   const [kycRequired, setKycRequired] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState<Sell>();
   const {
@@ -156,12 +161,13 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   async function handleNext(): Promise<void> {
     if (!validatedData || !validatedData.amount || !validatedData.asset || !address || !paymentInfo) return;
     await updateBankAccount();
-    await createTransaction(
+    const txId = await createTransaction(
       new BigNumber(validatedData.amount),
       validatedData.asset,
       address,
       paymentInfo.depositAddress,
     );
+    setSellTxId(txId);
   }
 
   const rules = Utils.createRules({
@@ -171,7 +177,23 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
     amount: Validations.Required,
   });
 
-  return (
+  return sellTxId ? (
+    <StyledVerticalStack gap={4} full>
+      <div className="mx-auto">
+        <DfxIcon size={IconSize.XXL} icon={IconVariant.PROCESS_DONE} color={IconColor.BLUE} />
+      </div>
+      <p className="text-center px-20">
+        Your transaction was successfully broadcasted.
+        <br />
+        We will inform you about the progress via E-mail.
+      </p>
+      <StyledHorizontalStack gap={2} center>
+        <p>Transaction hash:</p>
+        <span className="font-bold">{`${sellTxId.substring(0, 5)}...${sellTxId.substring(sellTxId.length - 5)}`}</span>
+        <CopyButton onCopy={() => copy(sellTxId)} />
+      </StyledHorizontalStack>
+    </StyledVerticalStack>
+  ) : (
     <StyledTabContentWrapper leftBorder>
       <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
         <StyledVerticalStack gap={8}>
@@ -208,7 +230,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                     alwaysShowDots
                   />
                 ) : (
-                  <div className="p-3 h-full text-dfxGray-600">Select a coin</div>
+                  <div className="px-3 py-4 h-full text-dfxGray-600">Select a coin</div>
                 )}
               </div>
             </div>
