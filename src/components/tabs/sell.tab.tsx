@@ -20,30 +20,23 @@ import { useUserContext } from '../../api/contexts/user.context';
 import { StyledModalType } from '../../stories/StyledModal';
 import { StyledModalColor } from '../../stories/StyledModal';
 import { useSessionContext } from '../../contexts/session.context';
+import StyledTabContentWrapper from '../../stories/StyledTabContentWrapper';
+import StyledButton from '../../stories/StyledButton';
 
 export function useSellTab(): StyledTabProps {
-  const { isLoggedIn, login } = useSessionContext();
   const { user } = useUserContext();
   return {
     title: 'Sell',
     icon: IconVariant.SELL,
     deactivated: false,
-    content: isLoggedIn ? (
-      <SellTabContent needsUserDataForm={user != null && !user.kycDataComplete} />
-    ) : (
-      <EmptySellTabContent />
-    ),
-    onActivate: () => {
-      if (!isLoggedIn) login();
-    },
+    content: <SellTabContent needsUserDataForm={user != null && !user.kycDataComplete} />,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onActivate: () => {},
   };
 }
 
-function EmptySellTabContent(): JSX.Element {
-  return <>Please connect to Metamask and DFX to use Sell</>;
-}
-
 function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
+  const { isLoggedIn, login } = useSessionContext();
   const { session } = useAuthContext();
   const { blockchain, address } = useWalletContext();
   const { assets } = useAssetContext();
@@ -95,10 +88,30 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
             }
             onSelectionChanged={setSelectedAsset}
           />
-          <SellTabContentProcess
-            asset={selectedAsset}
-            balance={assetBalances?.find((balance) => selectedAsset?.uniqueName === balance.asset.uniqueName)?.balance}
-          />
+          {!address || !isLoggedIn ? (
+            <StyledTabContentWrapper leftBorder>
+              <StyledVerticalStack gap={4} marginY={12} center>
+                {!address ? (
+                  <>
+                    <p>Please connect your Metamask in order to proceed</p>
+                    <StyledButton label="Connect to Metamask" onClick={login} />
+                  </>
+                ) : (
+                  <>
+                    <p>Please reconnect to DFX in order to proceed</p>
+                    <StyledButton label="Reconnect to DFX" onClick={login} />
+                  </>
+                )}
+              </StyledVerticalStack>
+            </StyledTabContentWrapper>
+          ) : (
+            <SellTabContentProcess
+              asset={selectedAsset}
+              balance={
+                assetBalances?.find((balance) => selectedAsset?.uniqueName === balance.asset.uniqueName)?.balance
+              }
+            />
+          )}
         </StyledHorizontalStack>
       </StyledVerticalStack>
     </>

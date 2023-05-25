@@ -34,6 +34,7 @@ import { useWalletContext } from '../../../contexts/wallet.context';
 import { CopyButton } from '../../copy-button';
 import StyledHorizontalStack from '../../../stories/layout-helpers/StyledHorizontalStack';
 import { useClipboard } from '../../../hooks/clipboard.hook';
+import StyledLoadingSpinner, { SpinnerSize } from '../../../stories/StyledLoadingSpinner';
 
 interface SellTabContentProcessProps {
   asset?: Asset;
@@ -58,6 +59,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   const { copy } = useClipboard();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
   const [sellTxId, setSellTxId] = useState<string>();
   const [kycRequired, setKycRequired] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState<Sell>();
@@ -160,14 +162,11 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
 
   async function handleNext(): Promise<void> {
     if (!validatedData || !validatedData.amount || !validatedData.asset || !address || !paymentInfo) return;
+    setIsCompleting(true);
     await updateBankAccount();
-    const txId = await createTransaction(
-      new BigNumber(validatedData.amount),
-      validatedData.asset,
-      address,
-      paymentInfo.depositAddress,
-    );
-    setSellTxId(txId);
+    createTransaction(new BigNumber(validatedData.amount), validatedData.asset, address, paymentInfo.depositAddress)
+      .then((txId) => setSellTxId(txId))
+      .finally(() => setIsCompleting(false));
   }
 
   const rules = Utils.createRules({
@@ -177,22 +176,33 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
     amount: Validations.Required,
   });
 
-  return sellTxId ? (
-    <StyledVerticalStack gap={4} full>
-      <div className="mx-auto">
-        <DfxIcon size={IconSize.XXL} icon={IconVariant.PROCESS_DONE} color={IconColor.BLUE} />
-      </div>
-      <p className="text-center px-20">
-        Your transaction was successfully broadcasted.
-        <br />
-        We will inform you about the progress via E-mail.
-      </p>
-      <StyledHorizontalStack gap={2} center>
-        <p>Transaction hash:</p>
-        <span className="font-bold">{`${sellTxId.substring(0, 5)}...${sellTxId.substring(sellTxId.length - 5)}`}</span>
-        <CopyButton onCopy={() => copy(sellTxId)} />
-      </StyledHorizontalStack>
-    </StyledVerticalStack>
+  return isCompleting ? (
+    <StyledTabContentWrapper leftBorder>
+      <StyledVerticalStack gap={4} marginY={20} center full>
+        <StyledLoadingSpinner size={SpinnerSize.LG} />
+        <p>Waiting for transaction to be broadcasted.</p>
+      </StyledVerticalStack>
+    </StyledTabContentWrapper>
+  ) : sellTxId ? (
+    <StyledTabContentWrapper leftBorder>
+      <StyledVerticalStack gap={4} full>
+        <div className="mx-auto">
+          <DfxIcon size={IconSize.XXL} icon={IconVariant.PROCESS_DONE} color={IconColor.BLUE} />
+        </div>
+        <p className="text-center px-20">
+          Your transaction was successfully broadcasted.
+          <br />
+          We will inform you about the progress via E-mail.
+        </p>
+        <StyledHorizontalStack gap={2} center>
+          <p>Transaction hash:</p>
+          <span className="font-bold">{`${sellTxId.substring(0, 5)}...${sellTxId.substring(
+            sellTxId.length - 5,
+          )}`}</span>
+          <CopyButton onCopy={() => copy(sellTxId)} />
+        </StyledHorizontalStack>
+      </StyledVerticalStack>
+    </StyledTabContentWrapper>
   ) : (
     <StyledTabContentWrapper leftBorder>
       <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
