@@ -79,6 +79,8 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   useEffect(() => {
     asset && setValue('asset', asset);
     setValue('amount', '');
+    setIsCompleting(false);
+    setSellTxId(undefined);
   }, [asset]);
 
   useEffect(() => {
