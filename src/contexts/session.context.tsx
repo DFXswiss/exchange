@@ -3,6 +3,7 @@ import { Blockchain } from '../api/definitions/blockchain';
 import { ApiError } from '../api/definitions/error';
 import { useApiSession } from '../api/hooks/api-session.hook';
 import { useWalletContext } from './wallet.context';
+import { useAuthContext } from '../api/contexts/auth.context';
 
 export interface SessionInterface {
   isMetaMaskInstalled: boolean;
@@ -25,6 +26,7 @@ export function useSessionContext(): SessionInterface {
 export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
   const { isLoggedIn, getSignMessage, createSession, deleteSession } = useApiSession();
   const { isInstalled, isConnected, address, blockchain, connect, signMessage } = useWalletContext();
+  const { session } = useAuthContext();
   const [needsSignUp, setNeedsSignUp] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [signature, setSignature] = useState<string>();
@@ -39,6 +41,10 @@ export function SessionContextProvider(props: PropsWithChildren): JSX.Element {
       deleteSession();
     }
   }, [address]);
+
+  useEffect(() => {
+    if (session && address && session.address !== address) deleteSession();
+  }, [session, address]);
 
   async function login(): Promise<void> {
     if (!isConnected) {
