@@ -170,8 +170,10 @@ export function useMetaMask(): MetaMaskInterface {
       return web3.eth.sendTransaction(transactionData).then((value) => value.transactionHash);
     } else {
       const tokenContract = createContract(asset.chainId);
+      const decimals = await tokenContract.methods.decimals().call();
+      const adjustedAmount = amount.multipliedBy(Math.pow(10, decimals));
       return tokenContract.methods
-        .transfer(to, web3.utils.toWei(amount.toString(), 'ether'))
+        .transfer(to, adjustedAmount.toString())
         .send({ from })
         .then((value: any) => value.transactionHash);
     }
