@@ -182,7 +182,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
     <StyledTabContentWrapper leftBorder>
       <StyledVerticalStack gap={4} marginY={20} center full>
         <StyledLoadingSpinner size={SpinnerSize.LG} />
-        <p>Waiting for transaction to be broadcasted.</p>
+        <p>Waiting for the transaction to be executed.</p>
       </StyledVerticalStack>
     </StyledTabContentWrapper>
   ) : sellTxId ? (
@@ -192,7 +192,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
           <DfxIcon size={IconSize.XXL} icon={IconVariant.PROCESS_DONE} color={IconColor.BLUE} />
         </div>
         <p className="text-center px-20">
-          Your transaction was successfully broadcasted.
+          Your transaction was executed successfully.
           <br />
           We will inform you about the progress via E-mail.
         </p>
