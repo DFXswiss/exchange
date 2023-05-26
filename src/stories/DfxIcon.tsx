@@ -25,6 +25,7 @@ import {
   MdOutlineCheckBox,
   MdMoreVert,
   MdOpenInNew,
+  MdSearch,
 } from 'react-icons/md';
 import { ReactElement, useContext } from 'react';
 
@@ -66,6 +67,9 @@ export enum IconVariant {
   THREE_DOTS_VERT = 'THREE_DOTS_VERT',
   OPEN_IN_NEW = 'OPEN_IN_NEW',
   METAMASK_LOGO = 'METAMASK_LOGO',
+  SELL = 'SELL',
+  SEARCH = 'SEARCH',
+  USER_DATA = 'USER_DATA',
 }
 
 export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
@@ -100,6 +104,9 @@ export const VARIANT_MAPS: Record<IconVariant, ReactElement<IconType>> = {
   [IconVariant.THREE_DOTS_VERT]: <MdMoreVert />,
   [IconVariant.OPEN_IN_NEW]: <MdOpenInNew />,
   [IconVariant.METAMASK_LOGO]: <MetamaskLogo />,
+  [IconVariant.SELL]: <SellToFiat />,
+  [IconVariant.SEARCH]: <MdSearch />,
+  [IconVariant.USER_DATA]: <DfxUserData />,
 };
 
 export enum IconSize {
@@ -108,6 +115,7 @@ export enum IconSize {
   MD = 'MEDIUM',
   LG = 'LARGE',
   XL = 'EXTRA LARGE',
+  XXL = 'EXTRA EXTRA LARGE',
 }
 
 export enum IconColor {
@@ -136,6 +144,7 @@ const SIZE_MAPS: Record<IconSize, string> = {
   [IconSize.MD]: '20px',
   [IconSize.LG]: '24px',
   [IconSize.XL]: '32px',
+  [IconSize.XXL]: '72px',
 };
 
 export default function DfxIcon({ icon, color = IconColor.RED, size = IconSize.MD }: DfxIconProps) {
@@ -215,73 +224,79 @@ function DfxProcessDoneIcon() {
   const icContext = useContext(IconContext);
   let iconSize: string | undefined;
   icContext.size === '32px' ? (iconSize = '170px') : (iconSize = icContext.size);
+  const checkMarkColor = icContext.color === '#072440' ? icContext.color : 'white';
 
   return (
     <svg width={iconSize} height={iconSize} viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clipPath="url(#clip0_885_9990)" filter="url(#filter0_d_885_9990)">
+      <g
+        clipPath={checkMarkColor === 'white' ? 'url(#clip0_885_9990)' : undefined}
+        filter={checkMarkColor === 'white' ? 'url(#filter0_d_885_9990)' : undefined}
+      >
         <path
           opacity="0.18"
           d="M25.9308 118.563C23.2492 114.352 21.02 109.851 19.2969 105.188L29.3985 101.461C30.8523 105.414 32.7369 109.215 35.0092 112.769L25.9308 118.552V118.563Z"
-          fill="white"
+          fill={checkMarkColor}
         />
         <path
           opacity="0.14"
           d="M15.6677 90.703C15.1292 86.826 14.9139 82.8522 15.0323 78.9107C15.0646 77.866 15.1185 76.8322 15.1939 75.7983L25.9308 76.5953C25.8662 77.4676 25.8231 78.3507 25.7908 79.2337C25.6939 82.583 25.8662 85.943 26.3292 89.2276L15.6677 90.7137V90.703Z"
-          fill="white"
+          fill={checkMarkColor}
         />
         <path
           opacity="0.09"
           d="M28.1923 64.1678L17.8646 61.1201C19.2754 56.3385 21.2139 51.7078 23.6154 47.3354L33.0492 52.5262C31.0139 56.2201 29.3877 60.1401 28.1923 64.1785V64.1678Z"
-          fill="white"
+          fill={checkMarkColor}
         />
         <path
           opacity="0.06"
           d="M40.2862 42.1553L32.1554 35.0907C35.4185 31.3322 39.1015 27.9184 43.0862 24.9353L49.5369 33.5615C46.1662 36.0922 43.0539 38.9784 40.2862 42.1661V42.1553Z"
-          fill="white"
+          fill={checkMarkColor}
         />
         <path
           opacity="0.04"
           d="M60.3923 27.1109L55.9123 17.3217C60.4461 15.2432 65.2061 13.6601 70.0738 12.6047L72.3569 23.1263C68.2431 24.0201 64.2154 25.3663 60.3815 27.1217L60.3923 27.1109Z"
-          fill="white"
+          fill={checkMarkColor}
         />
         <path
           opacity="0.2"
           d="M101.143 12.8738C98.3216 12.2062 95.4354 11.7108 92.5385 11.4092C90.04 11.14 87.4877 11 84.9785 11V21.7692C87.1 21.7692 89.2754 21.8877 91.3862 22.1138C93.8308 22.3723 96.2862 22.7923 98.6662 23.3523C125.891 29.7815 145.038 54.7662 144.198 82.7662C143.218 115.408 115.865 141.178 83.2231 140.198C70.0954 139.811 57.797 135.234 47.6416 126.963C45.9939 125.617 44.3893 124.163 42.8923 122.655L35.2354 130.226C37.0016 132.014 38.897 133.726 40.8462 135.32C52.8539 145.098 67.4031 150.505 82.9108 150.968C121.497 152.12 153.815 121.675 154.968 83.0892C155.958 49.9954 133.322 20.4662 101.143 12.8738Z"
-          fill="white"
+          fill={checkMarkColor}
         />
         <path
           d="M75.1139 111.972L48.7723 85.9108L57.1077 77.4893L75.2539 95.4524L115.886 56.5647L124.071 65.1262L75.1139 111.972Z"
-          fill="white"
+          fill={checkMarkColor}
         />
       </g>
-      <defs>
-        <filter
-          id="filter0_d_885_9990"
-          x="0"
-          y="0"
-          width="170"
-          height="170"
-          filterUnits="userSpaceOnUse"
-          colorInterpolationFilters="sRGB"
-        >
-          <feFlood floodOpacity="0" result="BackgroundImageFix" />
-          <feColorMatrix
-            in="SourceAlpha"
-            type="matrix"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-            result="hardAlpha"
-          />
-          <feOffset dy="4" />
-          <feGaussianBlur stdDeviation="7.5" />
-          <feComposite in2="hardAlpha" operator="out" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_885_9990" />
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_885_9990" result="shape" />
-        </filter>
-        <clipPath id="clip0_885_9990">
-          <rect width="140" height="140" fill="white" transform="translate(15 11)" />
-        </clipPath>
-      </defs>
+      {checkMarkColor === 'white' && (
+        <defs>
+          <filter
+            id="filter0_d_885_9990"
+            x="0"
+            y="0"
+            width="170"
+            height="170"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            />
+            <feOffset dy="4" />
+            <feGaussianBlur stdDeviation="7.5" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_885_9990" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_885_9990" result="shape" />
+          </filter>
+          <clipPath id="clip0_885_9990">
+            <rect width="140" height="140" fill="white" transform="translate(15 11)" />
+          </clipPath>
+        </defs>
+      )}
     </svg>
   );
 }
@@ -334,6 +349,24 @@ function DfxSignaturePopupIcon() {
           <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1679_13861" result="shape" />
         </filter>
       </defs>
+    </svg>
+  );
+}
+
+function SellToFiat() {
+  const icContext = useContext(IconContext);
+  return (
+    <svg
+      width={icContext.size}
+      height={icContext.size}
+      viewBox="0 0 21 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20.5 2.79545V14.9091H2.79545V13.0455H18.6364V2.79545H20.5ZM16.7727 11.1818H0V0H16.7727V11.1818ZM11.1818 5.59091C11.1818 4.04409 9.93318 2.79545 8.38636 2.79545C6.83955 2.79545 5.59091 4.04409 5.59091 5.59091C5.59091 7.13773 6.83955 8.38636 8.38636 8.38636C9.93318 8.38636 11.1818 7.13773 11.1818 5.59091Z"
+        fill={icContext.color}
+      />
     </svg>
   );
 }
@@ -441,6 +474,28 @@ function MetamaskLogo() {
           points="163.383898 33.1117385 147.744691 75.3505047 144.425852 132.411352 143.155934 150.295986 143.055195 195.983514 112.943788 195.983514 112.846176 150.381702 111.572114 132.395585 108.251786 75.3505047 92.6150854 33.1117385"
         ></polygon>
       </g>
+    </svg>
+  );
+}
+
+function DfxUserData() {
+  const icContext = useContext(IconContext);
+  return (
+    <svg width="53" height="50" viewBox="0 0 53 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M20.1002 47.0651H0.630615V42.8652C0.630615 40.1202 0.760612 38.5503 3.82554 36.1953C6.89047 33.8404 14.1253 29.5705 15.3553 28.9305C15.5153 28.8755 15.5703 28.7155 15.5703 28.5555V25.2506C14.7153 23.8106 14.2903 22.2106 14.0253 20.7707C13.5453 20.7157 12.8503 20.0257 12.1604 17.5157C11.2004 14.1008 12.2153 13.5708 13.1203 13.6758C13.1203 13.6758 10.0404 6.301 14.9753 3.14108C17.0502 1.80611 19.8502 0.311141 23.9401 0.0211478C27.32 -0.218847 29.5949 1.62111 30.0749 3.64606C30.0749 3.64606 35.8898 3.22107 33.3799 13.5658C33.3799 13.5658 33.3249 13.7808 33.2749 14.1508H33.4349C34.0748 14.3658 34.5548 15.2708 33.8099 17.9357C32.9049 21.2407 32.0499 21.4007 31.5149 21.0807C31.2999 22.2006 30.9799 23.4806 30.3949 24.6556V28.4405C30.3949 28.6005 30.4999 28.7605 30.6099 28.8155C31.1449 29.0805 32.5299 29.7755 34.3448 30.8404C31.7849 33.0804 30.1849 36.3353 30.1849 39.9602C30.1849 42.5752 31.0399 45.0251 32.4249 47.0001H25.97H20.1052V47.0551L20.1002 47.0651Z"
+        fill={icContext.color}
+        fillOpacity="0.1"
+      />
+      <path
+        d="M42.3947 30.0504C36.8998 30.0504 32.4199 34.5303 32.4199 40.0252C32.4199 45.5201 36.8998 50 42.3947 50C47.8896 50 52.3695 45.5201 52.3695 40.0252C52.3695 34.5303 47.8896 30.0504 42.3947 30.0504Z"
+        fill={icContext.color}
+        fillOpacity="0.1"
+      />
+      <path
+        d="M48.1445 38.9303H43.4896V34.2754H41.2997V38.9303H36.6448V41.1202H41.2997V45.7751H43.4896V41.1202H48.1445V38.9303Z"
+        fill={icContext.color}
+      />
     </svg>
   );
 }

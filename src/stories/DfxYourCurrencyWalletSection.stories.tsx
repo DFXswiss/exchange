@@ -18,6 +18,7 @@ const dummyCurrencies: Fiat[] = [
 const dummyAsset: Asset = {
   id: 1001,
   name: 'ETH',
+  uniqueName: 'Ethereum/ETH',
   description: 'Ethereum',
   buyable: false,
   sellable: false,

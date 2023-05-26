@@ -2,6 +2,10 @@ import Web3 from 'web3';
 import { Blockchain } from '../api/definitions/blockchain';
 import { useBlockchain } from './blockchain.hook';
 import { Buffer } from 'buffer';
+import BigNumber from 'bignumber.js';
+import ERC20_ABI from '../static/erc20.abi.json';
+import { Asset, AssetType } from '../api/definitions/asset';
+import { Contract } from 'web3-eth-contract';
 
 export interface MetaMaskInterface {
   isInstalled: boolean;
@@ -11,15 +15,36 @@ export interface MetaMaskInterface {
   ) => void;
   requestAccount: () => Promise<string | undefined>;
   requestBlockchain: () => Promise<Blockchain | undefined>;
+  requestChangeToBlockchain: (blockchain?: Blockchain) => Promise<void>;
   requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
   addContract: (address: string, svgData: string) => Promise<boolean>;
+  readBalance: (asset: Asset, address?: string) => Promise<AssetBalance>;
+  createTransaction: (amount: BigNumber, asset: Asset, from: string, to: string) => Promise<string>;
+}
+
+export interface AssetBalance {
+  asset: Asset;
+  balance: BigNumber;
+}
+
+interface MetaMaskError {
+  code: number;
+  message: string;
+}
+
+export interface MetaMaskChainInterface {
+  chainId: string;
+  chainName: string;
+  nativeCurrency: { name: string; symbol: string; decimals: number };
+  rpcUrls: string[];
+  blockExplorerUrls: string[];
 }
 
 export function useMetaMask(): MetaMaskInterface {
   const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
-  const { toBlockchain } = useBlockchain();
+  const { toBlockchain, toChainId, toChainObject } = useBlockchain();
 
   const isInstalled = Boolean(ethereum && ethereum.isMetaMask);
 
@@ -54,6 +79,32 @@ export function useMetaMask(): MetaMaskInterface {
     return toBlockchain(await web3.eth.getChainId());
   }
 
+  async function requestChangeToBlockchain(blockchain?: Blockchain): Promise<void> {
+    if (!blockchain) return;
+    const id = toChainId(blockchain);
+    if (!id) return;
+    const chainId = web3.utils.toHex(id);
+    return ethereum.sendAsync(
+      {
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId }],
+      },
+      (e?: MetaMaskError) => {
+        // 4902 chain is not yet added to MetaMask, therefore add chainId to MetaMask
+        if (e && e.code === 4902) {
+          requestAddChainId(blockchain);
+        }
+      },
+    );
+  }
+
+  async function requestAddChainId(blockchain: Blockchain): Promise<void> {
+    return ethereum.sendAsync({
+      method: 'wallet_addEthereumChain',
+      params: [toChainObject(blockchain)],
+    });
+  }
+
   async function requestBalance(account: string): Promise<string | undefined> {
     return web3.eth.getBalance(account);
   }
@@ -63,39 +114,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function addContract(address: string, svgData: string): Promise<boolean> {
-    const tokenContract = new web3.eth.Contract(
-      [
-        {
-          constant: true,
-          inputs: [],
-          name: 'symbol',
-          outputs: [
-            {
-              name: '',
-              type: 'string',
-            },
-          ],
-          payable: false,
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          constant: true,
-          inputs: [],
-          name: 'decimals',
-          outputs: [
-            {
-              name: '',
-              type: 'uint8',
-            },
-          ],
-          payable: false,
-          stateMutability: 'view',
-          type: 'function',
-        },
-      ],
-      address,
-    );
+    const tokenContract = createContract(address);
 
     const symbol = await tokenContract.methods.symbol().call();
     const decimals = await tokenContract.methods.decimals().call();
@@ -121,5 +140,56 @@ export function useMetaMask(): MetaMaskInterface {
     return Web3.utils.toChecksumAddress(accounts[0]);
   }
 
-  return { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign, addContract };
+  function toUsableNumber(balance: any, decimals = 18): BigNumber {
+    return new BigNumber(balance).dividedBy(Math.pow(10, decimals));
+  }
+
+  async function readBalance(asset: Asset, address?: string): Promise<AssetBalance> {
+    if (!address || !asset) return { asset, balance: new BigNumber(0) };
+    if (asset.type === AssetType.COIN) {
+      return web3.eth.getBalance(address).then((balance) => ({ asset, balance: toUsableNumber(balance) }));
+    }
+    try {
+      const tokenContract = createContract(asset.chainId);
+      const decimals = await tokenContract.methods.decimals().call();
+      return await tokenContract.methods
+        .balanceOf(address)
+        .call()
+        .then((balance: any) => ({ asset, balance: toUsableNumber(balance, decimals) }));
+    } catch {
+      return { asset, balance: new BigNumber(0) };
+    }
+  }
+
+  async function createTransaction(amount: BigNumber, asset: Asset, from: string, to: string): Promise<string> {
+    if (asset.type === AssetType.COIN) {
+      const transactionData = { from, to, value: web3.utils.toWei(amount.toString(), 'ether') };
+      return web3.eth.sendTransaction(transactionData).then((value) => value.transactionHash);
+    } else {
+      const tokenContract = createContract(asset.chainId);
+      const decimals = await tokenContract.methods.decimals().call();
+      const adjustedAmount = amount.multipliedBy(Math.pow(10, decimals));
+      return tokenContract.methods
+        .transfer(to, adjustedAmount.toString())
+        .send({ from })
+        .then((value: any) => value.transactionHash);
+    }
+  }
+
+  function createContract(chainId?: string): Contract {
+    return new web3.eth.Contract(ERC20_ABI as any, chainId);
+  }
+
+  return {
+    isInstalled,
+    register,
+    requestAccount,
+    requestBlockchain,
+    requestChangeToBlockchain,
+    requestBalance,
+    sign,
+    addContract,
+    readBalance,
+    createTransaction,
+  };
 }
