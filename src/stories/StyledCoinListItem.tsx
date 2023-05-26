@@ -15,7 +15,7 @@ import { useWalletContext } from '../contexts/wallet.context';
 export interface StyledCoinListItemProps {
   asset: Asset;
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   protocol: Protocol;
   popupLabel?: string;
   onAdd?: (contractAddress: string, svgData: string) => void;

@@ -236,8 +236,6 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                     protocol={toProtocol(asset.blockchain)}
                     popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
                     onAdd={addContract}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onClick={() => {}}
                     disabled
                     alwaysShowDots
                   />

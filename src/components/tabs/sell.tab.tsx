@@ -61,7 +61,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
   return (
     <>
       <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
-        <UserDataForm onFinish={() => undefined} />
+        <UserDataForm />
       </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
@@ -81,7 +81,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
                 ? assetBalances?.map((value) => ({
                     asset: value.asset,
                     protocol: toProtocol(blockchain),
-                    isSelected: value.asset.uniqueName === selectedAsset?.uniqueName,
+                    isSelected: value.asset.id === selectedAsset?.id,
                     balance: value.balance ?? new BigNumber(0),
                   })) ?? []
                 : []
@@ -107,9 +107,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
           ) : (
             <SellTabContentProcess
               asset={selectedAsset}
-              balance={
-                assetBalances?.find((balance) => selectedAsset?.uniqueName === balance.asset.uniqueName)?.balance
-              }
+              balance={assetBalances?.find((balance) => selectedAsset?.id === balance.asset.id)?.balance}
             />
           )}
         </StyledHorizontalStack>

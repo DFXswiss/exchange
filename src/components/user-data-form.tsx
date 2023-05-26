@@ -17,7 +17,7 @@ import StyledInput from '../stories/form/StyledInput';
 import StyledSpacer from '../stories/layout-helpers/StyledSpacer';
 
 interface UserDataFormProps {
-  onFinish: () => void;
+  onFinish?: () => void;
 }
 
 export function UserDataForm({ onFinish }: UserDataFormProps): JSX.Element {
@@ -38,7 +38,7 @@ export function UserDataForm({ onFinish }: UserDataFormProps): JSX.Element {
     setIsSubmitting(true);
     setKycData(data)
       .then(() => reloadUser())
-      .then(() => onFinish())
+      .then(() => onFinish?.())
       .catch((error: ApiError) => {
         setErrorMessage(error.message);
         setShowsErrorAlert(true);

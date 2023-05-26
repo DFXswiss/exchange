@@ -32,11 +32,7 @@ export default function StyledBalanceSelection({
         {balances
           .filter((balance) => balance.asset.name.toLowerCase().includes(filter.toLowerCase()))
           .map((balance) => (
-            <StyledBalance
-              key={balance.asset.uniqueName}
-              {...balance}
-              onClick={() => onSelectionChanged(balance.asset)}
-            />
+            <StyledBalance key={balance.asset.id} {...balance} onClick={() => onSelectionChanged(balance.asset)} />
           ))}
       </div>
     </div>

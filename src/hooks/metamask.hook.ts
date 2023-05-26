@@ -152,13 +152,10 @@ export function useMetaMask(): MetaMaskInterface {
     try {
       const tokenContract = createContract(asset.chainId);
       const decimals = await tokenContract.methods.decimals().call();
-      return tokenContract.methods
+      return await tokenContract.methods
         .balanceOf(address)
         .call()
-        .then((balance: any) => ({ asset, balance: toUsableNumber(balance, decimals) }))
-        .catch(() => {
-          return { asset, balance: new BigNumber(0) };
-        });
+        .then((balance: any) => ({ asset, balance: toUsableNumber(balance, decimals) }));
     } catch {
       return { asset, balance: new BigNumber(0) };
     }
