@@ -15,7 +15,7 @@ import { useWalletContext } from '../contexts/wallet.context';
 export interface StyledCoinListItemProps {
   asset: Asset;
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   protocol: Protocol;
   popupLabel?: string;
   onAdd?: (contractAddress: string, svgData: string) => void;
@@ -45,7 +45,7 @@ export default function StyledCoinListItem({
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   const name = asset.comingSoon ? 'Coming soon' : asset.description;
-  let buttonClasses = 'flex gap-2 rounded-l px-3 py-1.5 z-10 flex-1';
+  let buttonClasses = 'flex gap-2 rounded-l px-3 py-2 z-10 flex-1';
   let wrapperClasses = 'group flex rounded place-self-start';
   let threeDotsClasses = ' rounded-r grow-0';
 
@@ -80,17 +80,17 @@ export default function StyledCoinListItem({
           <div className="self-center">
             <DfxAssetIcon asset={asset.name as AssetIconVariant} disabled={asset.comingSoon} />
           </div>
-          <div className="text-dfxBlue-800 text-left">
+          <div className="flex-col text-dfxBlue-800 text-left">
             <div className="flex font-semibold gap-1 ">
-              <h4 className="leading-snug">{asset.name}</h4>
+              <h4 className="leading-none">{asset.name}</h4>
               {asset.type !== AssetType.COIN && (
                 <span className="self-start leading-none text-2xs shrink-0">{protocol}</span>
               )}
             </div>
-            <span className="text-dfxGray-800 text-xs leading-tight block">{name}</span>
+            <span className="text-dfxGray-800 text-xs leading-none relative -top-1">{name}</span>
           </div>
         </button>
-        {popupLabel && onAdd && asset.chainId && (
+        {popupLabel && onAdd && asset.type !== AssetType.COIN && asset.chainId && (
           <button className={threeDotsClasses} onClick={() => setOpen((o) => !o)}>
             <DfxIcon icon={IconVariant.THREE_DOTS_VERT} color={IconColor.BLUE} />
           </button>

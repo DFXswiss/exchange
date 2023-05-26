@@ -10,6 +10,7 @@ export enum AssetType {
 export interface Asset {
   id: number;
   name: string;
+  uniqueName: string;
   description: string;
   buyable: boolean;
   sellable: boolean;
