@@ -21,7 +21,6 @@ export interface Buy {
 }
 
 export interface BuyPaymentInfo {
-  iban: string;
   currency: Fiat;
   amount: number;
   asset: Asset;
