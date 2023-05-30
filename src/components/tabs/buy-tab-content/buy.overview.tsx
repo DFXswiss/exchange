@@ -19,16 +19,18 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
     <StyledVerticalStack gap={0}>
       {Array.from(assets.entries()).map(([blockchain, assets], blockchainIndex) => (
         <StyledCoinList key={blockchainIndex} heading={toHeader(blockchain)}>
-          {assets.map((asset, assetIndex) => (
-            <StyledCoinListItem
-              key={assetIndex}
-              asset={asset}
-              protocol={toProtocol(blockchain)}
-              onClick={() => onAssetClicked(asset)}
-              popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
-              onAdd={addContract}
-            />
-          ))}
+          {assets
+            .filter((a) => a.buyable || a.comingSoon)
+            .map((asset, assetIndex) => (
+              <StyledCoinListItem
+                key={assetIndex}
+                asset={asset}
+                protocol={toProtocol(blockchain)}
+                onClick={() => onAssetClicked(asset)}
+                popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
+                onAdd={addContract}
+              />
+            ))}
         </StyledCoinList>
       ))}
     </StyledVerticalStack>
