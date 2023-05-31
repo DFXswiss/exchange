@@ -72,6 +72,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function requestAccount(): Promise<string | undefined> {
+    await ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
     return verifyAccount(await web3.eth.requestAccounts());
   }
 
