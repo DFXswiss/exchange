@@ -50,6 +50,7 @@ interface FormData {
 
 export function SellTabContentProcess({ asset, balance }: SellTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts, updateAccount } = useBuyContext();
+  const { blockchain } = useWalletContext();
   const { toProtocol } = useBlockchain();
   const { toDescription } = useFiat();
   const { address } = useWalletContext();
@@ -235,7 +236,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                     asset={asset}
                     protocol={toProtocol(asset.blockchain)}
                     popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
-                    onAdd={addContract}
+                    onAdd={(svgData) => addContract(asset, svgData, blockchain)}
                     disabled
                     alwaysShowDots
                   />

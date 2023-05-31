@@ -24,6 +24,7 @@ import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
 import { useMetaMask } from '../../../hooks/metamask.hook';
 import { KycHint } from '../../kyc-hint';
+import { useWalletContext } from '../../../contexts/wallet.context';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -38,6 +39,7 @@ interface FormData {
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
   const { currencies, receiveFor } = useBuyContext();
+  const { blockchain } = useWalletContext();
   const { isAllowedToBuy } = useKycHelper();
   const { toProtocol } = useBlockchain();
   const { toDescription, toSymbol } = useFiat();
@@ -160,7 +162,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                       protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
                       popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
-                      onAdd={addContract}
+                      onAdd={(svgData) => addContract(asset, svgData, blockchain)}
                       disabled
                       alwaysShowDots
                     />
