@@ -2,16 +2,13 @@ import { useEffect, useState } from 'react';
 import { DeepPartial, useForm, useWatch } from 'react-hook-form';
 import { useBuyContext } from '../../../api/contexts/buy.context';
 import { Asset } from '../../../api/definitions/asset';
-import { BankAccount } from '../../../api/definitions/bank-account';
 import { Buy } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
 import DfxIcon, { IconColor, IconSize, IconVariant } from '../../../stories/DfxIcon';
 import Form from '../../../stories/form/Form';
 import StyledInput from '../../../stories/form/StyledInput';
-import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
 import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
 import StyledCoinListItem from '../../../stories/StyledCoinListItem';
-import { AddBankAccount } from '../../buy/add-bank-account';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
 import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
@@ -19,7 +16,6 @@ import { useKycHelper } from '../../../hooks/kyc-helper.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import StyledModal, { StyledModalColor } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
-import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import StyledDropdown from '../../../stories/form/StyledDropdown';
 import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
@@ -35,14 +31,13 @@ interface BuyTabContentProcessProps {
 }
 
 interface FormData {
-  bankAccount: BankAccount;
   currency: Fiat;
   asset: Asset;
   amount: string;
 }
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts, receiveFor, updateAccount } = useBuyContext();
+  const { currencies, receiveFor } = useBuyContext();
   const { isAllowedToBuy } = useKycHelper();
   const { toProtocol } = useBlockchain();
   const { toDescription, toSymbol } = useFiat();
@@ -54,12 +49,10 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const {
     control,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<FormData>({ defaultValues: { asset } });
   const data = useWatch({ control });
   const validatedData = validateData(useDebounce(data, 500));
-  const selectedBankAccount = useWatch({ control, name: 'bankAccount' });
 
   const dataValid = validatedData != null;
   const kycRequired = dataValid && !isAllowedToBuy(Number(validatedData?.amount));
@@ -73,7 +66,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     const amount = Number(validatedData.amount);
     setIsLoading(true);
     receiveFor({
-      iban: validatedData.bankAccount.iban,
       currency: validatedData.currency,
       amount,
       asset: validatedData.asset,
@@ -84,17 +76,12 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       .finally(() => setIsLoading(false));
   }, [validatedData]);
 
-  useEffect(() => {
-    if (selectedBankAccount && selectedBankAccount.preferredCurrency)
-      setValue('currency', selectedBankAccount.preferredCurrency);
-  }, [selectedBankAccount]);
-
   async function onSubmit(_data: FormData): Promise<void> {
     // TODO (Krysh): fix broken form validation and onSubmit
   }
 
   function validateData(data?: DeepPartial<FormData>): FormData | undefined {
-    if (data && Number(data.amount) > 0 && data.asset != null && data.bankAccount != null && data.currency != null) {
+    if (data && Number(data.amount) > 0 && data.asset != null && data.currency != null) {
       return data as FormData;
     }
   }
@@ -127,12 +114,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
     };
   }
 
-  function updateBankAccount() {
-    updateAccount(selectedBankAccount.id, { preferredCurrency: data.currency as Fiat });
-  }
-
   const rules = Utils.createRules({
-    bankAccount: Validations.Required,
     asset: Validations.Required,
     currency: Validations.Required,
     amount: Validations.Required,
@@ -148,21 +130,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       <StyledTabContentWrapper showBackArrow onBackClick={onBack}>
         <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
           <StyledVerticalStack gap={8}>
-            {bankAccounts && (
-              <StyledModalDropdown<BankAccount>
-                name="bankAccount"
-                labelFunc={(item) => Utils.formatIban(item.iban) ?? ''}
-                descriptionFunc={(item) => item.label}
-                label="Your Bank Account"
-                placeholder="Add or select your IBAN"
-                modal={{
-                  heading: 'Select your bank account',
-                  items: bankAccounts,
-                  itemContent: (b) => <StyledBankAccountListItem bankAccount={b} />,
-                  form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
-                }}
-              />
-            )}
             {currencies && asset && (
               <div className="flex justify-between  items-center">
                 <div className="basis-5/12 shrink-1">
@@ -224,7 +191,6 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
               width={StyledButtonWidth.FULL}
               label="Click once your bank transfer is completed."
               onClick={() => {
-                updateBankAccount();
                 setShowsCompletion(true);
               }}
               caps={false}
