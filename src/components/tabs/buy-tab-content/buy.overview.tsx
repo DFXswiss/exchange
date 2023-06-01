@@ -19,13 +19,13 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
 
   return (
     <StyledVerticalStack gap={0}>
-      {Array.from(assets.entries()).map(([blockchain, assets], blockchainIndex) => (
-        <StyledCoinList key={blockchainIndex} heading={toHeader(blockchain)}>
+      {Array.from(assets.entries()).map(([blockchain, assets]) => (
+        <StyledCoinList key={blockchain} heading={toHeader(blockchain)}>
           {assets
             .filter((a) => a.buyable || a.comingSoon)
-            .map((asset, assetIndex) => (
+            .map((asset) => (
               <StyledCoinListItem
-                key={assetIndex}
+                key={asset.id}
                 asset={asset}
                 protocol={toProtocol(blockchain)}
                 onClick={() => onAssetClicked(asset)}
