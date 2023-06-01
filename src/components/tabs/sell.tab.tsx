@@ -53,14 +53,20 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
   useEffect(() => {
     if (!sellableAssets) return;
     Promise.all(sellableAssets.map((asset) => readBalance(asset, address)))
-      .then((balances) => balances.sort((a, b) => b.balance.minus(a.balance).toNumber()))
-      .then((balances) => balances.sort((a, b) => (a.asset.sortOrder ?? Infinity) - (b.asset.sortOrder ?? Infinity)))
+      .then((balances) => balances.sort(sortByBalanceAndSortOrder))
       .then(setAssetBalances)
       .catch(console.error);
     if (selectedAsset && selectedAsset.blockchain !== blockchain) {
       setSelectedAsset(undefined);
     }
   }, [blockchain, address, assets]);
+
+  function sortByBalanceAndSortOrder(a: AssetBalance, b: AssetBalance): number {
+    if (!a.balance.isEqualTo(b.balance)) {
+      return b.balance.minus(a.balance).toNumber();
+    }
+    return (b.asset.sortOrder ?? Infinity) - (a.asset.sortOrder ?? Infinity);
+  }
 
   return (
     <>

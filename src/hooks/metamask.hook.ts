@@ -18,7 +18,7 @@ export interface MetaMaskInterface {
   requestChangeToBlockchain: (blockchain?: Blockchain) => Promise<void>;
   requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
-  addContract: (asset: Asset, svgData: string, blockchain?: Blockchain) => Promise<boolean>;
+  addContract: (asset: Asset, svgData: string, currentBlockchain?: Blockchain) => Promise<boolean>;
   readBalance: (asset: Asset, address?: string) => Promise<AssetBalance>;
   createTransaction: (amount: BigNumber, asset: Asset, from: string, to: string) => Promise<string>;
 }
@@ -114,8 +114,8 @@ export function useMetaMask(): MetaMaskInterface {
     return web3.eth.personal.sign(message, address, '');
   }
 
-  async function addContract(asset: Asset, svgData: string, blockchain?: Blockchain): Promise<boolean> {
-    if (asset.blockchain !== blockchain) {
+  async function addContract(asset: Asset, svgData: string, currentBlockchain?: Blockchain): Promise<boolean> {
+    if (asset.blockchain !== currentBlockchain) {
       await requestChangeToBlockchain(asset.blockchain);
       return false;
     }
