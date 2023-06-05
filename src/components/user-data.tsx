@@ -49,27 +49,39 @@ export function UserData(): JSX.Element {
   const referralData = [
     {
       title: 'Referral link',
-      value: user?.ref ?? 'Complete a buy to receive your referral link',
-      button:
-        user?.ref != null
-          ? {
-              color: StyledButtonColor.RED,
-              label: 'Copy to share',
-              func: () => copy(refLink),
-              isLoading: isCopying,
-              deactivateMargin: false,
-            }
-          : undefined,
+      value: user?.ref,
+      button: {
+        color: StyledButtonColor.RED,
+        label: 'Copy to share',
+        func: () => copy(refLink),
+        isLoading: isCopying,
+        deactivateMargin: false,
+      },
     },
     { title: 'Referral commission', value: `${user?.refFeePercent ?? 0 * 100} %` },
     { title: 'Referred users', value: user?.refCount },
     { title: 'Referral volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
-    { title: 'Referral bonus', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
+    { title: 'Referral reward', value: `${Utils.formatAmount(user?.refCredit)} €` },
+    { title: 'Referral payed out', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
+    {
+      value:
+        'The referral reward will be paid in $ETH on Arbitrum as soon as the pending referral reward is at least 10€.',
+    },
   ];
 
   const data = [
     { header: 'User Data', content: userData },
-    { header: 'User Referral', content: referralData },
+    {
+      header: 'User Referral',
+      content: user?.ref
+        ? referralData
+        : [
+            {
+              title: 'Referral link',
+              value: 'Complete a purchase or sell to receive your personal referral link',
+            },
+          ],
+    },
   ];
 
   return (

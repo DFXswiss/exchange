@@ -10,7 +10,6 @@ import { useFloating, offset, flip, shift, useDismiss, useInteractions } from '@
 import { renderToString } from 'react-dom/server';
 import { useState } from 'react';
 import { CopyButton } from '../components/copy-button';
-import { useWalletContext } from '../contexts/wallet.context';
 
 export interface StyledCoinListItemProps {
   asset: Asset;
@@ -18,7 +17,7 @@ export interface StyledCoinListItemProps {
   onClick?: () => void;
   protocol: Protocol;
   popupLabel?: string;
-  onAdd?: (contractAddress: string, svgData: string) => void;
+  onAdd?: (svgData: string) => void;
   alwaysShowDots?: boolean;
 }
 
@@ -32,8 +31,6 @@ export default function StyledCoinListItem({
   alwaysShowDots,
 }: StyledCoinListItemProps) {
   const { copy } = useClipboard();
-  // TODO: remove blockchain again
-  const { blockchain } = useWalletContext();
   const [open, setOpen] = useState(false);
   const { x, y, strategy, refs, context } = useFloating({
     open,
@@ -118,15 +115,10 @@ export default function StyledCoinListItem({
                   asset.chainId?.length - 5,
                 )}`}</span>
                 <CopyButton onCopy={() => copy(asset.chainId)} />
-                {asset.chainId && asset.blockchain === blockchain && onAdd && (
+                {asset.chainId && onAdd && (
                   <StyledIconButton
                     icon={IconVariant.METAMASK_LOGO}
-                    onClick={() =>
-                      onAdd(
-                        asset.chainId ?? '',
-                        renderToString(<DfxAssetIcon asset={asset.name as AssetIconVariant} />),
-                      )
-                    }
+                    onClick={() => onAdd(renderToString(<DfxAssetIcon asset={asset.name as AssetIconVariant} />))}
                   />
                 )}
                 {asset.explorerUrl && (

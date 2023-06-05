@@ -18,7 +18,7 @@ export interface MetaMaskInterface {
   requestChangeToBlockchain: (blockchain?: Blockchain) => Promise<void>;
   requestBalance: (account: string) => Promise<string | undefined>;
   sign: (address: string, message: string) => Promise<string>;
-  addContract: (address: string, svgData: string) => Promise<boolean>;
+  addContract: (asset: Asset, svgData: string, currentBlockchain?: Blockchain) => Promise<boolean>;
   readBalance: (asset: Asset, address?: string) => Promise<AssetBalance>;
   createTransaction: (amount: BigNumber, asset: Asset, from: string, to: string) => Promise<string>;
 }
@@ -72,6 +72,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function requestAccount(): Promise<string | undefined> {
+    await ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
     return verifyAccount(await web3.eth.requestAccounts());
   }
 
@@ -113,8 +114,12 @@ export function useMetaMask(): MetaMaskInterface {
     return web3.eth.personal.sign(message, address, '');
   }
 
-  async function addContract(address: string, svgData: string): Promise<boolean> {
-    const tokenContract = createContract(address);
+  async function addContract(asset: Asset, svgData: string, currentBlockchain?: Blockchain): Promise<boolean> {
+    if (asset.blockchain !== currentBlockchain) {
+      await requestChangeToBlockchain(asset.blockchain);
+      return false;
+    }
+    const tokenContract = createContract(asset.chainId);
 
     const symbol = await tokenContract.methods.symbol().call();
     const decimals = await tokenContract.methods.decimals().call();
@@ -124,7 +129,7 @@ export function useMetaMask(): MetaMaskInterface {
       params: {
         type: 'ERC20',
         options: {
-          address,
+          address: asset.chainId,
           symbol,
           decimals,
           image: `data:image/svg+xml;base64,${Buffer.from(svgData).toString('base64')}`,
