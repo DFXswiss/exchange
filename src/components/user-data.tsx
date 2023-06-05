@@ -64,7 +64,12 @@ export function UserData(): JSX.Element {
     { title: 'Referral commission', value: `${user?.refFeePercent ?? 0 * 100} %` },
     { title: 'Referred users', value: user?.refCount },
     { title: 'Referral volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
-    { title: 'Referral bonus', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
+    { title: 'Referral reward', value: `${Utils.formatAmount(user?.refCredit)} €` },
+    { title: 'Referral payed out', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
+    {
+      value:
+        'The referral reward will be paid in $ETH on Arbitrum as soon as the pending referral reward is at least 10€.',
+    },
   ];
 
   const data = [
