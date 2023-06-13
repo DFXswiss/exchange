@@ -11,6 +11,8 @@ export interface Sell {
   fee: number;
   minFee: number;
   minVolume: number;
+  minFeeTarget: number;
+  minVolumeTarget: number;
   estimatedAmount: number;
 }
 
