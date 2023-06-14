@@ -48,11 +48,18 @@ interface FormData {
   amount: string;
 }
 
+interface PaymentInformation {
+  estimatedAmount: string;
+  fee: string;
+  minFee: string | undefined;
+  depositAddress: string;
+}
+
 export function SellTabContentProcess({ asset, balance }: SellTabContentProcessProps): JSX.Element {
   const { currencies, bankAccounts, updateAccount } = useBuyContext();
   const { blockchain } = useWalletContext();
   const { toProtocol } = useBlockchain();
-  const { toDescription } = useFiat();
+  const { toDescription, toSymbol } = useFiat();
   const { address } = useWalletContext();
   const { addContract, createTransaction } = useMetaMask();
   const { isAllowedToSell } = useKycHelper();
@@ -63,7 +70,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   const [isCompleting, setIsCompleting] = useState(false);
   const [sellTxId, setSellTxId] = useState<string>();
   const [kycRequired, setKycRequired] = useState(false);
-  const [paymentInfo, setPaymentInfo] = useState<Sell>();
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
   const {
     control,
     handleSubmit,
@@ -116,6 +123,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
         setKycRequired(dataValid && !isAllowedToSell(Number(value?.estimatedAmount)));
         return value;
       })
+      .then(toPaymentInformation)
       .then(setPaymentInfo)
       .catch((error: ApiError) => {
         if (error.statusCode === 400 && error.message === 'Ident data incomplete') {
@@ -170,6 +178,17 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
     createTransaction(new BigNumber(validatedData.amount), validatedData.asset, address, paymentInfo.depositAddress)
       .then((txId) => setSellTxId(txId))
       .finally(() => setIsCompleting(false));
+  }
+
+  function toPaymentInformation(sell: Sell | undefined): PaymentInformation | undefined {
+    if (!sell) return undefined;
+    return {
+      estimatedAmount: `≈ ${sell.estimatedAmount} ${data?.currency?.name ?? ''} (incl. DFX fees)`,
+      fee: `${sell.fee} %`,
+      minFee:
+        sell.minFeeTarget > 0 && data.currency ? `${sell.minFeeTarget}${toSymbol(data.currency as Fiat)}` : undefined,
+      depositAddress: sell.depositAddress,
+    };
   }
 
   const rules = Utils.createRules({
@@ -276,15 +295,13 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
         {kycRequired && !customAmountError && <KycHint />}
         {paymentInfo && !kycRequired && (
           <>
-            {paymentInfo.estimatedAmount > 0 && (
-              <p className="text-dfxBlue-800 text-start w-full text-xs pl-12">
-                {`≈ ${paymentInfo.estimatedAmount} ${validatedData?.currency.name ?? ''} (incl. DFX fees)`}
-              </p>
+            {paymentInfo.estimatedAmount && (
+              <p className="text-dfxBlue-800 text-start w-full text-xs pl-12">{paymentInfo.estimatedAmount}</p>
             )}
             <StyledDataTable alignContent={AlignContent.BETWEEN} showBorder={false} narrow>
               <StyledDataTableRow discreet>
                 <p>DFX-Fee</p>
-                <p>{`${paymentInfo.fee} %`}</p>
+                <p>{paymentInfo.minFee ? `${paymentInfo.fee} (min. ${paymentInfo.minFee})` : paymentInfo.fee}</p>
               </StyledDataTableRow>
             </StyledDataTable>
             <StyledButton
