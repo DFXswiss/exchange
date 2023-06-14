@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@dfx.swiss/react-components": "1.0.2",
-    "@floating-ui/react": "^0.18.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -13,7 +12,6 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "bignumber.js": "^9.1.1",
-    "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.3.3",
     "env-cmd": "^10.1.0",
     "google-libphonenumber": "^3.2.32",
@@ -23,11 +21,8 @@
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.40.0",
-    "react-icons": "^4.7.1",
     "react-qr-code": "^2.0.11",
     "react-scripts": "5.0.1",
-    "spinners-react": "^1.0.7",
-    "tw-elements": "^1.0.0-alpha12",
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4",
     "web3": "^1.8.1"
@@ -39,9 +34,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --no-fix",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -80,22 +73,11 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.5.13",
-    "@storybook/addon-essentials": "^6.5.13",
-    "@storybook/addon-interactions": "^6.5.13",
-    "@storybook/addon-links": "^6.5.13",
-    "@storybook/builder-webpack5": "^6.5.13",
-    "@storybook/manager-webpack5": "^6.5.13",
-    "@storybook/node-logger": "^6.5.13",
-    "@storybook/preset-create-react-app": "^4.1.2",
-    "@storybook/react": "^6.5.13",
-    "@storybook/testing-library": "^0.0.13",
     "@types/debounce": "^1.2.1",
     "@types/google-libphonenumber": "^7.4.23",
     "autoprefixer": "^10.4.13",
     "babel-plugin-named-exports-order": "^0.0.2",
     "postcss": "^8.4.19",
-    "prop-types": "^15.8.1",
     "tailwindcss": "^3.2.4",
     "webpack": "^5.75.0"
   },
