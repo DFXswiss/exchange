@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Asset } from '../../api/definitions/asset';
 import { useSessionContext } from '../../contexts/session.context';
-import { IconVariant } from '../../stories/DfxIcon';
-import { StyledTabProps } from '../../stories/StyledTabContainer';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { BuyTabContentProcess } from './buy-tab-content/buy.process';
+import { IconVariant, StyledTabProps } from '@dfx.swiss/react-components';
 
 enum BuyTabStep {
   OVERVIEW,

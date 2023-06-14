@@ -3,11 +3,15 @@ import { useBuyContext } from '../../api/contexts/buy.context';
 import { useUserContext } from '../../api/contexts/user.context';
 import { BankAccount } from '../../api/definitions/bank-account';
 import { CreateBankAccount } from '../../api/hooks/bank-account.hook';
-import Form from '../../stories/form/Form';
-import StyledInput from '../../stories/form/StyledInput';
-import StyledSpacer from '../../stories/layout-helpers/StyledSpacer';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../../stories/StyledButton';
+import {
+  Form,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledInput,
+  StyledSpacer,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
 

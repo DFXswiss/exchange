@@ -1,24 +1,31 @@
 import { useEffect, useState } from 'react';
 import { DeepPartial, useForm, useWatch } from 'react-hook-form';
 import { useBuyContext } from '../../../api/contexts/buy.context';
-import { Asset } from '../../../api/definitions/asset';
+import { Asset, AssetType } from '../../../api/definitions/asset';
 import { Buy } from '../../../api/definitions/buy';
 import { Fiat } from '../../../api/definitions/fiat';
-import DfxIcon, { IconColor, IconSize, IconVariant } from '../../../stories/DfxIcon';
-import Form from '../../../stories/form/Form';
-import StyledInput from '../../../stories/form/StyledInput';
-import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
-import StyledCoinListItem from '../../../stories/StyledCoinListItem';
+import {
+  DfxIcon,
+  Form,
+  IconColor,
+  IconSize,
+  IconVariant,
+  StyledButton,
+  StyledButtonWidth,
+  StyledCoinListItem,
+  StyledDropdown,
+  StyledInput,
+  StyledModal,
+  StyledModalColor,
+  StyledSpacer,
+  StyledTabContentWrapper,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { Utils } from '../../../utils';
 import Validations from '../../../validations';
-import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
 import { useKycHelper } from '../../../hooks/kyc-helper.hook';
 import useDebounce from '../../../hooks/debounce.hook';
-import StyledModal, { StyledModalColor } from '../../../stories/StyledModal';
 import { BuyCompletion } from '../../buy/buy-completion';
-import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
-import StyledDropdown from '../../../stories/form/StyledDropdown';
-import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
@@ -159,6 +166,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                   <div className="border border-dfxGray-400 rounded drop-shadow-sm">
                     <StyledCoinListItem
                       asset={asset}
+                      isToken={asset.type === AssetType.TOKEN}
                       protocol={toProtocol(asset.blockchain)}
                       onClick={onBack}
                       popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."

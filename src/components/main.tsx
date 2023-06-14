@@ -3,20 +3,28 @@ import { isMobile } from 'react-device-detect';
 import { useUserContext } from '../api/contexts/user.context';
 import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
-import { IconSize, IconVariant } from '../stories/DfxIcon';
-import DfxLogo from '../stories/DfxLogo';
-import DfxTitleSection from '../stories/DfxTitleSection';
-import DfxVideoHelpModalContent from '../stories/DfxVideoHelpModalContent';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../stories/StyledButton';
-import StyledIconButton from '../stories/StyledIconButton';
-import { StyledLink } from '../stories/StyledLink';
-import StyledModal, { StyledModalType, StyledModalWidth } from '../stories/StyledModal';
-import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
+import DfxTitleSection from './title-section';
 import { useBuyTab } from './tabs/buy.tab';
 import { UserBox } from './user-box';
 import { WalletBox } from './wallet-box';
 import { useSellTab } from './tabs/sell.tab';
+import {
+  DfxLogo,
+  DfxVideoHelpModalContent,
+  IconSize,
+  IconVariant,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledIconButton,
+  StyledLink,
+  StyledModal,
+  StyledModalType,
+  StyledModalWidth,
+  StyledTabContainer,
+  StyledTabProps,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 
 export function Main(): JSX.Element {
   const { isConnected } = useWalletContext();
