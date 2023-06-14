@@ -17,35 +17,20 @@ export enum Protocol {
 }
 
 // id taken from https://chainlist.org/
+const chainIds: { [id: number]: Blockchain } = {
+  [1]: Blockchain.ETH,
+  [56]: Blockchain.BSC,
+  [42161]: Blockchain.ARBITRUM,
+  [10]: Blockchain.OPTIMISM,
+};
+
 export function useBlockchain(): BlockchainInterface {
   function toBlockchain(chainId: string | number): Blockchain | undefined {
-    switch (+chainId) {
-      case 1:
-        return Blockchain.ETH;
-      case 56:
-        return Blockchain.BSC;
-      case 42161:
-        return Blockchain.ARBITRUM;
-      case 10:
-        return Blockchain.OPTIMISM;
-      default:
-        return undefined;
-    }
+    return chainIds[+chainId];
   }
 
   function toChainId(blockchain: Blockchain): string | number | undefined {
-    switch (blockchain) {
-      case Blockchain.ETH:
-        return 1;
-      case Blockchain.BSC:
-        return 56;
-      case Blockchain.ARBITRUM:
-        return 42161;
-      case Blockchain.OPTIMISM:
-        return 10;
-      default:
-        return undefined;
-    }
+    return Object.entries(chainIds).find(([_, b]) => b === blockchain)?.[0];
   }
 
   function toChainObject(blockchain: Blockchain): MetaMaskChainInterface | undefined {

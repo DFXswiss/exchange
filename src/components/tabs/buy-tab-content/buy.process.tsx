@@ -110,7 +110,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       estimatedAmount: `≈ ${buy.estimatedAmount} ${asset?.name ?? ''} (incl. all fees)`,
       fee: `${buy.fee} %`,
-      minFee: buy.minFee > 0 ? `${buy.minFee}${data.currency ? toSymbol(data.currency as Fiat) : ''}` : undefined,
+      minFee: buy.minFee > 0 && data.currency ? `${buy.minFee}${toSymbol(data.currency as Fiat)}` : undefined,
       currency: data.currency as Fiat,
       amount: Number(data.amount),
     };
