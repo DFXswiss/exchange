@@ -1,12 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { useUserContext } from '../../api/contexts/user.context';
-import { IconColor } from '../../stories/DfxIcon';
-import Form from '../../stories/form/Form';
-import StyledInput from '../../stories/form/StyledInput';
-import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../../stories/StyledButton';
-import StyledInfoText from '../../stories/StyledInfoText';
+import {
+  Form,
+  IconColor,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledHorizontalStack,
+  StyledInfoText,
+  StyledInput,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
 

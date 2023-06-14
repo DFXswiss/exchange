@@ -1,11 +1,16 @@
+import {
+  AlignContent,
+  CopyButton,
+  DfxIcon,
+  IconColor,
+  IconVariant,
+  StyledDataTable,
+  StyledDataTableRow,
+  StyledInfoText,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { Fiat } from '../../api/definitions/fiat';
 import { useClipboard } from '../../hooks/clipboard.hook';
-import DfxIcon, { IconColor, IconVariant } from '../../stories/DfxIcon';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledDataTable, { AlignContent } from '../../stories/StyledDataTable';
-import StyledDataTableRow from '../../stories/StyledDataTableRow';
-import StyledInfoText from '../../stories/StyledInfoText';
-import { CopyButton } from '../copy-button';
 import { GiroCode } from './giro-code';
 
 export interface PaymentInformation {

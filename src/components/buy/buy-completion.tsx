@@ -1,7 +1,13 @@
 import { useUserContext } from '../../api/contexts/user.context';
-import DfxIcon, { IconSize, IconVariant } from '../../stories/DfxIcon';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../../stories/StyledButton';
+import {
+  DfxIcon,
+  IconSize,
+  IconVariant,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { MailEdit } from '../edit/mail.edit';
 
 interface BuyCompletionProps {

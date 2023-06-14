@@ -1,20 +1,27 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { useUserContext } from '../api/contexts/user.context';
-import StyledModal, { StyledModalType, StyledModalWidth } from '../stories/StyledModal';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 import { AccountType, KycData } from '../api/definitions/kyc';
 import { useKyc } from '../api/hooks/kyc.hook';
 import { useState } from 'react';
 import { ApiError } from '../api/definitions/error';
 import { Utils } from '../utils';
 import Validations from '../validations';
-import StyledButton, { StyledButtonWidth } from '../stories/StyledButton';
-import DfxIcon, { IconColor, IconVariant } from '../stories/DfxIcon';
-import Form from '../stories/form/Form';
-import StyledDropdown from '../stories/form/StyledDropdown';
-import StyledHorizontalStack from '../stories/layout-helpers/StyledHorizontalStack';
-import StyledInput from '../stories/form/StyledInput';
-import StyledSpacer from '../stories/layout-helpers/StyledSpacer';
+import {
+  DfxIcon,
+  Form,
+  IconColor,
+  IconVariant,
+  StyledButton,
+  StyledButtonWidth,
+  StyledDropdown,
+  StyledHorizontalStack,
+  StyledInput,
+  StyledModal,
+  StyledModalType,
+  StyledModalWidth,
+  StyledSpacer,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 
 interface UserDataFormProps {
   onFinish?: () => void;

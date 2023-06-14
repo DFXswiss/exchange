@@ -1,15 +1,22 @@
 import { useWalletContext } from '../contexts/wallet.context';
 import { useSessionContext } from '../contexts/session.context';
-import StyledDataBox from '../stories/StyledDataBox';
-import StyledDataTextRow from '../stories/StyledDataTextRow';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useBlockchain } from '../hooks/blockchain.hook';
-import { CopyButton } from './copy-button';
-import StyledModal, { StyledModalType, StyledModalWidth } from '../stories/StyledModal';
-import DfxIcon, { IconVariant } from '../stories/DfxIcon';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledCheckboxRow from '../stories/StyledCheckboxRow';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../stories/StyledButton';
+import {
+  CopyButton,
+  DfxIcon,
+  IconVariant,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledCheckboxRow,
+  StyledDataBox,
+  StyledDataTextRow,
+  StyledModal,
+  StyledModalType,
+  StyledModalWidth,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { useState } from 'react';
 import { useStore } from '../hooks/store.hook';
 

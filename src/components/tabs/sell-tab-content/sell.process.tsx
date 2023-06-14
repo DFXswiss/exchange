@@ -1,24 +1,14 @@
 import { DeepPartial, useForm, useWatch } from 'react-hook-form';
-import { Asset } from '../../../api/definitions/asset';
+import { Asset, AssetType } from '../../../api/definitions/asset';
 import { BankAccount } from '../../../api/definitions/bank-account';
 import { Fiat } from '../../../api/definitions/fiat';
-import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
-import Form from '../../../stories/form/Form';
-import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
 import { useBuyContext } from '../../../api/contexts/buy.context';
-import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
 import { Utils } from '../../../utils';
-import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import { AddBankAccount } from '../../buy/add-bank-account';
 import Validations from '../../../validations';
-import StyledDropdown from '../../../stories/form/StyledDropdown';
-import DfxIcon, { IconColor, IconSize, IconVariant } from '../../../stories/DfxIcon';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useFiat } from '../../../api/hooks/fiat.hook';
-import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { useMetaMask } from '../../../hooks/metamask.hook';
-import StyledInput from '../../../stories/form/StyledInput';
-import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import useDebounce from '../../../hooks/debounce.hook';
 import { useEffect, useState } from 'react';
 import { Sell } from '../../../api/definitions/sell';
@@ -27,14 +17,32 @@ import { useSell } from '../../../api/hooks/sell.hook';
 import { ApiError } from '../../../api/definitions/error';
 import BigNumber from 'bignumber.js';
 import { KycHint } from '../../kyc-hint';
-import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
-import StyledDataTableRow from '../../../stories/StyledDataTableRow';
-import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
+import {
+  AlignContent,
+  CopyButton,
+  DfxIcon,
+  Form,
+  IconColor,
+  IconSize,
+  IconVariant,
+  SpinnerSize,
+  StyledBankAccountListItem,
+  StyledButton,
+  StyledButtonWidth,
+  StyledCoinListItem,
+  StyledDataTable,
+  StyledDataTableRow,
+  StyledDropdown,
+  StyledHorizontalStack,
+  StyledInput,
+  StyledLoadingSpinner,
+  StyledModalDropdown,
+  StyledSpacer,
+  StyledTabContentWrapper,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { useWalletContext } from '../../../contexts/wallet.context';
-import { CopyButton } from '../../copy-button';
-import StyledHorizontalStack from '../../../stories/layout-helpers/StyledHorizontalStack';
 import { useClipboard } from '../../../hooks/clipboard.hook';
-import StyledLoadingSpinner, { SpinnerSize } from '../../../stories/StyledLoadingSpinner';
 
 interface SellTabContentProcessProps {
   asset?: Asset;
@@ -238,7 +246,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
             modal={{
               heading: 'Select your bank account',
               items: bankAccounts ?? [],
-              itemContent: (b) => <StyledBankAccountListItem bankAccount={b} />,
+              itemContent: (b) => <StyledBankAccountListItem bankAccount={{ label: b.label ?? '', ...b }} />,
               form: (onFormSubmit: (item: BankAccount) => void) => <AddBankAccount onSubmit={onFormSubmit} />,
             }}
           />
@@ -253,6 +261,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                 {asset ? (
                   <StyledCoinListItem
                     asset={asset}
+                    isToken={asset.type === AssetType.TOKEN}
                     protocol={toProtocol(asset.blockchain)}
                     popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
                     onAdd={(svgData) => addContract(asset, svgData, blockchain)}

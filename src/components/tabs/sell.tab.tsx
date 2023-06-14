@@ -2,26 +2,28 @@ import BigNumber from 'bignumber.js';
 import { useAssetContext } from '../../api/contexts/asset.context';
 import { Blockchain } from '../../api/definitions/blockchain';
 import { useBlockchain } from '../../hooks/blockchain.hook';
-import { IconVariant } from '../../stories/DfxIcon';
-import StyledBalanceSelection from '../../stories/StyledBalanceSelection';
-import StyledNetworkSelection from '../../stories/StyledNetworkSelection';
-import { StyledTabProps } from '../../stories/StyledTabContainer';
-import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import { Asset } from '../../api/definitions/asset';
+import { Asset, AssetType } from '../../api/definitions/asset';
 import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuthContext } from '../../api/contexts/auth.context';
 import { useWalletContext } from '../../contexts/wallet.context';
 import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
-import StyledModal from '../../stories/StyledModal';
 import { UserDataForm } from '../user-data-form';
 import { useUserContext } from '../../api/contexts/user.context';
-import { StyledModalType } from '../../stories/StyledModal';
-import { StyledModalColor } from '../../stories/StyledModal';
 import { useSessionContext } from '../../contexts/session.context';
-import StyledTabContentWrapper from '../../stories/StyledTabContentWrapper';
-import StyledButton from '../../stories/StyledButton';
+import {
+  IconVariant,
+  StyledBalanceSelection,
+  StyledButton,
+  StyledHorizontalStack,
+  StyledModal,
+  StyledModalColor,
+  StyledModalType,
+  StyledNetworkSelection,
+  StyledTabContentWrapper,
+  StyledTabProps,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -90,13 +92,16 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
               blockchain
                 ? assetBalances?.map((value) => ({
                     asset: value.asset,
+                    isToken: value.asset.type === AssetType.TOKEN,
                     protocol: toProtocol(blockchain),
                     isSelected: value.asset.id === selectedAsset?.id,
                     balance: value.balance ?? new BigNumber(0),
                   })) ?? []
                 : []
             }
-            onSelectionChanged={setSelectedAsset}
+            onSelectionChanged={(value) =>
+              setSelectedAsset(assetBalances?.find((assetBalance) => assetBalance.asset.id === value.id)?.asset)
+            }
           />
           {!address || !isLoggedIn ? (
             <StyledTabContentWrapper leftBorder>
