@@ -1,4 +1,4 @@
-import { Blockchain } from '../api/definitions/blockchain';
+import { Blockchain } from '@dfx.swiss/react';
 import { MetaMaskChainInterface } from './metamask.hook';
 
 export interface BlockchainInterface {
@@ -14,12 +14,13 @@ export interface BlockchainInterface {
 export enum Protocol {
   ERC_20 = 'ERC-20',
   BEP_20 = 'BEP-20',
+  NONE = '',
 }
 
 // id taken from https://chainlist.org/
 const chainIds: { [id: number]: Blockchain } = {
-  [1]: Blockchain.ETH,
-  [56]: Blockchain.BSC,
+  [1]: Blockchain.ETHEREUM,
+  [56]: Blockchain.BINANCE_SMART_CHAIN,
   [42161]: Blockchain.ARBITRUM,
   [10]: Blockchain.OPTIMISM,
 };
@@ -39,7 +40,7 @@ export function useBlockchain(): BlockchainInterface {
     chainId = `0x${chainId}`;
     const chainName = definitions.stringValue[blockchain];
     switch (blockchain) {
-      case Blockchain.BSC:
+      case Blockchain.BINANCE_SMART_CHAIN:
         return {
           chainId,
           chainName,
@@ -75,7 +76,7 @@ export function useBlockchain(): BlockchainInterface {
           rpcUrls: ['https://mainnet.optimism.io'],
           blockExplorerUrls: ['https://optimistic.etherscan.io/'],
         };
-      case Blockchain.ETH:
+      case Blockchain.ETHEREUM:
       default:
         return undefined;
     }
@@ -83,32 +84,44 @@ export function useBlockchain(): BlockchainInterface {
 
   const definitions = {
     headings: {
-      [Blockchain.ETH]: 'Ethereum mainnet · ERC-20 token',
-      [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
+      [Blockchain.ETHEREUM]: 'Ethereum mainnet · ERC-20 token',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain · BEP-20 token',
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
       [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
+      [Blockchain.BITCOIN]: '',
+      [Blockchain.CARDANO]: '',
+      [Blockchain.DEFICHAIN]: '',
     },
     protocols: {
-      [Blockchain.ETH]: Protocol.ERC_20,
-      [Blockchain.BSC]: Protocol.BEP_20,
+      [Blockchain.ETHEREUM]: Protocol.ERC_20,
+      [Blockchain.BINANCE_SMART_CHAIN]: Protocol.BEP_20,
       [Blockchain.ARBITRUM]: Protocol.ERC_20,
       [Blockchain.OPTIMISM]: Protocol.ERC_20,
       [Blockchain.POLYGON]: Protocol.ERC_20,
+      [Blockchain.BITCOIN]: Protocol.NONE,
+      [Blockchain.CARDANO]: Protocol.NONE,
+      [Blockchain.DEFICHAIN]: Protocol.NONE,
     },
     mainToken: {
-      [Blockchain.ETH]: 'ETH',
-      [Blockchain.BSC]: 'BNB',
+      [Blockchain.ETHEREUM]: 'ETH',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'BNB',
       [Blockchain.ARBITRUM]: 'ETH',
       [Blockchain.OPTIMISM]: 'ETH',
       [Blockchain.POLYGON]: 'MATIC',
+      [Blockchain.BITCOIN]: '',
+      [Blockchain.CARDANO]: '',
+      [Blockchain.DEFICHAIN]: '',
     },
     stringValue: {
-      [Blockchain.ETH]: 'Ethereum',
-      [Blockchain.BSC]: 'Binance Smart Chain',
+      [Blockchain.ETHEREUM]: 'Ethereum',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain',
       [Blockchain.ARBITRUM]: 'Arbitrum',
       [Blockchain.OPTIMISM]: 'Optimism',
       [Blockchain.POLYGON]: 'Polygon (not yet supported)',
+      [Blockchain.BITCOIN]: '',
+      [Blockchain.CARDANO]: '',
+      [Blockchain.DEFICHAIN]: '',
     },
   };
 

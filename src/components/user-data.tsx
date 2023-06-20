@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKycHelper } from '../hooks/kyc-helper.hook';
 import {
@@ -16,6 +15,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { Utils } from '../utils';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
+import { useUserContext } from '@dfx.swiss/react';
 
 export function UserData(): JSX.Element {
   const { user, refLink } = useUserContext();

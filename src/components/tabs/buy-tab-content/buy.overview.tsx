@@ -1,9 +1,9 @@
 import { StyledCoinList, StyledCoinListItem, StyledVerticalStack } from '@dfx.swiss/react-components';
-import { useAssetContext } from '../../../api/contexts/asset.context';
-import { Asset, AssetType } from '../../../api/definitions/asset';
 import { useWalletContext } from '../../../contexts/wallet.context';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useMetaMask } from '../../../hooks/metamask.hook';
+import { Asset, useAssetContext } from '@dfx.swiss/react';
+import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
 
 interface BuyTabContentOverviewProps {
   onAssetClicked: (asset: Asset) => void;

@@ -9,9 +9,9 @@ import {
   StyledInfoText,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Fiat } from '../../api/definitions/fiat';
 import { useClipboard } from '../../hooks/clipboard.hook';
 import { GiroCode } from './giro-code';
+import { Fiat } from '@dfx.swiss/react';
 
 export interface PaymentInformation {
   iban: string;

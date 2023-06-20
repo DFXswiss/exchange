@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 import { DeepPartial, useForm, useWatch } from 'react-hook-form';
-import { useBuyContext } from '../../../api/contexts/buy.context';
-import { Asset, AssetType } from '../../../api/definitions/asset';
-import { Buy } from '../../../api/definitions/buy';
-import { Fiat } from '../../../api/definitions/fiat';
 import {
   DfxIcon,
   Form,
@@ -27,11 +23,12 @@ import { useKycHelper } from '../../../hooks/kyc-helper.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import { BuyCompletion } from '../../buy/buy-completion';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
-import { useFiat } from '../../../api/hooks/fiat.hook';
 import { PaymentInformation, PaymentInformationContent } from '../../buy/payment-information';
 import { useMetaMask } from '../../../hooks/metamask.hook';
 import { KycHint } from '../../kyc-hint';
 import { useWalletContext } from '../../../contexts/wallet.context';
+import { Asset, Buy, Fiat, useBuyContext, useFiat } from '@dfx.swiss/react';
+import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;

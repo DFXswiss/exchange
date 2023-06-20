@@ -1,16 +1,10 @@
 import BigNumber from 'bignumber.js';
-import { useAssetContext } from '../../api/contexts/asset.context';
-import { Blockchain } from '../../api/definitions/blockchain';
 import { useBlockchain } from '../../hooks/blockchain.hook';
-import { Asset, AssetType } from '../../api/definitions/asset';
 import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useEffect, useMemo, useState } from 'react';
-import { useAuthContext } from '../../api/contexts/auth.context';
 import { useWalletContext } from '../../contexts/wallet.context';
 import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
 import { UserDataForm } from '../user-data-form';
-import { useUserContext } from '../../api/contexts/user.context';
-import { useSessionContext } from '../../contexts/session.context';
 import {
   IconVariant,
   StyledBalanceSelection,
@@ -24,6 +18,15 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
+import {
+  Asset,
+  Blockchain,
+  useAssetContext,
+  useAuthContext,
+  useSessionContext,
+  useUserContext,
+} from '@dfx.swiss/react';
+import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -54,7 +57,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
 
   useEffect(() => {
     if (!sellableAssets) return;
-    Promise.all(sellableAssets.map((asset) => readBalance(asset, address)))
+    Promise.all(sellableAssets.map((asset: Asset) => readBalance(asset, address)))
       .then((balances) => balances.sort(sortByBalanceAndSortOrder))
       .then(setAssetBalances)
       .catch(console.error);

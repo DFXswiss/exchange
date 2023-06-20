@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { useUserContext } from '../../api/contexts/user.context';
 import {
   Form,
   IconColor,
@@ -13,6 +12,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { Utils } from '../../utils';
 import Validations from '../../validations';
+import { useUserContext } from '@dfx.swiss/react';
 
 interface MailEditProps {
   infoText?: string;

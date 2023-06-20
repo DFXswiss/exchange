@@ -1,9 +1,5 @@
 import { useForm, useWatch } from 'react-hook-form';
-import { useUserContext } from '../api/contexts/user.context';
-import { AccountType, KycData } from '../api/definitions/kyc';
-import { useKyc } from '../api/hooks/kyc.hook';
 import { useState } from 'react';
-import { ApiError } from '../api/definitions/error';
 import { Utils } from '../utils';
 import Validations from '../validations';
 import {
@@ -22,6 +18,7 @@ import {
   StyledSpacer,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
+import { AccountType, ApiError, KycData, useKyc, useUserContext } from '@dfx.swiss/react';
 
 interface UserDataFormProps {
   onFinish?: () => void;
