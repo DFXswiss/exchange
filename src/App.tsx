@@ -1,14 +1,22 @@
 import { DfxContextProvider } from '@dfx.swiss/react';
 import { Main } from './components/main';
-import { WalletContextProvider } from './contexts/wallet.context';
+import { WalletContextProvider, useWalletContext } from './contexts/wallet.context';
 
 function App() {
   return (
     <WalletContextProvider>
-      <DfxContextProvider api={{}} data={{}}>
-        <Main />
-      </DfxContextProvider>
+      <AppWrapper />
     </WalletContextProvider>
+  );
+}
+
+function AppWrapper(): JSX.Element {
+  const { signMessage, connect, address, blockchain, isConnected } = useWalletContext();
+
+  return (
+    <DfxContextProvider api={{ signMessage, connect }} data={{ address, blockchain, isConnected }}>
+      <Main />
+    </DfxContextProvider>
   );
 }
 
