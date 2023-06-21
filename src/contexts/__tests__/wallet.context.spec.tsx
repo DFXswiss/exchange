@@ -1,6 +1,6 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import { Blockchain } from '../../api/definitions/blockchain';
-import { useMetaMask } from '../../hooks/metamask.hook';
+import { Blockchain } from '@dfx.swiss/react';
+import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
 import { useWalletContext, WalletContextProvider } from '../wallet.context';
 
 jest.mock('../../hooks/metamask.hook');
@@ -38,6 +38,9 @@ interface MockInput {
   isInstalled?: boolean;
   address?: string;
   blockchain?: Blockchain;
+  addContract?: boolean;
+  balance?: AssetBalance;
+  txId?: string;
 }
 
 interface Mock {
@@ -45,8 +48,12 @@ interface Mock {
   register: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
+  requestChangeToBlockchain: jest.Mock<any, any>;
   requestBalance: jest.Mock<any, any>;
   sign: jest.Mock<any, any>;
+  addContract: jest.Mock<any, any>;
+  readBalance: jest.Mock<any, any>;
+  createTransaction: jest.Mock<any, any>;
 }
 
 interface Setup {
@@ -60,8 +67,12 @@ interface Setup {
   register: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
+  requestChangeToBlockchain: jest.Mock<any, any>;
   requestBalance: jest.Mock<any, any>;
   sign: jest.Mock<any, any>;
+  addContract: jest.Mock<any, any>;
+  readBalance: jest.Mock<any, any>;
+  createTransaction: jest.Mock<any, any>;
 }
 
 describe('WalletContextProvider', () => {
@@ -71,15 +82,23 @@ describe('WalletContextProvider', () => {
     requestAccount,
     requestBlockchain,
     requestBalance,
+    requestChangeToBlockchain,
     sign,
+    addContract,
+    readBalance,
+    createTransaction,
   }: Mock): Setup {
     mockUseMetaMask.mockImplementation(() => ({
       isInstalled,
       register,
       requestAccount,
       requestBlockchain,
+      requestChangeToBlockchain,
       requestBalance,
       sign,
+      addContract,
+      readBalance,
+      createTransaction,
     }));
 
     const { getByTestId } = render(
@@ -99,18 +118,26 @@ describe('WalletContextProvider', () => {
       requestAccount,
       requestBlockchain,
       requestBalance,
+      requestChangeToBlockchain,
       sign,
+      addContract,
+      readBalance,
+      createTransaction,
     };
   }
 
-  function createMock({ isInstalled, address, blockchain }: MockInput = {}): Mock {
+  function createMock({ isInstalled, address, blockchain, addContract, balance, txId }: MockInput = {}): Mock {
     return {
       isInstalled: isInstalled ?? true,
       register: jest.fn(),
       requestAccount: jest.fn(() => address),
       requestBlockchain: jest.fn(() => blockchain),
+      requestChangeToBlockchain: jest.fn(),
       requestBalance: jest.fn(() => Promise.resolve('0')),
       sign: jest.fn(),
+      addContract: jest.fn(() => addContract),
+      readBalance: jest.fn(() => balance),
+      createTransaction: jest.fn(() => txId),
     };
   }
 
@@ -122,7 +149,7 @@ describe('WalletContextProvider', () => {
       return mockAndRenderTestElements(createMock({ isInstalled: false }));
     },
     connectSuccess: (): Setup => {
-      return mockAndRenderTestElements(createMock({ address: 'test-address', blockchain: Blockchain.ETH }));
+      return mockAndRenderTestElements(createMock({ address: 'test-address', blockchain: Blockchain.ETHEREUM }));
     },
     connectFail: (): Setup => {
       return mockAndRenderTestElements(createMock());
@@ -159,7 +186,7 @@ describe('WalletContextProvider', () => {
       expect(requestAccount).toBeCalled();
       expect(requestBlockchain).toBeCalled();
       expect(address.textContent).toEqual('test-address');
-      expect(blockchain.textContent).toEqual(Blockchain.ETH);
+      expect(blockchain.textContent).toEqual(Blockchain.ETHEREUM);
     });
   });
 
