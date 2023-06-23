@@ -21,23 +21,10 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
     Blockchain.POLYGON,
   ];
 
-  const blockchainToOrder: Record<string, number> = {
-    [Blockchain.ETHEREUM]: 0,
-    [Blockchain.ARBITRUM]: 1,
-    [Blockchain.BINANCE_SMART_CHAIN]: 2,
-    [Blockchain.OPTIMISM]: 3,
-    [Blockchain.POLYGON]: 4,
-  };
-
-  function orderByBlockchain(a: [Blockchain, Asset[]], b: [Blockchain, Asset[]]): number {
-    return blockchainToOrder[a[0]] - blockchainToOrder[b[0]];
-  }
-
   return (
     <StyledVerticalStack gap={0}>
       {Array.from(assets.entries())
         .filter(([blockchain]) => availableChains.includes(blockchain))
-        .sort(orderByBlockchain)
         .map(([blockchain, assets]) => (
           <StyledCoinList key={blockchain} heading={toHeader(blockchain)}>
             {assets
