@@ -4,8 +4,7 @@ import { Buffer } from 'buffer';
 import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
 import { Contract } from 'web3-eth-contract';
-import { Asset, Blockchain } from '@dfx.swiss/react';
-import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
+import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
 
 export interface MetaMaskInterface {
   isInstalled: boolean;

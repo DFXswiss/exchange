@@ -2,8 +2,7 @@ import { StyledCoinList, StyledCoinListItem, StyledVerticalStack } from '@dfx.sw
 import { useWalletContext } from '../../../contexts/wallet.context';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useMetaMask } from '../../../hooks/metamask.hook';
-import { Asset, Blockchain, useAssetContext } from '@dfx.swiss/react';
-import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
+import { Asset, AssetType, Blockchain, useAssetContext } from '@dfx.swiss/react';
 
 interface BuyTabContentOverviewProps {
   onAssetClicked: (asset: Asset) => void;
@@ -22,15 +21,12 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
     Blockchain.POLYGON,
   ];
 
-  const blockchainToOrder: Record<Blockchain, number> = {
+  const blockchainToOrder: Record<string, number> = {
     [Blockchain.ETHEREUM]: 0,
     [Blockchain.ARBITRUM]: 1,
     [Blockchain.BINANCE_SMART_CHAIN]: 2,
     [Blockchain.OPTIMISM]: 3,
     [Blockchain.POLYGON]: 4,
-    [Blockchain.DEFICHAIN]: Infinity,
-    [Blockchain.BITCOIN]: Infinity,
-    [Blockchain.CARDANO]: Infinity,
   };
 
   function orderByBlockchain(a: [Blockchain, Asset[]], b: [Blockchain, Asset[]]): number {

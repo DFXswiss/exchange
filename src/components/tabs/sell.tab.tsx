@@ -20,13 +20,13 @@ import {
 } from '@dfx.swiss/react-components';
 import {
   Asset,
+  AssetType,
   Blockchain,
   useAssetContext,
   useAuthContext,
   useSessionContext,
   useUserContext,
 } from '@dfx.swiss/react';
-import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();

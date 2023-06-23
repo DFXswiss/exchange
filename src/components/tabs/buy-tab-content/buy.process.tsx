@@ -27,8 +27,7 @@ import { PaymentInformation, PaymentInformationContent } from '../../buy/payment
 import { useMetaMask } from '../../../hooks/metamask.hook';
 import { KycHint } from '../../kyc-hint';
 import { useWalletContext } from '../../../contexts/wallet.context';
-import { Asset, Buy, Fiat, useBuyContext, useFiat } from '@dfx.swiss/react';
-import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
+import { Asset, AssetType, Buy, Fiat, useBuyContext, useFiat } from '@dfx.swiss/react';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;

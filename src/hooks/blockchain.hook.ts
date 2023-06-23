@@ -14,7 +14,6 @@ export interface BlockchainInterface {
 export enum Protocol {
   ERC_20 = 'ERC-20',
   BEP_20 = 'BEP-20',
-  NONE = '',
 }
 
 // id taken from https://chainlist.org/
@@ -24,6 +23,13 @@ const chainIds: { [id: number]: Blockchain } = {
   [42161]: Blockchain.ARBITRUM,
   [10]: Blockchain.OPTIMISM,
 };
+
+interface BlockchainDefinitions {
+  headings: Record<string, string>;
+  protocols: Record<string, Protocol>;
+  mainToken: Record<string, string>;
+  stringValue: Record<string, string>;
+}
 
 export function useBlockchain(): BlockchainInterface {
   function toBlockchain(chainId: string | number): Blockchain | undefined {
@@ -82,16 +88,13 @@ export function useBlockchain(): BlockchainInterface {
     }
   }
 
-  const definitions = {
+  const definitions: BlockchainDefinitions = {
     headings: {
       [Blockchain.ETHEREUM]: 'Ethereum mainnet · ERC-20 token',
       [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain · BEP-20 token',
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
       [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
-      [Blockchain.BITCOIN]: '',
-      [Blockchain.CARDANO]: '',
-      [Blockchain.DEFICHAIN]: '',
     },
     protocols: {
       [Blockchain.ETHEREUM]: Protocol.ERC_20,
@@ -99,9 +102,6 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: Protocol.ERC_20,
       [Blockchain.OPTIMISM]: Protocol.ERC_20,
       [Blockchain.POLYGON]: Protocol.ERC_20,
-      [Blockchain.BITCOIN]: Protocol.NONE,
-      [Blockchain.CARDANO]: Protocol.NONE,
-      [Blockchain.DEFICHAIN]: Protocol.NONE,
     },
     mainToken: {
       [Blockchain.ETHEREUM]: 'ETH',
@@ -109,9 +109,6 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: 'ETH',
       [Blockchain.OPTIMISM]: 'ETH',
       [Blockchain.POLYGON]: 'MATIC',
-      [Blockchain.BITCOIN]: '',
-      [Blockchain.CARDANO]: '',
-      [Blockchain.DEFICHAIN]: '',
     },
     stringValue: {
       [Blockchain.ETHEREUM]: 'Ethereum',
@@ -119,9 +116,6 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: 'Arbitrum',
       [Blockchain.OPTIMISM]: 'Optimism',
       [Blockchain.POLYGON]: 'Polygon (not yet supported)',
-      [Blockchain.BITCOIN]: '',
-      [Blockchain.CARDANO]: '',
-      [Blockchain.DEFICHAIN]: '',
     },
   };
 

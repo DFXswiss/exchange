@@ -35,8 +35,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { useWalletContext } from '../../../contexts/wallet.context';
 import { useClipboard } from '../../../hooks/clipboard.hook';
-import { ApiError, Asset, BankAccount, Fiat, Sell, useBuyContext, useFiat, useSell } from '@dfx.swiss/react';
-import { AssetType } from '@dfx.swiss/react/dist/definitions/asset';
+import { ApiError, Asset, AssetType, BankAccount, Fiat, Sell, useBuyContext, useFiat, useSell } from '@dfx.swiss/react';
 
 interface SellTabContentProcessProps {
   asset?: Asset;
