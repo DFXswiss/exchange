@@ -1,11 +1,10 @@
 import Web3 from 'web3';
-import { Blockchain } from '../api/definitions/blockchain';
 import { useBlockchain } from './blockchain.hook';
 import { Buffer } from 'buffer';
 import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
-import { Asset, AssetType } from '../api/definitions/asset';
 import { Contract } from 'web3-eth-contract';
+import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
 
 export interface MetaMaskInterface {
   isInstalled: boolean;

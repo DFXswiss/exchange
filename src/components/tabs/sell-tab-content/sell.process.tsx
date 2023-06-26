@@ -1,20 +1,12 @@
 import { DeepPartial, useForm, useWatch } from 'react-hook-form';
-import { Asset, AssetType } from '../../../api/definitions/asset';
-import { BankAccount } from '../../../api/definitions/bank-account';
-import { Fiat } from '../../../api/definitions/fiat';
-import { useBuyContext } from '../../../api/contexts/buy.context';
 import { Utils } from '../../../utils';
 import { AddBankAccount } from '../../buy/add-bank-account';
 import Validations from '../../../validations';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
-import { useFiat } from '../../../api/hooks/fiat.hook';
 import { useMetaMask } from '../../../hooks/metamask.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import { useEffect, useState } from 'react';
-import { Sell } from '../../../api/definitions/sell';
 import { useKycHelper } from '../../../hooks/kyc-helper.hook';
-import { useSell } from '../../../api/hooks/sell.hook';
-import { ApiError } from '../../../api/definitions/error';
 import BigNumber from 'bignumber.js';
 import { KycHint } from '../../kyc-hint';
 import {
@@ -43,6 +35,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { useWalletContext } from '../../../contexts/wallet.context';
 import { useClipboard } from '../../../hooks/clipboard.hook';
+import { ApiError, Asset, AssetType, BankAccount, Fiat, Sell, useBuyContext, useFiat, useSell } from '@dfx.swiss/react';
 
 interface SellTabContentProcessProps {
   asset?: Asset;

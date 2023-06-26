@@ -1,4 +1,4 @@
-import { Blockchain } from '../api/definitions/blockchain';
+import { Blockchain } from '@dfx.swiss/react';
 import { MetaMaskChainInterface } from './metamask.hook';
 
 export interface BlockchainInterface {
@@ -18,11 +18,18 @@ export enum Protocol {
 
 // id taken from https://chainlist.org/
 const chainIds: { [id: number]: Blockchain } = {
-  [1]: Blockchain.ETH,
-  [56]: Blockchain.BSC,
+  [1]: Blockchain.ETHEREUM,
+  [56]: Blockchain.BINANCE_SMART_CHAIN,
   [42161]: Blockchain.ARBITRUM,
   [10]: Blockchain.OPTIMISM,
 };
+
+interface BlockchainDefinitions {
+  headings: Record<string, string>;
+  protocols: Record<string, Protocol>;
+  mainToken: Record<string, string>;
+  stringValue: Record<string, string>;
+}
 
 export function useBlockchain(): BlockchainInterface {
   function toBlockchain(chainId: string | number): Blockchain | undefined {
@@ -39,7 +46,7 @@ export function useBlockchain(): BlockchainInterface {
     chainId = `0x${chainId}`;
     const chainName = definitions.stringValue[blockchain];
     switch (blockchain) {
-      case Blockchain.BSC:
+      case Blockchain.BINANCE_SMART_CHAIN:
         return {
           chainId,
           chainName,
@@ -75,37 +82,37 @@ export function useBlockchain(): BlockchainInterface {
           rpcUrls: ['https://mainnet.optimism.io'],
           blockExplorerUrls: ['https://optimistic.etherscan.io/'],
         };
-      case Blockchain.ETH:
+      case Blockchain.ETHEREUM:
       default:
         return undefined;
     }
   }
 
-  const definitions = {
+  const definitions: BlockchainDefinitions = {
     headings: {
-      [Blockchain.ETH]: 'Ethereum mainnet · ERC-20 token',
-      [Blockchain.BSC]: 'Binance Smart Chain · BEP-20 token',
+      [Blockchain.ETHEREUM]: 'Ethereum mainnet · ERC-20 token',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain · BEP-20 token',
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
       [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
     },
     protocols: {
-      [Blockchain.ETH]: Protocol.ERC_20,
-      [Blockchain.BSC]: Protocol.BEP_20,
+      [Blockchain.ETHEREUM]: Protocol.ERC_20,
+      [Blockchain.BINANCE_SMART_CHAIN]: Protocol.BEP_20,
       [Blockchain.ARBITRUM]: Protocol.ERC_20,
       [Blockchain.OPTIMISM]: Protocol.ERC_20,
       [Blockchain.POLYGON]: Protocol.ERC_20,
     },
     mainToken: {
-      [Blockchain.ETH]: 'ETH',
-      [Blockchain.BSC]: 'BNB',
+      [Blockchain.ETHEREUM]: 'ETH',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'BNB',
       [Blockchain.ARBITRUM]: 'ETH',
       [Blockchain.OPTIMISM]: 'ETH',
       [Blockchain.POLYGON]: 'MATIC',
     },
     stringValue: {
-      [Blockchain.ETH]: 'Ethereum',
-      [Blockchain.BSC]: 'Binance Smart Chain',
+      [Blockchain.ETHEREUM]: 'Ethereum',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain',
       [Blockchain.ARBITRUM]: 'Arbitrum',
       [Blockchain.OPTIMISM]: 'Optimism',
       [Blockchain.POLYGON]: 'Polygon (not yet supported)',

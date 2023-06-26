@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { useUserContext } from '../api/contexts/user.context';
-import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 import DfxTitleSection from './title-section';
 import { useBuyTab } from './tabs/buy.tab';
@@ -25,6 +23,7 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
+import { useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function Main(): JSX.Element {
   const { isConnected } = useWalletContext();

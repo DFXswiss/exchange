@@ -1,8 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { Blockchain } from '../api/definitions/blockchain';
 import { useBlockchain } from '../hooks/blockchain.hook';
 import { useMetaMask } from '../hooks/metamask.hook';
 import { Utils } from '../utils';
+import { Blockchain } from '@dfx.swiss/react';
 
 interface WalletInterface {
   address?: string;

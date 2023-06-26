@@ -1,5 +1,4 @@
 import { useWalletContext } from '../contexts/wallet.context';
-import { useSessionContext } from '../contexts/session.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useBlockchain } from '../hooks/blockchain.hook';
 import {
@@ -19,6 +18,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { useState } from 'react';
 import { useStore } from '../hooks/store.hook';
+import { useSessionContext } from '@dfx.swiss/react';
 
 export function WalletBox(): JSX.Element {
   const { isConnected } = useWalletContext();

@@ -1,4 +1,3 @@
-import { useUserContext } from '../../api/contexts/user.context';
 import {
   DfxIcon,
   IconSize,
@@ -9,6 +8,7 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { MailEdit } from '../edit/mail.edit';
+import { useUserContext } from '@dfx.swiss/react';
 
 interface BuyCompletionProps {
   onCancel: () => void;
