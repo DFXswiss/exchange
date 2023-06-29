@@ -174,7 +174,7 @@ export function useMetaMask(): MetaMaskInterface {
       const decimals = await tokenContract.methods.decimals().call();
       const adjustedAmount = amount.multipliedBy(Math.pow(10, decimals));
       return tokenContract.methods
-        .transfer(to, adjustedAmount.toString())
+        .transfer(to, adjustedAmount)
         .send({ from })
         .then((value: any) => value.transactionHash);
     }
