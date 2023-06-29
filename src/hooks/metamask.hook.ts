@@ -2,6 +2,7 @@ import Web3 from 'web3';
 import { Blockchain } from '../api/definitions/blockchain';
 import { useBlockchain } from './blockchain.hook';
 import { Buffer } from 'buffer';
+import BN from 'bn.js';
 import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
 import { Asset, AssetType } from '../api/definitions/asset';
@@ -173,7 +174,7 @@ export function useMetaMask(): MetaMaskInterface {
     } else {
       const tokenContract = createContract(asset.chainId);
       const decimals = await tokenContract.methods.decimals().call();
-      const adjustedAmount = amount.multipliedBy(Math.pow(10, decimals));
+      const adjustedAmount = new BN(amount.multipliedBy(Math.pow(10, decimals)).toString());
       return tokenContract.methods
         .transfer(to, adjustedAmount)
         .send({ from })
