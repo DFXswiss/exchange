@@ -10,9 +10,7 @@ import {
   StyledInput,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Utils } from '../../utils';
-import Validations from '../../validations';
-import { useUserContext } from '@dfx.swiss/react';
+import { useUserContext, Utils, Validations } from '@dfx.swiss/react';
 
 interface MailEditProps {
   infoText?: string;

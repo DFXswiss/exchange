@@ -13,9 +13,8 @@ import {
   StyledModalColor,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Utils } from '../utils';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
-import { useUserContext } from '@dfx.swiss/react';
+import { useUserContext, Utils } from '@dfx.swiss/react';
 
 export function UserData(): JSX.Element {
   const { user, refLink } = useUserContext();

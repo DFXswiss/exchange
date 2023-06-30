@@ -8,9 +8,7 @@ import {
   StyledSpacer,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Utils } from '../../utils';
-import Validations from '../../validations';
-import { BankAccount, CreateBankAccount, useBuyContext, useUserContext } from '@dfx.swiss/react';
+import { BankAccount, CreateBankAccount, useBuyContext, useUserContext, Utils, Validations } from '@dfx.swiss/react';
 
 interface AddBankAccountProps {
   onSubmit: (bankAccount: BankAccount) => void;

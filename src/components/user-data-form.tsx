@@ -1,7 +1,5 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { useState } from 'react';
-import { Utils } from '../utils';
-import Validations from '../validations';
 import {
   DfxIcon,
   Form,
@@ -18,7 +16,7 @@ import {
   StyledSpacer,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { AccountType, ApiError, KycData, useKyc, useUserContext } from '@dfx.swiss/react';
+import { AccountType, ApiError, KycData, useKyc, useUserContext, Utils, Validations } from '@dfx.swiss/react';
 
 interface UserDataFormProps {
   onFinish?: () => void;
