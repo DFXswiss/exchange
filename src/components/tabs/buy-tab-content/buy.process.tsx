@@ -17,8 +17,6 @@ import {
   StyledTabContentWrapper,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Utils } from '../../../utils';
-import Validations from '../../../validations';
 import { useKycHelper } from '../../../hooks/kyc-helper.hook';
 import useDebounce from '../../../hooks/debounce.hook';
 import { BuyCompletion } from '../../buy/buy-completion';
@@ -27,7 +25,7 @@ import { PaymentInformation, PaymentInformationContent } from '../../buy/payment
 import { useMetaMask } from '../../../hooks/metamask.hook';
 import { KycHint } from '../../kyc-hint';
 import { useWalletContext } from '../../../contexts/wallet.context';
-import { Asset, AssetType, Buy, Fiat, useBuyContext, useFiat } from '@dfx.swiss/react';
+import { Asset, AssetType, Buy, Fiat, useBuy, useFiat, Utils, Validations } from '@dfx.swiss/react';
 
 interface BuyTabContentProcessProps {
   asset?: Asset;
@@ -41,7 +39,7 @@ interface FormData {
 }
 
 export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProps): JSX.Element {
-  const { currencies, receiveFor } = useBuyContext();
+  const { currencies, receiveFor } = useBuy();
   const { blockchain } = useWalletContext();
   const { isAllowedToBuy } = useKycHelper();
   const { toProtocol } = useBlockchain();

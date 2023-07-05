@@ -14,7 +14,7 @@ function AppWrapper(): JSX.Element {
   const { signMessage, connect, address, blockchain, isConnected } = useWalletContext();
 
   return (
-    <DfxContextProvider api={{ signMessage, connect }} data={{ address, blockchain, isConnected }}>
+    <DfxContextProvider api={{ signMessage, connect }} data={{ address, blockchain, isConnected, walletId: 9 }}>
       <Main />
     </DfxContextProvider>
   );
