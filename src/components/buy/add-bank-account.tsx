@@ -8,7 +8,14 @@ import {
   StyledSpacer,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { BankAccount, CreateBankAccount, useBuyContext, useUserContext, Utils, Validations } from '@dfx.swiss/react';
+import {
+  BankAccount,
+  CreateBankAccount,
+  useBankAccountContext,
+  useUserContext,
+  Utils,
+  Validations,
+} from '@dfx.swiss/react';
 
 interface AddBankAccountProps {
   onSubmit: (bankAccount: BankAccount) => void;
@@ -20,7 +27,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<CreateBankAccount>();
-  const { createAccount, isAccountLoading } = useBuyContext();
+  const { createAccount, isAccountLoading } = useBankAccountContext();
   const { countries } = useUserContext();
 
   async function createBankAccount(newAccount: CreateBankAccount): Promise<void> {

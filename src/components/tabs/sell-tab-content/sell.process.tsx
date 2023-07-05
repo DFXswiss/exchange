@@ -40,7 +40,7 @@ import {
   BankAccount,
   Fiat,
   Sell,
-  useBuyContext,
+  useBankAccountContext,
   useFiat,
   useSell,
   Utils,
@@ -67,14 +67,14 @@ interface PaymentInformation {
 }
 
 export function SellTabContentProcess({ asset, balance }: SellTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts, updateAccount } = useBuyContext();
+  const { bankAccounts, updateAccount } = useBankAccountContext();
   const { blockchain } = useWalletContext();
   const { toProtocol } = useBlockchain();
   const { toDescription, toSymbol } = useFiat();
   const { address } = useWalletContext();
   const { addContract, createTransaction } = useMetaMask();
   const { isAllowedToSell } = useKycHelper();
-  const { receiveFor } = useSell();
+  const { currencies, receiveFor } = useSell();
   const { copy } = useClipboard();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
