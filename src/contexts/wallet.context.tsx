@@ -10,6 +10,9 @@ interface WalletInterface {
   isInstalled: boolean;
   isConnected: boolean;
   connect: () => Promise<string>;
+  isLoginRequested: boolean;
+  requestLogin: () => Promise<void>;
+  loginCompleted: () => void;
   signMessage: (message: string, address: string) => Promise<string>;
 }
 
@@ -23,6 +26,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [address, setAddress] = useState<string>();
   const [blockchain, setBlockchain] = useState<Blockchain>();
   const [balance, setBalance] = useState<string>();
+  const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
   const { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
   const { toMainToken } = useBlockchain();
 
@@ -54,6 +58,15 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     return account;
   }
 
+  async function requestLogin(): Promise<void> {
+    if (!isConnected) await connect();
+    setIsLoginRequested(true);
+  }
+
+  function loginCompleted() {
+    setIsLoginRequested(false);
+  }
+
   async function signMessage(message: string, address: string): Promise<string> {
     try {
       return await sign(address, message);
@@ -73,6 +86,9 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     isInstalled,
     isConnected,
     connect,
+    requestLogin,
+    loginCompleted,
+    isLoginRequested,
     signMessage,
   };
 

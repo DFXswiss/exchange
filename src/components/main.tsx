@@ -27,7 +27,8 @@ import { useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function Main(): JSX.Element {
   const { isConnected } = useWalletContext();
-  const { isProcessing, needsSignUp, login, signUp } = useSessionContext();
+  const { isProcessing, needsSignUp, signUp } = useSessionContext();
+  const { requestLogin } = useWalletContext();
   const { register } = useUserContext();
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
@@ -125,7 +126,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask" onClick={login} />
+                  <StyledButton label="Connect to Metamask" onClick={requestLogin} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>

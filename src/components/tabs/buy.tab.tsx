@@ -3,6 +3,7 @@ import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { BuyTabContentProcess } from './buy-tab-content/buy.process';
 import { IconVariant, StyledTabProps } from '@dfx.swiss/react-components';
 import { Asset, useSessionContext } from '@dfx.swiss/react';
+import { useWalletContext } from '../../contexts/wallet.context';
 
 enum BuyTabStep {
   OVERVIEW,
@@ -28,7 +29,8 @@ interface BuyTabContentProps {
 
 function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element {
   const [currentAsset, setCurrentAsset] = useState<Asset>();
-  const { isLoggedIn, login } = useSessionContext();
+  const { requestLogin } = useWalletContext();
+  const { isLoggedIn } = useSessionContext();
 
   switch (step) {
     case BuyTabStep.OVERVIEW:
@@ -40,7 +42,7 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
               setCurrentAsset(asset);
               onStepUpdate(BuyTabStep.BUY_PROCESS);
             } else {
-              login();
+              requestLogin();
             }
           }}
         />

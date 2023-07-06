@@ -41,9 +41,9 @@ export function useSellTab(): StyledTabProps {
 }
 
 function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
-  const { isLoggedIn, login } = useSessionContext();
+  const { isLoggedIn } = useSessionContext();
   const { session } = useAuthContext();
-  const { blockchain, address } = useWalletContext();
+  const { blockchain, address, requestLogin } = useWalletContext();
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
   const { requestChangeToBlockchain, readBalance } = useMetaMask();
@@ -112,12 +112,12 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
                 {!address ? (
                   <>
                     <p>Please connect your Metamask in order to proceed</p>
-                    <StyledButton label="Connect to Metamask" onClick={login} />
+                    <StyledButton label="Connect to Metamask" onClick={requestLogin} />
                   </>
                 ) : (
                   <>
                     <p>Please reconnect to DFX in order to proceed</p>
-                    <StyledButton label="Reconnect to DFX" onClick={login} />
+                    <StyledButton label="Reconnect to DFX" onClick={requestLogin} />
                   </>
                 )}
               </StyledVerticalStack>

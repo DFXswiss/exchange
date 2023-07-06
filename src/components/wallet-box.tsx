@@ -16,12 +16,12 @@ import {
   StyledModalWidth,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '../hooks/store.hook';
 import { useSessionContext } from '@dfx.swiss/react';
 
 export function WalletBox(): JSX.Element {
-  const { isConnected } = useWalletContext();
+  const { isConnected, isLoginRequested, loginCompleted } = useWalletContext();
   const { address, blockchain, isLoggedIn, login, logout } = useSessionContext();
   const { copy } = useClipboard();
   const { toString } = useBlockchain();
@@ -33,12 +33,22 @@ export function WalletBox(): JSX.Element {
     return `${address?.slice(0, 6)}...${address?.slice(address?.length - 5)}`;
   }
 
+  useEffect(() => {
+    if (isLoginRequested && !isLoggedIn) {
+      handleLogin();
+    }
+  }, [isLoginRequested, isLoggedIn]);
+
   async function handleLogin() {
     if (showsSignatureInfo.get()) {
       setShowModal(true);
     } else {
-      login();
+      return doLogin();
     }
+  }
+
+  function doLogin(): Promise<void> {
+    return login().finally(loginCompleted);
   }
 
   return isConnected ? (
@@ -66,7 +76,7 @@ export function WalletBox(): JSX.Element {
             onClick={() => {
               setShowModal(false);
               showsSignatureInfo.set(!isChecked);
-              login();
+              doLogin();
             }}
           />
         </StyledVerticalStack>
