@@ -69,6 +69,7 @@ export function UserDataForm({ onFinish }: UserDataFormProps): JSX.Element {
     organizationZip: Validations.Required,
     organizationCountry: Validations.Required,
   });
+
   return (
     <>
       {/* MODAL */}

@@ -7,7 +7,7 @@ import { Contract } from 'web3-eth-contract';
 import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
 
 export interface MetaMaskInterface {
-  isInstalled: boolean;
+  isInstalled: () => boolean;
   register: (
     onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
@@ -41,11 +41,16 @@ export interface MetaMaskChainInterface {
 }
 
 export function useMetaMask(): MetaMaskInterface {
-  const { ethereum } = window as any;
   const web3 = new Web3(Web3.givenProvider);
   const { toBlockchain, toChainId, toChainObject } = useBlockchain();
 
-  const isInstalled = Boolean(ethereum && ethereum.isMetaMask);
+  function ethereum() {
+    return (window as any).ethereum;
+  }
+
+  function isInstalled() {
+    return Boolean(ethereum() && ethereum().isMetaMask);
+  }
 
   function register(
     onAccountChanged: (account?: string) => void,
@@ -57,10 +62,10 @@ export function useMetaMask(): MetaMaskInterface {
     web3.eth.getChainId((_err, chainId) => {
       onBlockchainChanged(toBlockchain(chainId));
     });
-    ethereum?.on('accountsChanged', (accounts: string[]) => {
+    ethereum()?.on('accountsChanged', (accounts: string[]) => {
       onAccountChanged(verifyAccount(accounts));
     });
-    ethereum?.on('chainChanged', (chainId: string) => {
+    ethereum()?.on('chainChanged', (chainId: string) => {
       onBlockchainChanged(toBlockchain(chainId));
       // Following is a recommendation of metamask documentation. I am not sure, if we will need it.
       // Handle the new chain.
@@ -71,7 +76,6 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function requestAccount(): Promise<string | undefined> {
-    await ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
     return verifyAccount(await web3.eth.requestAccounts());
   }
 
@@ -84,7 +88,7 @@ export function useMetaMask(): MetaMaskInterface {
     const id = toChainId(blockchain);
     if (!id) return;
     const chainId = web3.utils.toHex(id);
-    return ethereum.sendAsync(
+    return ethereum().sendAsync(
       {
         method: 'wallet_switchEthereumChain',
         params: [{ chainId }],
@@ -99,7 +103,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function requestAddChainId(blockchain: Blockchain): Promise<void> {
-    return ethereum.sendAsync({
+    return ethereum().sendAsync({
       method: 'wallet_addEthereumChain',
       params: [toChainObject(blockchain)],
     });
@@ -123,7 +127,7 @@ export function useMetaMask(): MetaMaskInterface {
     const symbol = await tokenContract.methods.symbol().call();
     const decimals = await tokenContract.methods.decimals().call();
 
-    return ethereum.sendAsync({
+    return ethereum().sendAsync({
       method: 'wallet_watchAsset',
       params: {
         type: 'ERC20',

@@ -12,7 +12,7 @@ const TestingComponent = (): JSX.Element => {
 
   return (
     <>
-      <p data-testid="is-installed">{isInstalled?.toString()}</p>
+      <p data-testid="is-installed">{isInstalled()?.toString()}</p>
       <p data-testid="is-connected">{isConnected?.toString()}</p>
       <p data-testid="address">{address}</p>
       <p data-testid="blockchain">{blockchain}</p>
@@ -44,7 +44,7 @@ interface MockInput {
 }
 
 interface Mock {
-  isInstalled: boolean;
+  isInstalled: () => boolean;
   register: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
@@ -128,7 +128,7 @@ describe('WalletContextProvider', () => {
 
   function createMock({ isInstalled, address, blockchain, addContract, balance, txId }: MockInput = {}): Mock {
     return {
-      isInstalled: isInstalled ?? true,
+      isInstalled: () => isInstalled ?? true,
       register: jest.fn(),
       requestAccount: jest.fn(() => address),
       requestBlockchain: jest.fn(() => blockchain),

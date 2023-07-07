@@ -7,7 +7,7 @@ interface WalletInterface {
   address?: string;
   blockchain?: Blockchain;
   balance?: string;
-  isInstalled: boolean;
+  isInstalled: () => boolean;
   isConnected: boolean;
   connect: () => Promise<string>;
   isLoginRequested: boolean;
