@@ -126,7 +126,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask" onClick={requestLogin} />
+                  <StyledButton label="Connect to Metamask / Rabby" onClick={requestLogin} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>
