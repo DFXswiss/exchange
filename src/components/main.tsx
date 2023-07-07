@@ -1,26 +1,34 @@
 import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { useUserContext } from '../api/contexts/user.context';
-import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
-import { IconSize, IconVariant } from '../stories/DfxIcon';
-import DfxLogo from '../stories/DfxLogo';
-import DfxTitleSection from '../stories/DfxTitleSection';
-import DfxVideoHelpModalContent from '../stories/DfxVideoHelpModalContent';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../stories/StyledButton';
-import StyledIconButton from '../stories/StyledIconButton';
-import { StyledLink } from '../stories/StyledLink';
-import StyledModal, { StyledModalType, StyledModalWidth } from '../stories/StyledModal';
-import StyledTabContainer, { StyledTabProps } from '../stories/StyledTabContainer';
+import DfxTitleSection from './title-section';
 import { useBuyTab } from './tabs/buy.tab';
 import { UserBox } from './user-box';
 import { WalletBox } from './wallet-box';
 import { useSellTab } from './tabs/sell.tab';
+import {
+  DfxLogo,
+  DfxVideoHelpModalContent,
+  IconSize,
+  IconVariant,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledIconButton,
+  StyledLink,
+  StyledModal,
+  StyledModalType,
+  StyledModalWidth,
+  StyledTabContainer,
+  StyledTabProps,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
+import { useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function Main(): JSX.Element {
   const { isConnected } = useWalletContext();
-  const { isProcessing, needsSignUp, login, signUp } = useSessionContext();
+  const { isProcessing, needsSignUp, signUp } = useSessionContext();
+  const { requestLogin } = useWalletContext();
   const { register } = useUserContext();
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
@@ -118,7 +126,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask" onClick={login} />
+                  <StyledButton label="Connect to Metamask / Rabby" onClick={requestLogin} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>

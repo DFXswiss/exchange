@@ -14,12 +14,12 @@ describe('useMetaMask', () => {
   it('should return is installed, if installed', () => {
     setup.installed();
     const { isInstalled } = useMetaMask();
-    expect(isInstalled).toBeTruthy();
+    expect(isInstalled()).toBeTruthy();
   });
 
   it('should return is not installed, if not installed', () => {
     setup.notInstalled();
     const { isInstalled } = useMetaMask();
-    expect(isInstalled).toBeFalsy();
+    expect(isInstalled()).toBeFalsy();
   });
 });

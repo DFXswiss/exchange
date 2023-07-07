@@ -1,15 +1,21 @@
 import { useForm } from 'react-hook-form';
-import { useBuyContext } from '../../api/contexts/buy.context';
-import { useUserContext } from '../../api/contexts/user.context';
-import { BankAccount } from '../../api/definitions/bank-account';
-import { CreateBankAccount } from '../../api/hooks/bank-account.hook';
-import Form from '../../stories/form/Form';
-import StyledInput from '../../stories/form/StyledInput';
-import StyledSpacer from '../../stories/layout-helpers/StyledSpacer';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../../stories/StyledButton';
-import { Utils } from '../../utils';
-import Validations from '../../validations';
+import {
+  Form,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledInput,
+  StyledSpacer,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
+import {
+  BankAccount,
+  CreateBankAccount,
+  useBankAccountContext,
+  useUserContext,
+  Utils,
+  Validations,
+} from '@dfx.swiss/react';
 
 interface AddBankAccountProps {
   onSubmit: (bankAccount: BankAccount) => void;
@@ -21,7 +27,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<CreateBankAccount>();
-  const { createAccount, isAccountLoading } = useBuyContext();
+  const { createAccount, isAccountLoading } = useBankAccountContext();
   const { countries } = useUserContext();
 
   async function createBankAccount(newAccount: CreateBankAccount): Promise<void> {

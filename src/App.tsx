@@ -1,26 +1,22 @@
+import { DfxContextProvider } from '@dfx.swiss/react';
 import { Main } from './components/main';
-import { AssetContextProvider } from './api/contexts/asset.context';
-import { WalletContextProvider } from './contexts/wallet.context';
-import { AuthContextProvider } from './api/contexts/auth.context';
-import { UserContextProvider } from './api/contexts/user.context';
-import { SessionContextProvider } from './contexts/session.context';
-import { BuyContextProvider } from './api/contexts/buy.context';
+import { WalletContextProvider, useWalletContext } from './contexts/wallet.context';
 
 function App() {
   return (
-    <AuthContextProvider>
-      <UserContextProvider>
-        <WalletContextProvider>
-          <SessionContextProvider>
-            <AssetContextProvider>
-              <BuyContextProvider>
-                <Main />
-              </BuyContextProvider>
-            </AssetContextProvider>
-          </SessionContextProvider>
-        </WalletContextProvider>
-      </UserContextProvider>
-    </AuthContextProvider>
+    <WalletContextProvider>
+      <AppWrapper />
+    </WalletContextProvider>
+  );
+}
+
+function AppWrapper(): JSX.Element {
+  const { signMessage, connect, address, blockchain, isConnected } = useWalletContext();
+
+  return (
+    <DfxContextProvider api={{ signMessage, connect }} data={{ address, blockchain, isConnected, walletId: 9 }}>
+      <Main />
+    </DfxContextProvider>
   );
 }
 

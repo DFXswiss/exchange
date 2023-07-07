@@ -1,27 +1,32 @@
 import BigNumber from 'bignumber.js';
-import { useAssetContext } from '../../api/contexts/asset.context';
-import { Blockchain } from '../../api/definitions/blockchain';
 import { useBlockchain } from '../../hooks/blockchain.hook';
-import { IconVariant } from '../../stories/DfxIcon';
-import StyledBalanceSelection from '../../stories/StyledBalanceSelection';
-import StyledNetworkSelection from '../../stories/StyledNetworkSelection';
-import { StyledTabProps } from '../../stories/StyledTabContainer';
-import StyledHorizontalStack from '../../stories/layout-helpers/StyledHorizontalStack';
-import StyledVerticalStack from '../../stories/layout-helpers/StyledVerticalStack';
-import { Asset } from '../../api/definitions/asset';
 import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useEffect, useMemo, useState } from 'react';
-import { useAuthContext } from '../../api/contexts/auth.context';
 import { useWalletContext } from '../../contexts/wallet.context';
 import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
-import StyledModal from '../../stories/StyledModal';
 import { UserDataForm } from '../user-data-form';
-import { useUserContext } from '../../api/contexts/user.context';
-import { StyledModalType } from '../../stories/StyledModal';
-import { StyledModalColor } from '../../stories/StyledModal';
-import { useSessionContext } from '../../contexts/session.context';
-import StyledTabContentWrapper from '../../stories/StyledTabContentWrapper';
-import StyledButton from '../../stories/StyledButton';
+import {
+  IconVariant,
+  StyledBalanceSelection,
+  StyledButton,
+  StyledHorizontalStack,
+  StyledModal,
+  StyledModalColor,
+  StyledModalType,
+  StyledNetworkSelection,
+  StyledTabContentWrapper,
+  StyledTabProps,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
+import {
+  Asset,
+  AssetType,
+  Blockchain,
+  useAssetContext,
+  useAuthContext,
+  useSessionContext,
+  useUserContext,
+} from '@dfx.swiss/react';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -36,9 +41,9 @@ export function useSellTab(): StyledTabProps {
 }
 
 function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
-  const { isLoggedIn, login } = useSessionContext();
+  const { isLoggedIn } = useSessionContext();
   const { session } = useAuthContext();
-  const { blockchain, address } = useWalletContext();
+  const { blockchain, address, requestLogin } = useWalletContext();
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
   const { requestChangeToBlockchain, readBalance } = useMetaMask();
@@ -52,7 +57,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
 
   useEffect(() => {
     if (!sellableAssets) return;
-    Promise.all(sellableAssets.map((asset) => readBalance(asset, address)))
+    Promise.all(sellableAssets.map((asset: Asset) => readBalance(asset, address)))
       .then((balances) => balances.sort(sortByBalanceAndSortOrder))
       .then(setAssetBalances)
       .catch(console.error);
@@ -90,13 +95,16 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
               blockchain
                 ? assetBalances?.map((value) => ({
                     asset: value.asset,
+                    isToken: value.asset.type === AssetType.TOKEN,
                     protocol: toProtocol(blockchain),
                     isSelected: value.asset.id === selectedAsset?.id,
                     balance: value.balance ?? new BigNumber(0),
                   })) ?? []
                 : []
             }
-            onSelectionChanged={setSelectedAsset}
+            onSelectionChanged={(value) =>
+              setSelectedAsset(assetBalances?.find((assetBalance) => assetBalance.asset.id === value.id)?.asset)
+            }
           />
           {!address || !isLoggedIn ? (
             <StyledTabContentWrapper leftBorder>
@@ -104,12 +112,12 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
                 {!address ? (
                   <>
                     <p>Please connect your Metamask in order to proceed</p>
-                    <StyledButton label="Connect to Metamask" onClick={login} />
+                    <StyledButton label="Connect to Metamask" onClick={requestLogin} />
                   </>
                 ) : (
                   <>
                     <p>Please reconnect to DFX in order to proceed</p>
-                    <StyledButton label="Reconnect to DFX" onClick={login} />
+                    <StyledButton label="Reconnect to DFX" onClick={requestLogin} />
                   </>
                 )}
               </StyledVerticalStack>

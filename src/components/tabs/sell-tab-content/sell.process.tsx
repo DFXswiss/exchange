@@ -1,40 +1,51 @@
 import { DeepPartial, useForm, useWatch } from 'react-hook-form';
-import { Asset } from '../../../api/definitions/asset';
-import { BankAccount } from '../../../api/definitions/bank-account';
-import { Fiat } from '../../../api/definitions/fiat';
-import StyledTabContentWrapper from '../../../stories/StyledTabContentWrapper';
-import Form from '../../../stories/form/Form';
-import StyledVerticalStack from '../../../stories/layout-helpers/StyledVerticalStack';
-import { useBuyContext } from '../../../api/contexts/buy.context';
-import StyledModalDropdown from '../../../stories/form/StyledModalDropdown';
-import { Utils } from '../../../utils';
-import StyledBankAccountListItem from '../../../stories/form/StyledBankAccountListItem';
 import { AddBankAccount } from '../../buy/add-bank-account';
-import Validations from '../../../validations';
-import StyledDropdown from '../../../stories/form/StyledDropdown';
-import DfxIcon, { IconColor, IconSize, IconVariant } from '../../../stories/DfxIcon';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
-import { useFiat } from '../../../api/hooks/fiat.hook';
-import StyledCoinListItem from '../../../stories/StyledCoinListItem';
 import { useMetaMask } from '../../../hooks/metamask.hook';
-import StyledInput from '../../../stories/form/StyledInput';
-import StyledSpacer from '../../../stories/layout-helpers/StyledSpacer';
 import useDebounce from '../../../hooks/debounce.hook';
 import { useEffect, useState } from 'react';
-import { Sell } from '../../../api/definitions/sell';
 import { useKycHelper } from '../../../hooks/kyc-helper.hook';
-import { useSell } from '../../../api/hooks/sell.hook';
-import { ApiError } from '../../../api/definitions/error';
 import BigNumber from 'bignumber.js';
 import { KycHint } from '../../kyc-hint';
-import StyledDataTable, { AlignContent } from '../../../stories/StyledDataTable';
-import StyledDataTableRow from '../../../stories/StyledDataTableRow';
-import StyledButton, { StyledButtonWidth } from '../../../stories/StyledButton';
+import {
+  AlignContent,
+  CopyButton,
+  DfxIcon,
+  Form,
+  IconColor,
+  IconSize,
+  IconVariant,
+  SpinnerSize,
+  StyledBankAccountListItem,
+  StyledButton,
+  StyledButtonWidth,
+  StyledCoinListItem,
+  StyledDataTable,
+  StyledDataTableRow,
+  StyledDropdown,
+  StyledHorizontalStack,
+  StyledInput,
+  StyledLoadingSpinner,
+  StyledModalDropdown,
+  StyledSpacer,
+  StyledTabContentWrapper,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { useWalletContext } from '../../../contexts/wallet.context';
-import { CopyButton } from '../../copy-button';
-import StyledHorizontalStack from '../../../stories/layout-helpers/StyledHorizontalStack';
 import { useClipboard } from '../../../hooks/clipboard.hook';
-import StyledLoadingSpinner, { SpinnerSize } from '../../../stories/StyledLoadingSpinner';
+import {
+  ApiError,
+  Asset,
+  AssetType,
+  BankAccount,
+  Fiat,
+  Sell,
+  useBankAccountContext,
+  useFiat,
+  useSell,
+  Utils,
+  Validations,
+} from '@dfx.swiss/react';
 
 interface SellTabContentProcessProps {
   asset?: Asset;
@@ -56,14 +67,14 @@ interface PaymentInformation {
 }
 
 export function SellTabContentProcess({ asset, balance }: SellTabContentProcessProps): JSX.Element {
-  const { currencies, bankAccounts, updateAccount } = useBuyContext();
+  const { bankAccounts, updateAccount } = useBankAccountContext();
   const { blockchain } = useWalletContext();
   const { toProtocol } = useBlockchain();
   const { toDescription, toSymbol } = useFiat();
   const { address } = useWalletContext();
   const { addContract, createTransaction } = useMetaMask();
   const { isAllowedToSell } = useKycHelper();
-  const { receiveFor } = useSell();
+  const { currencies, receiveFor } = useSell();
   const { copy } = useClipboard();
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
@@ -253,6 +264,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                 {asset ? (
                   <StyledCoinListItem
                     asset={asset}
+                    isToken={asset.type === AssetType.TOKEN}
                     protocol={toProtocol(asset.blockchain)}
                     popupLabel="Click on the MetaMask symbol in order to add this asset in your portfolio overview of your MetaMask or copy the address to add it manually."
                     onAdd={(svgData) => addContract(asset, svgData, blockchain)}

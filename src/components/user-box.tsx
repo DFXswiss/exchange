@@ -1,15 +1,22 @@
 import { useState } from 'react';
-import { useUserContext } from '../api/contexts/user.context';
-import { useSessionContext } from '../contexts/session.context';
 import { useWalletContext } from '../contexts/wallet.context';
 import { useClipboard } from '../hooks/clipboard.hook';
-import { IconColor, IconSize, IconVariant } from '../stories/DfxIcon';
-import StyledButton, { StyledButtonColor, StyledButtonSize, StyledButtonWidth } from '../stories/StyledButton';
-import StyledDataBox from '../stories/StyledDataBox';
-import StyledDataTextRow from '../stories/StyledDataTextRow';
-import StyledModal, { StyledModalColor } from '../stories/StyledModal';
+import {
+  IconColor,
+  IconSize,
+  IconVariant,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonSize,
+  StyledButtonWidth,
+  StyledDataBox,
+  StyledDataTextRow,
+  StyledModal,
+  StyledModalColor,
+} from '@dfx.swiss/react-components';
 import { MailEdit } from './edit/mail.edit';
 import { UserData } from './user-data';
+import { useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function UserBox(): JSX.Element {
   const { isConnected } = useWalletContext();

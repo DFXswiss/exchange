@@ -1,20 +1,27 @@
 import { useWalletContext } from '../contexts/wallet.context';
-import { useSessionContext } from '../contexts/session.context';
-import StyledDataBox from '../stories/StyledDataBox';
-import StyledDataTextRow from '../stories/StyledDataTextRow';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useBlockchain } from '../hooks/blockchain.hook';
-import { CopyButton } from './copy-button';
-import StyledModal, { StyledModalType, StyledModalWidth } from '../stories/StyledModal';
-import DfxIcon, { IconVariant } from '../stories/DfxIcon';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledCheckboxRow from '../stories/StyledCheckboxRow';
-import StyledButton, { StyledButtonColor, StyledButtonWidth } from '../stories/StyledButton';
-import { useState } from 'react';
+import {
+  CopyButton,
+  DfxIcon,
+  IconVariant,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonWidth,
+  StyledCheckboxRow,
+  StyledDataBox,
+  StyledDataTextRow,
+  StyledModal,
+  StyledModalType,
+  StyledModalWidth,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
+import { useEffect, useState } from 'react';
 import { useStore } from '../hooks/store.hook';
+import { useSessionContext } from '@dfx.swiss/react';
 
 export function WalletBox(): JSX.Element {
-  const { isConnected } = useWalletContext();
+  const { isConnected, isLoginRequested, loginCompleted } = useWalletContext();
   const { address, blockchain, isLoggedIn, login, logout } = useSessionContext();
   const { copy } = useClipboard();
   const { toString } = useBlockchain();
@@ -26,12 +33,22 @@ export function WalletBox(): JSX.Element {
     return `${address?.slice(0, 6)}...${address?.slice(address?.length - 5)}`;
   }
 
+  useEffect(() => {
+    if (isLoginRequested && !isLoggedIn) {
+      handleLogin();
+    }
+  }, [isLoginRequested, isLoggedIn]);
+
   async function handleLogin() {
     if (showsSignatureInfo.get()) {
       setShowModal(true);
     } else {
-      login();
+      return doLogin();
     }
+  }
+
+  function doLogin(): Promise<void> {
+    return login().finally(loginCompleted);
   }
 
   return isConnected ? (
@@ -59,7 +76,7 @@ export function WalletBox(): JSX.Element {
             onClick={() => {
               setShowModal(false);
               showsSignatureInfo.set(!isChecked);
-              login();
+              doLogin();
             }}
           />
         </StyledVerticalStack>

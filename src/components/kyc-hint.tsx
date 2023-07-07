@@ -1,7 +1,5 @@
+import { StyledButton, StyledButtonWidth, StyledInfoText, StyledVerticalStack } from '@dfx.swiss/react-components';
 import { useKycHelper } from '../hooks/kyc-helper.hook';
-import StyledButton, { StyledButtonWidth } from '../stories/StyledButton';
-import StyledInfoText from '../stories/StyledInfoText';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
 
 export function KycHint(): JSX.Element {
   const { start, limit } = useKycHelper();

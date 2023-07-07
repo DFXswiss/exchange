@@ -1,15 +1,20 @@
 import { useState } from 'react';
-import { useUserContext } from '../api/contexts/user.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKycHelper } from '../hooks/kyc-helper.hook';
-import { IconColor } from '../stories/DfxIcon';
-import StyledVerticalStack from '../stories/layout-helpers/StyledVerticalStack';
-import StyledButton, { StyledButtonColor, StyledButtonSize, StyledButtonWidth } from '../stories/StyledButton';
-import StyledDataTable from '../stories/StyledDataTable';
-import StyledDataTableRow from '../stories/StyledDataTableRow';
-import StyledModal, { StyledModalColor } from '../stories/StyledModal';
-import { Utils } from '../utils';
+import {
+  IconColor,
+  StyledButton,
+  StyledButtonColor,
+  StyledButtonSize,
+  StyledButtonWidth,
+  StyledDataTable,
+  StyledDataTableRow,
+  StyledModal,
+  StyledModalColor,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
+import { useUserContext, Utils } from '@dfx.swiss/react';
 
 export function UserData(): JSX.Element {
   const { user, refLink } = useUserContext();
