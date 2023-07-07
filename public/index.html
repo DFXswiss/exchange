@@ -1,29 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Buy coins and tokens on the Ethereum and Binance Smart Chain simply by connecting your MetaMask. Your keys, your coins."
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@dfx_swiss" />
-    <meta name="twitter:creator" content="@dfx_swiss" />
-    <meta name="twitter:title" content="Buy & Sell directly into your MetaMask | DFX.swiss" />
-    <meta
-      name="twitter:description"
-      content="Buy coins and tokens on the Ethereum and Binance Smart Chain simply by connecting your MetaMask. Your keys, your coins."
-    />
-    <meta name="twitter:image" content="https://content.dfx.swiss/img/twt/dfx_exchange_twt-og.png" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Buy & Sell directly into your MetaMask | DFX.swiss</title>
-  </head>
 
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Buy coins and tokens on the Ethereum and Binance Smart Chain simply by connecting your MetaMask. Your keys, your coins." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@dfx_swiss" />
+  <meta name="twitter:creator" content="@dfx_swiss" />
+  <meta name="twitter:title" content="Buy & Sell directly into your MetaMask | DFX.swiss" />
+  <meta name="twitter:description"
+    content="Buy coins and tokens on the Ethereum and Binance Smart Chain simply by connecting your MetaMask. Your keys, your coins." />
+  <meta name="twitter:image" content="https://content.dfx.swiss/img/twt/dfx_exchange_twt-og.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Buy & Sell directly into your MetaMask | DFX.swiss</title>
+  <style>
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <div class="spinner-container">
+      <svg fill="none" viewBox="0 0 66 66" style="color: rgb(255, 255, 255); overflow: visible; width: 48;">
+        <circle cx="33" cy="33" fill="none" r="28" stroke="rgba(255,255,255,0.2)" stroke-width="14"></circle>
+        <circle cx="33" cy="33" fill="none" r="28" stroke="currentColor" stroke-dasharray="1, 174"
+          stroke-dashoffset="306" stroke-linecap="round" stroke-width="14"
+          style="animation: 1.33333s linear 0s infinite normal none running spinners-react-circular;"></circle>
+      </svg>
+    </div>
+  </div>
+</body>
+
 </html>
