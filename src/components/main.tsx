@@ -26,9 +26,8 @@ import {
 import { useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function Main(): JSX.Element {
-  const { isConnected } = useWalletContext();
+  const { isConnected, requestLogin } = useWalletContext();
   const { isProcessing, needsSignUp, signUp } = useSessionContext();
-  const { requestLogin } = useWalletContext();
   const { register } = useUserContext();
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);

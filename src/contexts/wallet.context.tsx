@@ -53,6 +53,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   async function connect(): Promise<string> {
     const account = await requestAccount();
     if (!account) throw new Error('Permission denied or account not verified');
+
     setAddress(account);
     setBlockchain(await requestBlockchain());
     return account;
