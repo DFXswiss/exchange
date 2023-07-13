@@ -46,11 +46,6 @@ export function useMetaMask(): MetaMaskInterface {
   const web3 = new Web3(Web3.givenProvider);
   const { toBlockchain, toChainId, toChainObject } = useBlockchain();
 
-  useEffect(() => {
-    // reload the page, if MetaMask isn't reloaded correctly
-    timeout(getAccount(), 100).catch((e) => e.message.includes('Timeout') && window.location.reload());
-  }, []);
-
   function ethereum() {
     return (window as any).ethereum;
   }
@@ -78,7 +73,7 @@ export function useMetaMask(): MetaMaskInterface {
   }
 
   async function getAccount(): Promise<string | undefined> {
-    return web3.eth.getAccounts().then((accounts: string[]) => accounts[0]);
+    return verifyAccount(await web3.eth.getAccounts());
   }
 
   async function requestAccount(): Promise<string | undefined> {
@@ -192,12 +187,6 @@ export function useMetaMask(): MetaMaskInterface {
 
   function createContract(chainId?: string): Contract {
     return new web3.eth.Contract(ERC20_ABI as any, chainId);
-  }
-
-  async function timeout<T>(promise: Promise<T>, timeout: number): Promise<T> {
-    const timeoutPromise = new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout));
-
-    return Promise.race([promise, timeoutPromise]);
   }
 
   return {

@@ -46,6 +46,7 @@ interface MockInput {
 interface Mock {
   isInstalled: () => boolean;
   register: jest.Mock<any, any>;
+  getAccount: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
   requestChangeToBlockchain: jest.Mock<any, any>;
@@ -65,6 +66,7 @@ interface Setup {
   connect: HTMLElement;
 
   register: jest.Mock<any, any>;
+  getAccount: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
   requestChangeToBlockchain: jest.Mock<any, any>;
@@ -79,6 +81,7 @@ describe('WalletContextProvider', () => {
   function mockAndRenderTestElements({
     isInstalled,
     register,
+    getAccount,
     requestAccount,
     requestBlockchain,
     requestBalance,
@@ -91,6 +94,7 @@ describe('WalletContextProvider', () => {
     mockUseMetaMask.mockImplementation(() => ({
       isInstalled,
       register,
+      getAccount,
       requestAccount,
       requestBlockchain,
       requestChangeToBlockchain,
@@ -115,6 +119,7 @@ describe('WalletContextProvider', () => {
       connect: getByTestId('connect'),
       signMessage: getByTestId('sign-message'),
       register,
+      getAccount,
       requestAccount,
       requestBlockchain,
       requestBalance,
@@ -130,6 +135,7 @@ describe('WalletContextProvider', () => {
     return {
       isInstalled: () => isInstalled ?? true,
       register: jest.fn(),
+      getAccount: jest.fn(() => address),
       requestAccount: jest.fn(() => address),
       requestBlockchain: jest.fn(() => blockchain),
       requestChangeToBlockchain: jest.fn(),
