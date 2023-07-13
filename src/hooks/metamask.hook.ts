@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
 import { Contract } from 'web3-eth-contract';
 import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
+import { useEffect } from 'react';
 
 export interface MetaMaskInterface {
   isInstalled: () => boolean;
@@ -12,6 +13,7 @@ export interface MetaMaskInterface {
     onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
   ) => void;
+  getAccount: () => Promise<string | undefined>;
   requestAccount: () => Promise<string | undefined>;
   requestBlockchain: () => Promise<Blockchain | undefined>;
   requestChangeToBlockchain: (blockchain?: Blockchain) => Promise<void>;
@@ -44,6 +46,11 @@ export function useMetaMask(): MetaMaskInterface {
   const web3 = new Web3(Web3.givenProvider);
   const { toBlockchain, toChainId, toChainObject } = useBlockchain();
 
+  useEffect(() => {
+    // reload the page, if MetaMask isn't reloaded correctly
+    timeout(getAccount(), 100).catch((e) => e.message.includes('Timeout') && window.location.reload());
+  }, []);
+
   function ethereum() {
     return (window as any).ethereum;
   }
@@ -67,12 +74,11 @@ export function useMetaMask(): MetaMaskInterface {
     });
     ethereum()?.on('chainChanged', (chainId: string) => {
       onBlockchainChanged(toBlockchain(chainId));
-      // Following is a recommendation of metamask documentation. I am not sure, if we will need it.
-      // Handle the new chain.
-      // Correctly handling chain changes can be complicated.
-      // We recommend reloading the page unless you have good reason not to.
-      // window.location.reload();
     });
+  }
+
+  async function getAccount(): Promise<string | undefined> {
+    return web3.eth.getAccounts().then((accounts: string[]) => accounts[0]);
   }
 
   async function requestAccount(): Promise<string | undefined> {
@@ -188,9 +194,16 @@ export function useMetaMask(): MetaMaskInterface {
     return new web3.eth.Contract(ERC20_ABI as any, chainId);
   }
 
+  async function timeout<T>(promise: Promise<T>, timeout: number): Promise<T> {
+    const timeoutPromise = new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout));
+
+    return Promise.race([promise, timeoutPromise]);
+  }
+
   return {
     isInstalled,
     register,
+    getAccount,
     requestAccount,
     requestBlockchain,
     requestChangeToBlockchain,
