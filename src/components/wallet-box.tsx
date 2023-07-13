@@ -47,8 +47,8 @@ export function WalletBox(): JSX.Element {
     }
   }
 
-  function doLogin(): Promise<void> {
-    return login().finally(loginCompleted);
+  async function doLogin(): Promise<void> {
+    await login().finally(loginCompleted);
   }
 
   return isConnected ? (

@@ -27,13 +27,16 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [blockchain, setBlockchain] = useState<Blockchain>();
   const [balance, setBalance] = useState<string>();
   const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
-  const { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
+  const { isInstalled, register, getAccount, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
   const { toMainToken } = useBlockchain();
 
   const isConnected = address !== undefined;
 
   useEffect(() => {
     register(setAddress, setBlockchain);
+
+    // reload the page, if MetaMask isn't reloaded correctly
+    timeout(getAccount(), 100).catch((e) => e.message.includes('Timeout') && window.location.reload());
   }, []);
 
   useEffect(() => {
@@ -53,6 +56,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   async function connect(): Promise<string> {
     const account = await requestAccount();
     if (!account) throw new Error('Permission denied or account not verified');
+
     setAddress(account);
     setBlockchain(await requestBlockchain());
     return account;
@@ -77,6 +81,12 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       console.error(e.message, e.code);
       throw e;
     }
+  }
+
+  async function timeout<T>(promise: Promise<T>, timeout: number): Promise<T> {
+    const timeoutPromise = new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout));
+
+    return Promise.race([promise, timeoutPromise]);
   }
 
   const context: WalletInterface = {

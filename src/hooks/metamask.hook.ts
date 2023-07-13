@@ -12,6 +12,7 @@ export interface MetaMaskInterface {
     onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
   ) => void;
+  getAccount: () => Promise<string | undefined>;
   requestAccount: () => Promise<string | undefined>;
   requestBlockchain: () => Promise<Blockchain | undefined>;
   requestChangeToBlockchain: (blockchain?: Blockchain) => Promise<void>;
@@ -67,12 +68,11 @@ export function useMetaMask(): MetaMaskInterface {
     });
     ethereum()?.on('chainChanged', (chainId: string) => {
       onBlockchainChanged(toBlockchain(chainId));
-      // Following is a recommendation of metamask documentation. I am not sure, if we will need it.
-      // Handle the new chain.
-      // Correctly handling chain changes can be complicated.
-      // We recommend reloading the page unless you have good reason not to.
-      // window.location.reload();
     });
+  }
+
+  async function getAccount(): Promise<string | undefined> {
+    return verifyAccount(await web3.eth.getAccounts());
   }
 
   async function requestAccount(): Promise<string | undefined> {
@@ -191,6 +191,7 @@ export function useMetaMask(): MetaMaskInterface {
   return {
     isInstalled,
     register,
+    getAccount,
     requestAccount,
     requestBlockchain,
     requestChangeToBlockchain,

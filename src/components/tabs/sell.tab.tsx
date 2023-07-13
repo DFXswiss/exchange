@@ -18,15 +18,7 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import {
-  Asset,
-  AssetType,
-  Blockchain,
-  useAssetContext,
-  useAuthContext,
-  useSessionContext,
-  useUserContext,
-} from '@dfx.swiss/react';
+import { Asset, AssetType, Blockchain, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -41,8 +33,7 @@ export function useSellTab(): StyledTabProps {
 }
 
 function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
-  const { isLoggedIn } = useSessionContext();
-  const { session } = useAuthContext();
+  const { isLoggedIn, availableBlockchains } = useSessionContext();
   const { blockchain, address, requestLogin } = useWalletContext();
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
@@ -81,12 +72,12 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
           networks={
-            session?.blockchains
-              .filter((b) => b !== Blockchain.POLYGON)
+            availableBlockchains
+              ?.filter((b) => b !== Blockchain.POLYGON)
               .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
           }
           onNetworkChange={(network) =>
-            requestChangeToBlockchain(session?.blockchains.find((b) => toString(b) === network))
+            requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
           }
         />
         <StyledHorizontalStack gap={5}>
