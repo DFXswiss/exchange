@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
 import { Contract } from 'web3-eth-contract';
 import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
-import { useEffect } from 'react';
 
 export interface MetaMaskInterface {
   isInstalled: () => boolean;
