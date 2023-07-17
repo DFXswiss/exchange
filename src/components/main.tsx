@@ -29,6 +29,7 @@ export function Main(): JSX.Element {
   const { isConnected, requestLogin } = useWalletContext();
   const { isProcessing, needsSignUp, signUp } = useSessionContext();
   const { register } = useUserContext();
+  const [isLogin, setIsLogin] = useState(false);
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
 
@@ -44,6 +45,11 @@ export function Main(): JSX.Element {
       flagWord2: 'soon',
       content: undefined,
     };
+  }
+
+  function login(): Promise<void> {
+    setIsLogin(true);
+    return requestLogin().finally(() => setIsLogin(false));
   }
 
   return (
@@ -125,7 +131,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask / Rabby" onClick={requestLogin} />
+                  <StyledButton label="Connect to Metamask / Rabby" onClick={login} isLoading={isLogin} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>
