@@ -75,7 +75,12 @@ export function useMetaMask(): MetaMaskInterface {
     return verifyAccount(await web3.eth.getAccounts());
   }
 
+  async function checkConnection(): Promise<void> {
+    return timeout(getAccount(), 1000).catch((e) => e.message.includes('Timeout') && window.location.reload());
+  }
+
   async function requestAccount(): Promise<string | undefined> {
+    await checkConnection();
     return verifyAccount(await web3.eth.requestAccounts());
   }
 
@@ -186,6 +191,12 @@ export function useMetaMask(): MetaMaskInterface {
 
   function createContract(chainId?: string): Contract {
     return new web3.eth.Contract(ERC20_ABI as any, chainId);
+  }
+
+  async function timeout<T>(promise: Promise<T>, timeout: number): Promise<T> {
+    const timeoutPromise = new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout));
+
+    return Promise.race([promise, timeoutPromise]);
   }
 
   return {

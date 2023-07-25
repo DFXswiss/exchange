@@ -26,11 +26,13 @@ import {
 import { useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function Main(): JSX.Element {
-  const { isConnected, requestLogin } = useWalletContext();
+  const { isInstalled, isConnected, requestLogin } = useWalletContext();
   const { isProcessing, needsSignUp, signUp } = useSessionContext();
   const { register } = useUserContext();
+  const [isLogin, setIsLogin] = useState(false);
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
+  const [showsInstallHint, setShowsInstallHint] = useState(false);
 
   useEffect(() => {
     register(() => setShowsUserLink(true));
@@ -46,9 +48,33 @@ export function Main(): JSX.Element {
     };
   }
 
+  function connect() {
+    isInstalled() ? login() : setShowsInstallHint(true);
+  }
+
+  function login(): Promise<void> {
+    setIsLogin(true);
+    return requestLogin().finally(() => setIsLogin(false));
+  }
+
   return (
     <>
       {/* MODALS */}
+      <StyledModal type={StyledModalType.ALERT} isVisible={showsInstallHint}>
+        <StyledVerticalStack gap={4}>
+          <h1>Please install MetaMask or Rabby!</h1>
+          <p>
+            You need to install the MetaMask or Rabby browser extension to be able to use this service. Visit{' '}
+            <StyledLink label="metamask.io" url="https://metamask.io" dark /> or{' '}
+            <StyledLink label="rabby.io" url="https://rabby.io/" dark /> for more details.
+          </p>
+
+          <div className="mx-auto">
+            <StyledButton width={StyledButtonWidth.SM} onClick={() => setShowsInstallHint(false)} label="Got it." />
+          </div>
+        </StyledVerticalStack>
+      </StyledModal>
+
       <StyledModal type={StyledModalType.ALERT} isVisible={needsSignUp}>
         <StyledVerticalStack>
           <h1>Terms and Conditions.</h1>
@@ -76,6 +102,7 @@ export function Main(): JSX.Element {
           </div>
         </StyledVerticalStack>
       </StyledModal>
+
       <StyledModal onClose={setShowsHelp} isVisible={showsHelp} width={StyledModalWidth.FULL_WIDTH} heading="Help">
         <DfxVideoHelpModalContent
           title="Get started with the DFX Exchange"
@@ -100,6 +127,7 @@ export function Main(): JSX.Element {
           numCols={3}
         />
       </StyledModal>
+
       <StyledModal isVisible={showsUserLink} onClose={setShowsUserLink} type={StyledModalType.ALERT}>
         <StyledVerticalStack gap={4}>
           <h1>Welcome back!</h1>
@@ -113,6 +141,7 @@ export function Main(): JSX.Element {
           </div>
         </StyledVerticalStack>
       </StyledModal>
+
       {/* CONTENT */}
       <div className="text-center p-2 mt-4">
         <div className="max-w-6xl text-left mx-auto ">
@@ -125,7 +154,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask / Rabby" onClick={requestLogin} />
+                  <StyledButton label="Connect to Metamask / Rabby" onClick={connect} isLoading={isLogin} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>

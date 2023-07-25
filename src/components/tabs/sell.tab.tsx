@@ -38,6 +38,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
   const { requestChangeToBlockchain, readBalance } = useMetaMask();
+  const [isLogin, setIsLogin] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState<Asset>();
   const [assetBalances, setAssetBalances] = useState<AssetBalance[]>();
 
@@ -62,6 +63,11 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       return b.balance.minus(a.balance).toNumber();
     }
     return (b.asset.sortOrder ?? Infinity) - (a.asset.sortOrder ?? Infinity);
+  }
+
+  function login(): Promise<void> {
+    setIsLogin(true);
+    return requestLogin().finally(() => setIsLogin(false));
   }
 
   return (
@@ -103,12 +109,12 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
                 {!address ? (
                   <>
                     <p>Please connect your Metamask in order to proceed</p>
-                    <StyledButton label="Connect to Metamask" onClick={requestLogin} />
+                    <StyledButton label="Connect to Metamask" onClick={login} isLoading={isLogin} />
                   </>
                 ) : (
                   <>
                     <p>Please reconnect to DFX in order to proceed</p>
-                    <StyledButton label="Reconnect to DFX" onClick={requestLogin} />
+                    <StyledButton label="Reconnect to DFX" onClick={login} isLoading={isLogin} />
                   </>
                 )}
               </StyledVerticalStack>
