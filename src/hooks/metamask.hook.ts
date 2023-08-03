@@ -6,8 +6,14 @@ import ERC20_ABI from '../static/erc20.abi.json';
 import { Contract } from 'web3-eth-contract';
 import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
 
+export enum WalletType {
+  META_MASK = 'MetaMask',
+  RABBY = 'Rabby',
+}
+
 export interface MetaMaskInterface {
   isInstalled: () => boolean;
+  walletType: () => WalletType | undefined;
   register: (
     onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
@@ -49,8 +55,17 @@ export function useMetaMask(): MetaMaskInterface {
     return (window as any).ethereum;
   }
 
-  function isInstalled() {
-    return Boolean(ethereum() && ethereum().isMetaMask);
+  function isInstalled(): boolean {
+    const eth = ethereum();
+    return Boolean(eth && eth.isMetaMask);
+  }
+
+  function walletType(): WalletType | undefined {
+    const eth = ethereum();
+    if (eth) {
+      if (eth.isRabby) return WalletType.RABBY;
+      if (eth.isMetaMask) return WalletType.META_MASK;
+    }
   }
 
   function register(
@@ -201,6 +216,7 @@ export function useMetaMask(): MetaMaskInterface {
 
   return {
     isInstalled,
+    walletType,
     register,
     getAccount,
     requestAccount,

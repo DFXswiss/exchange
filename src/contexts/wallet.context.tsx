@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useBlockchain } from '../hooks/blockchain.hook';
-import { useMetaMask } from '../hooks/metamask.hook';
+import { useMetaMask, WalletType } from '../hooks/metamask.hook';
 import { Blockchain, Utils } from '@dfx.swiss/react';
 
 interface WalletInterface {
@@ -8,6 +8,7 @@ interface WalletInterface {
   blockchain?: Blockchain;
   balance?: string;
   isInstalled: () => boolean;
+  walletType: () => WalletType | undefined;
   isConnected: boolean;
   connect: () => Promise<string>;
   isLoginRequested: boolean;
@@ -27,7 +28,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [blockchain, setBlockchain] = useState<Blockchain>();
   const [balance, setBalance] = useState<string>();
   const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
-  const { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
+  const { isInstalled, walletType, register, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
   const { toMainToken } = useBlockchain();
 
   const isConnected = address !== undefined;
@@ -85,6 +86,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     balance,
     blockchain,
     isInstalled,
+    walletType,
     isConnected,
     connect,
     requestLogin,
