@@ -16,7 +16,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { MailEdit } from './edit/mail.edit';
 import { UserData } from './user-data';
-import { useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function UserBox(): JSX.Element {
   const { isConnected } = useWalletContext();
@@ -25,6 +25,7 @@ export function UserBox(): JSX.Element {
   const { copy, isCopying } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
   const [showsUserData, setShowsUserData] = useState(false);
+  const { authenticationToken } = useAuthContext();
 
   return isConnected && isLoggedIn ? (
     <>
@@ -48,6 +49,10 @@ export function UserBox(): JSX.Element {
       {/* CONTENT */}
       <StyledDataBox
         heading="Your Data"
+        boxButtonLabel="My DFX"
+        boxButtonOnClick={() =>
+          window.open(`${process.env.REACT_APP_PAYMENT_URL}/login?token=${authenticationToken}`, '_blank', 'noreferrer')
+        }
         rightIconButton={{
           icon: IconVariant.SETTINGS,
           color: IconColor.RED,

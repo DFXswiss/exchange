@@ -52,7 +52,7 @@ export function useKycHelper(): KycInterface {
 
   async function start(): Promise<void> {
     if (!user) return;
-    const newTab = window.open(`${process.env.REACT_APP_KYC_URL}?code=${user.kycHash}`, '_blank', 'noreferrer');
+    const newTab = window.open(`${process.env.REACT_APP_PAYMENT_URL}/kyc?code=${user.kycHash}`, '_blank', 'noreferrer');
     const popUpBlocked = newTab == null || newTab.closed || typeof newTab.closed == 'undefined';
     if (popUpBlocked) console.error('popUp blocked'); // TODO (Krysh) use correct error handling here
   }

@@ -1,13 +1,12 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { useBlockchain } from '../hooks/blockchain.hook';
-import { useMetaMask } from '../hooks/metamask.hook';
-import { Blockchain, Utils } from '@dfx.swiss/react';
+import { useMetaMask, WalletType } from '../hooks/metamask.hook';
+import { Blockchain } from '@dfx.swiss/react';
 
 interface WalletInterface {
   address?: string;
   blockchain?: Blockchain;
-  balance?: string;
   isInstalled: () => boolean;
+  walletType: () => WalletType | undefined;
   isConnected: boolean;
   connect: () => Promise<string>;
   isLoginRequested: boolean;
@@ -25,30 +24,14 @@ export function useWalletContext(): WalletInterface {
 export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [address, setAddress] = useState<string>();
   const [blockchain, setBlockchain] = useState<Blockchain>();
-  const [balance, setBalance] = useState<string>();
   const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
-  const { isInstalled, register, requestAccount, requestBlockchain, requestBalance, sign } = useMetaMask();
-  const { toMainToken } = useBlockchain();
+  const { isInstalled, walletType, register, requestAccount, requestBlockchain, sign } = useMetaMask();
 
   const isConnected = address !== undefined;
 
   useEffect(() => {
     register(setAddress, setBlockchain);
   }, []);
-
-  useEffect(() => {
-    if (address) {
-      requestBalance(address).then((balance) => {
-        if (balance && blockchain) {
-          setBalance(`${Utils.formatAmountCrypto(+balance)} ${toMainToken(blockchain)}`);
-        } else {
-          setBalance(undefined);
-        }
-      });
-    } else {
-      setBalance(undefined);
-    }
-  }, [address, blockchain]);
 
   async function connect(): Promise<string> {
     const account = await requestAccount();
@@ -82,9 +65,9 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
 
   const context: WalletInterface = {
     address,
-    balance,
     blockchain,
     isInstalled,
+    walletType,
     isConnected,
     connect,
     requestLogin,
