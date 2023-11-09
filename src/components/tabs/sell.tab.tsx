@@ -62,7 +62,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
     if (!a.balance.isEqualTo(b.balance)) {
       return b.balance.minus(a.balance).toNumber();
     }
-    return (b.asset.sortOrder ?? Infinity) - (a.asset.sortOrder ?? Infinity);
+    return (a.asset.sortOrder ?? Infinity) - (b.asset.sortOrder ?? Infinity);
   }
 
   function login(): Promise<void> {
