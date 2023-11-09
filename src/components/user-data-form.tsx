@@ -95,7 +95,7 @@ export function UserDataForm({ onFinish }: UserDataFormProps): JSX.Element {
         <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
           <StyledVerticalStack marginY={4} gap={2} full>
             <div>
-              <p className="text-dfxGray-700 text-xs font-semibold text-start ml-4 -mb-1">ACCOUNT TYPE</p>
+              <p className="text-dfxGray-700 text-xs font-semibold text-start ml-4 mb-1">ACCOUNT TYPE</p>
               <StyledDropdown
                 name="accountType"
                 label=""
