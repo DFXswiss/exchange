@@ -22,6 +22,7 @@ const chainIds: { [id: number]: Blockchain } = {
   [56]: Blockchain.BINANCE_SMART_CHAIN,
   [42161]: Blockchain.ARBITRUM,
   [10]: Blockchain.OPTIMISM,
+  [137]: Blockchain.POLYGON,
 };
 
 interface BlockchainDefinitions {
@@ -82,6 +83,19 @@ export function useBlockchain(): BlockchainInterface {
           rpcUrls: ['https://mainnet.optimism.io'],
           blockExplorerUrls: ['https://optimistic.etherscan.io/'],
         };
+      case Blockchain.POLYGON:
+        return {
+          chainId,
+          chainName,
+          nativeCurrency: {
+            name: 'Matic Token',
+            symbol: 'MATIC',
+            decimals: 18,
+          },
+          rpcUrls: ['https://polygon-rpc.com'],
+          blockExplorerUrls: ['https://polygonscan.com/'],
+        };
+
       case Blockchain.ETHEREUM:
       default:
         return undefined;
@@ -91,7 +105,7 @@ export function useBlockchain(): BlockchainInterface {
   const definitions: BlockchainDefinitions = {
     headings: {
       [Blockchain.ETHEREUM]: 'Ethereum mainnet · ERC-20 token',
-      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain · BEP-20 token',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'BNB Chain · BEP-20 token',
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
       [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
@@ -112,10 +126,10 @@ export function useBlockchain(): BlockchainInterface {
     },
     stringValue: {
       [Blockchain.ETHEREUM]: 'Ethereum',
-      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'BNB Chain',
       [Blockchain.ARBITRUM]: 'Arbitrum',
       [Blockchain.OPTIMISM]: 'Optimism',
-      [Blockchain.POLYGON]: 'Polygon (not yet supported)',
+      [Blockchain.POLYGON]: 'Polygon',
     },
   };
 
