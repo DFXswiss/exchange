@@ -18,7 +18,7 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Asset, AssetType, Blockchain, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { Asset, AssetType, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -77,11 +77,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
-          networks={
-            availableBlockchains
-              ?.filter((b) => b !== Blockchain.POLYGON)
-              .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
-          }
+          networks={availableBlockchains?.map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []}
           onNetworkChange={(network) =>
             requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
           }
