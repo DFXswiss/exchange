@@ -18,7 +18,7 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Asset, AssetType, Blockchain, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { Asset, AssetType, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
