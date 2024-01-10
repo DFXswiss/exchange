@@ -105,9 +105,10 @@ export function useMetaMask(): MetaMaskInterface {
 
   async function requestChangeToBlockchain(blockchain?: Blockchain): Promise<void> {
     if (!blockchain) return;
-    const id = toChainId(blockchain);
-    if (!id) return;
-    const chainId = web3.utils.toHex(id);
+
+    const chainId = toChainId(blockchain);
+    if (!chainId) return;
+
     return ethereum().sendAsync(
       {
         method: 'wallet_switchEthereumChain',
