@@ -1,5 +1,6 @@
 import { Blockchain } from '@dfx.swiss/react';
 import { MetaMaskChainInterface } from './metamask.hook';
+import Web3 from 'web3';
 
 export interface BlockchainInterface {
   toBlockchain: (chainId: string | number) => Blockchain | undefined;
@@ -22,6 +23,7 @@ const chainIds: { [id: number]: Blockchain } = {
   [56]: Blockchain.BINANCE_SMART_CHAIN,
   [42161]: Blockchain.ARBITRUM,
   [10]: Blockchain.OPTIMISM,
+  [137]: Blockchain.POLYGON,
 };
 
 interface BlockchainDefinitions {
@@ -36,14 +38,17 @@ export function useBlockchain(): BlockchainInterface {
     return chainIds[+chainId];
   }
 
-  function toChainId(blockchain: Blockchain): string | number | undefined {
-    return Object.entries(chainIds).find(([_, b]) => b === blockchain)?.[0];
+  function toChainId(blockchain: Blockchain): string | undefined {
+    const web3 = new Web3(Web3.givenProvider);
+
+    const id = Object.entries(chainIds).find(([_, b]) => b === blockchain)?.[0];
+    return id && web3.utils.toHex(id);
   }
 
   function toChainObject(blockchain: Blockchain): MetaMaskChainInterface | undefined {
-    let chainId = toChainId(blockchain)?.toString(16);
+    const chainId = toChainId(blockchain);
     if (!chainId) return undefined;
-    chainId = `0x${chainId}`;
+
     const chainName = definitions.stringValue[blockchain];
     switch (blockchain) {
       case Blockchain.BINANCE_SMART_CHAIN:
@@ -82,6 +87,19 @@ export function useBlockchain(): BlockchainInterface {
           rpcUrls: ['https://mainnet.optimism.io'],
           blockExplorerUrls: ['https://optimistic.etherscan.io/'],
         };
+      case Blockchain.POLYGON:
+        return {
+          chainId,
+          chainName,
+          nativeCurrency: {
+            name: 'Matic Token',
+            symbol: 'MATIC',
+            decimals: 18,
+          },
+          rpcUrls: ['https://polygon-rpc.com'],
+          blockExplorerUrls: ['https://polygonscan.com/'],
+        };
+
       case Blockchain.ETHEREUM:
       default:
         return undefined;
@@ -91,7 +109,7 @@ export function useBlockchain(): BlockchainInterface {
   const definitions: BlockchainDefinitions = {
     headings: {
       [Blockchain.ETHEREUM]: 'Ethereum mainnet · ERC-20 token',
-      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain · BEP-20 token',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'BNB Chain · BEP-20 token',
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
       [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
@@ -112,10 +130,10 @@ export function useBlockchain(): BlockchainInterface {
     },
     stringValue: {
       [Blockchain.ETHEREUM]: 'Ethereum',
-      [Blockchain.BINANCE_SMART_CHAIN]: 'Binance Smart Chain',
+      [Blockchain.BINANCE_SMART_CHAIN]: 'BNB Chain',
       [Blockchain.ARBITRUM]: 'Arbitrum',
       [Blockchain.OPTIMISM]: 'Optimism',
-      [Blockchain.POLYGON]: 'Polygon (not yet supported)',
+      [Blockchain.POLYGON]: 'Polygon',
     },
   };
 
