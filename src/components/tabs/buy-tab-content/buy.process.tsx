@@ -49,6 +49,9 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   const [customAmountError, setCustomAmountError] = useState<string>();
   const [showsCompletion, setShowsCompletion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const availableCurrencies = currencies?.filter((c) => c.sellable);
+
   const {
     control,
     handleSubmit,
@@ -131,9 +134,9 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       </StyledModal>
       {/* CONTENT */}
       <StyledTabContentWrapper showBackArrow onBackClick={onBack}>
-        <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
+        <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)} hasFormElement={false}>
           <StyledVerticalStack gap={8}>
-            {currencies && asset && (
+            {availableCurrencies && asset && (
               <div className="flex justify-between  items-center">
                 <div className="basis-5/12 shrink-1">
                   <StyledDropdown<Fiat>
@@ -141,7 +144,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
                     label="Your Currency"
                     placeholder="e.g. EUR"
                     labelIcon={IconVariant.BANK}
-                    items={currencies}
+                    items={availableCurrencies}
                     labelFunc={(item) => item.name}
                     descriptionFunc={(item) => toDescription(item)}
                   />

@@ -82,6 +82,9 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
   const [sellTxId, setSellTxId] = useState<string>();
   const [kycRequired, setKycRequired] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState<PaymentInformation>();
+
+  const availableCurrencies = currencies?.filter((c) => c.buyable);
+
   const {
     control,
     handleSubmit,
@@ -238,7 +241,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
     </StyledTabContentWrapper>
   ) : (
     <StyledTabContentWrapper leftBorder>
-      <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)}>
+      <Form control={control} rules={rules} errors={errors} onSubmit={handleSubmit(onSubmit)} hasFormElement={false}>
         <StyledVerticalStack gap={8}>
           <StyledModalDropdown<BankAccount>
             name="bankAccount"
@@ -287,7 +290,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                 label="Your Currency"
                 placeholder="e.g. EUR"
                 labelIcon={IconVariant.BANK}
-                items={currencies ?? []}
+                items={availableCurrencies ?? []}
                 labelFunc={(item) => item.name}
                 descriptionFunc={(item) => toDescription(item)}
               />

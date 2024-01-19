@@ -45,6 +45,7 @@ export function AddBankAccount({ onSubmit }: AddBankAccountProps): JSX.Element {
         <StyledInput label="Optional - Account Designation" placeholder="eg. Deutsche Bank" name="label" />
         <StyledSpacer spacing={-1} />
         <StyledButton
+          type="submit"
           disabled={!isValid}
           color={StyledButtonColor.RED}
           label="Add Bank Account"

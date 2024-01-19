@@ -19,6 +19,7 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
     Blockchain.ARBITRUM,
     Blockchain.OPTIMISM,
     Blockchain.POLYGON,
+    Blockchain.BASE,
   ];
 
   return (
