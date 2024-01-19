@@ -24,6 +24,7 @@ const chainIds: { [id: number]: Blockchain } = {
   [42161]: Blockchain.ARBITRUM,
   [10]: Blockchain.OPTIMISM,
   [137]: Blockchain.POLYGON,
+  [8453]: Blockchain.BASE,
 };
 
 interface BlockchainDefinitions {
@@ -49,36 +50,37 @@ export function useBlockchain(): BlockchainInterface {
     const chainId = toChainId(blockchain);
     if (!chainId) return undefined;
 
-    const chainName = definitions.stringValue[blockchain];
     switch (blockchain) {
       case Blockchain.BINANCE_SMART_CHAIN:
         return {
           chainId,
-          chainName,
+          chainName: 'BNB Smart Chain Mainnet',
           nativeCurrency: {
             name: 'BNB',
-            symbol: 'bnb',
+            symbol: 'BNB',
             decimals: 18,
           },
           rpcUrls: ['https://bsc-dataseed.binance.org/'],
           blockExplorerUrls: ['https://bscscan.com/'],
         };
+
       case Blockchain.ARBITRUM:
         return {
           chainId,
-          chainName,
+          chainName: 'Arbitrum One',
           nativeCurrency: {
             name: 'Ether',
             symbol: 'ETH',
             decimals: 18,
           },
           rpcUrls: ['https://arb1.arbitrum.io/rpc'],
-          blockExplorerUrls: ['https://arbiscan.io/'],
+          blockExplorerUrls: ['https://arbiscan.io'],
         };
+
       case Blockchain.OPTIMISM:
         return {
           chainId,
-          chainName,
+          chainName: 'OP Mainnet',
           nativeCurrency: {
             name: 'Ether',
             symbol: 'ETH',
@@ -87,17 +89,31 @@ export function useBlockchain(): BlockchainInterface {
           rpcUrls: ['https://mainnet.optimism.io'],
           blockExplorerUrls: ['https://optimistic.etherscan.io/'],
         };
+
       case Blockchain.POLYGON:
         return {
           chainId,
-          chainName,
+          chainName: 'Polygon Mainnet',
           nativeCurrency: {
             name: 'Matic Token',
             symbol: 'MATIC',
             decimals: 18,
           },
-          rpcUrls: ['https://polygon-rpc.com'],
+          rpcUrls: ['https://polygon-rpc.com/'],
           blockExplorerUrls: ['https://polygonscan.com/'],
+        };
+
+      case Blockchain.BASE:
+        return {
+          chainId,
+          chainName: 'Base',
+          nativeCurrency: {
+            name: 'Ether',
+            symbol: 'ETH',
+            decimals: 18,
+          },
+          rpcUrls: ['https://mainnet.base.org'],
+          blockExplorerUrls: ['https://basescan.org'],
         };
 
       case Blockchain.ETHEREUM:
@@ -113,6 +129,7 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: 'Arbitrum One · ERC-20 token',
       [Blockchain.OPTIMISM]: 'Optimism · ERC-20 token',
       [Blockchain.POLYGON]: 'Polygon · ERC-20 token',
+      [Blockchain.BASE]: 'Base · ERC-20 token',
     },
     protocols: {
       [Blockchain.ETHEREUM]: Protocol.ERC_20,
@@ -120,6 +137,7 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: Protocol.ERC_20,
       [Blockchain.OPTIMISM]: Protocol.ERC_20,
       [Blockchain.POLYGON]: Protocol.ERC_20,
+      [Blockchain.BASE]: Protocol.ERC_20,
     },
     mainToken: {
       [Blockchain.ETHEREUM]: 'ETH',
@@ -127,6 +145,7 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: 'ETH',
       [Blockchain.OPTIMISM]: 'ETH',
       [Blockchain.POLYGON]: 'MATIC',
+      [Blockchain.BASE]: 'ETH',
     },
     stringValue: {
       [Blockchain.ETHEREUM]: 'Ethereum',
@@ -134,6 +153,7 @@ export function useBlockchain(): BlockchainInterface {
       [Blockchain.ARBITRUM]: 'Arbitrum',
       [Blockchain.OPTIMISM]: 'Optimism',
       [Blockchain.POLYGON]: 'Polygon',
+      [Blockchain.BASE]: 'Base',
     },
   };
 
