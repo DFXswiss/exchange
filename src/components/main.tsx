@@ -133,7 +133,7 @@ export function Main(): JSX.Element {
           <h1>Welcome back!</h1>
           <p>
             It looks like you already have an account with DFX. We have just sent you an E-Mail. Click on the sent link
-            to add the connected MetaMask address to your account. This way you don't need to go through KYC again.
+            to confirm your mail address. This way you don't need to go through KYC again.
           </p>
           <p>If you don't want to link this address to your account, simply ignore the E-Mail.</p>
           <div className="mx-auto">
