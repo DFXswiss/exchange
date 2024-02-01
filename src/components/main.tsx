@@ -135,7 +135,6 @@ export function Main(): JSX.Element {
             It looks like you already have an account with DFX. We have just sent you an E-Mail. Click on the sent link
             to confirm your mail address. This way you don't need to go through KYC again.
           </p>
-          <p>If you don't want to link this address to your account, simply ignore the E-Mail.</p>
           <div className="mx-auto">
             <StyledButton width={StyledButtonWidth.SM} onClick={() => setShowsUserLink(false)} label="Got it." />
           </div>
@@ -186,7 +185,6 @@ export function Main(): JSX.Element {
           <StyledLink label="Terms and conditions" url={process.env.REACT_APP_TNC_URL} />
           <StyledLink label="Privacy policy" url={process.env.REACT_APP_PPO_URL} />
           <StyledLink label="Imprint" url={process.env.REACT_APP_IMP_URL} />
-          <StyledLink label="Proof of Origins of Funds" url={process.env.REACT_APP_POF_URL} />
         </div>
       </div>
     </>
