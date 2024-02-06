@@ -263,7 +263,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
 
                 <label className="text-dfxBlue-800 text-base font-semibold pl-3.5">Your Wallet</label>
               </div>
-              <div className="border border-dfxGray-400 rounded drop-shadow-sm">
+              <div className="border border-dfxGray-400 rounded drop-shadow-sm relative z-1">
                 {asset ? (
                   <StyledCoinListItem
                     asset={asset}
