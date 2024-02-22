@@ -1,2 +1,2 @@
-# exchange
-Marketplace for Ethereum 
+# Frankencoin Exchange
+Multi-chain marketplace for Frankencoin
