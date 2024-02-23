@@ -19,6 +19,7 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { Asset, AssetType, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { AvailableChains, getTokenIndex, isTokenAvailable } from '../../config';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -43,7 +44,13 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
   const [assetBalances, setAssetBalances] = useState<AssetBalance[]>();
 
   const sellableAssets = useMemo(
-    () => blockchain && assets.get(blockchain)?.filter((asset) => asset.sellable),
+    () =>
+      blockchain &&
+      assets
+        .get(blockchain)
+        ?.filter((asset) => asset.sellable)
+        .filter(isTokenAvailable)
+        .sort((a, b) => getTokenIndex(a) - getTokenIndex(b)),
     [blockchain, assets],
   );
 
@@ -77,7 +84,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
-          networks={availableBlockchains?.map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []}
+          networks={AvailableChains?.map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []}
           onNetworkChange={(network) =>
             requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
           }

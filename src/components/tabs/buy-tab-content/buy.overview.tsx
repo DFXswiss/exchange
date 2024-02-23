@@ -2,7 +2,8 @@ import { StyledCoinList, StyledCoinListItem, StyledVerticalStack } from '@dfx.sw
 import { useWalletContext } from '../../../contexts/wallet.context';
 import { useBlockchain } from '../../../hooks/blockchain.hook';
 import { useMetaMask } from '../../../hooks/metamask.hook';
-import { Asset, AssetType, Blockchain, useAssetContext } from '@dfx.swiss/react';
+import { Asset, AssetType, useAssetContext } from '@dfx.swiss/react';
+import { AvailableChains, getTokenIndex, isTokenAvailable } from '../../../config';
 
 interface BuyTabContentOverviewProps {
   onAssetClicked: (asset: Asset) => void;
@@ -13,23 +14,18 @@ export function BuyTabContentOverview({ onAssetClicked }: BuyTabContentOverviewP
   const { assets } = useAssetContext();
   const { toHeader, toProtocol } = useBlockchain();
   const { addContract } = useMetaMask();
-  const availableChains: Blockchain[] = [
-    Blockchain.ETHEREUM,
-    Blockchain.BINANCE_SMART_CHAIN,
-    Blockchain.ARBITRUM,
-    Blockchain.OPTIMISM,
-    Blockchain.POLYGON,
-    Blockchain.BASE,
-  ];
 
   return (
     <StyledVerticalStack gap={0}>
       {Array.from(assets.entries())
-        .filter(([blockchain]) => availableChains.includes(blockchain))
+        .filter(([blockchain]) => AvailableChains.includes(blockchain))
+        .sort(([a], [b]) => AvailableChains.indexOf(a) - AvailableChains.indexOf(b))
         .map(([blockchain, assets]) => (
           <StyledCoinList key={blockchain} heading={toHeader(blockchain)}>
             {assets
               .filter((a) => a.buyable || a.comingSoon)
+              .filter(isTokenAvailable)
+              .sort((a, b) => getTokenIndex(a) - getTokenIndex(b))
               .map((asset) => (
                 <StyledCoinListItem
                   key={asset.id}

@@ -1,6 +1,6 @@
 # Infrastructure Deployment
 
-1. Do deployment: `az deployment group create -g rg-dfx-mex-{env} -f infrastructure/dfx-exchange.bicep -p infrastructure/parameters/{env}.json`
+1. Do deployment: `az deployment group create -g rg-dfx-fcx-{env} -f infrastructure/dfx-exchange.bicep -p infrastructure/parameters/{env}.json`
 1. Only on first deployment
    1. Activate static website
       - Azure Portal -> Storage account -> Static website -> Enabled

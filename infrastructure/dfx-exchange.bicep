@@ -3,7 +3,7 @@ param location string
 param env string
 
 // --- VARIABLES --- //
-var systemName = 'dfx-mex'
+var systemName = 'dfx-fcx'
 
 module staticPage 'static-page.bicep' = {
   name: 'static-page-${systemName}'

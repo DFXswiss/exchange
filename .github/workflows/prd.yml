@@ -7,10 +7,10 @@ on:
 
 env:
   NODE_VERSION: '16.x'
-  AZURE_ACCOUNT_NAME: 'stdfxmexprd'
-  AZURE_CDN_PROFILE: 'cdnp-dfx-mex-prd'
-  AZURE_CDN_ENDPOINT: 'cdne-dfx-mex-prd'
-  AZURE_RESOURCE_GROUP: 'rg-dfx-mex-prd'
+  AZURE_ACCOUNT_NAME: 'stdfxfcxprd'
+  AZURE_CDN_PROFILE: 'cdnp-dfx-fcx-prd'
+  AZURE_CDN_ENDPOINT: 'cdne-dfx-fcx-prd'
+  AZURE_RESOURCE_GROUP: 'rg-dfx-fcx-prd'
 
 jobs:
   build:

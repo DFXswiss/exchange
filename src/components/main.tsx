@@ -8,17 +8,12 @@ import { WalletBox } from './wallet-box';
 import { useSellTab } from './tabs/sell.tab';
 import {
   DfxLogo,
-  DfxVideoHelpModalContent,
-  IconSize,
-  IconVariant,
   StyledButton,
   StyledButtonColor,
   StyledButtonWidth,
-  StyledIconButton,
   StyledLink,
   StyledModal,
   StyledModalType,
-  StyledModalWidth,
   StyledTabContainer,
   StyledTabProps,
   StyledVerticalStack,
@@ -30,7 +25,6 @@ export function Main(): JSX.Element {
   const { isProcessing, needsSignUp, signUp } = useSessionContext();
   const { register } = useUserContext();
   const [isLogin, setIsLogin] = useState(false);
-  const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
   const [showsInstallHint, setShowsInstallHint] = useState(false);
 
@@ -103,31 +97,6 @@ export function Main(): JSX.Element {
         </StyledVerticalStack>
       </StyledModal>
 
-      <StyledModal onClose={setShowsHelp} isVisible={showsHelp} width={StyledModalWidth.FULL_WIDTH} heading="Help">
-        <DfxVideoHelpModalContent
-          title="Get started with the DFX Exchange"
-          description="We are the crypto exchange you don't need to trust your funds. Your keys, your coins, here is how it works:"
-          videoSources={[
-            {
-              vidSrc: 'https://content.dfx.swiss/video/2022-12-20_MetaMask-get-started.mp4',
-              thumbSrc: 'https://content.dfx.swiss/video/2022-12-20_MetaMask-Get-Started-Thumb.png',
-              title: 'Get started with MetaMask:',
-            },
-            {
-              vidSrc: 'https://content.dfx.swiss/video/2022-12-20_What-Is-DFX-Exchange.mp4',
-              thumbSrc: 'https://content.dfx.swiss/video/2022-12-20_What-Is-DFX-Exchange-Thumb.png',
-              title: 'What is DFX Exchange?',
-            },
-            {
-              vidSrc: 'https://content.dfx.swiss/video/2022-12-20_Exchange-How-To-Buy.mp4',
-              thumbSrc: 'https://content.dfx.swiss/video/2022-12-20_Exchange-How-To-Buy-Thumb.png',
-              title: 'How to buy:',
-            },
-          ]}
-          numCols={3}
-        />
-      </StyledModal>
-
       <StyledModal isVisible={showsUserLink} onClose={setShowsUserLink} type={StyledModalType.ALERT}>
         <StyledVerticalStack gap={4}>
           <h1>Welcome back!</h1>
@@ -148,20 +117,13 @@ export function Main(): JSX.Element {
             <a target="_blank" href={process.env.REACT_APP_DFX_URL} rel="noopener noreferrer">
               <DfxLogo />
             </a>
-            {!isMobile && (
-              <div className={`flex ${isConnected ? 'gap-2' : 'gap-4'} items-center`}>
-                {isConnected ? (
-                  <p className="text-dfxRed-100">How to</p>
-                ) : (
-                  <StyledButton label="Connect to Metamask / Rabby" onClick={connect} isLoading={isLogin} />
-                )}
-                <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
-              </div>
+            {!isMobile && !isConnected && (
+              <StyledButton label="Connect to Metamask / Rabby" onClick={connect} isLoading={isLogin} />
             )}
           </div>
           <div className="md:flex justify-between mt-6">
             <div className="basis-3/5 max-w-[50%] px-6 mx-auto md:mx-0">
-              <DfxTitleSection heading="DFX Exchange" subheading="Buy • Sell • Convert" />
+              <DfxTitleSection heading="Frankencoin Exchange" subheading="Buy • Sell • Convert" />
             </div>
             {!isMobile && (
               <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
