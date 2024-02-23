@@ -23,7 +23,8 @@
     "sepa",
     "tailwindcss",
     "testid",
-    "videoid"
+    "videoid",
+    "zchf"
   ],
   "files.exclude": {
     "node_modules": true

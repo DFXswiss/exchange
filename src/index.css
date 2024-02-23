@@ -3,7 +3,7 @@
 @tailwind base;
 
 .bg-dfxGradient {
-  background: linear-gradient(215.56deg, #402f4b 20.21%, #072440 85.33%);
+  background: linear-gradient(180deg, #b65868 71.5%, rgba(182, 88, 104, 0) 100%);
   background-attachment: fixed;
 }
 
@@ -32,7 +32,7 @@ input[type='number'] {
       'Open Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #072440;
+    background-color: white;
   }
 
   h1 {

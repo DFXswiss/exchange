@@ -1,4 +1,4 @@
-import imageFile from '../static/assets/mm-header-graphic.png';
+import imageFile from '../static/assets/fc-header-graphic.png';
 
 interface DfxTitleSectionProps {
   subheading: string;
