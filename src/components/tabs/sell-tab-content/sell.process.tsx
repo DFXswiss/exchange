@@ -273,6 +273,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
                     onAdd={(svgData) => addContract(asset, svgData, blockchain)}
                     disabled
                     alwaysShowDots
+                    copy={() => (asset.chainId ? copy(asset.chainId) : undefined)}
                   />
                 ) : (
                   <div className="px-3 py-4 h-full text-dfxGray-600">Select a coin</div>
