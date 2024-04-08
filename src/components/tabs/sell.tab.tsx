@@ -77,7 +77,11 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
-          networks={availableBlockchains?.map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []}
+          networks={
+            availableBlockchains
+              ?.filter((b) => toString(b))
+              .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
+          }
           onNetworkChange={(network) =>
             requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
           }
