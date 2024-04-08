@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@dfx.swiss/react": "^1.2.0-beta.28",
-    "@dfx.swiss/react-components": "^1.2.0-beta.39",
+    "@dfx.swiss/react-components": "^1.2.0-beta.59",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
