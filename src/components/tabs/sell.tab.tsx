@@ -10,12 +10,16 @@ import {
   StyledBalanceSelection,
   StyledButton,
   StyledHorizontalStack,
+  StyledModal,
+  StyledModalColor,
+  StyledModalType,
   StyledNetworkSelection,
   StyledTabContentWrapper,
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { Asset, AssetType, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { UserDataForm } from '../user-data-form';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -69,9 +73,9 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
 
   return (
     <>
-      {/* <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
+      <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
         <UserDataForm />
-      </StyledModal> */}
+      </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
           networks={

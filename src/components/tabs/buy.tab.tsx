@@ -3,7 +3,7 @@ import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { IconVariant, StyledTabProps } from '@dfx.swiss/react-components';
 import { Asset, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { useWalletContext } from '../../contexts/wallet.context';
-import { DfxServices, Service } from '@dfx.swiss/services';
+import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 enum BuyTabStep {
   OVERVIEW,
@@ -49,7 +49,6 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
         />
       );
     case BuyTabStep.BUY_PROCESS:
-      console.log('currentAsset', currentAsset);
       return (
         <DfxServices
           headless="true"
