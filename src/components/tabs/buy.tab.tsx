@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
-import { BuyTabContentProcess } from './buy-tab-content/buy.process';
 import { IconVariant, StyledTabProps } from '@dfx.swiss/react-components';
-import { Asset, useSessionContext } from '@dfx.swiss/react';
+import { Asset, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { useWalletContext } from '../../contexts/wallet.context';
+import { DfxServices, Service } from '@dfx.swiss/services';
 
 enum BuyTabStep {
   OVERVIEW,
@@ -31,6 +31,7 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
   const [currentAsset, setCurrentAsset] = useState<Asset>();
   const { requestLogin } = useWalletContext();
   const { isLoggedIn } = useSessionContext();
+  const { authenticationToken } = useAuthContext();
 
   switch (step) {
     case BuyTabStep.OVERVIEW:
@@ -48,6 +49,16 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
         />
       );
     case BuyTabStep.BUY_PROCESS:
-      return <BuyTabContentProcess onBack={() => onStepUpdate(BuyTabStep.OVERVIEW)} asset={currentAsset} />;
+      console.log('currentAsset', currentAsset);
+      return (
+        <DfxServices
+          headless="true"
+          service={Service.BUY}
+          blockchain={currentAsset?.blockchain}
+          assetOut={currentAsset?.uniqueName}
+          session={authenticationToken}
+          onClose={() => onStepUpdate(BuyTabStep.OVERVIEW)}
+        />
+      );
   }
 }

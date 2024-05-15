@@ -4,15 +4,12 @@ import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useEffect, useMemo, useState } from 'react';
 import { useWalletContext } from '../../contexts/wallet.context';
 import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
-import { UserDataForm } from '../user-data-form';
+
 import {
   IconVariant,
   StyledBalanceSelection,
   StyledButton,
   StyledHorizontalStack,
-  StyledModal,
-  StyledModalColor,
-  StyledModalType,
   StyledNetworkSelection,
   StyledTabContentWrapper,
   StyledTabProps,
@@ -72,9 +69,9 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
 
   return (
     <>
-      <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
+      {/* <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
         <UserDataForm />
-      </StyledModal>
+      </StyledModal> */}
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
           networks={
