@@ -4,7 +4,7 @@ import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useEffect, useMemo, useState } from 'react';
 import { useWalletContext } from '../../contexts/wallet.context';
 import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
-import { UserDataForm } from '../user-data-form';
+
 import {
   IconVariant,
   StyledBalanceSelection,
@@ -19,6 +19,7 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { Asset, AssetType, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { UserDataForm } from '../user-data-form';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -77,7 +78,11 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
-          networks={availableBlockchains?.map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []}
+          networks={
+            availableBlockchains
+              ?.filter((b) => toString(b))
+              .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
+          }
           onNetworkChange={(network) =>
             requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
           }
