@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { IconVariant, StyledTabProps } from '@dfx.swiss/react-components';
 import { Asset, useAuthContext, useSessionContext } from '@dfx.swiss/react';
