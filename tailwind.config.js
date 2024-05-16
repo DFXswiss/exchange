@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './node_modules/@dfx.swiss/react-components/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './node_modules/@dfx.swiss/react-components/**/*.{vue,js,ts,jsx,tsx}',
+    './node_modules/@dfx.swiss/services-react/**/*.{vue,js,ts,jsx,tsx}',
+  ],
   darkMode: 'media',
   theme: {
     colors: {
