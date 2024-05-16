@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
-import { IconVariant, StyledTabProps } from '@dfx.swiss/react-components';
+import { IconVariant, StyledTabContentWrapper, StyledTabProps } from '@dfx.swiss/react-components';
 import { Asset, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { useWalletContext } from '../../contexts/wallet.context';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
@@ -50,14 +50,16 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
       );
     case BuyTabStep.BUY_PROCESS:
       return (
-        <DfxServices
-          headless="true"
-          service={Service.BUY}
-          blockchain={currentAsset?.blockchain}
-          assetOut={currentAsset?.uniqueName}
-          session={authenticationToken}
-          onClose={() => onStepUpdate(BuyTabStep.OVERVIEW)}
-        />
+        <StyledTabContentWrapper showBackArrow onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}>
+          <DfxServices
+            headless="true"
+            service={Service.BUY}
+            blockchain={currentAsset?.blockchain}
+            assetOut={currentAsset?.uniqueName}
+            session={authenticationToken}
+            onClose={() => onStepUpdate(BuyTabStep.OVERVIEW)}
+          />
+        </StyledTabContentWrapper>
       );
   }
 }
