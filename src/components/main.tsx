@@ -171,7 +171,9 @@ export function Main(): JSX.Element {
             )}
           </div>
           {!isMobile ? (
-            <StyledTabContainer tabs={[useBuyTab(), useSellTab(), buildComingSoonTab('Convert')]} />
+            <div className="my-6">
+              <StyledTabContainer tabs={[useBuyTab(), useSellTab(), buildComingSoonTab('Convert')]} />
+            </div>
           ) : (
             <>
               <p className="text-center py-12">
