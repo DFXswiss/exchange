@@ -57,6 +57,7 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
         >
           <DfxServices
             headless="true"
+            borderless="true"
             service={Service.BUY}
             blockchain={currentAsset?.blockchain}
             assetOut={currentAsset?.uniqueName}
