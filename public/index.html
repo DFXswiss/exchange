@@ -17,6 +17,18 @@
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Buy & Sell directly into your MetaMask | DFX.swiss</title>
+  <script>
+    function isMobileDevice() {
+      const userAgent = navigator.userAgent;
+      // Check for "Mobi" keyword (Source: https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent)
+      const isMobileKeyword = /Mobi/i.test(userAgent);
+      const isSpecificMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(userAgent);
+      return isMobileKeyword || isSpecificMobileDevice;
+    }
+    if (isMobileDevice()) {
+      window.location.href = 'https://services.dfx.swiss';
+    }
+  </script>
   <style>
     .loader-container {
       display: flex;
