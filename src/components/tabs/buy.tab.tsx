@@ -50,9 +50,14 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
       );
     case BuyTabStep.BUY_PROCESS:
       return (
-        <StyledTabContentWrapper showBackArrow onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}>
+        <StyledTabContentWrapper
+          showBackArrow
+          onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}
+          className="max-w-none"
+        >
           <DfxServices
             headless="true"
+            borderless="true"
             service={Service.BUY}
             blockchain={currentAsset?.blockchain}
             assetOut={currentAsset?.uniqueName}
