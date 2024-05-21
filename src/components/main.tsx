@@ -23,20 +23,34 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { useAuthContext, useUserContext } from '@dfx.swiss/react';
+import { useSessionContext } from '@dfx.swiss/react-local';
+import { DfxServices, Service } from '@dfx.swiss/services-react-local';
+// import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 export function Main(): JSX.Element {
   const { isInstalled, isConnected, requestLogin } = useWalletContext();
-  const { isProcessing, needsSignUp, signUp } = useSessionContext();
+  const { address, isProcessing, needsSignUp, signUp } = useSessionContext();
+  const { isLoggedIn, session, setAuthenticationToken } = useAuthContext();
   const { register } = useUserContext();
   const [isLogin, setIsLogin] = useState(false);
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
   const [showsInstallHint, setShowsInstallHint] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   useEffect(() => {
     register(() => setShowsUserLink(true));
   });
+
+  useEffect(() => {
+    console.log("address changed", address);
+    console.log("isLoggedIn changed", isLoggedIn);
+    console.log("session changed", session);
+    console.log("isInstalled", isInstalled());
+    console.log("isConnected", isConnected);
+    if (address && !isLoggedIn) login();
+  }, [address, session, isLoggedIn]);
 
   function buildComingSoonTab(title: string): StyledTabProps {
     return {
@@ -52,6 +66,23 @@ export function Main(): JSX.Element {
     isInstalled() ? login() : setShowsInstallHint(true);
   }
 
+  // TODO: Extend useAuthContext in @dfx.swiss/react with this function or see session.context.d.ts
+  function syncAuthenticationToken() {
+    const token = localStorage.getItem('dfx.authenticationToken');
+    if (token) setAuthenticationToken(token);
+  }
+
+  function onClosePopup() {
+    console.log("onClose DfxServices");
+    setPopupVisible(false);
+    syncAuthenticationToken();
+  }
+
+  function showPopup() {
+    console.log('showPopup');
+    setPopupVisible(true);
+  }
+
   function login(): Promise<void> {
     setIsLogin(true);
     return requestLogin().finally(() => setIsLogin(false));
@@ -60,6 +91,26 @@ export function Main(): JSX.Element {
   return (
     <>
       {/* MODALS */}
+      <StyledModal
+        type={StyledModalType.ALERT}
+        width={StyledModalWidth.SMALL}
+        // onClose={setShowModal}
+        isVisible={isPopupVisible}
+      >
+        <StyledVerticalStack gap={5} center>
+          <DfxServices
+            headless="true"
+            // borderless="true"
+            service={Service.SWITCH}
+            blockchain={'Ethereum'}
+            assetOut={'ETH'}
+            session={'authenticationToken'}
+            wallets={'metamask,hw-wallet,walletconnect,cli'}
+            onClose={onClosePopup}
+          />
+        </StyledVerticalStack>
+      </StyledModal>
+
       <StyledModal type={StyledModalType.ALERT} isVisible={showsInstallHint}>
         <StyledVerticalStack gap={4}>
           <h1>Please install MetaMask or Rabby!</h1>
@@ -153,7 +204,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask / Rabby" onClick={connect} isLoading={isLogin} />
+                  <StyledButton label="Connect to Metamask / Rabby" onClick={showPopup} isLoading={isLogin} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>
