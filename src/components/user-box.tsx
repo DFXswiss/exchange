@@ -73,9 +73,9 @@ export function UserBox(): JSX.Element {
             />
           )}
         </StyledDataTextRow>
-        {user?.ref && (
+        {refLink && (
           <StyledDataTextRow label="Your referral link">
-            {user.ref}
+            {refLink}
             <StyledButton
               label="Copy link to share"
               size={StyledButtonSize.SMALL}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useKycHelper } from '../hooks/kyc-helper.hook';
 import {
@@ -14,13 +14,19 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { MailEdit, MailEditInfoTextPlacement } from './edit/mail.edit';
-import { useUserContext, Utils } from '@dfx.swiss/react';
+import { Referral, useUser, useUserContext, Utils } from '@dfx.swiss/react';
 
 export function UserData(): JSX.Element {
   const { user, refLink } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const { start, status, limit, isComplete } = useKycHelper();
   const [showsUserEdit, setShowsUserEdit] = useState(false);
+  const { getRef } = useUser();
+  const [referral, setReferral] = useState<Referral | undefined>(undefined);
+
+  useEffect(() => {
+    getRef().then(setReferral);
+  }, []);
 
   const userData = [
     {
@@ -30,12 +36,12 @@ export function UserData(): JSX.Element {
         user?.mail != null
           ? undefined
           : {
-              color: StyledButtonColor.WHITE,
-              label: 'Add E-mail address',
-              func: () => setShowsUserEdit(true),
-              isLoading: false,
-              deactivateMargin: true,
-            },
+            color: StyledButtonColor.WHITE,
+            label: 'Add E-mail address',
+            func: () => setShowsUserEdit(true),
+            isLoading: false,
+            deactivateMargin: true,
+          },
     },
     { title: 'KYC status', value: status },
     {
@@ -54,7 +60,7 @@ export function UserData(): JSX.Element {
   const referralData = [
     {
       title: 'Referral link',
-      value: user?.ref,
+      value: referral?.code,
       button: {
         color: StyledButtonColor.RED,
         label: 'Copy to share',
@@ -63,11 +69,11 @@ export function UserData(): JSX.Element {
         deactivateMargin: false,
       },
     },
-    { title: 'Referral commission', value: `${user?.refFeePercent ?? 0 * 100} %` },
-    { title: 'Referred users', value: user?.refCount },
-    { title: 'Referral volume', value: `${Utils.formatAmount(user?.refVolume)} €` },
-    { title: 'Referral reward', value: `${Utils.formatAmount(user?.refCredit)} €` },
-    { title: 'Referral payed out', value: `${Utils.formatAmount(user?.paidRefCredit)} €` },
+    { title: 'Referral commission', value: `0.25 %` }, // TODO: add referral commission to Referral interface
+    { title: 'Referred users', value: referral?.userCount },
+    { title: 'Referral volume', value: `${Utils.formatAmount(referral?.volume)} €` },
+    { title: 'Referral reward', value: `${Utils.formatAmount(referral?.credit)} €` },
+    { title: 'Referral payed out', value: `${Utils.formatAmount(referral?.paidCredit)} €` },
     {
       value:
         'The referral reward will be paid in $ETH on Arbitrum as soon as the pending referral reward is at least 10€.',
@@ -78,14 +84,14 @@ export function UserData(): JSX.Element {
     { header: 'User Data', content: userData },
     {
       header: 'User Referral',
-      content: user?.ref
+      content: referral
         ? referralData
         : [
-            {
-              title: 'Referral link',
-              value: 'Complete a purchase or sell to receive your personal referral link',
-            },
-          ],
+          {
+            title: 'Referral link',
+            value: 'Complete a purchase or sell to receive your personal referral link',
+          },
+        ],
     },
   ];
 

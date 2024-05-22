@@ -23,14 +23,13 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { useAuthContext, useUserContext } from '@dfx.swiss/react';
-import { useSessionContext } from '@dfx.swiss/react-local';
+import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react-local';
 // import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 export function Main(): JSX.Element {
   const { isInstalled, isConnected, requestLogin } = useWalletContext();
-  const { address, isProcessing, needsSignUp, signUp } = useSessionContext();
+  const { address, isProcessing, needsSignUp, signUp, sync } = useSessionContext();
   const { isLoggedIn, session, setAuthenticationToken } = useAuthContext();
   const { register } = useUserContext();
   const [isLogin, setIsLogin] = useState(false);
