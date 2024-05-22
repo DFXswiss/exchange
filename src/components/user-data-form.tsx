@@ -16,7 +16,7 @@ import {
   StyledSpacer,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { AccountType, ApiError, KycData, useKyc, useUserContext, Utils, Validations } from '@dfx.swiss/react';
+import { AccountType, ApiError, useKyc, UserData, useUserContext, Utils, Validations } from '@dfx.swiss/react';
 
 interface UserDataFormProps {
   onFinish?: () => void;
@@ -24,21 +24,21 @@ interface UserDataFormProps {
 
 export function UserDataForm({ onFinish }: UserDataFormProps): JSX.Element {
   const { countries, reloadUser } = useUserContext();
-  const { setKycData } = useKyc();
+  const { setData } = useKyc();
   const {
     control,
     handleSubmit,
     formState: { isValid, errors },
-  } = useForm<KycData>({ mode: 'onTouched' });
+  } = useForm<UserData>({ mode: 'onTouched' });
   const selectedAccountType = useWatch({ control, name: 'accountType' });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [showsErrorAlert, setShowsErrorAlert] = useState(false);
 
-  function onSubmit(data: KycData) {
+  function onSubmit(data: UserData) {
     setIsSubmitting(true);
-    setKycData(data)
+    setData(data)
       .then(() => reloadUser())
       .then(() => onFinish?.())
       .catch((error: ApiError) => {

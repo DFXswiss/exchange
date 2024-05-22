@@ -1,4 +1,4 @@
-import { KycStatus, useUserContext, Utils } from '@dfx.swiss/react';
+import { KycLevel, useUserContext, Utils } from '@dfx.swiss/react';
 
 interface KycInterface {
   status: string;
@@ -12,60 +12,50 @@ interface KycInterface {
 export function useKycHelper(): KycInterface {
   const { user } = useUserContext();
 
-  const kycMap: Record<string, string> = {
-    ['chatbot']: 'chatbot onboarding',
-    ['onlineid']: 'online identification',
-    ['videoid']: 'video identification',
-    ['check']: 'Data in review',
-    ['completed']: 'Verification completed',
-    ['rejected']: 'Verification rejected',
-    ['na']: 'In progress',
-    ['reminded']: 'In progress',
-    ['failed']: 'Failed',
-    ['review']: 'In review',
-  };
-
   const periodMap: Record<string, string> = {
     ['Day']: 'per day',
     ['Year']: 'per year',
   };
+
+  const kycLevel = user?.kyc.level ?? 0;
+  const kycIsComplete = kycLevel >= KycLevel.Completed;
 
   const limit =
     user?.tradingLimit != null
       ? `${Utils.formatAmount(user.tradingLimit.limit)} € ${periodMap[user.tradingLimit.period]}`
       : '';
 
-  const isInProgress = [KycStatus.CHATBOT, KycStatus.ONLINE_ID, KycStatus.VIDEO_ID].includes(
-    user?.kycStatus ?? KycStatus.NA,
-  );
-
-  const isComplete = [KycStatus.COMPLETED].includes(user?.kycStatus ?? KycStatus.NA);
-
   function buildKycStatusString(): string {
-    if (!user) return kycMap[KycStatus.NA.toLowerCase()];
-    if (isInProgress) {
-      return `${kycMap[user.kycState.toLowerCase()]} (${kycMap[user.kycStatus.toLowerCase()]})`;
-    } else {
-      return kycMap[user.kycStatus.toLowerCase()];
-    }
+    return kycLevel.toString();
   }
 
   async function start(): Promise<void> {
     if (!user) return;
-    const newTab = window.open(`${process.env.REACT_APP_PAYMENT_URL}/kyc?code=${user.kycHash}`, '_blank', 'noreferrer');
+    const newTab = window.open(
+      `${process.env.REACT_APP_PAYMENT_URL}/kyc?code=${user.kyc.hash}`,
+      '_blank',
+      'noreferrer',
+    );
     const popUpBlocked = newTab == null || newTab.closed || typeof newTab.closed == 'undefined';
     if (popUpBlocked) console.error('popUp blocked'); // TODO (Krysh) use correct error handling here
   }
 
   function isAllowedToBuy(amount: number): boolean {
-    if (isComplete) return true;
+    if (kycIsComplete) return true;
     return (user?.tradingLimit.limit ?? 0) >= amount;
   }
 
   function isAllowedToSell(amount: number): boolean {
-    if (isComplete) return true;
+    if (kycIsComplete) return true;
     return (user?.tradingLimit.limit ?? 0) >= amount;
   }
 
-  return { start, status: buildKycStatusString(), isComplete, limit, isAllowedToBuy, isAllowedToSell };
+  return {
+    start,
+    status: buildKycStatusString(),
+    isComplete: kycIsComplete ?? false,
+    limit,
+    isAllowedToBuy,
+    isAllowedToSell,
+  };
 }
