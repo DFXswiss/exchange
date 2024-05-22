@@ -1,4 +1,3 @@
-import { useWalletContext } from '../contexts/wallet.context';
 import { useClipboard } from '../hooks/clipboard.hook';
 import { useBlockchain } from '../hooks/blockchain.hook';
 import {
@@ -18,26 +17,40 @@ import {
 } from '@dfx.swiss/react-components';
 import { useEffect, useState } from 'react';
 import { useStore } from '../hooks/store.hook';
-import { useSessionContext } from '@dfx.swiss/react';
+import { useAuthContext, useSessionContext } from '@dfx.swiss/react';
+import { useWalletContext } from '../contexts/wallet.context';
 
 export function WalletBox(): JSX.Element {
-  const { isConnected, isLoginRequested, loginCompleted } = useWalletContext();
-  const { address, blockchain, isLoggedIn, login, logout } = useSessionContext();
+  const { walletType, loginCompleted } = useWalletContext();
+  const { isLoggedIn, session } = useAuthContext();
+  const { login, logout } = useSessionContext();
   const { copy } = useClipboard();
   const { toString } = useBlockchain();
   const { showsSignatureInfo } = useStore();
   const [showModal, setShowModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
-  function blankedAddress(): string {
-    return `${address?.slice(0, 6)}...${address?.slice(address?.length - 5)}`;
-  }
+  const [isConnected, setIsConnected] = useState(false);
+  const [newMetaMaskAccount, setNewMetaMaskAccount] = useState<string>();
 
   useEffect(() => {
-    if (isLoginRequested && !isLoggedIn) {
-      handleLogin();
+    setIsConnected(session?.address !== undefined);
+  }, [session]);
+
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined" && window.ethereum.isMetaMask) {
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        if (accounts.length === 0) {
+          logout();
+        } else {
+          if (session?.address !== accounts[0]) {
+            console.log("New account detected", accounts[0]);
+            setNewMetaMaskAccount(accounts[0]);
+            handleLogin();
+          }
+        }
+      });
     }
-  }, [isLoginRequested, isLoggedIn]);
+  }, []);
 
   async function handleLogin() {
     if (showsSignatureInfo.get()) {
@@ -48,7 +61,14 @@ export function WalletBox(): JSX.Element {
   }
 
   async function doLogin(): Promise<void> {
-    await login().finally(loginCompleted);
+    if (newMetaMaskAccount) {
+      await login(newMetaMaskAccount).finally(loginCompleted);
+      setNewMetaMaskAccount(undefined);
+    }
+  }
+
+  function blankedAddress(): string {
+    return `${session?.address?.slice(0, 6)}...${session?.address?.slice(session?.address?.length - 5)}`;
   }
 
   return isConnected ? (
@@ -83,14 +103,15 @@ export function WalletBox(): JSX.Element {
       </StyledModal>
       <StyledDataBox
         heading="Your Wallet"
-        boxButtonLabel={isConnected ? (isLoggedIn ? 'Disconnect from DFX' : 'Reconnect to DFX') : undefined}
+        boxButtonLabel={isConnected ? (isLoggedIn ? 'Disconnect Wallet' : 'Reconnect to DFX') : undefined}
         boxButtonOnClick={() => (isConnected ? (isLoggedIn ? logout() : handleLogin()) : undefined)}
       >
-        <StyledDataTextRow label="MetaMask">
+        <StyledDataTextRow label="Address">
           {blankedAddress()}
-          <CopyButton onCopy={() => copy(address)} inline />
+          <CopyButton onCopy={() => copy(session?.address)} inline />
         </StyledDataTextRow>
-        <StyledDataTextRow label="Connected to">{blockchain ? toString(blockchain) : ''}</StyledDataTextRow>
+        <StyledDataTextRow label="Blockchain">{session?.blockchains[0] ? toString(session?.blockchains[0]) : ''}</StyledDataTextRow>
+        <StyledDataTextRow label="Wallet">{walletType()}</StyledDataTextRow>
       </StyledDataBox>
     </>
   ) : (

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { useWalletContext } from '../contexts/wallet.context';
 import DfxTitleSection from './title-section';
 import { useBuyTab } from './tabs/buy.tab';
 import { UserBox } from './user-box';
@@ -24,33 +23,38 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { useAuthContext, useUserContext } from '@dfx.swiss/react';
-import { useSessionContext } from '@dfx.swiss/react-local';
+import { useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react-local';
 // import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 export function Main(): JSX.Element {
-  const { isInstalled, isConnected, requestLogin } = useWalletContext();
-  const { address, isProcessing, needsSignUp, signUp } = useSessionContext();
-  const { isLoggedIn, session, setAuthenticationToken } = useAuthContext();
+  // const { isInstalled, isConnected, requestLogin } = useWalletContext(); // doesn't track isConnected state
+  const { isProcessing, needsSignUp, signUp, sync } = useSessionContext(); // doesn't track the address state
+  // const { session: apiSession, isLoggedIn: apiIsLoggedIn } = useApiSession(); // tracks the address state via session
+  const { authenticationToken, isLoggedIn, session } = useAuthContext(); // tracks the address state via session
   const { register } = useUserContext();
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
   const [showsInstallHint, setShowsInstallHint] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     register(() => setShowsUserLink(true));
   });
 
   useEffect(() => {
-    console.log("address changed", address);
-    console.log("isLoggedIn changed", isLoggedIn);
-    console.log("session changed", session);
-    console.log("isInstalled", isInstalled());
-    console.log("isConnected", isConnected);
-    if (address && !isLoggedIn) login();
-  }, [address, session, isLoggedIn]);
+    setIsConnected(session?.address !== undefined);
+  }, [session]);
+
+  useEffect(() => {
+    console.log("address", session?.address);
+    console.log("isLoggedIn", isLoggedIn);
+    console.log("authenticationToken", authenticationToken);
+    console.log("session", session);
+    // if (session?.address && !isLoggedIn) login();
+  }, [session, isLoggedIn]);
 
   function buildComingSoonTab(title: string): StyledTabProps {
     return {
@@ -62,14 +66,13 @@ export function Main(): JSX.Element {
     };
   }
 
-  function connect() {
-    isInstalled() ? login() : setShowsInstallHint(true);
-  }
+  // function connect() {
+  //   isInstalled() ? login() : setShowsInstallHint(true);
+  // }
 
   // TODO: Extend useAuthContext in @dfx.swiss/react with this function or see session.context.d.ts
   function syncAuthenticationToken() {
-    const token = localStorage.getItem('dfx.authenticationToken');
-    if (token) setAuthenticationToken(token);
+    sync();
   }
 
   function onClosePopup() {
@@ -83,10 +86,11 @@ export function Main(): JSX.Element {
     setPopupVisible(true);
   }
 
-  function login(): Promise<void> {
-    setIsLogin(true);
-    return requestLogin().finally(() => setIsLogin(false));
-  }
+  // function login(): Promise<void> {
+  //   console.log("login called from main.tsx");
+  //   setIsLogin(true);
+  //   return requestLogin().finally(() => setIsLogin(false));
+  // }
 
   return (
     <>
@@ -204,7 +208,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect to Metamask / Rabby" onClick={showPopup} isLoading={isLogin} />
+                  <StyledButton label="Connect Wallet" onClick={showPopup} isLoading={false} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>

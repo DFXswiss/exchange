@@ -27,11 +27,12 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
   const { isInstalled, walletType, register, requestAccount, requestBlockchain, sign } = useMetaMask();
 
+  console.log("address from wallet.context.tsx", address);
   const isConnected = address !== undefined;
 
-  useEffect(() => {
-    register(setAddress, setBlockchain);
-  }, []);
+  // useEffect(() => {
+  //   register(setAddress, setBlockchain);
+  // }, []);
 
   async function connect(): Promise<string> {
     const account = await requestAccount();

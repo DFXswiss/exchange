@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useWalletContext } from '../contexts/wallet.context';
+import { useEffect, useState } from 'react';
 import { useClipboard } from '../hooks/clipboard.hook';
 import {
   IconColor,
@@ -16,16 +15,21 @@ import {
 } from '@dfx.swiss/react-components';
 import { MailEdit } from './edit/mail.edit';
 import { UserData } from './user-data';
-import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { useAuthContext, useUserContext } from '@dfx.swiss/react';
 
 export function UserBox(): JSX.Element {
-  const { isConnected } = useWalletContext();
-  const { isLoggedIn } = useSessionContext();
+  // const { isConnected } = useWalletContext();
+  // const { isLoggedIn } = useSessionContext();
+  const { authenticationToken, isLoggedIn, session } = useAuthContext(); // tracks the address state via session
   const { user, refLink, isUserLoading } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const [showsEmailEdit, setShowsEmailEdit] = useState(false);
   const [showsUserData, setShowsUserData] = useState(false);
-  const { authenticationToken } = useAuthContext();
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    setIsConnected(session?.address !== undefined);
+  }, [session]);
 
   return isConnected && isLoggedIn ? (
     <>
