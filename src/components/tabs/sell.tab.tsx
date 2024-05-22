@@ -27,9 +27,9 @@ export function useSellTab(): StyledTabProps {
     title: 'Sell',
     icon: IconVariant.SELL,
     deactivated: false,
-    content: <SellTabContent needsUserDataForm={user != null && !user.kycDataComplete} />,
+    content: <SellTabContent needsUserDataForm={user != null && !user.kyc.dataComplete} />,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onActivate: () => {},
+    onActivate: () => { },
   };
 }
 
@@ -92,12 +92,12 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
             balances={
               blockchain
                 ? assetBalances?.map((value) => ({
-                    asset: value.asset,
-                    isToken: value.asset.type === AssetType.TOKEN,
-                    protocol: toProtocol(blockchain),
-                    isSelected: value.asset.id === selectedAsset?.id,
-                    balance: value.balance ?? new BigNumber(0),
-                  })) ?? []
+                  asset: value.asset,
+                  isToken: value.asset.type === AssetType.TOKEN,
+                  protocol: toProtocol(blockchain),
+                  isSelected: value.asset.id === selectedAsset?.id,
+                  balance: value.balance ?? new BigNumber(0),
+                })) ?? []
                 : []
             }
             onSelectionChanged={(value) =>

@@ -105,7 +105,7 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
   }
 
   function toPaymentInformation(buy: Buy | undefined): PaymentInformation | undefined {
-    if (!buy) return undefined;
+    if (!buy || !buy.iban) return undefined;
     return {
       iban: buy.iban,
       bic: buy.bic,
@@ -113,8 +113,8 @@ export function BuyTabContentProcess({ asset, onBack }: BuyTabContentProcessProp
       isSepaInstant: buy.sepaInstant,
       recipient: `${buy.name}, ${buy.street} ${buy.number}, ${buy.zip} ${buy.city}, ${buy.country}`,
       estimatedAmount: `≈ ${buy.estimatedAmount} ${asset?.name ?? ''} (incl. all fees)`,
-      fee: `${buy.fee} %`,
-      minFee: buy.minFee > 0 && data.currency ? `${buy.minFee}${toSymbol(data.currency as Fiat)}` : undefined,
+      fee: `${buy.fees.total} %`,
+      minFee: buy.fees.min > 0 && data.currency ? `${buy.fees.min}${toSymbol(data.currency as Fiat)}` : undefined,
       currency: data.currency as Fiat,
       amount: Number(data.amount),
     };
