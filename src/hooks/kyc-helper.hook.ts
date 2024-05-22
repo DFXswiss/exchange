@@ -1,4 +1,4 @@
-import { useUserContext, Utils } from '@dfx.swiss/react';
+import { KycLevel, useUserContext, Utils } from '@dfx.swiss/react';
 
 interface KycInterface {
   status: string;
@@ -18,7 +18,7 @@ export function useKycHelper(): KycInterface {
   };
 
   const kycLevel = user?.kyc.level ?? 0;
-  const kycIsComplete = user?.kyc.dataComplete;
+  const kycIsComplete = kycLevel >= KycLevel.Completed;
 
   const limit =
     user?.tradingLimit != null
@@ -26,7 +26,6 @@ export function useKycHelper(): KycInterface {
       : '';
 
   function buildKycStatusString(): string {
-    if (!user) return '0';
     return kycLevel.toString();
   }
 

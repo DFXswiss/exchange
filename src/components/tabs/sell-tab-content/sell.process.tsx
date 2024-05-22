@@ -198,7 +198,7 @@ export function SellTabContentProcess({ asset, balance }: SellTabContentProcessP
     if (!sell) return undefined;
     return {
       estimatedAmount: `≈ ${sell.estimatedAmount} ${data?.currency?.name ?? ''} (incl. DFX fees)`,
-      fee: `${sell.fees.total} %`,
+      fee: `${(sell.fees.rate * 100).toFixed(2)} %`,
       minFee:
         sell.feesTarget.min > 0 && data.currency ? `${sell.feesTarget.min}${toSymbol(data.currency as Fiat)}` : undefined,
       depositAddress: sell.depositAddress,

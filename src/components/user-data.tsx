@@ -3,12 +3,14 @@ import { useClipboard } from '../hooks/clipboard.hook';
 import { useKycHelper } from '../hooks/kyc-helper.hook';
 import {
   IconColor,
+  SpinnerSize,
   StyledButton,
   StyledButtonColor,
   StyledButtonSize,
   StyledButtonWidth,
   StyledDataTable,
   StyledDataTableRow,
+  StyledLoadingSpinner,
   StyledModal,
   StyledModalColor,
   StyledVerticalStack,
@@ -20,12 +22,13 @@ export function UserData(): JSX.Element {
   const { user, refLink } = useUserContext();
   const { copy, isCopying } = useClipboard();
   const { start, status, limit, isComplete } = useKycHelper();
-  const [showsUserEdit, setShowsUserEdit] = useState(false);
   const { getRef } = useUser();
+  const [showsUserEdit, setShowsUserEdit] = useState(false);
   const [referral, setReferral] = useState<Referral | undefined>(undefined);
+  const [referralIsLoading, setReferralIsLoading] = useState(true);
 
   useEffect(() => {
-    getRef().then(setReferral);
+    getRef().then(setReferral).finally(() => setReferralIsLoading(false));
   }, []);
 
   const userData = [
@@ -69,7 +72,7 @@ export function UserData(): JSX.Element {
         deactivateMargin: false,
       },
     },
-    { title: 'Referral commission', value: `${(referral?.commission ?? 0) * 100} %` },
+    { title: 'Referral commission', value: `${((referral?.commission ?? 0) * 100).toFixed(2)} %` },
     { title: 'Referred users', value: referral?.userCount },
     { title: 'Referral volume', value: `${Utils.formatAmount(referral?.volume)} €` },
     { title: 'Referral reward', value: `${Utils.formatAmount(referral?.credit)} €` },
@@ -84,14 +87,15 @@ export function UserData(): JSX.Element {
     { header: 'User Data', content: userData },
     {
       header: 'User Referral',
-      content: referral
-        ? referralData
-        : [
-          {
-            title: 'Referral link',
-            value: 'Complete a purchase or sell to receive your personal referral link',
-          },
-        ],
+      content: referralIsLoading
+        ? undefined : (referral
+          ? referralData
+          : [
+            {
+              title: 'Referral link',
+              value: 'Complete a purchase or sell to receive your personal referral link',
+            },
+          ]),
     },
   ];
 
@@ -115,23 +119,29 @@ export function UserData(): JSX.Element {
       <StyledVerticalStack gap={6}>
         {data.map(({ header, content }, index) => (
           <StyledDataTable heading={header} key={index} showBorder={false} darkTheme>
-            {content.map((entry, entryIndex) => (
-              <StyledDataTableRow key={entryIndex} label={entry.title}>
-                {entry.value}
-                {entry.button && (
-                  <StyledButton
-                    onClick={entry.button.func}
-                    label={entry.button.label}
-                    color={entry.button.color}
-                    size={StyledButtonSize.SMALL}
-                    width={StyledButtonWidth.MIN}
-                    caps={false}
-                    isLoading={entry.button.isLoading}
-                    deactivateMargin={entry.button.deactivateMargin}
-                  />
-                )}
-              </StyledDataTableRow>
-            ))}
+            {content ?
+              <>
+                {content.map((entry, entryIndex) => (
+                  <StyledDataTableRow key={entryIndex} label={entry.title}>
+                    {entry.value}
+                    {entry.button && (
+                      <StyledButton
+                        onClick={entry.button.func}
+                        label={entry.button.label}
+                        color={entry.button.color}
+                        size={StyledButtonSize.SMALL}
+                        width={StyledButtonWidth.MIN}
+                        caps={false}
+                        isLoading={entry.button.isLoading}
+                        deactivateMargin={entry.button.deactivateMargin}
+                      />
+                    )}
+                  </StyledDataTableRow>
+                ))}
+              </>
+              :
+              <StyledLoadingSpinner size={SpinnerSize.MD} />
+            }
           </StyledDataTable>
         ))}
         <StyledButton label="edit user data" onClick={() => setShowsUserEdit(true)} />

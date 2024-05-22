@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useState } from 'react';
 import {
   DfxIcon,
@@ -24,14 +24,13 @@ interface UserDataFormProps {
 
 export function UserDataForm({ onFinish }: UserDataFormProps): JSX.Element {
   const { countries, reloadUser } = useUserContext();
-  const { user } = useUserContext();
   const { setData } = useKyc();
   const {
     control,
     handleSubmit,
     formState: { isValid, errors },
   } = useForm<UserData>({ mode: 'onTouched' });
-  const selectedAccountType = user?.accountType;
+  const selectedAccountType = useWatch({ control, name: 'accountType' });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
