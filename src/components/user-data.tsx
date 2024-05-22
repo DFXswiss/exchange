@@ -69,7 +69,7 @@ export function UserData(): JSX.Element {
         deactivateMargin: false,
       },
     },
-    { title: 'Referral commission', value: `0.25 %` }, // TODO: add referral commission to Referral interface
+    { title: 'Referral commission', value: `${(referral?.commission ?? 0) * 100} %` },
     { title: 'Referred users', value: referral?.userCount },
     { title: 'Referral volume', value: `${Utils.formatAmount(referral?.volume)} €` },
     { title: 'Referral reward', value: `${Utils.formatAmount(referral?.credit)} €` },
