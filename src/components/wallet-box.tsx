@@ -17,13 +17,15 @@ import {
 } from '@dfx.swiss/react-components';
 import { useEffect, useState } from 'react';
 import { useStore } from '../hooks/store.hook';
-import { useAuthContext, useSessionContext } from '@dfx.swiss/react';
+import { Blockchain, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { useWalletContext } from '../contexts/wallet.context';
+import { useMetaMask } from '../hooks/metamask.hook';
 
 export function WalletBox(): JSX.Element {
-  const { walletType, loginCompleted } = useWalletContext();
+  const { loginCompleted } = useWalletContext();
   const { isLoggedIn, session } = useAuthContext();
   const { login, logout } = useSessionContext();
+  const { isInstalled, register, unregister } = useMetaMask();
   const { copy } = useClipboard();
   const { toString } = useBlockchain();
   const { showsSignatureInfo } = useStore();
@@ -34,23 +36,32 @@ export function WalletBox(): JSX.Element {
 
   useEffect(() => {
     setIsConnected(session?.address !== undefined);
-  }, [session]);
+  }, [session?.address]);
 
   useEffect(() => {
-    if (typeof window.ethereum !== "undefined" && window.ethereum.isMetaMask) {
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        if (accounts.length === 0) {
-          logout();
-        } else {
-          if (session?.address !== accounts[0]) {
-            console.log("New account detected", accounts[0]);
-            setNewMetaMaskAccount(accounts[0]);
-            handleLogin();
-          }
+    const handleAccountChanged = (newAccount?: string) => {
+      if (!newAccount) {
+        logout();
+      } else {
+        if (session?.address !== newAccount && session?.address) {
+          setNewMetaMaskAccount(newAccount);
+          handleLogin();
         }
-      });
+      }
+    };
+
+    const handleBlockchainChanged = (newBlockchain?: Blockchain) => null;
+
+    if (isInstalled()) {
+      register(handleAccountChanged, handleBlockchainChanged);
     }
-  }, []);
+
+    return () => {
+      if (isInstalled()) {
+        unregister(handleAccountChanged, handleBlockchainChanged);
+      }
+    };
+  }, [session?.address]);
 
   async function handleLogin() {
     if (showsSignatureInfo.get()) {
@@ -111,7 +122,7 @@ export function WalletBox(): JSX.Element {
           <CopyButton onCopy={() => copy(session?.address)} inline />
         </StyledDataTextRow>
         <StyledDataTextRow label="Blockchain">{session?.blockchains[0] ? toString(session?.blockchains[0]) : ''}</StyledDataTextRow>
-        <StyledDataTextRow label="Wallet">{walletType()}</StyledDataTextRow>
+        {/* <StyledDataTextRow label="Wallet">{walletType()}</StyledDataTextRow> */}
       </StyledDataBox>
     </>
   ) : (

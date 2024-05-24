@@ -22,22 +22,18 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { useAuthContext, useUserContext } from '@dfx.swiss/react';
+import { Blockchain, useAuthContext, useUserContext } from '@dfx.swiss/react';
 import { useSessionContext } from '@dfx.swiss/react';
-import { DfxServices, Service } from '@dfx.swiss/services-react-local';
-// import { DfxServices, Service } from '@dfx.swiss/services-react';
+import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 export function Main(): JSX.Element {
-  // const { isInstalled, isConnected, requestLogin } = useWalletContext(); // doesn't track isConnected state
-  const { isProcessing, needsSignUp, signUp, sync } = useSessionContext(); // doesn't track the address state
-  // const { session: apiSession, isLoggedIn: apiIsLoggedIn } = useApiSession(); // tracks the address state via session
-  const { authenticationToken, isLoggedIn, session } = useAuthContext(); // tracks the address state via session
+  const { isProcessing, needsSignUp, signUp, sync } = useSessionContext();
+  const { authenticationToken, session } = useAuthContext();
   const { register } = useUserContext();
-  // const [isLogin, setIsLogin] = useState(false);
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
   const [showsInstallHint, setShowsInstallHint] = useState(false);
-  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [showConnect, setShowConnect] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
@@ -47,14 +43,6 @@ export function Main(): JSX.Element {
   useEffect(() => {
     setIsConnected(session?.address !== undefined);
   }, [session]);
-
-  useEffect(() => {
-    console.log("address", session?.address);
-    console.log("isLoggedIn", isLoggedIn);
-    console.log("authenticationToken", authenticationToken);
-    console.log("session", session);
-    // if (session?.address && !isLoggedIn) login();
-  }, [session, isLoggedIn]);
 
   function buildComingSoonTab(title: string): StyledTabProps {
     return {
@@ -66,31 +54,10 @@ export function Main(): JSX.Element {
     };
   }
 
-  // function connect() {
-  //   isInstalled() ? login() : setShowsInstallHint(true);
-  // }
-
-  // TODO: Extend useAuthContext in @dfx.swiss/react with this function or see session.context.d.ts
-  function syncAuthenticationToken() {
+  function onCloseConnect() {
+    setShowConnect(false);
     sync();
   }
-
-  function onClosePopup() {
-    console.log("onClose DfxServices");
-    setPopupVisible(false);
-    syncAuthenticationToken();
-  }
-
-  function showPopup() {
-    console.log('showPopup');
-    setPopupVisible(true);
-  }
-
-  // function login(): Promise<void> {
-  //   console.log("login called from main.tsx");
-  //   setIsLogin(true);
-  //   return requestLogin().finally(() => setIsLogin(false));
-  // }
 
   return (
     <>
@@ -98,19 +65,15 @@ export function Main(): JSX.Element {
       <StyledModal
         type={StyledModalType.ALERT}
         width={StyledModalWidth.SMALL}
-        // onClose={setShowModal}
-        isVisible={isPopupVisible}
+        isVisible={showConnect}
       >
         <StyledVerticalStack gap={5} center>
           <DfxServices
             headless="true"
-            // borderless="true"
-            service={Service.SWITCH}
-            blockchain={'Ethereum'}
-            assetOut={'ETH'}
-            session={'authenticationToken'}
-            wallets={'metamask,hw-wallet,walletconnect,cli'}
-            onClose={onClosePopup}
+            service={Service.CONNECT}
+            blockchain={Blockchain.ETHEREUM}
+            session={authenticationToken}
+            onClose={onCloseConnect}
           />
         </StyledVerticalStack>
       </StyledModal>
@@ -208,7 +171,7 @@ export function Main(): JSX.Element {
                 {isConnected ? (
                   <p className="text-dfxRed-100">How to</p>
                 ) : (
-                  <StyledButton label="Connect Wallet" onClick={showPopup} isLoading={false} />
+                  <StyledButton label="Connect Wallet" onClick={() => setShowConnect(true)} isLoading={false} />
                 )}
                 <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
               </div>

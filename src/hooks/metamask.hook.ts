@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import ERC20_ABI from '../static/erc20.abi.json';
 import { Contract } from 'web3-eth-contract';
 import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
+import { useRef } from 'react';
 
 export enum WalletType {
   META_MASK = 'MetaMask',
@@ -15,6 +16,10 @@ export interface MetaMaskInterface {
   isInstalled: () => boolean;
   walletType: () => WalletType | undefined;
   register: (
+    onAccountChanged: (account?: string) => void,
+    onBlockchainChanged: (blockchain?: Blockchain) => void,
+  ) => void;
+  unregister: (
     onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
   ) => void;
@@ -50,6 +55,10 @@ export interface MetaMaskChainInterface {
 export function useMetaMask(): MetaMaskInterface {
   const web3 = new Web3(Web3.givenProvider);
   const { toBlockchain, toChainId, toChainObject } = useBlockchain();
+  const listenerRef = useRef<{
+    handleAccountsChanged: (accounts: string[]) => void;
+    handleChainChanged: (chainId: string | number) => void;
+  }>();
 
   function ethereum() {
     return (window as any).ethereum;
@@ -72,18 +81,20 @@ export function useMetaMask(): MetaMaskInterface {
     onAccountChanged: (account?: string) => void,
     onBlockchainChanged: (blockchain?: Blockchain) => void,
   ) {
-    web3.eth.getAccounts((_err, accounts) => {
-      onAccountChanged(verifyAccount(accounts));
-    });
-    web3.eth.getChainId((_err, chainId) => {
-      onBlockchainChanged(toBlockchain(chainId));
-    });
-    ethereum()?.on('accountsChanged', (accounts: string[]) => {
-      onAccountChanged(verifyAccount(accounts));
-    });
-    ethereum()?.on('chainChanged', (chainId: string) => {
-      onBlockchainChanged(toBlockchain(chainId));
-    });
+    const handleAccountsChanged = (accounts: string[]) => onAccountChanged(verifyAccount(accounts));
+    const handleChainChanged = (chainId: string | number) => onBlockchainChanged(toBlockchain(chainId));
+    listenerRef.current = { handleAccountsChanged, handleChainChanged };
+
+    web3.eth.getAccounts((_err, accounts) => handleAccountsChanged(accounts));
+    web3.eth.getChainId((_err, chainId) => handleChainChanged(chainId));
+
+    ethereum()?.on('accountsChanged', handleAccountsChanged);
+    ethereum()?.on('chainChanged', handleChainChanged);
+  }
+
+  function unregister() {
+    ethereum()?.removeListener('accountsChanged', listenerRef.current?.handleAccountsChanged);
+    ethereum()?.removeListener('chainChanged', listenerRef.current?.handleChainChanged);
   }
 
   async function getAccount(): Promise<string | undefined> {
@@ -225,6 +236,7 @@ export function useMetaMask(): MetaMaskInterface {
     isInstalled,
     walletType,
     register,
+    unregister,
     getAccount,
     requestAccount,
     requestBlockchain,
