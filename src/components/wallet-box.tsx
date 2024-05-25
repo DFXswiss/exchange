@@ -51,7 +51,7 @@ export function WalletBox(): JSX.Element {
       }
     };
 
-    const handleBlockchainChanged = (newBlockchain?: Blockchain) => null;
+    const handleBlockchainChanged = (_newBlockchain?: Blockchain) => null;
 
     if (isInstalled()) {
       register(handleAccountChanged, handleBlockchainChanged);
