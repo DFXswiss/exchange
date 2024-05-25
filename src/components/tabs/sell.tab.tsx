@@ -2,13 +2,11 @@ import BigNumber from 'bignumber.js';
 import { useBlockchain } from '../../hooks/blockchain.hook';
 import { SellTabContentProcess } from './sell-tab-content/sell.process';
 import { useEffect, useMemo, useState } from 'react';
-import { useWalletContext } from '../../contexts/wallet.context';
 import { AssetBalance, useMetaMask } from '../../hooks/metamask.hook';
 
 import {
   IconVariant,
   StyledBalanceSelection,
-  StyledButton,
   StyledHorizontalStack,
   StyledModal,
   StyledModalColor,
@@ -18,7 +16,7 @@ import {
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Asset, AssetType, useAssetContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { Asset, AssetType, useAssetContext, useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 import { UserDataForm } from '../user-data-form';
 
 export function useSellTab(): StyledTabProps {
@@ -34,41 +32,35 @@ export function useSellTab(): StyledTabProps {
 }
 
 function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
-  const { isLoggedIn, availableBlockchains } = useSessionContext();
-  const { blockchain, address, requestLogin } = useWalletContext();
+  const { availableBlockchains } = useSessionContext();
+  const { isLoggedIn, session } = useAuthContext();
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
   const { requestChangeToBlockchain, readBalance } = useMetaMask();
-  const [isLogin, setIsLogin] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState<Asset>();
   const [assetBalances, setAssetBalances] = useState<AssetBalance[]>();
 
   const sellableAssets = useMemo(
-    () => blockchain && assets.get(blockchain)?.filter((asset) => asset.sellable),
-    [blockchain, assets],
+    () => session?.blockchains[0] && assets.get(session?.blockchains[0])?.filter((asset) => asset.sellable),
+    [session, assets],
   );
 
   useEffect(() => {
     if (!sellableAssets) return;
-    Promise.all(sellableAssets.map((asset: Asset) => readBalance(asset, address)))
+    Promise.all(sellableAssets.map((asset: Asset) => readBalance(asset, session?.address)))
       .then((balances) => balances.sort(sortByBalanceAndSortOrder))
       .then(setAssetBalances)
       .catch(console.error);
-    if (selectedAsset && selectedAsset.blockchain !== blockchain) {
+    if (selectedAsset && selectedAsset.blockchain !== session?.blockchains[0]) {
       setSelectedAsset(undefined);
     }
-  }, [blockchain, address, assets]);
+  }, [session, assets]);
 
   function sortByBalanceAndSortOrder(a: AssetBalance, b: AssetBalance): number {
     if (!a.balance.isEqualTo(b.balance)) {
       return b.balance.minus(a.balance).toNumber();
     }
     return (a.asset.sortOrder ?? Infinity) - (b.asset.sortOrder ?? Infinity);
-  }
-
-  function login(): Promise<void> {
-    setIsLogin(true);
-    return requestLogin().finally(() => setIsLogin(false));
   }
 
   return (
@@ -81,7 +73,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
           networks={
             availableBlockchains
               ?.filter((b) => toString(b))
-              .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
+              .map((b) => ({ network: toString(b), isActive: b === session?.blockchains[0] })) ?? []
           }
           onNetworkChange={(network) =>
             requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
@@ -90,11 +82,11 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
         <StyledHorizontalStack gap={5}>
           <StyledBalanceSelection
             balances={
-              blockchain
+              session?.blockchains[0]
                 ? assetBalances?.map((value) => ({
                   asset: value.asset,
                   isToken: value.asset.type === AssetType.TOKEN,
-                  protocol: toProtocol(blockchain),
+                  protocol: toProtocol(session?.blockchains[0]),
                   isSelected: value.asset.id === selectedAsset?.id,
                   balance: value.balance ?? new BigNumber(0),
                 })) ?? []
@@ -104,20 +96,10 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
               setSelectedAsset(assetBalances?.find((assetBalance) => assetBalance.asset.id === value.id)?.asset)
             }
           />
-          {!address || !isLoggedIn ? (
+          {!session?.address || !isLoggedIn ? (
             <StyledTabContentWrapper leftBorder>
               <StyledVerticalStack gap={4} marginY={12} center>
-                {!address ? (
-                  <>
-                    <p>Please connect your Metamask in order to proceed</p>
-                    <StyledButton label="Connect to Metamask" onClick={login} isLoading={isLogin} />
-                  </>
-                ) : (
-                  <>
-                    <p>Please reconnect to DFX in order to proceed</p>
-                    <StyledButton label="Reconnect to DFX" onClick={login} isLoading={isLogin} />
-                  </>
-                )}
+                <p>Please connect your wallet to proceed!</p>
               </StyledVerticalStack>
             </StyledTabContentWrapper>
           ) : (

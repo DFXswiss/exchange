@@ -9,11 +9,15 @@ export interface StoreInterface {
     set: (value: boolean) => void;
     remove: () => void;
   };
+  activeWallet: {
+    get: () => string | undefined;
+  };
 }
 
 enum StoreKey {
   AUTH_TOKEN = 'authenticationToken',
   SHOWS_SIGNATURE_INFO = 'showsSignatureInfo',
+  ACTIVE_WALLET = 'dfx.srv.activeWallet',
 }
 
 export function useStore(): StoreInterface {
@@ -41,6 +45,9 @@ export function useStore(): StoreInterface {
       get: () => (get(StoreKey.SHOWS_SIGNATURE_INFO) ?? 'true') === 'true',
       set: (value: boolean) => set(StoreKey.SHOWS_SIGNATURE_INFO, value ? 'true' : 'false'),
       remove: () => remove(StoreKey.SHOWS_SIGNATURE_INFO),
+    },
+    activeWallet: {
+      get: () => get(StoreKey.ACTIVE_WALLET),
     },
   };
 }

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { IconVariant, StyledTabContentWrapper, StyledTabProps } from '@dfx.swiss/react-components';
-import { Asset, useAuthContext, useSessionContext } from '@dfx.swiss/react';
-import { useWalletContext } from '../../contexts/wallet.context';
+import { Asset, Blockchain, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 enum BuyTabStep {
+  LOGIN,
   OVERVIEW,
   BUY_PROCESS,
 }
@@ -29,11 +29,39 @@ interface BuyTabContentProps {
 
 function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element {
   const [currentAsset, setCurrentAsset] = useState<Asset>();
-  const { requestLogin } = useWalletContext();
-  const { isLoggedIn } = useSessionContext();
+  const { isLoggedIn, sync } = useSessionContext();
   const { authenticationToken } = useAuthContext();
 
+  useEffect(() => {
+    if (!isLoggedIn && step === BuyTabStep.BUY_PROCESS) {
+      onStepUpdate(BuyTabStep.OVERVIEW);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    onStepUpdate(BuyTabStep.OVERVIEW);
+  }, [authenticationToken]);
+
   switch (step) {
+    case BuyTabStep.LOGIN:
+      return (
+        <StyledTabContentWrapper
+          showBackArrow
+          onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}
+          className="max-w-none"
+        >
+          <DfxServices
+            headless="true"
+            service={Service.CONNECT}
+            blockchain={Blockchain.ETHEREUM}
+            session={authenticationToken}
+            onClose={() => {
+              sync();
+              onStepUpdate(BuyTabStep.OVERVIEW);
+            }}
+          />
+        </StyledTabContentWrapper>
+      );
     case BuyTabStep.OVERVIEW:
       return (
         <BuyTabContentOverview
@@ -43,7 +71,8 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
               setCurrentAsset(asset);
               onStepUpdate(BuyTabStep.BUY_PROCESS);
             } else {
-              requestLogin();
+              // requestLogin();
+              onStepUpdate(BuyTabStep.LOGIN);
             }
           }}
         />

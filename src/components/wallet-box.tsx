@@ -18,11 +18,11 @@ import {
 import { useEffect, useState } from 'react';
 import { useStore } from '../hooks/store.hook';
 import { Blockchain, useAuthContext, useSessionContext } from '@dfx.swiss/react';
-import { useWalletContext } from '../contexts/wallet.context';
+import { WalletType, useWalletContext } from '../contexts/wallet.context';
 import { useMetaMask } from '../hooks/metamask.hook';
 
 export function WalletBox(): JSX.Element {
-  const { loginCompleted } = useWalletContext();
+  const { loginCompleted, walletType } = useWalletContext();
   const { isLoggedIn, session } = useAuthContext();
   const { login, logout } = useSessionContext();
   const { isInstalled, register, unregister } = useMetaMask();
@@ -40,6 +40,7 @@ export function WalletBox(): JSX.Element {
 
   useEffect(() => {
     const handleAccountChanged = (newAccount?: string) => {
+      if (![WalletType.META_MASK, undefined].includes(walletType())) return;
       if (!newAccount) {
         logout();
       } else {

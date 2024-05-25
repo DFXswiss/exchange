@@ -6,11 +6,7 @@ import ERC20_ABI from '../static/erc20.abi.json';
 import { Contract } from 'web3-eth-contract';
 import { Asset, AssetType, Blockchain } from '@dfx.swiss/react';
 import { useRef } from 'react';
-
-export enum WalletType {
-  META_MASK = 'MetaMask',
-  RABBY = 'Rabby',
-}
+import { WalletType } from '../contexts/wallet.context';
 
 export interface MetaMaskInterface {
   isInstalled: () => boolean;

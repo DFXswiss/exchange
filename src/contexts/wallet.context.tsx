@@ -1,6 +1,30 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { useMetaMask, WalletType } from '../hooks/metamask.hook';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { useMetaMask } from '../hooks/metamask.hook';
 import { Blockchain } from '@dfx.swiss/react';
+import { useStore } from '../hooks/store.hook';
+
+export enum WalletType {
+  META_MASK = 'MetaMask',
+  RABBY = 'Rabby',
+  ALBY = 'Alby',
+  LEDGER_BTC = 'LedgerBtc',
+  LEDGER_ETH = 'LedgerEth',
+  BITBOX_BTC = 'BitBoxBtc',
+  BITBOX_ETH = 'BitBoxEth',
+  TREZOR_BTC = 'TrezorBtc',
+  TREZOR_ETH = 'TrezorEth',
+  CLI_BTC = 'CliBtc',
+  CLI_XMR = 'CliXmr',
+  CLI_ETH = 'CliEth',
+  CLI_ADA = 'CliAda',
+  CLI_AR = 'CliAr',
+  CLI_LN = 'CliLn',
+  DFX_TARO = 'DfxTaro',
+  WALLET_CONNECT = 'WalletConnect',
+  CAKE = 'Cake',
+  MONERO = 'Monero',
+  MAIL = 'Mail',
+}
 
 interface WalletInterface {
   address?: string;
@@ -25,7 +49,9 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [address, setAddress] = useState<string>();
   const [blockchain, setBlockchain] = useState<Blockchain>();
   const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
-  const { isInstalled, walletType, requestAccount, requestBlockchain, sign } = useMetaMask();
+  const { isInstalled, requestAccount, requestBlockchain, sign } = useMetaMask();
+  const { activeWallet } = useStore();
+
 
   const isConnected = address !== undefined;
 
@@ -57,6 +83,10 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
       console.error(e.message, e.code);
       throw e;
     }
+  }
+
+  function walletType(): WalletType | undefined {
+    return activeWallet.get() as WalletType;
   }
 
   const context: WalletInterface = {
