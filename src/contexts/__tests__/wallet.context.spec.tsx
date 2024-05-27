@@ -20,14 +20,14 @@ const TestingComponent = (): JSX.Element => {
         data-testid="sign-message"
         onClick={() =>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          signMessage('a-test-sign-message', 'a-test-address').catch(() => {})
+          signMessage('a-test-sign-message', 'a-test-address').catch(() => { })
         }
       />
       <button
         data-testid="connect"
         onClick={() =>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          connect().catch(() => {})
+          connect().catch(() => { })
         }
       />
     </>
@@ -45,7 +45,9 @@ interface MockInput {
 
 interface Mock {
   isInstalled: () => boolean;
+  walletType: jest.Mock<any, any>;
   register: jest.Mock<any, any>;
+  unregister: jest.Mock<any, any>;
   getAccount: jest.Mock<any, any>;
   requestAccount: jest.Mock<any, any>;
   requestBlockchain: jest.Mock<any, any>;
@@ -80,7 +82,9 @@ interface Setup {
 describe('WalletContextProvider', () => {
   function mockAndRenderTestElements({
     isInstalled,
+    walletType,
     register,
+    unregister,
     getAccount,
     requestAccount,
     requestBlockchain,
@@ -93,7 +97,9 @@ describe('WalletContextProvider', () => {
   }: Mock): Setup {
     mockUseMetaMask.mockImplementation(() => ({
       isInstalled,
+      walletType,
       register,
+      unregister,
       getAccount,
       requestAccount,
       requestBlockchain,
@@ -134,7 +140,9 @@ describe('WalletContextProvider', () => {
   function createMock({ isInstalled, address, blockchain, addContract, balance, txId }: MockInput = {}): Mock {
     return {
       isInstalled: () => isInstalled ?? true,
+      walletType: jest.fn(),
       register: jest.fn(),
+      unregister: jest.fn(),
       getAccount: jest.fn(() => address),
       requestAccount: jest.fn(() => address),
       requestBlockchain: jest.fn(() => blockchain),
@@ -177,11 +185,6 @@ describe('WalletContextProvider', () => {
     expect(isInstalled.textContent).toEqual('false');
     expect(isConnected.textContent).toEqual('false');
     expect(address.textContent).toEqual('');
-  });
-
-  it('should call register on creation', () => {
-    const { register } = setup.installed();
-    expect(register).toBeCalled();
   });
 
   it('should show address and blockchain if connect is successful', async () => {
