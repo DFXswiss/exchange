@@ -9,7 +9,7 @@ const mockUseMetaMask = useMetaMask as jest.MockedFunction<typeof useMetaMask>;
 const TestingComponent = (): JSX.Element => {
   const { isInstalled } = useMetaMask();
 
-  return <p data-testid="is-installed">{isInstalled().toString()} </p>;
+  return <p data-testid="is-installed">{isInstalled().toString()}</p>;
 };
 
 interface MockInput {
