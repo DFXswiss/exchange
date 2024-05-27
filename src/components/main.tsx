@@ -190,7 +190,7 @@ export function Main(): JSX.Element {
           </div>
           {!isMobile ? (
             <div className="my-6">
-              <StyledTabContainer tabs={[useBuyTab(), useSellTab(), buildComingSoonTab('Swap')]} />
+              <StyledTabContainer tabs={[useBuyTab(() => setShowConnect(true)), useSellTab(), buildComingSoonTab('Swap')]} />
             </div>
           ) : (
             <>

@@ -18,8 +18,6 @@ import { UserData } from './user-data';
 import { useAuthContext, useUserContext } from '@dfx.swiss/react';
 
 export function UserBox(): JSX.Element {
-  // const { isConnected } = useWalletContext();
-  // const { isLoggedIn } = useSessionContext();
   const { authenticationToken, isLoggedIn, session } = useAuthContext(); // tracks the address state via session
   const { user, refLink, isUserLoading } = useUserContext();
   const { copy, isCopying } = useClipboard();
@@ -28,7 +26,7 @@ export function UserBox(): JSX.Element {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    setIsConnected(session?.address !== undefined);
+    setIsConnected(session?.address !== undefined && session?.address !== null);
   }, [session]);
 
   return isConnected && isLoggedIn ? (
