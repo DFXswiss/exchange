@@ -36,6 +36,7 @@ interface WalletInterface {
   isLoginRequested: boolean;
   requestLogin: () => Promise<void>;
   loginCompleted: () => void;
+  setBlockchain: (blockchain: Blockchain) => void;
   signMessage: (message: string, address: string) => Promise<string>;
 }
 
@@ -99,6 +100,7 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
     requestLogin,
     loginCompleted,
     isLoginRequested,
+    setBlockchain,
     signMessage,
   };
 

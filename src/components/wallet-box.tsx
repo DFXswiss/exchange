@@ -22,7 +22,7 @@ import { WalletType, useWalletContext } from '../contexts/wallet.context';
 import { useMetaMask } from '../hooks/metamask.hook';
 
 export function WalletBox(): JSX.Element {
-  const { loginCompleted, walletType } = useWalletContext();
+  const { blockchain, loginCompleted, walletType, setBlockchain } = useWalletContext();
   const { isLoggedIn, session } = useAuthContext();
   const { login, logout } = useSessionContext();
   const { isInstalled, register, unregister } = useMetaMask();
@@ -35,7 +35,7 @@ export function WalletBox(): JSX.Element {
   const [newMetaMaskAccount, setNewMetaMaskAccount] = useState<string>();
 
   useEffect(() => {
-    setIsConnected(session?.address !== undefined);
+    setIsConnected(session?.address !== undefined && session?.address !== null);
   }, [session?.address]);
 
   useEffect(() => {
@@ -51,7 +51,10 @@ export function WalletBox(): JSX.Element {
       }
     };
 
-    const handleBlockchainChanged = (_newBlockchain?: Blockchain) => null;
+    const handleBlockchainChanged = (newBlockchain?: Blockchain) => {
+      if (![WalletType.META_MASK, undefined].includes(walletType())) return;
+      if (newBlockchain) setBlockchain(newBlockchain);
+    };
 
     if (isInstalled()) {
       register(handleAccountChanged, handleBlockchainChanged);
@@ -122,7 +125,7 @@ export function WalletBox(): JSX.Element {
           {blankedAddress()}
           <CopyButton onCopy={() => copy(session?.address)} inline />
         </StyledDataTextRow>
-        <StyledDataTextRow label="Blockchain">{session?.blockchains[0] ? toString(session?.blockchains[0]) : ''}</StyledDataTextRow>
+        <StyledDataTextRow label="Blockchain">{blockchain ? toString(blockchain) : ''}</StyledDataTextRow>
         {/* <StyledDataTextRow label="Wallet">{walletType()}</StyledDataTextRow> */}
       </StyledDataBox>
     </>

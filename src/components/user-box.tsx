@@ -26,7 +26,7 @@ export function UserBox(): JSX.Element {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    setIsConnected(session?.address !== undefined && session?.address !== null);
+    setIsConnected(session?.address !== null && session?.address !== undefined);
   }, [session]);
 
   return isConnected && isLoggedIn ? (

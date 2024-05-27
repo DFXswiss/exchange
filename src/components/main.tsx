@@ -41,7 +41,7 @@ export function Main(): JSX.Element {
   });
 
   useEffect(() => {
-    setIsConnected(session?.address !== undefined);
+    setIsConnected(session?.address !== null && session?.address !== undefined);
   }, [session]);
 
   function buildComingSoonTab(title: string): StyledTabProps {

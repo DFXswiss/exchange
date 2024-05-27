@@ -18,6 +18,7 @@ import {
 } from '@dfx.swiss/react-components';
 import { Asset, AssetType, useAssetContext, useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 import { UserDataForm } from '../user-data-form';
+import { useWalletContext } from '../../contexts/wallet.context';
 
 export function useSellTab(): StyledTabProps {
   const { user } = useUserContext();
@@ -32,6 +33,7 @@ export function useSellTab(): StyledTabProps {
 }
 
 function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
+  const { blockchain } = useWalletContext();
   const { availableBlockchains } = useSessionContext();
   const { isLoggedIn, session } = useAuthContext();
   const { assets } = useAssetContext();
@@ -41,7 +43,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
   const [assetBalances, setAssetBalances] = useState<AssetBalance[]>();
 
   const sellableAssets = useMemo(
-    () => session?.blockchains[0] && assets.get(session?.blockchains[0])?.filter((asset) => asset.sellable),
+    () => blockchain && assets.get(blockchain)?.filter((asset) => asset.sellable),
     [session, assets],
   );
 
@@ -51,7 +53,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
       .then((balances) => balances.sort(sortByBalanceAndSortOrder))
       .then(setAssetBalances)
       .catch(console.error);
-    if (selectedAsset && selectedAsset.blockchain !== session?.blockchains[0]) {
+    if (selectedAsset && selectedAsset.blockchain !== blockchain) {
       setSelectedAsset(undefined);
     }
   }, [session, assets]);
@@ -73,7 +75,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
           networks={
             availableBlockchains
               ?.filter((b) => toString(b))
-              .map((b) => ({ network: toString(b), isActive: b === session?.blockchains[0] })) ?? []
+              .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
           }
           onNetworkChange={(network) =>
             requestChangeToBlockchain(availableBlockchains?.find((b) => toString(b) === network))
@@ -82,11 +84,11 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
         <StyledHorizontalStack gap={5}>
           <StyledBalanceSelection
             balances={
-              session?.blockchains[0]
+              blockchain
                 ? assetBalances?.map((value) => ({
                   asset: value.asset,
                   isToken: value.asset.type === AssetType.TOKEN,
-                  protocol: toProtocol(session?.blockchains[0]),
+                  protocol: toProtocol(blockchain),
                   isSelected: value.asset.id === selectedAsset?.id,
                   balance: value.balance ?? new BigNumber(0),
                 })) ?? []
