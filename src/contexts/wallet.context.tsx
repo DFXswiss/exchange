@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { useMetaMask, WalletType } from '../hooks/metamask.hook';
 import { Blockchain } from '@dfx.swiss/react';
 

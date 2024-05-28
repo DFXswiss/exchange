@@ -66,7 +66,6 @@ function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps
       );
     case SellTabStep.LOGIN:
       if (!authenticationToken) {
-        console.log('SellTabStep.LOGIN');
         return (
           <StyledTabContentWrapper
             showBackArrow
