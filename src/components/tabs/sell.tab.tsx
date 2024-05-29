@@ -6,16 +6,12 @@ import {
   StyledBalanceSelection,
   StyledButton,
   StyledHorizontalStack,
-  StyledModal,
-  StyledModalColor,
-  StyledModalType,
   StyledNetworkSelection,
   StyledTabContentWrapper,
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Asset, AssetType, Blockchain, useAssetContext, useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
-import { UserDataForm } from '../user-data-form';
+import { Asset, AssetType, Blockchain, useAssetContext, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
 import BigNumber from 'bignumber.js';
 
@@ -26,12 +22,11 @@ enum SellTabStep {
 }
 
 export function useSellTab(): StyledTabProps {
-  const { user } = useUserContext();
   return {
     title: 'Sell',
     icon: IconVariant.SELL,
     deactivated: false,
-    content: <SellTabContent needsUserDataForm={user != null && !user.kyc.dataComplete} />,
+    content: <SellTabContent />,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onActivate: () => { },
   };
@@ -39,10 +34,9 @@ export function useSellTab(): StyledTabProps {
 
 interface ServicesContentProps {
   selectedAsset?: Asset;
-  sellableAssets?: Asset[];
 }
 
-function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps): JSX.Element {
+function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
   const [step, setStep] = useState<SellTabStep>();
   const { authenticationToken } = useAuthContext();
   const { sync } = useSessionContext();
@@ -82,7 +76,6 @@ function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps
       }
       return <></>;
     case SellTabStep.SELL_PROCESS:
-      const assets = sellableAssets?.map((asset) => asset.uniqueName).join(',');
       return (
         <StyledTabContentWrapper>
           <StyledVerticalStack gap={4} marginY={12} center>
@@ -91,10 +84,9 @@ function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps
               headless="true"
               borderless="true"
               service={Service.SELL}
-              assets={assets}
+              assets={selectedAsset?.uniqueName}
               blockchain={selectedAsset?.blockchain}
               assetIn={selectedAsset?.uniqueName}
-              session={authenticationToken}
             />
           </StyledVerticalStack>
         </StyledTabContentWrapper>
@@ -104,7 +96,7 @@ function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps
   }
 }
 
-function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
+function SellTabContent(): JSX.Element {
   const { availableBlockchains } = useSessionContext();
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
@@ -125,9 +117,6 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
 
   return (
     <>
-      <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
-        <UserDataForm />
-      </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
           networks={
@@ -154,7 +143,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
               setSelectedAsset(sellableAssets?.find((asset) => asset.id === value.id))
             }
           />
-          <ServicesContent selectedAsset={selectedAsset} sellableAssets={sellableAssets} />
+          <ServicesContent selectedAsset={selectedAsset} />
         </StyledHorizontalStack>
       </StyledVerticalStack>
     </>
