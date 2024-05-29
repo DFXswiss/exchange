@@ -22,6 +22,7 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { useSwapTab } from './tabs/swap.tab';
 
 export function Main(): JSX.Element {
   const { authenticationToken } = useAuthContext();
@@ -153,7 +154,7 @@ export function Main(): JSX.Element {
           </div>
           {!isMobile ? (
             <div className="my-6">
-              <StyledTabContainer tabs={[useBuyTab(), useSellTab(), buildComingSoonTab('Swap')]} />
+              <StyledTabContainer tabs={[useBuyTab(), useSellTab(), useSwapTab()]} />
             </div>
           ) : (
             <>
