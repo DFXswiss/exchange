@@ -82,7 +82,6 @@ function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps
       }
       return <></>;
     case SellTabStep.SELL_PROCESS:
-      const assets = sellableAssets?.map((asset) => asset.uniqueName).join(',');
       return (
         <StyledTabContentWrapper>
           <StyledVerticalStack gap={4} marginY={12} center>
@@ -91,7 +90,7 @@ function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps
               headless="true"
               borderless="true"
               service={Service.SELL}
-              assets={assets}
+              assets={selectedAsset?.uniqueName}
               blockchain={selectedAsset?.blockchain}
               assetIn={selectedAsset?.uniqueName}
               session={authenticationToken}
