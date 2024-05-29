@@ -92,7 +92,6 @@ function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
               assets={selectedAsset?.uniqueName}
               blockchain={selectedAsset?.blockchain}
               assetIn={selectedAsset?.uniqueName}
-              session={authenticationToken}
             />
           </StyledVerticalStack>
         </StyledTabContentWrapper>
@@ -123,9 +122,6 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
 
   return (
     <>
-      <StyledModal isVisible={needsUserDataForm} type={StyledModalType.ALERT} color={StyledModalColor.WHITE}>
-        <UserDataForm />
-      </StyledModal>
       <StyledVerticalStack gap={5}>
         <StyledNetworkSelection
           networks={

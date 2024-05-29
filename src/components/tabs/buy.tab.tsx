@@ -85,7 +85,6 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
             service={Service.BUY}
             blockchain={currentAsset?.blockchain}
             assetOut={currentAsset?.uniqueName}
-            session={authenticationToken}
             onClose={() => onStepUpdate(BuyTabStep.OVERVIEW)}
           />
         </StyledTabContentWrapper>
