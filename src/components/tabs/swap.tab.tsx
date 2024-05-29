@@ -71,7 +71,6 @@ function ServicesContent({ selectedBlockchain }: { selectedBlockchain: Blockchai
             borderless="true"
             service={Service.SWAP}
             blockchain={selectedBlockchain}
-            session={authenticationToken}
             onClose={() => setStep(SwapTabStep.OVERVIEW)}
           />
         </StyledTabContentWrapper>
