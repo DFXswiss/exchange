@@ -39,10 +39,9 @@ export function useSellTab(): StyledTabProps {
 
 interface ServicesContentProps {
   selectedAsset?: Asset;
-  sellableAssets?: Asset[];
 }
 
-function ServicesContent({ selectedAsset, sellableAssets }: ServicesContentProps): JSX.Element {
+function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
   const [step, setStep] = useState<SellTabStep>();
   const { authenticationToken } = useAuthContext();
   const { sync } = useSessionContext();
@@ -153,7 +152,7 @@ function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): 
               setSelectedAsset(sellableAssets?.find((asset) => asset.id === value.id))
             }
           />
-          <ServicesContent selectedAsset={selectedAsset} sellableAssets={sellableAssets} />
+          <ServicesContent selectedAsset={selectedAsset} />
         </StyledHorizontalStack>
       </StyledVerticalStack>
     </>
