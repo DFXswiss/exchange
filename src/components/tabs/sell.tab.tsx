@@ -6,16 +6,12 @@ import {
   StyledBalanceSelection,
   StyledButton,
   StyledHorizontalStack,
-  StyledModal,
-  StyledModalColor,
-  StyledModalType,
   StyledNetworkSelection,
   StyledTabContentWrapper,
   StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { Asset, AssetType, Blockchain, useAssetContext, useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
-import { UserDataForm } from '../user-data-form';
+import { Asset, AssetType, Blockchain, useAssetContext, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
 import BigNumber from 'bignumber.js';
 
@@ -26,12 +22,11 @@ enum SellTabStep {
 }
 
 export function useSellTab(): StyledTabProps {
-  const { user } = useUserContext();
   return {
     title: 'Sell',
     icon: IconVariant.SELL,
     deactivated: false,
-    content: <SellTabContent needsUserDataForm={user != null && !user.kyc.dataComplete} />,
+    content: <SellTabContent />,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onActivate: () => { },
   };
@@ -101,7 +96,7 @@ function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
   }
 }
 
-function SellTabContent({ needsUserDataForm }: { needsUserDataForm: boolean }): JSX.Element {
+function SellTabContent(): JSX.Element {
   const { availableBlockchains } = useSessionContext();
   const { assets } = useAssetContext();
   const { toString, toProtocol } = useBlockchain();
