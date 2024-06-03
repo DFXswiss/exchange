@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { IconVariant, StyledButton, StyledNetworkSelection, StyledTabContentWrapper, StyledTabProps, StyledVerticalStack } from '@dfx.swiss/react-components';
-import { Blockchain, useAuthContext, useSessionContext } from '@dfx.swiss/react';
+import { IconVariant, StyledButton, StyledTabContentWrapper, StyledTabProps, StyledVerticalStack } from '@dfx.swiss/react-components';
+import { useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
-import { useBlockchain } from '../../hooks/blockchain.hook';
 
 enum SwapTabStep {
   OVERVIEW,
@@ -21,10 +20,12 @@ export function useSwapTab(): StyledTabProps {
   };
 }
 
-function ServicesContent({ selectedBlockchain }: { selectedBlockchain: Blockchain }): JSX.Element {
+function ServicesContent(): JSX.Element {
   const [step, setStep] = useState<SwapTabStep>();
   const { authenticationToken } = useAuthContext();
   const { sync } = useSessionContext();
+  const [refreshKey, setRefreshKey] = useState<number>(0);
+
 
   useEffect(() => {
     if (authenticationToken) {
@@ -33,6 +34,10 @@ function ServicesContent({ selectedBlockchain }: { selectedBlockchain: Blockchai
       if (step !== SwapTabStep.OVERVIEW) setStep(SwapTabStep.OVERVIEW);
     }
   }, [authenticationToken]);
+
+  const handleRefresh = () => {
+    setRefreshKey(prevKey => prevKey + 1);
+  };
 
   switch (step) {
     case SwapTabStep.OVERVIEW:
@@ -53,7 +58,6 @@ function ServicesContent({ selectedBlockchain }: { selectedBlockchain: Blockchai
             <DfxServices
               headless="true"
               service={Service.CONNECT}
-              blockchain={selectedBlockchain}
               onClose={sync}
             />
           </StyledTabContentWrapper>
@@ -66,12 +70,14 @@ function ServicesContent({ selectedBlockchain }: { selectedBlockchain: Blockchai
           className="max-w-none"
         >
           <DfxServices
-            key={selectedBlockchain}
+            key={refreshKey}
             headless="true"
             borderless="true"
             service={Service.SWAP}
-            blockchain={selectedBlockchain}
-            onClose={() => setStep(SwapTabStep.OVERVIEW)}
+            onClose={() => {
+              setStep(SwapTabStep.SWAP_PROCESS);
+              handleRefresh();
+            }}
           />
         </StyledTabContentWrapper>
       );
@@ -81,22 +87,10 @@ function ServicesContent({ selectedBlockchain }: { selectedBlockchain: Blockchai
 }
 
 function SwapTabContent(): JSX.Element {
-  const { availableBlockchains } = useSessionContext();
-  const { toString } = useBlockchain();
-  const [blockchain, setBlockchain] = useState<Blockchain>(Blockchain.ETHEREUM);
-
   return (
     <>
       <StyledVerticalStack gap={5}>
-        <StyledNetworkSelection
-          networks={
-            availableBlockchains
-              ?.filter((b) => toString(b))
-              .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
-          }
-          onNetworkChange={(network) => setBlockchain(availableBlockchains?.find((b) => toString(b) === network) ?? Blockchain.ETHEREUM)}
-        />
-        <ServicesContent selectedBlockchain={blockchain} />
+        <ServicesContent />
       </StyledVerticalStack>
     </>
   );
