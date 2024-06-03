@@ -18,7 +18,6 @@ import {
   StyledModalType,
   StyledModalWidth,
   StyledTabContainer,
-  StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
