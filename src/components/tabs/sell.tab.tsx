@@ -87,6 +87,7 @@ function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
               assets={selectedAsset?.uniqueName}
               blockchain={selectedAsset?.blockchain}
               assetIn={selectedAsset?.uniqueName}
+              onClose={() => setStep(undefined)}
             />
           </StyledVerticalStack>
         </StyledTabContentWrapper>

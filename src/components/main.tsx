@@ -3,6 +3,7 @@ import { isMobile } from 'react-device-detect';
 import DfxTitleSection from './title-section';
 import { useBuyTab } from './tabs/buy.tab';
 import { useSellTab } from './tabs/sell.tab';
+import { useSwapTab } from './tabs/swap.tab';
 
 import {
   DfxLogo,
@@ -21,7 +22,6 @@ import {
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
 import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
-import { useSwapTab } from './tabs/swap.tab';
 
 export function Main(): JSX.Element {
   const { authenticationToken } = useAuthContext();

@@ -89,5 +89,7 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
           />
         </StyledTabContentWrapper>
       );
+    default:
+      return <></>;
   }
 }
