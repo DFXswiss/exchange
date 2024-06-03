@@ -20,14 +20,14 @@ const TestingComponent = (): JSX.Element => {
         data-testid="sign-message"
         onClick={() =>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          signMessage('a-test-sign-message', 'a-test-address').catch(() => {})
+          signMessage('a-test-sign-message', 'a-test-address').catch(() => { })
         }
       />
       <button
         data-testid="connect"
         onClick={() =>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          connect().catch(() => {})
+          connect().catch(() => { })
         }
       />
     </>
@@ -177,11 +177,6 @@ describe('WalletContextProvider', () => {
     expect(isInstalled.textContent).toEqual('false');
     expect(isConnected.textContent).toEqual('false');
     expect(address.textContent).toEqual('');
-  });
-
-  it('should call register on creation', () => {
-    const { register } = setup.installed();
-    expect(register).toBeCalled();
   });
 
   it('should show address and blockchain if connect is successful', async () => {

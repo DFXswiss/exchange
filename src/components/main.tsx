@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { useWalletContext } from '../contexts/wallet.context';
 import DfxTitleSection from './title-section';
 import { useBuyTab } from './tabs/buy.tab';
-import { UserBox } from './user-box';
-import { WalletBox } from './wallet-box';
 import { useSellTab } from './tabs/sell.tab';
+
 import {
   DfxLogo,
   DfxVideoHelpModalContent,
@@ -20,16 +18,15 @@ import {
   StyledModalType,
   StyledModalWidth,
   StyledTabContainer,
-  StyledTabProps,
   StyledVerticalStack,
 } from '@dfx.swiss/react-components';
-import { useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
+import { useSwapTab } from './tabs/swap.tab';
 
 export function Main(): JSX.Element {
-  const { isInstalled, isConnected, requestLogin } = useWalletContext();
-  const { isProcessing, needsSignUp, signUp } = useSessionContext();
+  const { authenticationToken } = useAuthContext();
+  const { isProcessing, needsSignUp, signUp, logout } = useSessionContext();
   const { register } = useUserContext();
-  const [isLogin, setIsLogin] = useState(false);
   const [showsHelp, setShowsHelp] = useState(false);
   const [showsUserLink, setShowsUserLink] = useState(false);
   const [showsInstallHint, setShowsInstallHint] = useState(false);
@@ -37,25 +34,6 @@ export function Main(): JSX.Element {
   useEffect(() => {
     register(() => setShowsUserLink(true));
   });
-
-  function buildComingSoonTab(title: string): StyledTabProps {
-    return {
-      title,
-      deactivated: true,
-      flagWord1: 'Coming',
-      flagWord2: 'soon',
-      content: undefined,
-    };
-  }
-
-  function connect() {
-    isInstalled() ? login() : setShowsInstallHint(true);
-  }
-
-  function login(): Promise<void> {
-    setIsLogin(true);
-    return requestLogin().finally(() => setIsLogin(false));
-  }
 
   return (
     <>
@@ -149,13 +127,12 @@ export function Main(): JSX.Element {
               <DfxLogo />
             </a>
             {!isMobile && (
-              <div className={`flex ${isConnected ? 'gap-2' : 'gap-4'} items-center`}>
-                {isConnected ? (
+              <div className='flex gap-4 items-center'>
+                {authenticationToken && <StyledButton label="DISCONNECT" onClick={logout} />}
+                <div className="flex flex-row items-center gap-2">
                   <p className="text-dfxRed-100">How to</p>
-                ) : (
-                  <StyledButton label="Connect to Metamask / Rabby" onClick={connect} isLoading={isLogin} />
-                )}
-                <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
+                  <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
+                </div>
               </div>
             )}
           </div>
@@ -163,16 +140,10 @@ export function Main(): JSX.Element {
             <div className="basis-3/5 max-w-[50%] px-6 mx-auto md:mx-0">
               <DfxTitleSection heading="DFX Exchange" subheading="Buy • Sell • Swap" />
             </div>
-            {!isMobile && (
-              <aside className="basis-2/5 shrink-0 md:min-w-[470px] lg:min-w-[512px] mx-auto md:mx-0">
-                <WalletBox />
-                <UserBox />
-              </aside>
-            )}
           </div>
           {!isMobile ? (
             <div className="my-6">
-              <StyledTabContainer tabs={[useBuyTab(), useSellTab(), buildComingSoonTab('Swap')]} />
+              <StyledTabContainer tabs={[useBuyTab(), useSellTab(), useSwapTab()]} />
             </div>
           ) : (
             <>
