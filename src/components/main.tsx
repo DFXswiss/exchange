@@ -36,16 +36,6 @@ export function Main(): JSX.Element {
     register(() => setShowsUserLink(true));
   });
 
-  function buildComingSoonTab(title: string): StyledTabProps {
-    return {
-      title,
-      deactivated: true,
-      flagWord1: 'Coming',
-      flagWord2: 'soon',
-      content: undefined,
-    };
-  }
-
   return (
     <>
       {/* MODALS */}
