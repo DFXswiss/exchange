@@ -29,16 +29,16 @@ interface BuyTabContentProps {
 
 function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element {
   const [currentAsset, setCurrentAsset] = useState<Asset>();
-  const { authenticationToken } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   const { sync } = useSessionContext();
 
   useEffect(() => {
-    if (authenticationToken && currentAsset) {
+    if (isLoggedIn && currentAsset) {
       onStepUpdate(BuyTabStep.BUY_PROCESS);
     } else {
       onStepUpdate(BuyTabStep.OVERVIEW);
     }
-  }, [authenticationToken]);
+  }, [isLoggedIn]);
 
   switch (step) {
     case BuyTabStep.OVERVIEW:
@@ -47,7 +47,7 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
           onAssetClicked={(asset) => {
             if (!asset.buyable) return;
             setCurrentAsset(asset);
-            if (authenticationToken) {
+            if (isLoggedIn) {
               onStepUpdate(BuyTabStep.BUY_PROCESS);
             } else {
               onStepUpdate(BuyTabStep.LOGIN);
@@ -56,7 +56,7 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
         />
       );
     case BuyTabStep.LOGIN:
-      if (!authenticationToken) {
+      if (!isLoggedIn) {
         return (
           <StyledTabContentWrapper
             showBackArrow

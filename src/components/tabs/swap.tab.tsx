@@ -22,18 +22,18 @@ export function useSwapTab(): StyledTabProps {
 
 function ServicesContent(): JSX.Element {
   const [step, setStep] = useState<SwapTabStep>();
-  const { authenticationToken } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   const { sync } = useSessionContext();
   const [refreshKey, setRefreshKey] = useState<number>(0);
 
 
   useEffect(() => {
-    if (authenticationToken) {
+    if (isLoggedIn) {
       if (step !== SwapTabStep.SWAP_PROCESS) setStep(SwapTabStep.SWAP_PROCESS);
     } else {
       if (step !== SwapTabStep.OVERVIEW) setStep(SwapTabStep.OVERVIEW);
     }
-  }, [authenticationToken]);
+  }, [isLoggedIn]);
 
   const handleRefresh = () => {
     setRefreshKey(prevKey => prevKey + 1);
@@ -49,7 +49,7 @@ function ServicesContent(): JSX.Element {
         </StyledTabContentWrapper>
       );
     case SwapTabStep.LOGIN:
-      if (!authenticationToken) {
+      if (!isLoggedIn) {
         return (
           <StyledTabContentWrapper
             showBackArrow

@@ -38,16 +38,16 @@ interface ServicesContentProps {
 
 function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
   const [step, setStep] = useState<SellTabStep>();
-  const { authenticationToken } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   const { sync } = useSessionContext();
 
   useEffect(() => {
-    if (authenticationToken) {
+    if (isLoggedIn) {
       if (step !== SellTabStep.SELL_PROCESS) setStep(SellTabStep.SELL_PROCESS);
     } else {
       if (step !== SellTabStep.OVERVIEW) setStep(SellTabStep.OVERVIEW);
     }
-  }, [authenticationToken]);
+  }, [isLoggedIn]);
 
   switch (step) {
     case SellTabStep.OVERVIEW:
@@ -59,7 +59,7 @@ function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
         </StyledTabContentWrapper>
       );
     case SellTabStep.LOGIN:
-      if (!authenticationToken) {
+      if (!isLoggedIn) {
         return (
           <StyledTabContentWrapper
             showBackArrow

@@ -24,7 +24,7 @@ import {
 import { useAuthContext, useSessionContext, useUserContext } from '@dfx.swiss/react';
 
 export function Main(): JSX.Element {
-  const { authenticationToken } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   const { isProcessing, needsSignUp, signUp, logout } = useSessionContext();
   const { register } = useUserContext();
   const [showsHelp, setShowsHelp] = useState(false);
@@ -128,7 +128,7 @@ export function Main(): JSX.Element {
             </a>
             {!isMobile && (
               <div className='flex gap-4 items-center'>
-                {authenticationToken && <StyledButton label="DISCONNECT" onClick={logout} />}
+                {isLoggedIn && <StyledButton label="DISCONNECT" onClick={logout} />}
                 <div className="flex flex-row items-center gap-2">
                   <p className="text-dfxRed-100">How to</p>
                   <StyledIconButton size={IconSize.LG} icon={IconVariant.HELP} onClick={() => setShowsHelp(true)} />
