@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { useMetaMask, WalletType } from '../hooks/metamask.hook';
 import { Blockchain } from '@dfx.swiss/react';
 
@@ -25,13 +25,9 @@ export function WalletContextProvider(props: PropsWithChildren): JSX.Element {
   const [address, setAddress] = useState<string>();
   const [blockchain, setBlockchain] = useState<Blockchain>();
   const [isLoginRequested, setIsLoginRequested] = useState<boolean>(false);
-  const { isInstalled, walletType, register, requestAccount, requestBlockchain, sign } = useMetaMask();
+  const { isInstalled, walletType, requestAccount, requestBlockchain, sign } = useMetaMask();
 
   const isConnected = address !== undefined;
-
-  useEffect(() => {
-    register(setAddress, setBlockchain);
-  }, []);
 
   async function connect(): Promise<string> {
     const account = await requestAccount();

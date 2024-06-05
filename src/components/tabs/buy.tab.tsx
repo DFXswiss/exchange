@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BuyTabContentOverview } from './buy-tab-content/buy.overview';
 import { IconVariant, StyledTabContentWrapper, StyledTabProps } from '@dfx.swiss/react-components';
-import { Asset, useAuthContext, useSessionContext } from '@dfx.swiss/react';
-import { useWalletContext } from '../../contexts/wallet.context';
+import { Asset, Blockchain, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
 
 enum BuyTabStep {
   OVERVIEW,
+  LOGIN,
   BUY_PROCESS,
 }
 
@@ -29,9 +29,16 @@ interface BuyTabContentProps {
 
 function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element {
   const [currentAsset, setCurrentAsset] = useState<Asset>();
-  const { requestLogin } = useWalletContext();
-  const { isLoggedIn } = useSessionContext();
-  const { authenticationToken } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
+  const { sync } = useSessionContext();
+
+  useEffect(() => {
+    if (isLoggedIn && currentAsset) {
+      onStepUpdate(BuyTabStep.BUY_PROCESS);
+    } else {
+      onStepUpdate(BuyTabStep.OVERVIEW);
+    }
+  }, [isLoggedIn]);
 
   switch (step) {
     case BuyTabStep.OVERVIEW:
@@ -39,15 +46,32 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
         <BuyTabContentOverview
           onAssetClicked={(asset) => {
             if (!asset.buyable) return;
+            setCurrentAsset(asset);
             if (isLoggedIn) {
-              setCurrentAsset(asset);
               onStepUpdate(BuyTabStep.BUY_PROCESS);
             } else {
-              requestLogin();
+              onStepUpdate(BuyTabStep.LOGIN);
             }
           }}
         />
       );
+    case BuyTabStep.LOGIN:
+      if (!isLoggedIn) {
+        return (
+          <StyledTabContentWrapper
+            showBackArrow
+            onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}
+          >
+            <DfxServices
+              headless="true"
+              service={Service.CONNECT}
+              blockchain={Blockchain.ETHEREUM}
+              onClose={sync}
+            />
+          </StyledTabContentWrapper>
+        );
+      }
+      return <></>;
     case BuyTabStep.BUY_PROCESS:
       return (
         <StyledTabContentWrapper
@@ -61,10 +85,11 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
             service={Service.BUY}
             blockchain={currentAsset?.blockchain}
             assetOut={currentAsset?.uniqueName}
-            session={authenticationToken}
             onClose={() => onStepUpdate(BuyTabStep.OVERVIEW)}
           />
         </StyledTabContentWrapper>
       );
+    default:
+      return <></>;
   }
 }
