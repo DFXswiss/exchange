@@ -13,7 +13,6 @@ import {
 } from '@dfx.swiss/react-components';
 import { Asset, AssetType, Blockchain, useAssetContext, useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
-import BigNumber from 'bignumber.js';
 
 enum SellTabStep {
   OVERVIEW,
@@ -28,7 +27,7 @@ export function useSellTab(): StyledTabProps {
     deactivated: false,
     content: <SellTabContent />,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onActivate: () => { },
+    onActivate: () => {},
   };
 }
 
@@ -61,16 +60,8 @@ function ServicesContent({ selectedAsset }: ServicesContentProps): JSX.Element {
     case SellTabStep.LOGIN:
       if (!isLoggedIn) {
         return (
-          <StyledTabContentWrapper
-            showBackArrow
-            onBackClick={() => setStep(SellTabStep.OVERVIEW)}
-          >
-            <DfxServices
-              headless="true"
-              service={Service.CONNECT}
-              blockchain={Blockchain.ETHEREUM}
-              onClose={sync}
-            />
+          <StyledTabContentWrapper showBackArrow onBackClick={() => setStep(SellTabStep.OVERVIEW)}>
+            <DfxServices headless="true" service={Service.CONNECT} blockchain={Blockchain.ETHEREUM} onClose={sync} />
           </StyledTabContentWrapper>
         );
       }
@@ -125,24 +116,24 @@ function SellTabContent(): JSX.Element {
               ?.filter((b) => toString(b))
               .map((b) => ({ network: toString(b), isActive: b === blockchain })) ?? []
           }
-          onNetworkChange={(network) => setBlockchain(availableBlockchains?.find((b) => toString(b) === network) ?? Blockchain.ETHEREUM)}
+          onNetworkChange={(network) =>
+            setBlockchain(availableBlockchains?.find((b) => toString(b) === network) ?? Blockchain.ETHEREUM)
+          }
         />
         <StyledHorizontalStack gap={5}>
           <StyledBalanceSelection
             balances={
               blockchain
                 ? sellableAssets?.map((value) => ({
-                  asset: value,
-                  isToken: value.type === AssetType.TOKEN,
-                  protocol: toProtocol(blockchain),
-                  isSelected: value.id === selectedAsset?.id,
-                  balance: new BigNumber(0),
-                })) ?? []
+                    asset: value,
+                    isToken: value.type === AssetType.TOKEN,
+                    protocol: toProtocol(blockchain),
+                    isSelected: value.id === selectedAsset?.id,
+                    balance: undefined,
+                  })) ?? []
                 : []
             }
-            onSelectionChanged={(value) =>
-              setSelectedAsset(sellableAssets?.find((asset) => asset.id === value.id))
-            }
+            onSelectionChanged={(value) => setSelectedAsset(sellableAssets?.find((asset) => asset.id === value.id))}
           />
           <ServicesContent selectedAsset={selectedAsset} />
         </StyledHorizontalStack>
