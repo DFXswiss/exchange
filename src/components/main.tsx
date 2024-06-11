@@ -127,7 +127,7 @@ export function Main(): JSX.Element {
               <DfxLogo />
             </a>
             {!isMobile && (
-              <div className='flex gap-4 items-center'>
+              <div className="flex gap-4 items-center">
                 {isLoggedIn && <StyledButton label="DISCONNECT" onClick={logout} />}
                 <div className="flex flex-row items-center gap-2">
                   <p className="text-dfxRed-100">How to</p>

@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { IconVariant, StyledButton, StyledTabContentWrapper, StyledTabProps, StyledVerticalStack } from '@dfx.swiss/react-components';
+import {
+  IconVariant,
+  StyledButton,
+  StyledTabContentWrapper,
+  StyledTabProps,
+  StyledVerticalStack,
+} from '@dfx.swiss/react-components';
 import { useAuthContext, useSessionContext } from '@dfx.swiss/react';
 import { DfxServices, Service } from '@dfx.swiss/services-react';
 
@@ -16,7 +22,7 @@ export function useSwapTab(): StyledTabProps {
     deactivated: false,
     content: <SwapTabContent />,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onActivate: () => { },
+    onActivate: () => {},
   };
 }
 
@@ -25,7 +31,6 @@ function ServicesContent(): JSX.Element {
   const { isLoggedIn } = useAuthContext();
   const { sync } = useSessionContext();
   const [refreshKey, setRefreshKey] = useState<number>(0);
-
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -36,7 +41,7 @@ function ServicesContent(): JSX.Element {
   }, [isLoggedIn]);
 
   const handleRefresh = () => {
-    setRefreshKey(prevKey => prevKey + 1);
+    setRefreshKey((prevKey) => prevKey + 1);
   };
 
   switch (step) {
@@ -51,24 +56,15 @@ function ServicesContent(): JSX.Element {
     case SwapTabStep.LOGIN:
       if (!isLoggedIn) {
         return (
-          <StyledTabContentWrapper
-            showBackArrow
-            onBackClick={() => setStep(SwapTabStep.OVERVIEW)}
-          >
-            <DfxServices
-              headless="true"
-              service={Service.CONNECT}
-              onClose={sync}
-            />
+          <StyledTabContentWrapper showBackArrow onBackClick={() => setStep(SwapTabStep.OVERVIEW)}>
+            <DfxServices headless="true" service={Service.CONNECT} onClose={sync} />
           </StyledTabContentWrapper>
         );
       }
       return <></>;
     case SwapTabStep.SWAP_PROCESS:
       return (
-        <StyledTabContentWrapper
-          className="max-w-none"
-        >
+        <StyledTabContentWrapper className="max-w-none min-h-96">
           <DfxServices
             key={refreshKey}
             headless="true"
@@ -95,4 +91,3 @@ function SwapTabContent(): JSX.Element {
     </>
   );
 }
-
