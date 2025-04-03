@@ -58,16 +58,8 @@ function BuyTabContent({ step, onStepUpdate }: BuyTabContentProps): JSX.Element 
     case BuyTabStep.LOGIN:
       if (!isLoggedIn) {
         return (
-          <StyledTabContentWrapper
-            showBackArrow
-            onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}
-          >
-            <DfxServices
-              headless="true"
-              service={Service.CONNECT}
-              blockchain={Blockchain.ETHEREUM}
-              onClose={sync}
-            />
+          <StyledTabContentWrapper showBackArrow onBackClick={() => onStepUpdate(BuyTabStep.OVERVIEW)}>
+            <DfxServices headless="true" service={Service.CONNECT} blockchain={Blockchain.ETHEREUM} onClose={sync} />
           </StyledTabContentWrapper>
         );
       }
