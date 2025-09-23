@@ -87,18 +87,18 @@ export function Main(): JSX.Element {
           description="We are the crypto exchange you don't need to trust your funds. Your keys, your coins, here is how it works:"
           videoSources={[
             {
-              vidSrc: 'https://content.dfx.swiss/video/2022-12-20_MetaMask-get-started.mp4',
-              thumbSrc: 'https://content.dfx.swiss/video/2022-12-20_MetaMask-Get-Started-Thumb.png',
+              vidSrc: 'https://dfx.swiss/images/exchange/2022-12-20_MetaMask-get-started.mp4',
+              thumbSrc: 'https://dfx.swiss/images/exchange/2022-12-20_MetaMask-Get-Started-Thumb.png',
               title: 'Get started with MetaMask:',
             },
             {
-              vidSrc: 'https://content.dfx.swiss/video/2022-12-20_What-Is-DFX-Exchange.mp4',
-              thumbSrc: 'https://content.dfx.swiss/video/2022-12-20_What-Is-DFX-Exchange-Thumb.png',
+              vidSrc: 'https://dfx.swiss/images/exchange/2022-12-20_What-Is-DFX-Exchange.mp4',
+              thumbSrc: 'https://dfx.swiss/images/exchange/2022-12-20_What-Is-DFX-Exchange-Thumb.png',
               title: 'What is DFX Exchange?',
             },
             {
-              vidSrc: 'https://content.dfx.swiss/video/2022-12-20_Exchange-How-To-Buy.mp4',
-              thumbSrc: 'https://content.dfx.swiss/video/2022-12-20_Exchange-How-To-Buy-Thumb.png',
+              vidSrc: 'https://dfx.swiss/images/exchange/2022-12-20_Exchange-How-To-Buy.mp4',
+              thumbSrc: 'https://dfx.swiss/images/exchange/2022-12-20_Exchange-How-To-Buy-Thumb.png',
               title: 'How to buy:',
             },
           ]}
