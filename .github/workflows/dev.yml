@@ -65,6 +65,13 @@ jobs:
           inlineScript: |
             az cdn endpoint purge --content-paths  "/*" --profile-name ${{ env.AZURE_CDN_PROFILE }} --name ${{ env.AZURE_CDN_ENDPOINT }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }}
 
+      # wrangler@4 requires Node >= 18; the app build above runs on Node 16, so
+      # bump Node only for the Wrangler steps without touching the CRA build.
+      - name: Use Node.js 20 for Wrangler
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
       - name: Install Wrangler
         run: npm install -g wrangler@4
 
