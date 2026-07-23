@@ -7,10 +7,6 @@ on:
 
 env:
   NODE_VERSION: '16.x'
-  AZURE_ACCOUNT_NAME: 'stdfxmexprd'
-  AZURE_CDN_PROFILE: 'cdnp-dfx-mex-prd'
-  AZURE_CDN_ENDPOINT: 'cdne-dfx-mex-prd'
-  AZURE_RESOURCE_GROUP: 'rg-dfx-mex-prd'
 
 jobs:
   build:
@@ -19,11 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Login
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.PRD_CREDENTIALS }}
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
@@ -53,18 +44,6 @@ jobs:
         run: |
           npm run lint
 
-      - name: Deploy to Azure Storage (PRD)
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az storage blob upload-batch --account-name ${{ env.AZURE_ACCOUNT_NAME }} -d '$web' -s ./build --overwrite
-
-      - name: Purge CDN endpoint (PRD)
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az cdn endpoint purge --content-paths  "/*" --profile-name ${{ env.AZURE_CDN_PROFILE }} --name ${{ env.AZURE_CDN_ENDPOINT }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }}
-
       # wrangler@4 requires Node >= 18; the app build above runs on Node 16, so
       # bump Node only for the Wrangler steps without touching the CRA build.
       - name: Use Node.js 20 for Wrangler
@@ -75,15 +54,8 @@ jobs:
       - name: Install Wrangler
         run: npm install -g wrangler@4
 
-      # Dual-deploy transition: Azure (above) stays until the DNS cutover to Pages
-      # is verified; a follow-up PR removes the Azure step afterwards.
       - name: Deploy to Cloudflare Pages (PRD)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: wrangler pages deploy build --project-name=dfx-exchange-prd --branch=main
-
-      - name: Logout
-        run: |
-          az logout
-        if: always()
